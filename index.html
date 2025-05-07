@@ -3,51 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ロト検索ポータル｜po-3.github.io</title>
+  <title>ロトデータポータル｜po-3.github.io</title>
   <style>
     body {
-      font-family: sans-serif;
-      background: #fdfdfd;
-      color: #333;
+      font-family: "Helvetica Neue", sans-serif;
       margin: 0;
+      padding: 0;
+      background: #fffdf9;
+      color: #333;
+    }
+    header {
+      background: #d94f4f;
+      color: white;
+      padding: 1.5em;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.8em;
+    }
+    section {
       padding: 2em;
+      max-width: 800px;
+      margin: auto;
     }
-    h1 {
+    h2 {
       color: #d94f4f;
+      border-bottom: 2px solid #ffdcdc;
+      padding-bottom: 0.3em;
     }
-    nav {
-      margin-top: 1.5em;
+    ul {
+      list-style: none;
+      padding-left: 0;
     }
-    nav a {
-      display: block;
-      margin: 0.5em 0;
+    li {
+      margin-bottom: 0.8em;
+    }
+    a {
       color: #0066cc;
       text-decoration: none;
     }
-    nav a:hover {
+    a:hover {
       text-decoration: underline;
     }
     footer {
+      background: #f4f4f4;
+      text-align: center;
+      font-size: 0.9em;
+      padding: 1em;
       margin-top: 3em;
-      font-size: 0.8em;
-      color: #888;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <h1>ロト検索ポータル</h1>
-  <p>このサイトでは、過去のロト抽せん結果を検索・分析できるツールを提供しています。</p>
 
-  <nav>
-    <a href="/loto6-data/">▶ ロト6検索ツール</a>
-    <a href="/loto7-data/">▶ ロト7検索ツール</a>
-    <a href="/miniloto-data/">▶ ミニロト検索ツール</a>
-  </nav>
+  <header>
+    <h1>ロト・データポータル</h1>
+    <p>検索ツール・分析ブログ・noteすべてここから</p>
+  </header>
 
-<footer>
-  &copy; 2025 po-3.github.io ｜ 
-  <a href="/about.html">このサイトについて</a> ｜ 
-  <a href="/policy.html">プライバシーポリシー</a>
-</footer>
+  <section>
+    <h2>🔍 ロト検索ツール</h2>
+    <ul>
+      <li><a href="/loto6-data/">ロト6検索ツール</a></li>
+      <li><a href="/loto7-data/">ロト7検索ツール</a></li>
+      <li><a href="/miniloto-data/">ミニロト検索ツール</a></li>
+    </ul>
+
+    <h2>📝 ブログ・コラム</h2>
+    <ul>
+      <li><a href="https://www.kujitonari.net/" target="_blank">はてなブログ｜宝くじのとなり</a></li>
+      <li><a href="https://note.com/kujitonari" target="_blank">note｜となりの数字考察</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 po-3.github.io ｜ 
+    <a href="/about.html">このサイトについて</a> ｜ 
+    <a href="/policy.html">プライバシーポリシー</a>
+  </footer>
+
 </body>
 </html>
