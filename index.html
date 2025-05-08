@@ -5,112 +5,175 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ロトデータポータル｜po-3.github.io</title>
   <style>
+    :root {
+      --main-color: #d94f4f;
+      --accent-color: #0066cc;
+      --bg-color: #fffdf9;
+      --light-gray: #f4f4f4;
+      --font-color: #333;
+      --max-width: 960px;
+      --font-family: 'Helvetica Neue', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: "Helvetica Neue", sans-serif;
       margin: 0;
-      padding: 0;
-      background: #fffdf9;
-      color: #333;
-    }
-    header {
-      background: #d94f4f;
-      color: white;
-      padding: 1.8em 1em;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2em;
-    }
-    header p {
-      margin-top: 0.5em;
-      font-size: 1em;
-    }
-    section {
-      padding: 2em;
-      max-width: 900px;
-      margin: auto;
-    }
-    h2 {
-      color: #d94f4f;
-      border-bottom: 2px solid #ffdcdc;
-      padding-bottom: 0.3em;
-      margin-top: 2em;
-    }
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    li {
-      margin-bottom: 1.5em;
+      background: var(--bg-color);
+      font-family: var(--font-family);
+      color: var(--font-color);
       line-height: 1.6;
     }
-    a {
-      color: #0066cc;
-      font-weight: bold;
-      text-decoration: none;
+
+    header {
+      background: var(--main-color);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
     }
-    a:hover {
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    nav {
+      background: white;
+      border-bottom: 1px solid #ddd;
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0.5rem;
+      margin: 0;
+      list-style: none;
+    }
+
+    nav li {
+      margin: 0.5rem 1rem;
+    }
+
+    nav a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
       text-decoration: underline;
     }
+
+    main {
+      max-width: var(--max-width);
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    h2 {
+      color: var(--main-color);
+      border-bottom: 2px solid #ffdcdc;
+      padding-bottom: 0.3rem;
+      margin-top: 2rem;
+    }
+
+    ul.content-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.content-list li {
+      margin-bottom: 1.5rem;
+    }
+
+    ul.content-list a {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    ul.content-list a:hover {
+      text-decoration: underline;
+    }
+
     footer {
-      background: #f4f4f4;
+      background: var(--light-gray);
       text-align: center;
-      font-size: 0.9em;
-      padding: 1.5em 1em;
-      margin-top: 3em;
+      padding: 1.5rem 1rem;
+      font-size: 0.9rem;
       color: #666;
+      margin-top: 3rem;
+    }
+
+    @media screen and (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      nav ul {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
-
   <header>
     <h1>ロト・データポータル</h1>
     <p>数字のクセを見抜く。データに強いロト分析サイト</p>
   </header>
 
-  <section>
-    <h2>🔍 ロト検索ツール</h2>
+  <nav>
     <ul>
-      <li>
-        <a href="/loto6-data/">ロト6検索ツール</a><br />
-        ロト6の全抽せんデータに対して、特定の数字・連番・下一桁のかぶり・合計値・構成タイプなどを自在に検索可能な分析ツールです。
-        キャリーオーバー発生回や高額当せん構成の傾向分析など、統計的な“出目のクセ”を掘り下げるための機能を網羅しています。
-      </li>
-      <li>
-        <a href="/loto7-data/">ロト7検索ツール</a><br />
-        ロト7特有の数字構成（7個＋ボーナス2個）に対応し、奇数・偶数比、合計値レンジ、連番構成などの傾向を詳細に絞り込み可能。
-        データに基づいて「どのような構成が出やすいか」を検証できる、分析特化型のツールです。
-      </li>
-      <li>
-        <a href="/miniloto-data/">ミニロト検索ツール</a><br />
-        ミニロトの全出目データをもとに、特徴ラベル（例：奇数多め、連番、下一桁のかぶりなど）や数字の組合せパターンで高度な検索が可能。
-        数字ごとの出現頻度や構成傾向を分析し、再現性の高い予測につなげるための基盤となるツールです。
-      </li>
+      <li><a href="#tools">検索ツール</a></li>
+      <li><a href="#blog">ブログ</a></li>
+      <li><a href="#policy">ポリシー</a></li>
     </ul>
+  </nav>
 
-    <h2>📝 ブログ・コラム</h2>
-    <ul>
-      <li>
-        <a href="https://www.kujitonari.net/" target="_blank">はてなブログ｜宝くじのとなり</a><br />
-        ロト6・ロト7・ミニロトに共通する数字構成や当せん傾向を、過去データに基づいて分析する考察記事を毎週更新中。
-        回別の結果分析から長期的な統計傾向まで、「クセ」を見抜くための視点をわかりやすく解説しています。
-      </li>
-      <li>
-        <a href="https://note.com/kujitonari" target="_blank">note｜となりの数字考察</a><br />
-        データ分析を軸にした本格的な出目考察を掲載。特徴ラベルの傾向分析や構成パターンの偏りを検証し、
-        “なぜその数字が出たのか”を読み解く視点を共有しています。
-        有料記事では、予測の裏にあるロジックや分析手法も詳しく解説。
-      </li>
-    </ul>
-  </section>
+  <main>
+    <section id="tools">
+      <h2>🔍 ロト検索ツール</h2>
+      <ul class="content-list">
+        <li>
+          <a href="/loto6-data/">ロト6検索ツール</a><br />
+          出目データに基づき、連番・合計値・構成タイプなどで詳細な分析ができる統計特化型の検索ツールです。
+        </li>
+        <li>
+          <a href="/loto7-data/">ロト7検索ツール</a><br />
+          奇数偶数構成・特徴ラベル・出現構成など、多角的にロト7を読み解くデータ活用ツール。
+        </li>
+        <li>
+          <a href="/miniloto-data/">ミニロト検索ツール</a><br />
+          合計値や下一桁かぶり、特徴パターンを分析できる、クセ読み重視の分析サポートツールです。
+        </li>
+      </ul>
+    </section>
 
-  <footer>
-    &copy; 2025 po-3.github.io ｜ 
-    <a href="/about.html">このサイトについて</a> ｜ 
-    <a href="/policy.html">プライバシーポリシー</a>
+    <section id="blog">
+      <h2>📝 ブログ・コラム</h2>
+      <ul class="content-list">
+        <li>
+          <a href="https://www.kujitonari.net/" target="_blank">はてなブログ｜宝くじのとなり</a><br />
+          ロト各種の予想と考察を、出目の傾向や構成パターンから分析。データ志向の予測スタイルを展開しています。
+        </li>
+        <li>
+          <a href="https://note.com/kujitonari" target="_blank">note｜となりの数字考察</a><br />
+          統計的アプローチでロトを深掘り。傾向の裏側を読む、有料コラムも掲載中。
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer id="policy">
+    &copy; 2025 po-3.github.io ｜ <a href="/about.html">このサイトについて</a> ｜ <a href="/policy.html">プライバシーポリシー</a>
   </footer>
-
 </body>
 </html>
