@@ -61,73 +61,68 @@
 
     // 最新結果HTML
     if (latest) {
-      html += `
-        <div style="font-weight:bold; font-size:17px; margin-bottom:2px; color:#e89813; letter-spacing:0.07em;">
-          🎯最新${latest.type}結果 <span style="font-size:13.5px; color:#bb7400;">第${latest.round}回</span>
-        </div>
-        <div style="font-size:12.5px; color:#825900; margin-bottom:3px;">
-          ${latest.date}
-        </div>
-        <div style="font-size:16.5px; margin:2px 0 7px 0; letter-spacing:3px;">
-          <span style="font-weight:bold; color:#1a7bc9; text-shadow:0 0 2px #fffad0;">${latest.nums}</span>
-          <span style="font-size:12.5px; color:#a8870a; display:inline-block; white-space:nowrap; vertical-align:middle; margin-left:7px;">
-            （ボ：${latest.bonus}）
+html += `
+  <div class="loto-result-title">
+    <span class="emoji">🎯</span>最新${latest.type}結果
+    <span style="font-size:0.93em;color:#bb7400;font-weight:600;margin-left:4px;">第${latest.round}回</span>
+  </div>
+  <div class="loto-result-date">
+    ${latest.date}
+  </div>
+  <div class="loto-result-nums">
+    ${latest.nums}
+    <span class="loto-result-bonus">（ボ：${latest.bonus}）</span>
+  </div>
+  <a href="${latest.link}" rel="noopener noreferrer" class="loto-result-link">
+    <i class="fa-solid fa-circle-arrow-right" style="margin-right:7px;"></i>結果詳細を見る
+  </a>
+  <hr>
+`;
+[
+  {
+    name: "ロト6 キャリーオーバー",
+    data: l6Last,
+    logo: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250522/20250522171220.png",
+    link: "https://www.kujitonari.net/archive/category/ロト6",
+    label: "発生中",
+    labelClass: "loto-carry-label",
+    boxClass: "loto-carry-box"
+  },
+  {
+    name: "ロト7 キャリーオーバー",
+    data: l7Last,
+    logo: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250522/20250522171452.png",
+    link: "https://www.kujitonari.net/archive/category/ロト7",
+    label: "キャリーなし",
+    labelClass: "loto-carry-label loto-carry-none",
+    boxClass: "loto-carry-box loto-carry-none"
+  }
+].forEach(info => {
+  let amount = info.data && info.data["キャリーオーバー"] ? info.data["キャリーオーバー"] : 0;
+  let isCarry = amount > 0 && info.name.includes('ロト6');
+  html += `
+    <div class="${isCarry ? info.boxClass : info.boxClass + ' loto-carry-none'}">
+      <img src="${info.logo}" class="loto-carry-logo" loading="lazy" decoding="async">
+      <div class="loto-carry-content">
+        <div class="loto-carry-title">
+          ${info.name}
+          <span class="${info.labelClass}">
+            ${isCarry ? "発生中" : "キャリーなし"}
           </span>
         </div>
-        <a href="${latest.link}" rel="noopener noreferrer"
-          style="font-size:13px; background:#fff4c5; border:1px solid #f3cf7d; color:#b46d00; border-radius:8px; padding:5px 18px; text-decoration:none; box-shadow:0 1.5px 4px #ffeccc7d; display:inline-block; margin-top:5px; transition:.2s; font-weight:bold;">
-          <i class="fa-solid fa-circle-arrow-right" style="margin-right:7px;"></i>結果詳細を見る
-        </a>
-        <hr style="border:none; border-top:1.2px dotted #ffe099; margin:13px 0 10px 0;">
-      `;
-    } else {
-      html += "<span style='color:#eb5030; font-weight:bold;'>結果データ取得エラー</span><hr style='border:none; border-top:1.2px dotted #ffe099; margin:13px 0 10px 0;'>";
-    }
-
-    // キャリーオーバー
-    const CARRY_YELLOW = "#ffe600";
-    const CARRY_BLUE = "#a5dcf9";
-    [
-      {
-        name: "ロト6 キャリーオーバー",
-        data: l6Last,
-        logo: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250522/20250522171220.png",
-        link: "https://www.kujitonari.net/archive/category/ロト6"
-      },
-      {
-        name: "ロト7 キャリーオーバー",
-        data: l7Last,
-        logo: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250522/20250522171452.png",
-        link: "https://www.kujitonari.net/archive/category/ロト7"
-      }
-    ].forEach(info => {
-      let amount = info.data && info.data["キャリーオーバー"] ? info.data["キャリーオーバー"] : 0;
-      let isCarry = amount > 0;
-      let bgColor = isCarry ? CARRY_YELLOW : CARRY_BLUE;
-      html += `
-        <div style="background:${bgColor}; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.10); margin-bottom:8px; padding:10px 10px 8px 10px; display:flex; align-items:center;">
-          <img src="${info.logo}" style="width:38px; height:38px; margin-right:10px; border-radius:50%; background:#fff;" loading="lazy" decoding="async">
-          <div style="flex:1; text-align:left;">
-            <div style="font-size:15px; font-weight:bold; color:#222;">${info.name}
-              <span style="background:${isCarry ? "#ea1212" : "#227be5"}; color:#fff; padding:1.5px 7px; border-radius:6px; font-size:11.5px; margin-left:5px; ${isCarry ? 'animation:carry-flash 1.25s infinite alternate; box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff; border:1.3px solid #ffe600;' : ''}">
-                ${isCarry ? "発生中" : "キャリーなし"}
-              </span>
-              <span style="font-size:12px; color:#965e00; margin-left:8px;">
-                【第${info.data && info.data["開催回"] ? info.data["開催回"] : "-"}回（${info.data && info.data["日付"] ? info.data["日付"] : "-"}）時点】
-              </span>
-            </div>
-            <div style="font-size:16.5px; font-weight:bold; color:#222; margin:2px 0 2px 0;">
-              ${isCarry
-                ? `<span style="color:#1a7bc9; font-size:17px; letter-spacing:1px; line-height:1.4; word-break:keep-all; white-space:normal; display:inline-block;">
-                    ${formatYen(amount)}
-                  </span>`
-                : `<span style="color:#666; font-size:15px;">現在、キャリーオーバーはありません。</span>`
-              }
-            </div>
-          </div>
+        <div class="loto-carry-sub">
+          【第${info.data && info.data["開催回"] ? info.data["開催回"] : "-"}回（${info.data && info.data["日付"] ? info.data["日付"] : "-"}）時点】
         </div>
-      `;
-    });
+        <div class="loto-carry-amount">
+          ${isCarry
+            ? `<span>${formatYen(amount)}</span>`
+            : `現在、キャリーオーバーはありません。`
+          }
+        </div>
+      </div>
+    </div>
+  `;
+});
 
     // アニメーション埋め込み
     if (html.includes('carry-flash')) {
