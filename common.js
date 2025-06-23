@@ -110,8 +110,8 @@
         <div style="flex:1; text-align:left;">
           <div style="font-size:15px; font-weight:bold; color:#222;">${info.name}
             <span style="background:${isCarry ? "#ea1212" : "#227be5"}; color:#fff; padding:1.5px 7px; border-radius:6px; font-size:11.5px; margin-left:5px; ${isCarry ? 'animation:carry-flash 1.25s infinite alternate; box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff; border:1.3px solid #ffe600;' : ''}">
-              ${isCarry ? "発生中" : "キャリーなし"}<br>
-            </span>
+              ${isCarry ? "発生中" : "キャリーなし"}
+            </span><br>
             <span style="font-size:12px; color:#965e00; margin-left:8px;">
               【第${info.data && info.data["開催回"] ? info.data["開催回"] : "-"}回（${info.data && info.data["日付"] ? info.data["日付"] : "-"}）時点】
             </span>
