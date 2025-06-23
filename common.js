@@ -147,24 +147,6 @@
       el.setAttribute('data-color', color);
     });
 
-    // 記事サムネをimg即生成（CLS対策）
-    document.querySelectorAll('.entry-thumb[style]').forEach(function(div) {
-      const bgUrl = (div.style.backgroundImage || '').match(/url\(['"]?(.+?)['"]?\)/);
-      if (bgUrl && !div.querySelector('img')) {
-        const img = document.createElement('img');
-        img.src = bgUrl[1];
-        img.alt = '記事サムネイル';
-        img.width = div.offsetWidth || 500;
-        img.height = div.offsetHeight || 500;
-        img.loading = "eager";
-        img.decoding = "async";
-        img.style.width = "100%";
-        img.style.height = "100%";
-        img.style.objectFit = "cover";
-        div.insertBefore(img, div.firstChild);
-      }
-    });
-
     // ページトップボタン
     const btn = document.getElementById('pageTop');
     if (btn) {
