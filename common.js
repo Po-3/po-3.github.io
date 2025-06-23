@@ -194,19 +194,6 @@
       el.href = `https://twitter.com/intent/tweet?text=${pageTitle}&url=${pageUrl}&hashtags=宝くじ,ロト6`;
     });
 
-    // 記事更新日を自動挿入
-    const updatedDate = new Date(document.lastModified);
-    const formattedDate = updatedDate.toLocaleDateString("ja-JP", {
-      year: "numeric", month: "2-digit", day: "2-digit"
-    });
-    const target = document.querySelector(".entry-content");
-    if (target) {
-      const infoBox = document.createElement("div");
-      infoBox.className = "update-notice";
-      infoBox.textContent = `この記事は ${formattedDate} に更新されました。`;
-      target.insertBefore(infoBox, target.firstChild);
-    }
-
     // AdSense 遅延ロード
     setTimeout(() => {
       const ad = document.createElement('ins');
