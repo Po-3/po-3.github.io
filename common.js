@@ -101,7 +101,7 @@
               <div style="flex:1; text-align:left;">
                 <div style="font-size:15px; font-weight:bold; color:#222;">
                   ${info.name}
-                  <span style="background:${isCarry ? "#ea1212" : "#227be5"}; color:#fff; padding:1.5px 7px; border-radius:6px; font-size:11.5px; margin-left:5px; display:inline-block;">
+                  <span class="carry-flash" style="background:${isCarry ? "#ea1212" : "#227be5"}; color:#fff; padding:1.5px 7px; border-radius:6px; font-size:11.5px; margin-left:5px; ${isCarry ? 'animation:carry-flash 1.25s infinite alternate; box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff; border:1.3px solid #ffe600;' : ''}; display:inline-block;">
                     ${isCarry ? "発生中" : "なし"}
                   </span><br>
                   <span style="font-size:12px; color:#965e00; margin-left:8px;">
@@ -120,52 +120,50 @@
           `;
         });
 
+        // --- アニメーションスタイル埋め込み（carry-flash使用時のみ） ---
+        if (html.includes('carry-flash')) {
+          html = `<style>@keyframes carry-flash{0%{background:#ea1212;color:#fff;box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff;}60%{background:#ffe600;color:#b00;box-shadow:0 0 14px 7px #fff388,0 0 5px 3px #ffe600;}100%{background:#ea1212;color:#fff;box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff;}}</style>` + html;
+        }
+
         wrapper.innerHTML = html;
+
+        // --- UI：日付をロトボール化、サイドバーh3装飾、見出し色化、サムネ即時img化 ---
+        const ballColors = ['red', 'orange', 'yellow', 'yellowgreen', 'blue', 'purple', 'pink'];
+
+        // 日付をロトボール化
+        document.querySelectorAll('.archive-entries .date').forEach(function (el) {
+          const match = el.textContent.match(/(\d{4})[./-](\d{1,2})[./-](\d{1,2})/);
+          if (match) {
+            const [_, year, month, day] = match;
+            const colorClass = 'loto-ball-' + ballColors[(day - 1) % ballColors.length];
+            el.innerHTML = 
+              `<span class="loto-ball ${colorClass}">${day}</span>` +
+              `<span class="loto-date-block">` +
+                `<span class="loto-date-month">${month}月</span>` +
+                `<span class="loto-date-year">${year}</span>` +
+              `</span>`;
+          }
+        });
+
+        // サイドバー見出しのロトボール化
+        document.querySelectorAll('.sidebar h3, .hatena-module-title, .hatena-module .module-title').forEach(function (el) {
+          const text = el.textContent.trim();
+          if (!text || el.querySelector('.loto-ball')) return;
+          const firstChar = text[0];
+          const rest = text.slice(1);
+          const colorClass = 'loto-ball-' + ballColors[firstChar.charCodeAt(0) % ballColors.length];
+          el.innerHTML = `<span class="loto-ball ${colorClass}">${firstChar}</span>${rest}`;
+        });
+
+        // 記事内h2見出しにランダムロトボール背景
+        document.querySelectorAll('.entry-content h2').forEach(function (el) {
+          const color = ballColors[Math.floor(Math.random() * ballColors.length)];
+          el.setAttribute('data-color', color);
+        });
+
       } catch (e) {
         wrapper.innerHTML = `<span style='color:#eb5030; font-weight:bold;'>結果データ取得エラー</span>`;
       }
-    });
-
-          // アニメーションスタイル埋め込み
-      if (html.includes('carry-flash')) {
-        html = <style>@keyframes carry-flash{0%{background:#ea1212;color:#fff;box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff;}60%{background:#ffe600;color:#b00;box-shadow:0 0 14px 7px #fff388,0 0 5px 3px #ffe600;}100%{background:#ea1212;color:#fff;box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff;}}</style> + html;
-      }
-      document.getElementById('tonari-latest-carry').innerHTML = html;
-    });
-
-        // --- UI：日付をロトボール化、サイドバーh3装飾、見出し色化、サムネ即時img化 ---
-    const ballColors = ['red', 'orange', 'yellow', 'yellowgreen', 'blue', 'purple', 'pink'];
-
-    // 日付をロトボール化
-    document.querySelectorAll('.archive-entries .date').forEach(function (el) {
-      const match = el.textContent.match(/(\d{4})[./-](\d{1,2})[./-](\d{1,2})/);
-      if (match) {
-        const [_, year, month, day] = match;
-        const colorClass = 'loto-ball-' + ballColors[(day - 1) % ballColors.length];
-        el.innerHTML = 
-          <span class="loto-ball ${colorClass}">${day}</span>
-          <span class="loto-date-block">
-            <span class="loto-date-month">${month}月</span>
-            <span class="loto-date-year">${year}</span>
-          </span>
-        ;
-      }
-    });
-
-    // サイドバー見出しのロトボール化
-    document.querySelectorAll('.sidebar h3, .hatena-module-title, .hatena-module .module-title').forEach(function (el) {
-      const text = el.textContent.trim();
-      if (!text || el.querySelector('.loto-ball')) return;
-      const firstChar = text[0];
-      const rest = text.slice(1);
-      const colorClass = 'loto-ball-' + ballColors[firstChar.charCodeAt(0) % ballColors.length];
-      el.innerHTML = <span class="loto-ball ${colorClass}">${firstChar}</span>${rest};
-    });
-
-    // 記事内h2見出しにランダムロトボール背景
-    document.querySelectorAll('.entry-content h2').forEach(function (el) {
-      const color = ballColors[Math.floor(Math.random() * ballColors.length)];
-      el.setAttribute('data-color', color);
     });
 
     // ◆◆ UIパーツ群（シェアボタン自動生成・ページトップボタン・AdSense遅延ロード）◆◆
