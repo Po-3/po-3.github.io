@@ -126,6 +126,13 @@
       }
     });
 
+          // アニメーションスタイル埋め込み
+      if (html.includes('carry-flash')) {
+        html = <style>@keyframes carry-flash{0%{background:#ea1212;color:#fff;box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff;}60%{background:#ffe600;color:#b00;box-shadow:0 0 14px 7px #fff388,0 0 5px 3px #ffe600;}100%{background:#ea1212;color:#fff;box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff;}}</style> + html;
+      }
+      document.getElementById('tonari-latest-carry').innerHTML = html;
+    });
+
         // --- UI：日付をロトボール化、サイドバーh3装飾、見出し色化、サムネ即時img化 ---
     const ballColors = ['red', 'orange', 'yellow', 'yellowgreen', 'blue', 'purple', 'pink'];
 
