@@ -152,6 +152,22 @@
       }
     });
 
+    // サイドバー見出しのロトボール化
+    document.querySelectorAll('.sidebar h3, .hatena-module-title, .hatena-module .module-title').forEach(function (el) {
+      const text = el.textContent.trim();
+      if (!text || el.querySelector('.loto-ball')) return;
+      const firstChar = text[0];
+      const rest = text.slice(1);
+      const colorClass = 'loto-ball-' + ballColors[firstChar.charCodeAt(0) % ballColors.length];
+      el.innerHTML = <span class="loto-ball ${colorClass}">${firstChar}</span>${rest};
+    });
+
+    // 記事内h2見出しにランダムロトボール背景
+    document.querySelectorAll('.entry-content h2').forEach(function (el) {
+      const color = ballColors[Math.floor(Math.random() * ballColors.length)];
+      el.setAttribute('data-color', color);
+    });
+
     // ◆◆ UIパーツ群（シェアボタン自動生成・ページトップボタン・AdSense遅延ロード）◆◆
 
     // ページトップボタン
