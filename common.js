@@ -126,6 +126,25 @@
       }
     });
 
+        // --- UI：日付をロトボール化、サイドバーh3装飾、見出し色化、サムネ即時img化 ---
+    const ballColors = ['red', 'orange', 'yellow', 'yellowgreen', 'blue', 'purple', 'pink'];
+
+    // 日付をロトボール化
+    document.querySelectorAll('.archive-entries .date').forEach(function (el) {
+      const match = el.textContent.match(/(\d{4})[./-](\d{1,2})[./-](\d{1,2})/);
+      if (match) {
+        const [_, year, month, day] = match;
+        const colorClass = 'loto-ball-' + ballColors[(day - 1) % ballColors.length];
+        el.innerHTML = 
+          <span class="loto-ball ${colorClass}">${day}</span>
+          <span class="loto-date-block">
+            <span class="loto-date-month">${month}月</span>
+            <span class="loto-date-year">${year}</span>
+          </span>
+        ;
+      }
+    });
+
     // ◆◆ UIパーツ群（シェアボタン自動生成・ページトップボタン・AdSense遅延ロード）◆◆
 
     // ページトップボタン
