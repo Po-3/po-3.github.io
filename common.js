@@ -1,4 +1,10 @@
 (function () {
+  // --- ロトボール配色とクラス名生成は共通化 ---
+  const ballColors = ['red', 'orange', 'yellow', 'yellowgreen', 'blue', 'purple', 'pink'];
+  function getLotoColorClass(n) {
+    return 'loto-ball-' + ballColors[n % ballColors.length];
+  }
+
   // 金額整形
   function formatYen(amount) {
     if (!amount) return "";
@@ -13,6 +19,7 @@
     return arr.join(' ');
   }
 
+  // fetchのタイムアウト付きラッパー
   function fetchWithTimeout(url, timeout = 2000) {
     return Promise.race([
       fetch(url).then(res => res.ok ? res.json() : null).catch(() => null),
@@ -128,25 +135,19 @@
         wrapper.innerHTML = html;
 
         // --- UI：日付をロトボール化、サイドバーh3装飾、見出し色化 ---
-(function () {
-  const ballColors = ['red', 'orange', 'yellow', 'yellowgreen', 'blue', 'purple', 'pink'];
-
-  function getLotoColorClass(n) {
-    // 数値nに基づき色クラスを返す
-    return 'loto-ball-' + ballColors[n % ballColors.length];
-  }
-
         // 日付をロトボール化
         document.querySelectorAll('.archive-entries .date').forEach(function (el) {
-          if (el.dataset.lotoball === "done") return; // ← 追加
+          if (el.dataset.lotoball === "done") return;
           const match = el.textContent.match(/(\d{4})[./-](\d{1,2})[./-](\d{1,2})/);
           if (match) {
             const [_, year, month, day] = match;
-            const colorClass = 'loto-ball-' + ballColors[(day - 1) % ballColors.length];
-            el.innerHTML = 
-              `<span class="loto-ball ${colorClass}">${day}</span>` +
+            const dayNum = parseInt(day, 10);
+            if (isNaN(dayNum) || dayNum < 1 || dayNum > 31) return;
+            const colorClass = getLotoColorClass(dayNum - 1);
+            el.innerHTML =
+              `<span class="loto-ball ${colorClass}">${dayNum}</span>` +
               `<span class="loto-date-block">` +
-                `<span class="loto-date-month">${month}月</span>` +
+                `<span class="loto-date-month">${parseInt(month, 10)}月</span>` +
                 `<span class="loto-date-year">${year}</span>` +
               `</span>`;
             el.dataset.lotoball = "done";
@@ -155,12 +156,20 @@
 
         // サイドバー見出しのロトボール化
         document.querySelectorAll('.sidebar h3, .hatena-module-title, .hatena-module .module-title').forEach(function (el) {
+          if (el.dataset.lotoball === "done") return;
           const text = el.textContent.trim();
           if (!text || el.querySelector('.loto-ball')) return;
           const firstChar = text[0];
           const rest = text.slice(1);
-          const colorClass = 'loto-ball-' + ballColors[firstChar.charCodeAt(0) % ballColors.length];
+          let colorKey = 0;
+          if (/\d/.test(firstChar)) {
+            colorKey = parseInt(firstChar, 10);
+          } else {
+            colorKey = firstChar.charCodeAt(0);
+          }
+          const colorClass = getLotoColorClass(colorKey);
           el.innerHTML = `<span class="loto-ball ${colorClass}">${firstChar}</span>${rest}`;
+          el.dataset.lotoball = "done";
         });
 
         // 記事内h2見出しにランダムロトボール背景
