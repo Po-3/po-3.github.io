@@ -132,6 +132,7 @@
 
         // 日付をロトボール化
         document.querySelectorAll('.archive-entries .date').forEach(function (el) {
+          if (el.dataset.lotoball === "done") return; // ← 追加
           const match = el.textContent.match(/(\d{4})[./-](\d{1,2})[./-](\d{1,2})/);
           if (match) {
             const [_, year, month, day] = match;
@@ -142,6 +143,7 @@
                 `<span class="loto-date-month">${month}月</span>` +
                 `<span class="loto-date-year">${year}</span>` +
               `</span>`;
+            el.dataset.lotoball = "done";
           }
         });
 
