@@ -127,8 +127,14 @@
 
         wrapper.innerHTML = html;
 
-        // --- UI：日付をロトボール化、サイドバーh3装飾、見出し色化、サムネ即時img化 ---
-        const ballColors = ['red', 'orange', 'yellow', 'yellowgreen', 'blue', 'purple', 'pink'];
+        // --- UI：日付をロトボール化、サイドバーh3装飾、見出し色化 ---
+(function () {
+  const ballColors = ['red', 'orange', 'yellow', 'yellowgreen', 'blue', 'purple', 'pink'];
+
+  function getLotoColorClass(n) {
+    // 数値nに基づき色クラスを返す
+    return 'loto-ball-' + ballColors[n % ballColors.length];
+  }
 
         // 日付をロトボール化
         document.querySelectorAll('.archive-entries .date').forEach(function (el) {
