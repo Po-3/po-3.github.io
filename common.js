@@ -91,12 +91,14 @@
           {
             name: "ロト6 キャリーオーバー", data: l6Last,
             logo: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250522/20250522171220.png",
-            link: "https://www.kujitonari.net/archive/category/ロト6"
+            link: "https://www.kujitonari.net/archive/category/ロト6",
+            alt: "ロト6のアイコン"
           },
           {
             name: "ロト7 キャリーオーバー", data: l7Last,
             logo: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250522/20250522171452.png",
-            link: "https://www.kujitonari.net/archive/category/ロト7"
+            link: "https://www.kujitonari.net/archive/category/ロト7",
+            alt: "ロト7のアイコン"
           }
         ].forEach(info => {
           let amount = info.data && info.data["キャリーオーバー"] ? info.data["キャリーオーバー"] : 0;
