@@ -15,7 +15,7 @@
     let arr = [];
     if (oku > 0) arr.push(`${oku}億`);
     if (man > 0) arr.push(`${man}万`);
-    if (en > 0 || arr.length === 0) arr.push(`${en.toLocaleString()}円`);
+    if (en > 0 || arr.length === 0) arr.push(`${en}円`);
     return arr.join(' ');
   }
 
