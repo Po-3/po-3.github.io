@@ -11,7 +11,7 @@ CONFIGS = [
     {
         "name": "ロト6",
         "url": "https://takarakuji.rakuten.co.jp/backnumber/loto6/",
-        "save_path": "/Users/po-san/hatena/loto6-data/loto6.json",
+        "save_path": "./loto6-data/loto6.json",
         "num_cnt": 6,
         "bonus_keys": ["ボーナス数字"],
         "carry_key": "キャリーオーバー",
@@ -21,7 +21,7 @@ CONFIGS = [
     {
         "name": "ミニロト",
         "url": "https://takarakuji.rakuten.co.jp/backnumber/mini/",
-        "save_path": "/Users/po-san/hatena/miniloto-data/miniloto.json",
+        "save_path": "./miniloto-data/miniloto.json",
         "num_cnt": 5,
         "bonus_keys": ["ボーナス数字"],
         "carry_key": None,
@@ -31,7 +31,7 @@ CONFIGS = [
     {
         "name": "ロト7",
         "url": "https://takarakuji.rakuten.co.jp/backnumber/loto7/",
-        "save_path": "/Users/po-san/hatena/loto7-data/loto7.json",
+        "save_path": "./loto7-data/loto7.json",
         "num_cnt": 7,
         "bonus_keys": ["BONUS数字1", "BONUS数字2"],
         "carry_key": "キャリーオーバー",
@@ -40,7 +40,7 @@ CONFIGS = [
     }
 ]
 
-# --- ラベル判定ロジック（略式） ---
+# --- ラベル判定ロジック ---
 def label_loto6(nums, carry):
     labels = []
     nums_sorted = sorted(nums)
@@ -95,6 +95,10 @@ def label_loto7(nums, carry):
 
 # --- 最新抽出＋更新処理 ---
 def fetch_and_update(config):
+    # 必要ならディレクトリ自動作成
+    dir_path = os.path.dirname(config['save_path'])
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
     print(f"▼ {config['name']} データ取得中...")
     r = requests.get(config['url'])
     soup = BeautifulSoup(r.content, 'html.parser')
@@ -177,7 +181,7 @@ def fetch_and_update(config):
 
 # --- Git push処理（全json＋latest.json） ---
 def git_push_all():
-    REPO_DIR = "/Users/po-san/hatena/po-3.github.io"
+    REPO_DIR = os.path.dirname(os.path.abspath(__file__))
     os.chdir(REPO_DIR)
     subprocess.run(["git", "add", "."], check=False)
     subprocess.run(["git", "commit", "-m", "auto update: all loto JSONs"], check=False)
@@ -192,7 +196,6 @@ if __name__ == "__main__":
         latest = fetch_and_update(conf)
         if latest:
             latest_candidates.append(latest)
-            # キャリー金額だけメモ
             if latest["type"] == "ロト6":
                 carry_loto6 = latest.get("carry", 0)
             if latest["type"] == "ロト7":
@@ -200,12 +203,14 @@ if __name__ == "__main__":
 
     # 最新回を日付で1件抽出して latest.json 生成
     latest = max(latest_candidates, key=lambda d: datetime.strptime(d["date"], "%Y/%m/%d"))
-    # 常にキャリー情報も含める
     latest["carry_loto6"] = carry_loto6
     latest["carry_loto7"] = carry_loto7
 
-    with open("/Users/po-san/hatena/latest.json", "w", encoding="utf-8") as f:
+    # スクリプトと同じ場所に出力
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    latest_json_path = os.path.join(script_dir, "latest.json")
+    with open(latest_json_path, "w", encoding="utf-8") as f:
         json.dump(latest, f, ensure_ascii=False, indent=2)
-    print("✅ latest.json を生成完了！")
+    print(f"✅ {latest_json_path} を生成完了！")
 
     git_push_all()
