@@ -58,7 +58,7 @@
           <div style="font-size:16.5px; margin:2px 0 7px 0; letter-spacing:3px;">
             <span style="font-weight:bold; color:#1a7bc9;">${numStr}</span><br />
             <span style="font-size:12.5px; color:#a8870a; margin-left:7px;">
-              （ボ：${bonusStr}）
+              ボ：${bonusStr}
             </span>
           </div>
           <a href="${link}" rel="noopener noreferrer"
