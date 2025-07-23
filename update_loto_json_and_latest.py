@@ -15,8 +15,7 @@ CONFIGS = [
         "num_cnt": 6,
         "bonus_keys": ["ボーナス数字"],
         "carry_key": "キャリーオーバー",
-        "feature_func": "label_loto6",
-        "json_label_type": "str"
+        "feature_func": "label_loto6"
     },
     {
         "name": "ミニロト",
@@ -25,8 +24,7 @@ CONFIGS = [
         "num_cnt": 5,
         "bonus_keys": ["ボーナス数字"],
         "carry_key": None,
-        "feature_func": "label_miniloto",
-        "json_label_type": "list"
+        "feature_func": "label_miniloto"
     },
     {
         "name": "ロト7",
@@ -35,12 +33,11 @@ CONFIGS = [
         "num_cnt": 7,
         "bonus_keys": ["BONUS数字1", "BONUS数字2"],
         "carry_key": "キャリーオーバー",
-        "feature_func": "label_loto7",
-        "json_label_type": "str"
+        "feature_func": "label_loto7"
     }
 ]
 
-# --- ラベル判定ロジック ---
+# --- ラベル判定ロジック（必ずリスト型で返す） ---
 def label_loto6(nums, carry):
     labels = []
     nums_sorted = sorted(nums)
@@ -57,7 +54,7 @@ def label_loto6(nums, carry):
     if total > 151: labels.append("合計大きめ")
     if carry and int(str(carry).replace(',', '')) > 0:
         labels.append("キャリーあり")
-    return labels
+    return labels if labels else ["なし"]
 
 def label_miniloto(nums, carry=None):
     labels = []
@@ -72,7 +69,7 @@ def label_miniloto(nums, carry=None):
     total = sum(nums)
     if total < 60: labels.append("合計小さめ")
     if total >= 80: labels.append("合計大きめ")
-    return labels or ["なし"]
+    return labels if labels else ["なし"]
 
 def label_loto7(nums, carry):
     labels = []
@@ -91,11 +88,10 @@ def label_loto7(nums, carry):
         labels.append("高低ミックス")
     if carry and int(str(carry).replace(',', '')) > 0:
         labels.append("キャリーあり")
-    return labels
+    return labels if labels else ["なし"]
 
 # --- 最新抽出＋更新処理 ---
 def fetch_and_update(config):
-    # 必要ならディレクトリ自動作成
     dir_path = os.path.dirname(config['save_path'])
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
@@ -140,6 +136,12 @@ def fetch_and_update(config):
         if config['carry_key']:
             carry_val = trs[i].find_all('td')[0].text.strip().replace(",", "").replace("円", "").replace("該当なし", "0")
             i += 1
+
+        # 特徴ラベル（必ずlistで返す）
+        features = globals()[config["feature_func"]](nums, carry_val)
+        if not features or not isinstance(features, list):
+            features = ["なし"]
+
         record = {
             "開催回": str(int(round_num)),
             "日付": date_text,
@@ -149,7 +151,7 @@ def fetch_and_update(config):
             **{ f"{g+1}等口数": kou_su[g] for g in range(len(kou_su)) },
             **{ f"{g+1}等賞金": shou_kin[g] for g in range(len(shou_kin)) },
             "キャリーオーバー": carry_val if config["carry_key"] else "0",
-            "特徴": label_miniloto(nums) if config["name"] == "ミニロト" else globals()[config["feature_func"]](nums, carry_val)
+            "特徴": features
         }
         records.append(record)
     if os.path.exists(config['save_path']):
