@@ -6,12 +6,14 @@ import re
 from datetime import datetime
 import subprocess
 
+BASE_DIR = "/Users/po-san/hatena/po-3.github.io"
+
 # --- 設定 ---
 CONFIGS = [
     {
         "name": "ロト6",
         "url": "https://takarakuji.rakuten.co.jp/backnumber/loto6/",
-        "save_path": "/Users/po-san/hatena/loto6-data/loto6.json",
+        "save_path": os.path.join(BASE_DIR, "loto6-data/loto6.json"),
         "num_cnt": 6,
         "bonus_keys": ["ボーナス数字"],
         "carry_key": "キャリーオーバー",
@@ -20,7 +22,7 @@ CONFIGS = [
     {
         "name": "ミニロト",
         "url": "https://takarakuji.rakuten.co.jp/backnumber/mini/",
-        "save_path": "/Users/po-san/hatena/miniloto-data/miniloto.json",
+        "save_path": os.path.join(BASE_DIR, "miniloto-data/miniloto.json"),
         "num_cnt": 5,
         "bonus_keys": ["ボーナス数字"],
         "carry_key": None,
@@ -29,7 +31,7 @@ CONFIGS = [
     {
         "name": "ロト7",
         "url": "https://takarakuji.rakuten.co.jp/backnumber/loto7/",
-        "save_path": "/Users/po-san/hatena/loto7-data/loto7.json",
+        "save_path": os.path.join(BASE_DIR, "loto7-data/loto7.json"),
         "num_cnt": 7,
         "bonus_keys": ["BONUS数字1", "BONUS数字2"],
         "carry_key": "キャリーオーバー",
