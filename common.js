@@ -71,13 +71,13 @@
       {
         name: "ロト6 キャリーオーバー",
         amount: latest.carry_loto6 || 0,
-        icon: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250522/20250522171220.png",
+        icon: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250726/20250726222053.jpg",
         link: "https://www.kujitonari.net/archive/category/ロト6"
       },
       {
         name: "ロト7 キャリーオーバー",
         amount: latest.carry_loto7 || 0,
-        icon: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250522/20250522171452.png",
+        icon: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250726/20250726222056.jpg",
         link: "https://www.kujitonari.net/archive/category/ロト7"
       }
     ].forEach(info => {
