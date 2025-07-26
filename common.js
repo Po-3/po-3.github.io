@@ -85,7 +85,7 @@
       let bgColor = isCarry ? CARRY_YELLOW : CARRY_BLUE;
       html += `
         <div style="background:${bgColor}; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.10); margin-bottom:8px; padding:10px 10px 8px 10px; display:flex; align-items:center;">
-          <img src="${info.icon}" style="width:38px; height:38px; margin-right:10px; border-radius:50%; background:#fff;" loading="lazy" decoding="async">
+          <img src="${info.icon}" alt="${info.name}のロゴ" style="width:38px; height:38px; margin-right:10px; border-radius:50%; background:#fff;" loading="lazy" decoding="async">
           <div style="flex:1; text-align:left;">
             <div style="font-size:15px; font-weight:bold; color:#222;">
               ${info.name}
