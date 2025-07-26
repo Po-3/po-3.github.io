@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 import subprocess
 
-BASE_DIR = "/Users/po-san/hatena"
+BASE_DIR = "/Users/po-san/hatena/po-3.github.io"
 
 # --- 設定 ---
 CONFIGS = [
@@ -102,26 +102,23 @@ def git_push_json(data_dir, json_name):
 
 # --- 取得&更新 ---
 def fetch_and_update(config):
-    def clean_bonus(val):
-        # (21) のようなカッコ付きならカッコ除去
-        return val.replace("(", "").replace(")", "").strip()
-
     dir_path = os.path.dirname(config['save_path'])
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
     print(f"▼ {config['name']} データ取得中...")
-    r = requests.get(config['url'])
-    soup = BeautifulSoup(r.content, 'html.parser')
-    table = soup.select_one('table.tblType02.tblNumberGuid')
-    if not table:
-        print(f"ERROR: テーブルが見つかりません: {config['url']}")
-        return None
-    trs = table.select('tbody > tr')
-    records, i = [], 0
-    while i < len(trs):
-        if not trs[i].find_all('th'):
-            i += 1
-            continue
+r = requests.get(config['url'])
+print("HTTP status:", r.status_code)
+print("取得HTML先頭:\n", r.text[:1000])  # 先頭だけ
+soup = BeautifulSoup(r.content, 'html.parser')
+table = soup.select_one('table.tblType02.tblNumberGuid')
+print("table取得:", "あり" if table else "なし")
+if not table:
+    print(f"ERROR: テーブルが見つかりません: {config['url']}")
+    return None
+trs = table.select('tbody > tr')
+print(f"tr数: {len(trs)}")
+for idx, tr in enumerate(trs[:10]):  # 先頭10行だけ
+    print(f"tr[{idx}]:", tr.text.replace('\n', ' ').strip())
         round_text = trs[i].find_all('th')[1].text
         round_num = re.sub(r"\D", "", round_text)
         i += 1
@@ -129,17 +126,17 @@ def fetch_and_update(config):
         i += 1
         tds = trs[i].find_all('td')
         nums = [int(tds[n].text.strip()) for n in range(config['num_cnt'])]
-        # --- ボーナス数字のカッコ外し対応 ---
+        bonus_nums = []
         if config['name'] == "ミニロト":
-            bonus_nums = [clean_bonus(tds[-1].text.strip())]
+            bonus_nums = [tds[-1].text.strip()]
         elif config['name'] == "ロト7":
             i += 1
             bonus_tds = trs[i].find_all('td')
-            bonus_nums = [clean_bonus(bonus_tds[0].text.strip()), clean_bonus(bonus_tds[1].text.strip())]
+            bonus_nums = [bonus_tds[0].text.strip(), bonus_tds[1].text.strip()]
         else:
             i += 1
             bonus_tds = trs[i].find_all('td')
-            bonus_nums = [clean_bonus(bonus_tds[0].text.strip())]
+            bonus_nums = [bonus_tds[0].text.strip()]
         i += 1
         kou_su, shou_kin = [], []
         for _ in range({"ミニロト": 4, "ロト6": 5, "ロト7": 6}[config['name']]):
@@ -215,19 +212,11 @@ if __name__ == "__main__":
         git_push_json(data_dir, json_name)
     # --- latest.json 生成（git管理外でOK）---
     if latest_candidates:
-        # latest.jsonだけは po-3.github.io直下
-        script_dir = "/Users/po-san/hatena/po-3.github.io"
         latest = max(latest_candidates, key=lambda d: datetime.strptime(d["date"], "%Y/%m/%d"))
         latest["carry_loto6"] = carry_loto6
         latest["carry_loto7"] = carry_loto7
+        script_dir = os.path.dirname(os.path.abspath(__file__))
         latest_json_path = os.path.join(script_dir, "latest.json")
         with open(latest_json_path, "w", encoding="utf-8") as f:
             json.dump(latest, f, ensure_ascii=False, indent=2)
         print(f"✅ {latest_json_path} を生成完了！")
-
-                # --- latest.json を git push ---
-        os.chdir(script_dir)
-        subprocess.run(["git", "add", "latest.json"], check=False)
-        subprocess.run(["git", "commit", "-m", "latest.json 更新"], check=False)
-        subprocess.run(["git", "push", "origin", "main"], check=False)
-        print("🚀 latest.json を GitHub にpush完了！")
