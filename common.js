@@ -113,24 +113,33 @@
     wrapper.innerHTML = html;
 
     // --- UIパーツ群（従来どおり） ---
-    // 日付をロトボール化
-    document.querySelectorAll('.archive-entries .date').forEach(function (el) {
-      if (el.dataset.lotoball === "done") return;
-      const match = el.textContent.match(/(\\d{4})[./-](\\d{1,2})[./-](\\d{1,2})/);
-      if (match) {
-        const [_, year, month, day] = match;
-        const dayNum = parseInt(day, 10);
-        if (isNaN(dayNum) || dayNum < 1 || dayNum > 31) return;
-        const colorClass = getLotoColorClass(dayNum - 1);
-        el.innerHTML =
-          `<span class="loto-ball ${colorClass}">${dayNum}</span>` +
-          `<span class="loto-date-block">` +
-            `<span class="loto-date-month">${parseInt(month, 10)}月</span>` +
-            `<span class="loto-date-year">${year}</span>` +
-          `</span>`;
-        el.dataset.lotoball = "done";
-      }
-    });
+  // --- 日付をロトボール化 ---
+  document.querySelectorAll('.date.archive-date').forEach(function (el) {
+    if (el.dataset.lotoball === "done") return;
+
+    const yearEl = el.querySelector('.date-year');
+    const monthEl = el.querySelector('.date-month');
+    const dayEl = el.querySelector('.date-day');
+
+    if (!yearEl || !monthEl || !dayEl) return;
+
+    const year = yearEl.textContent.trim();
+    const month = parseInt(monthEl.textContent.trim(), 10);
+    const day = parseInt(dayEl.textContent.trim(), 10);
+
+    if (isNaN(day) || day < 1 || day > 31) return;
+
+    const colorClass = getLotoColorClass(day - 1);
+
+    el.innerHTML =
+      `<span class="loto-ball ${colorClass}">${day}</span>` +
+      `<span class="loto-date-block">` +
+        `<span class="loto-date-month">${month}月</span>` +
+        `<span class="loto-date-year">${year}</span>` +
+      `</span>`;
+
+    el.dataset.lotoball = "done";
+  });
 
     // サイドバー見出しのロトボール化
     document.querySelectorAll('.sidebar h3, .hatena-module-title, .hatena-module .module-title').forEach(function (el) {
