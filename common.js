@@ -80,30 +80,34 @@
         icon: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250726/20250726222056.jpg",
         link: "https://www.kujitonari.net/archive/category/ロト7"
       }
-    ].forEach(info => {
-      let isCarry = info.amount > 0;
-      let bgColor = isCarry ? CARRY_YELLOW : CARRY_BLUE;
-      html += `
-        <div style="background:${bgColor}; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.10); margin-bottom:8px; padding:10px 10px 8px 10px; display:flex; align-items:center;">
-          <img src="${info.icon}" alt="${info.name}のロゴ" style="width:38px; height:38px; margin-right:10px; border-radius:50%; background:#fff;" loading="lazy" decoding="async">
-          <div style="flex:1; text-align:left;">
-            <div style="font-size:15px; font-weight:bold; color:#222;">
-              ${info.name}
-              <span class="carry-flash" style="background:${isCarry ? "#ea1212" : "#227be5"}; color:#fff; padding:1.5px 7px; border-radius:6px; font-size:11.5px; margin-left:5px; ${isCarry ? 'animation:carry-flash 1.25s infinite alternate; box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff; border:1.3px solid #ffe600;' : ''}; display:inline-block;">
-                ${isCarry ? "発生中" : "なし"}
-              </span><br>
+        ].forEach(info => {
+          let amount = info.data && info.data["キャリーオーバー"] ? info.data["キャリーオーバー"] : 0;
+          let isCarry = amount > 0;
+          let bgColor = isCarry ? CARRY_YELLOW : CARRY_BLUE;
+          html += `
+            <div style="background:${bgColor}; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.10); margin-bottom:8px; padding:10px 10px 8px 10px; display:flex; align-items:center;">
+              <img src="${info.logo}" style="width:38px; height:38px; margin-right:10px; border-radius:50%; background:#fff;" loading="lazy" decoding="async">
+              <div style="flex:1; text-align:left;">
+                <div style="font-size:15px; font-weight:bold; color:#222;">
+                  ${info.name}
+                  <span class="carry-flash" style="background:${isCarry ? "#ea1212" : "#227be5"}; color:#fff; padding:1.5px 7px; border-radius:6px; font-size:11.5px; margin-left:5px; ${isCarry ? 'animation:carry-flash 1.25s infinite alternate; box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff; border:1.3px solid #ffe600;' : ''}; display:inline-block;">
+                    ${isCarry ? "発生中" : "なし"}
+                  </span><br>
+                  <span style="font-size:12px; color:#965e00; margin-left:8px;">
+                    【第${info.data && info.data["開催回"] ? info.data["開催回"] : "-"}回（${info.data && info.data["日付"] ? info.data["日付"] : "-"}）時点】
+                  </span>
+                </div>
+                <div style="font-size:16.5px; font-weight:bold; color:#222; margin:2px 0 2px 0;">
+                  ${
+                    isCarry
+                    ? `<span style="color:#1a7bc9; font-size:17px; letter-spacing:1px;">${formatYen(amount)}</span>`
+                    : `<span style="color:#666; font-size:15px;">現在、キャリーオーバーはありません。</span>`
+                  }
+                </div>
+              </div>
             </div>
-            <div style="font-size:16.5px; font-weight:bold; color:#222; margin:2px 0 2px 0;">
-              ${
-                isCarry
-                ? `<span style="color:#1a7bc9; font-size:17px; letter-spacing:1px;">${formatYen(info.amount)}</span>`
-                : `<span style="color:#666; font-size:15px;">現在、キャリーオーバーはありません。</span>`
-              }
-            </div>
-          </div>
-        </div>
-      `;
-    });
+          `;
+        });
 
     // --- アニメーションスタイル埋め込み（carry-flash使用時のみ） ---
     if (html.includes('carry-flash')) {
