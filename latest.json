@@ -1,19 +1,18 @@
 {
-  "type": "ロト7",
-  "date": "2025/07/25",
-  "round": "636",
+  "type": "ロト6",
+  "date": "2025/07/28",
+  "round": "2020",
   "nums": [
-    "10",
-    "14",
-    "17",
-    "20",
-    "26",
-    "27",
-    "29"
+    "5",
+    "21",
+    "23",
+    "28",
+    "38",
+    "39"
   ],
-  "bonus": "3",
-  "carry": 0,
-  "link": "https://po-3.github.io/loto7-data/loto7.json",
-  "carry_loto6": 0,
+  "bonus": "32",
+  "carry": 222163139,
+  "link": "https://po-3.github.io/loto6-data/loto6.json",
+  "carry_loto6": 222163139,
   "carry_loto7": 0
 }
