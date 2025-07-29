@@ -85,8 +85,7 @@
           let bgColor = isCarry ? CARRY_YELLOW : CARRY_BLUE;
           html += `
             <div style="background:${bgColor}; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.10); margin-bottom:8px; padding:10px 10px 8px 10px; display:flex; align-items:center;">
-              <img src="${info.icon}" style="width:38px; height:38px; margin-right:10px; border-radius:50%; background:#fff;" loading="lazy" decoding="async">
-              <div style="flex:1; text-align:left;">
+             <img src="${info.icon}" alt="${info.name}のアイコン" style="width:38px; height:38px; margin-right:10px; border-radius:50%; background:#fff;" loading="lazy" decoding="async">              <div style="flex:1; text-align:left;">
                 <div style="font-size:15px; font-weight:bold; color:#222;">
                   ${info.name}
                   <span class="carry-flash" style="background:${isCarry ? "#ea1212" : "#227be5"}; color:#fff; padding:1.5px 7px; border-radius:6px; font-size:11.5px; margin-left:5px; ${isCarry ? 'animation:carry-flash 1.25s infinite alternate; box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff; border:1.3px solid #ffe600;' : ''}; display:inline-block;">
