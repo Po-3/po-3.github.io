@@ -1,0 +1,1126 @@
+/* <system section="theme" selected="17391345971624603155"> */
+@import url("https://usercss.blog.st-hatena.com/-/theme/17391345971624603155.css?version=c60cdc5742b29bc53204de43fe4b6e157fa51a51");
+/* </system> */
+
+/* ===================== */
+/* === カラー変数定義 === */
+/* ===================== */
+:root {
+  --main-bg: #0a1e40;
+  --main-accent: #d4af37;
+  --text-dark: #333;
+  --text-muted: #555;
+  --link: #007acc;
+  --link-hover: #ff6600;
+  --profile-bg: #f8f9fa;
+}
+
+/* ========================= */
+/* === フォント/全体色 === */
+/* ========================= */
+@font-face {
+  font-family: 'IBM Plex Sans JP';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://profound-fox-186ed7.netlify.app/hatena-style/IBMPlexSansJP-Regular.woff2') format('woff2'),
+       url('https://profound-fox-186ed7.netlify.app/hatena-style/IBMPlexSansJP-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans JP';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://profound-fox-186ed7.netlify.app/hatena-style/IBMPlexSansJP-Bold.woff2') format('woff2'),
+       url('https://profound-fox-186ed7.netlify.app/hatena-style/IBMPlexSansJP-Bold.woff') format('woff');
+}
+
+body {
+  font-family:
+    'IBM Plex Sans JP',
+    'Yu Gothic Medium',
+    'Yu Gothic',
+    'Hiragino Kaku Gothic ProN',
+    'Meiryo',
+    sans-serif;
+}
+
+/* パンくず強調 */
+.breadcrumb, .breadcrumb a { font-weight: bold; color: #fff !important; }
+
+/* タイトル非表示 */
+#blog-title { display:none; }
+
+/* ===================== */
+/* === ロゴ＆ヘッダー === */
+/* ===================== */
+.tonari-title {
+  font-family: ‘CorporateLogoMedium’, sans-serif;
+  position: relative;
+  overflow: hidden;
+  font-size: 2.35em;
+}
+.tonari-title::after {
+  content: “”;
+  position: absolute; top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.33) 50%, rgba(255,255,255,0.0) 100%);
+  transform: skewX(-22deg);
+  pointer-events: none;
+}
+.tonari-title:hover {
+  transform: scale(1.09);
+  box-shadow: 0 10px 28px #ffb06699, 0 2px 10px #fff6ee;
+  animation: tonari-vibrate 0.42s linear 1;
+}
+.tonari-title:hover::after { animation: tonari-shine 1.1s forwards; }
+@keyframes tonari-shine { 0%{left:-75%;} 100%{left:120%;} }
+@keyframes tonari-vibrate {
+  0% {transform:scale(1.09) translate(0,0);}
+  15%{transform:scale(1.11) translate(-2px,2px);}
+  30%{transform:scale(1.08) translate(2px,-1px);}
+  45%{transform:scale(1.11) translate(-1px,1.5px);}
+  60%{transform:scale(1.10) translate(1.5px,-2px);}
+  100%{transform:scale(1.09) translate(0,0);}
+}
+.tonari-title a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  display: inline-block;
+}
+.tonari-animated {
+  display: inline-block;
+  animation: bounce 1.4s infinite ease-in-out;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+.tonari-animated-gradient {
+  background: linear-gradient(270deg, #ffe066, #ec7030, #6cd3f7, #ffe066);
+  background-size: 600% 600%;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: tonari-gradient 3.5s ease-in-out infinite;
+  font-weight: 900;
+  font-size: 1.15em;
+  display: inline-block;
+}
+@keyframes tonari-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* =========================== */
+/* === ロト種別丸アイコン行 === */
+/* =========================== */
+.logo-lotto-icon-links {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.logo-lotto-ball-link {
+  display: block;
+  text-align: center;
+  position: relative;
+}
+.logo-loto-ball {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #eee;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  box-shadow:
+    inset -5px -5px 10px rgba(255,255,255,0.45),
+    inset 5px 5px 10px rgba(0,0,0,0.30),
+    0 2px 4px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  font-weight: bold;
+  font-size: 16px;
+  transition: transform 0.2s;
+}
+.logo-loto-ball::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 55%;
+  height: 35%;
+  background: radial-gradient(ellipse at top left, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.0) 80%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(0.5px);
+}
+.logo-loto-ball:hover {
+  transform: scale(1.08);
+}
+.mini-loto-logo {
+  background-image: url('https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250622/20250622152726.png');
+}
+.loto6-logo {
+  background-image: url('https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250622/20250622152719.png');
+}
+.loto7-logo {
+  background-image: url('https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250622/20250622152723.png');
+}
+/* =============================== */
+/* === サイドバー/モジュール色 === */
+/* =============================== */
+.sidebar h3, .hatena-module-title, .hatena-module .module-title, .hatena-module-title a {
+  color: #eb5030 !important;
+}
+/* サイドバー記事タイトル */
+.hatena-module ul li a, .hatena-module .urllist-title a {
+  color: #2f3e51;
+  transition: color 0.2s;
+}
+.hatena-module ul li a:hover, .hatena-module .urllist-title a:hover {
+  color: #eb5030;
+}
+.hatena-module {
+  padding-left:28px;
+  padding-right: 28px;
+}
+/* ========================= */
+/* === 直近のロト結果ウィジェット === */
+/* ========================= */
+.loto-latest-widget {
+  background:linear-gradient(90deg,#fffbe7,#ffe9d0 60%,#ffe0a8 100%);
+  border:1.2px solid #ffd99d; border-radius:14px;
+  border-radius: 18px;
+  box-shadow:0 2px 8px rgba(240,168,48,0.10);
+  padding:13px 13px 8px 13px;
+  margin-bottom: 14px;
+  font-family:sans-serif;
+  font-size: 15px;
+  text-align: center;
+  position: relative;
+  transition: box-shadow 0.18s;
+}
+.loto-latest-widget hr {
+  border: none;
+  border-top: 1.2px dotted #ffe099;
+  margin: 15px 0 11px 0;
+}
+/* --- キャリーオーバー個別ボックス --- */
+.loto-carry-box {
+  display: flex;
+  align-items: center;
+  background: #ffe600;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(245,210,55,0.15);
+  margin-bottom: 18px;
+  padding: 15px 18px 10px 14px;
+  gap: 14px;
+}
+.loto-carry-box.loto-carry-none {
+  background: #a5dcf9;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(120,190,255,0.13);
+}
+.loto-carry-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1.5px 8px rgba(0,0,0,0.07);
+  object-fit: contain;
+  margin-right: 8px;
+  flex-shrink: 0;
+  display: block;
+}
+.loto-carry-content {
+  flex: 1;
+  text-align: left;
+  min-width: 0;
+}
+.loto-carry-title {
+  font-size: 1.22em;
+  font-weight: 900;
+  color: #222;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.loto-carry-label {
+  display: inline-block;
+  font-size: 0.95em;
+  font-weight: bold;
+  padding: 2px 12px 2px 12px;
+  border-radius: 16px;
+  background: #ea1212;
+  color: #fff;
+  margin-left: 8px;
+  box-shadow: 0 0 8px #ffe60077;
+  letter-spacing: 0.06em;
+  vertical-align: middle;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.loto-carry-none .loto-carry-label {
+  background: #227be5;
+  box-shadow: 0 0 6px #a5dcf999;
+  margin-left: 8px;
+}
+.loto-carry-sub {
+  font-size: 1.04em;
+  color: #a87a1a;
+  margin-bottom: 2px;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+}
+.loto-carry-amount {
+  font-size: 1.24em;
+  color: #1a7bc9;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 2px 0 1px 0;
+  word-break: keep-all;
+}
+.loto-carry-none .loto-carry-amount {
+  color: #555;
+  font-size: 1.08em;
+}
+.loto-carry-message {
+  font-size: 1.11em;
+  color: #424242;
+  margin-top: 2px;
+  font-weight: 600;
+}
+.loto-carry-none .loto-carry-message {
+  color: #36445c;
+  font-weight: 500;
+}
+/* --- 最新結果セクション --- */
+.loto-result-title {
+  font-weight: 900;
+  font-size: 1.32em;
+  margin-bottom: 2px;
+  color: #e89813;
+  letter-spacing: 0.07em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.loto-result-title i, .loto-result-title .emoji {
+  font-size: 1.1em;
+  margin-right: 1.5px;
+  vertical-align: middle;
+}
+.loto-result-date {
+  font-size: 1.03em;
+  color: #825900;
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+.loto-result-nums {
+  font-size: 1.46em;
+  margin: 5px 0 8px 0;
+  letter-spacing: 5.2px;
+  font-family: 'IBM Plex Sans JP', 'CorporateLogo', sans-serif;
+  color: #1a7bc9;
+  font-weight: bold;
+  text-shadow: 0 0 2px #fffad0;
+}
+.loto-result-bonus {
+  font-size: 0.97em;
+  color: #a8870a;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: middle;
+  margin-left: 9px;
+  font-weight: bold;
+}
+.loto-result-link {
+  font-size: 1.06em;
+  background: #fff4c5;
+  border: 1px solid #f3cf7d;
+  color: #b46d00;
+  border-radius: 10px;
+  padding: 7px 25px;
+  text-decoration: none;
+  box-shadow: 0 1.5px 4px #ffeccc7d;
+  display: inline-block;
+  margin-top: 10px;
+  transition: 0.22s;
+  font-weight: bold;
+}
+.loto-result-link:hover {
+  background: #ffe9a7;
+  border-color: #ffd85c;
+  color: #b97700;
+}
+@media (max-width: 550px) {
+  .loto-latest-widget { padding: 9vw 0vw 4vw 0vw; }
+  .loto-carry-box,
+  .loto-carry-box.loto-carry-none { padding: 13px 7px 10px 7px; gap: 8px; }
+  .loto-carry-logo { width: 38px; height: 38px; }
+  .loto-carry-title { font-size: 1em; gap: 5px;}
+  .loto-carry-label { font-size: 0.88em; padding: 2px 8px;}
+  .loto-carry-sub { font-size: 0.99em;}
+  .loto-carry-amount { font-size: 1.12em;}
+  .loto-result-title { font-size: 1.07em;}
+  .loto-result-nums { font-size: 1.05em; letter-spacing: 2.4px;}
+  .hatena-module {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+/* ===================== */
+/* === 本文スタイル  === */
+/* ===================== */
+.entry-content { font-size: 16px; line-height: 1.8; }
+.entry-content a { color: var(--link); text-decoration: underline; transition: color 0.2s; }
+.entry-content a:hover { color: var(--link-hover); }
+/* 記事更新日 */
+.update-notice {
+  background: #fff7e6;
+  color: #bc7816;
+  font-size: 0.97em;
+  font-weight: bold;
+  border-left: 4px solid #ffb066;
+  border-radius: 7px;
+  margin: 0 0 1.1em 0;
+  padding: 8px 5px;
+  box-shadow: 0 1.5px 7px rgba(255,180,100,0.06);
+  letter-spacing: 0.03em;
+}
+/* =============================== */
+/* === 本文見出し（h2-h5） === */
+/* =============================== */
+.entry-content h2 {
+  position: relative;
+  font-size: 1.9em;
+  font-weight: 900;
+  color: #111;
+  margin: 2em 0 1em 0;
+  padding-left: calc(0.8em + 30px);
+  line-height: 1.22;
+  letter-spacing: 0.03em;
+  background: none;
+  border: none;
+  box-shadow: none;
+  z-index: 1;
+  overflow: visible;
+}
+.entry-content h2::before {
+  content: '';
+  position: absolute;
+  left: calc(-0.95em + 30px);
+  top: 10%;
+  transform: translateY(-50%);
+  width: 2.3em;
+  height: 2.3em;
+  background: #d2691e;
+  opacity: 0.4;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  box-shadow: inset -3px -3px 8px rgba(255, 255, 255, 0.3);
+}
+/* 🎯 白ハイライト艶 */
+.entry-content h2::after {
+  content: '';
+  position: absolute;
+  left: calc(-0.95em + 30px + 20%);
+  top: calc(10% - 50% + 12%);
+  width: 36%;
+  height: 26%;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.95), rgba(255,255,255,0.2));
+  border-radius: 50% 40%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 1;
+}
+/* 色別ボール背景（透明色でグラデーション） */
+.entry-content h2[data-color="red"]::before {
+  background: linear-gradient(160deg, rgba(228, 58, 48, 0.7), rgba(184, 28, 28, 0.7));
+}
+.entry-content h2[data-color="orange"]::before {
+  background: linear-gradient(160deg, rgba(255, 165, 0, 0.7), rgba(204, 132, 0, 0.7));
+}
+.entry-content h2[data-color="yellow"]::before {
+  background: linear-gradient(160deg, rgba(255, 217, 0, 0.7), rgba(230, 184, 0, 0.7));
+}
+.entry-content h2[data-color="yellowgreen"]::before {
+  background: linear-gradient(160deg, rgba(180, 211, 48, 0.7), rgba(143, 179, 0, 0.7));
+}
+.entry-content h2[data-color="blue"]::before {
+  background: linear-gradient(160deg, rgba(51, 144, 255, 0.7), rgba(0, 85, 204, 0.7));
+}
+.entry-content h2[data-color="purple"]::before {
+  background: linear-gradient(160deg, rgba(170, 102, 204, 0.7), rgba(126, 74, 168, 0.7));
+}
+.entry-content h2[data-color="pink"]::before {
+  background: linear-gradient(160deg, rgba(255, 102, 170, 0.7), rgba(204, 74, 136, 0.7));
+}
+@media (max-width: 600px) {
+  .entry-content h2 {
+    font-size: 1.5em;
+    padding-left: calc(0.8em + 18px);
+  }
+  .entry-content h2::before {
+    width: 1.7em;
+    height: 1.7em;
+  }
+}
+/* h3: カード風/ドット付 */
+.entry-content h3 {
+  display: flex; align-items: center;
+  background: linear-gradient(90deg, #fbe4e8 70%, #fff0f4 100%);
+  color: #a63a50; font-size: 1.1em; font-weight: 600;
+  padding: 6px 16px; border-radius: 7px;
+  margin: 1.4em 0 0.6em; position: relative;
+  box-shadow: 0 1px 8px rgba(245, 190, 200, 0.07);
+}
+.entry-content h3::before {
+  content: ''; display: inline-block; width: 0.85em; height: 0.85em;
+  background: #e57373; border-radius: 50%; margin-right: 0.7em; flex-shrink: 0;
+}
+/* h4: 下線アクセント */
+.entry-content h4 {
+  font-size: 1em; font-weight: bold; color: #b8506e;
+  border-bottom: 2.5px solid #e57373;
+  padding-bottom: 3px; margin: 1.3em 0 0.7em; background: none; letter-spacing: 0.02em;
+}
+/* h5: シンプル枠 */
+.entry-content h5 {
+  display: inline-block; background: #faf6f7; color: #a37474;
+  font-size: 0.98em; font-style: italic; padding: 4px 12px;
+  border-left: 4px solid #e57373; border-radius: 5px; margin: 1em 0;
+  box-shadow: 0 1px 5px rgba(229,115,115,0.04);
+}
+/* =============================== */
+/* === TOPメニュー（ヘッダー） === */
+/* =============================== */
+.header-lotto-menu { z-index: 40; }
+.lotto-icon-links a img {
+  animation: tonari-float 2.2s ease-in-out infinite;
+  transition: transform 0.15s;
+}
+.lotto-icon-links a:hover img {
+  transform: scale(1.13) rotate(-6deg);
+  opacity: 0.95;
+}
+@keyframes tonari-float {
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-7px);}
+  100%{transform:translateY(0);}
+}
+.scroll-category-bar {
+  scrollbar-width: thin; scrollbar-color: #ffd492 #fff7e1;
+  -ms-overflow-style: none;
+  overflow-x: auto; white-space: nowrap; padding-left: 6px; -webkit-overflow-scrolling: touch;
+}
+.scroll-category-bar::-webkit-scrollbar { height: 6px; background: #fff7e1; }
+.scroll-category-bar::-webkit-scrollbar-thumb { background: #ffd492; border-radius: 7px; }
+.category-link, .scroll-category-bar .category-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  text-decoration: none;
+  background: linear-gradient(90deg, #fff4de 70%, #ffe3b0 100%);
+  border-radius:22px; border:1px solid #ffe1b0;
+  color: #c48432;
+  transition: background 0.12s, color 0.15s, box-shadow 0.15s;
+  box-shadow:0 2px 4px #ffe8b440; font-weight:bold;
+  margin-right:4px; margin-bottom:2px;
+}
+.category-link:hover {
+  color:#fff; background:linear-gradient(90deg, #f3ad6e 40%, #ef9130 100%);
+  box-shadow:0 2px 8px #ffdca460;
+}
+@media (max-width:700px){
+  .header-lotto-menu{padding:6px 0 4px 0;}
+  .lotto-icon-links{gap:8px;margin-bottom:4px;}
+  .scroll-category-bar{font-size:14px;padding-left:0;}
+}
+/* TOPメニュー階層 */
+.parent-cat-menu {
+  display: flex;
+  gap: 20px;
+}
+.parent-cat {
+  position: relative;
+}
+.child-cat-menu {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  border-radius: 8px;
+  min-width: 130px;
+  z-index: 999;
+}
+.parent-cat:hover .child-cat-menu,
+.parent-cat:focus-within .child-cat-menu {
+  display: block;
+}
+.child-cat-link {
+  display: block;
+  padding: 8px 16px;
+  color: #222;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.child-cat-link:hover {
+  background: #ffe0c0;
+}
+.logo-lotto-ball-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  font-size: 1.08em;
+  color: #444;
+  text-decoration: none;
+}
+/* =============================== */
+/* === プロフィールボックス共通 === */
+/* =============================== */
+.custom-profile {
+  display: flex;
+  align-items: flex-start;
+  background: var(--profile-bg, #f9f9f9);
+  padding: 14px 12px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  border: 1px solid #ececec;
+  gap: 14px;
+  max-width: 100%;
+}
+.profile-img {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 0;
+  flex-shrink: 0;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px #ddd7;
+  background: #fafafa;
+}
+.profile-info {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+}
+.profile-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 0 5px 0;
+  color: #262626;
+  line-height: 1.2;
+}
+.profile-name a {
+  color: #222;
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 1.5px dotted #41c9b4;
+  transition: color .17s, border .17s;
+}
+.profile-name a:hover { color: #00a4de; border-bottom: 1.5px solid #00a4de; }
+.profile-desc {
+  font-size: 0.92em;
+  color: #5c5c5c;
+  margin: 0 0 9px 0;
+  line-height: 1.7;
+  word-break: break-word;
+}
+.profile-buttons {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+.profile-btn {
+  padding: 5px 13px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 13px;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.18s;
+  margin: 0;
+}
+.x-btn      { background: #000; }
+.hatena-btn { background: #00A4DE; }
+.note-btn   { background: #41C9B4; }
+.profile-btn:hover { opacity: 0.82; }
+.share-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 7px;
+}
+.btn {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 13px;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  margin: 0;
+}
+.btn:hover { opacity: 0.85; }
+.hatebu { background: #00A4DE; }
+.x      { background: #000; }
+.rss    { background: #FFA500; }
+@media (max-width: 700px) {
+  .custom-profile { flex-direction: column; align-items: center; gap: 9px; }
+  .profile-img { margin-bottom: 5px; }
+  .profile-info { width: 100%; }
+  .profile-buttons { justify-content: center; }
+}
+/* =============================== */
+/* === フッター・ページトップ === */
+/* =============================== */
+#pageTop {
+  position: fixed;
+  bottom: 30px;
+  right: 15px;
+  display: none;
+  z-index: 999;
+}
+#pageTop a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background-color: #f6b483;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(246,180,131,0.12);
+  transition: opacity 0.17s;
+  padding: 0;
+}
+#pageTop a:hover {
+  opacity: 0.7;
+  color: rgba(0, 0, 0, 0.2);
+}
+#pageTop svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  margin: 0;
+  pointer-events: none;
+  display: block;
+}
+/* =============================== */
+/* === ロトボール 共通（各所）=== */
+/* =============================== */
+.loto-ball {
+  background-color: #27ae60;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: bold;
+  overflow: hidden;
+  position: relative;
+  border: 2.5px solid #fff;
+  color: #fff;
+  font-family: 'Corporate-Logo-Bold-ver3', 'M PLUS 1p', sans-serif;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.20), 0 1.5px 1.5px #bbb;
+  text-shadow:
+    0 1px 0 #222,
+    0 0 5px #000,
+    1px 1px 1px #000;
+  line-height: 1;
+  width: 2.6em;
+  height: 2.6em;
+  font-size: 1.45em;
+  margin-right: 0.15em;
+  vertical-align: middle;
+}
+.scroll-category-bar .loto-ball {
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  margin-right: -1px;
+  line-height: 26px;
+  flex-shrink: 0;
+}
+/* 艶出しグロス */
+.loto-ball::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 55%;
+  height: 35%;
+  background: radial-gradient(ellipse at top left, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.0) 80%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(0.5px);
+}
+/* 色バリエーション：各所統一 */
+.loto-ball-red    { background-color: #e74c3c !important; }
+.loto-ball-orange { background-color: #f39c12 !important; }
+.loto-ball-yellow { background-color: #f1c40f !important; }
+.loto-ball-green  { background-color: #27ae60 !important; }
+.loto-ball-blue   { background-color: #3498db !important; }
+.loto-ball-purple { background-color: #9b59b6 !important; }
+.loto-ball-pink   { background-color: #e91e63 !important; }
+.loto-date-month,
+.loto-date-year {
+  display: block;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  line-height: 1.1;
+}
+.loto-date-month {
+  color: #222;
+  font-weight: normal;
+  font-size: 1em;
+  letter-spacing: 0.01em;
+}
+.loto-date-year {
+  color: #888;
+  font-size: 0.95em;
+}
+.archive-entries .date {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  font-size: 1em;
+  letter-spacing: 0.02em;
+}
+/* ======================== */
+/* ===== メディアクエリ ==== */
+/* ======================== */
+@media (max-width: 600px) {
+  .entry-content h2 {
+    font-size: 1.5em;
+    padding-left: calc(0.8em + 18px);
+  }
+  .entry-content h2::before {
+    width: 1.7em;
+    height: 1.7em;
+  }
+}
+@media (max-width: 600px) {
+  .scroll-category-bar .loto-ball {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 15.5px !important;
+    margin-right: 2px !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    line-height: 16px !important;
+  }
+}
+/* adsense */
+@media (max-width: 767px) {
+  .ad-pc { display: none !important; }
+  .ad-sp { display: block !important; }
+}
+@media (min-width: 768px) {
+  .ad-pc { display: block !important; }
+  .ad-sp { display: none !important; }
+}
+/* ====================================== */
+/* === 最新記事・注目記事モジュール === */
+/* ====================================== */
+.urllist-with-thumbnails { display:flex; flex-wrap:wrap;}
+.urllist-with-thumbnails li { width:calc(50% - 5px);}
+.urllist-with-thumbnails li:nth-child(2n){margin-left:10px;}
+.urllist-with-thumbnails li .urllist-title { font-size:15px; font-weight:bold; line-height:1.4; }
+.urllist-with-thumbnails li .urllist-image { margin:0 0 4px; border-radius:8px; overflow:hidden; }
+/* ====================================== */
+/* === シンプルなデザイン/アーカイブ === */
+/* ====================================== */
+.page-archive .archive-entries { display:flex; flex-wrap:wrap;}
+.page-archive .archive-entries .archive-entry {
+  display:flex; flex-direction:column; box-sizing:border-box; padding:10px;
+  width:100%; height:auto; margin-bottom:2em;
+}
+@media (min-width:350px){
+  .page-archive .archive-entries .archive-entry{width:50%;}
+}
+.archive-entry-header { display:flex; flex-direction:column-reverse; order:2; width:100%; }
+.page-archive .archive-entries .entry-title { line-height:1.5; font-size:18px; margin:.5em 0; padding:0; font-weight:bold;}
+.page-archive .entry-title a { display:block; width:100%; color:inherit; text-decoration:underline; pointer-events:auto; position:relative; z-index:10;}
+.page-archive .archive-entries .entry-thumb-link {
+  position:relative; padding-top:56.25%; overflow:hidden; border-radius:6px;
+  box-shadow:0 2px 4px rgba(50,50,93,0.07); width:100%; height:auto; transition:box-shadow 0.1s;
+}
+.page-archive .entry-thumb {
+  background-size:cover; background-position:50%; border-radius:0; height:100%; width:100%;
+  position:absolute; top:0; left:0; margin:0; padding:0; transition:transform 0.12s;
+}
+.page-archive .archive-entries .archive-entry:hover .entry-thumb { transform:scale(1.10);}
+.page-archive .archive-entries .archive-entry:hover .entry-thumb-link { box-shadow:0 4px 12px rgba(50,50,93,0.10);}
+.page-archive .archive-entries .categories { order:3; margin:0; padding:0;}
+.page-archive .entry-thumb::before {
+  content:""; display:block; width:100%; height:100%; background:rgba(0,0,0,.3); opacity:0; transition:opacity 0.12s;
+}
+.page-archive .archive-entries .archive-entry:hover .entry-thumb::before { opacity:1; }
+.archive-entry-
+img.hatena-fotolife { pointer-events: none; }
+.entry-content img { border-radius: 15px; }
+.user-name-nickname {
+  display: inline-flex;
+  align-items: center;
+  font-weight: normal;
+  font-size: 1em;
+  color: inherit;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  margin-right: 0.3em;
+  gap: 0.20em;
+  position: relative;
+}
+/* X認証バッジ（SVG埋め込み／アップ画像をトレース） */
+.user-name-nickname::after {
+  content: "";
+  display: inline-block;
+  width: 1.18em;
+  height: 1.15em;
+  margin-left: 0.16em;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146"><path d="M73 0c9.6 0 15.9 11.3 21.2 15.8C99.5 20.3 112 19.7 116.9 23.6c4.8 3.9 4.8 14.8 6.8 21.5C126 51.8 146 57.9 146 69.7c0 11.7-20 18.2-22.3 24.5-2.2 6.3-2.2 17.2-6.9 21.5-4.7 4.4-17.4 3.7-22.4 7.9C88.2 127.7 82 139 73 139s-15.2-11.3-20.5-15.7c-5-4.2-17.7-3.5-22.4-7.9-4.7-4.3-4.8-15.2-6.9-21.5C20 87.9 0 81.4 0 69.7c0-11.8 20-18 22.3-24.6 2-6.7 2-17.6 6.8-21.5 4.9-3.9 17.4-3.3 22.3-7.8C57.1 11.3 63.4 0 73 0Z" fill="%231da1f2"/><path d="M48.8 78.7l14.6 14.6 32.4-32.4a4.8 4.8 0 0 0-6.8-6.7l-25.5 25.5-7.9-7.8a4.8 4.8 0 0 0-6.8 6.7l10.1 10.1Z" fill="white"/></svg>') no-repeat center center / contain;
+  /* ▼ ここで上方向にズラす（pxもOK） */
+  transform: translateY(-0.08em);
+  /* または transform: translateY(-4px); などでもOK */
+  vertical-align: baseline;
+}
+/* hatenaID・カッコを非表示 */
+.user-name-hatena-id,
+.user-name-paren {
+  display: none !important;
+}
+/* 「Written by」ラベル追加 */
+.user-name-nickname::before {
+  content: "Written by ";
+  color: inherit;
+  font-size: 1em;
+  margin-right: 4px;
+  letter-spacing: 0.01em;
+  font-weight: normal;
+}
+/* ====================================== */
+/* === アイコンフォント目次デザイン === */
+/* ====================================== */
+.entry-content .table-of-contents {
+  position:relative; margin:0; padding:4em 1.2em 1em;
+  background:linear-gradient(135deg, #fdf8f3, #fde9d4, #fce1d7);
+  border-top:solid 5px #f8b9a5; color:#5b3a2c; box-shadow:0 4px 10px rgba(0,0,0,0.06); border-radius:12px;
+}
+.entry-content .table-of-contents::before {
+  content:"目次"; display:block; position:absolute; top:18px; left:72px; text-align:start;
+  color:#70442c; font-size:120%; font-weight:bold;
+}
+.entry-content .table-of-contents::after {
+  content:"\f039"; font-family:blogicon; display:block; font-size:120%; position:absolute;
+  line-height:40px; top:12px; left:12px; width:40px; height:40px; text-align:center;
+  border-radius:50%; color:#fff; background:#f4a07d; box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+.entry-content .table-of-contents li { margin:.2em 0 1em 1.5em; list-style-type:decimal; line-height:1.6em; font-weight:bold; color:#5b3a2c;}
+.entry-content .table-of-contents li ul { margin:0 0 1em .5em; padding:0;}
+.entry-content .table-of-contents li ul li { margin:.2em 0 0 1em; list-style-type:none; font-weight:normal; color:#6c4433;}
+.entry-content .table-of-contents li ul li::before { content:"\f006"; font-family:blogicon; margin-right:.5em; color:#f4a07d;}
+.entry-content .table-of-contents li ul li ul li { font-size:90%;}
+.entry-content .table-of-contents a { color:#70442c; line-height:1.6em; text-decoration:underline; transition:color 0.2s;}
+.entry-content .table-of-contents a:hover { color:#a65b3b; }
+/* ====================================== */
+/* === カテゴリバッジ／記事タイトルグラデ === */
+/* ====================================== */
+.page-archive .archive-entry { margin-bottom:30px;}
+.page-archive .archive-entry .categories { position:absolute; top:-12px; left:8px;}
+.page-archive .archive-entry .categories a {
+  background:linear-gradient(to right, #ffb8bb 0%, #f0b77f 60%, #fad0c4 100%);
+  color:#fff; border:none; border-radius:12px; padding:4px 10px; font-size:13px; display:inline-block;
+  box-shadow:0 2px 4px rgba(0,0,0,0.15);
+}
+/* グラデ記事タイトル */
+.page-archive .archive-entries .entry-title,
+.page-archive .archive-entries .entry-title a,
+.urllist-with-thumbnails li .urllist-title,
+.entry-content .related-entries .entry-title,
+.entry-content .new-entries .entry-title {
+  background:linear-gradient(90deg, #eb5030 0%, #ffb066 50%, #ffbc70 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  font-weight:bold;
+  display:inline-block;
+}
+/* FireFox用: 単色フォールバック */
+@-moz-document url-prefix() {
+  .page-archive .archive-entries .entry-title,
+  .page-archive .archive-entries .entry-title a,
+  .urllist-with-thumbnails li .urllist-title,
+  .entry-content .related-entries .entry-title,
+  .entry-content .new-entries .entry-title {
+    color: #ffb066 !important;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    background-clip: initial !important;
+  }
+}
+/* ============================= */
+/* === 検索フォームデザイン === */
+/* ============================= */
+.tonari-search-box { max-width:430px; margin:24px 0; padding:0; border:none; background:none;}
+.tonari-search-inner {
+  display:flex; align-items:center;
+  background:linear-gradient(90deg, #fff7ef 0%, #ffe4cc 100%);
+  border:2px solid #ffb066; border-radius:14px; box-shadow:0 2px 12px rgba(255,180,102,0.10);
+  padding:9px 14px 9px 11px; gap:8px; overflow:hidden;
+}
+.tonari-select,.tonari-input {
+  border:none; background:#fff; border-radius:7px; font-size:18px;
+  padding:7px 14px; font-weight:500; color:#444; outline:none;
+  box-shadow:0 1px 2px rgba(250,170,80,0.06); transition:box-shadow 0.2s;
+}
+.tonari-select:focus,.tonari-input:focus { box-shadow:0 0 0 2px #ffd6a5;}
+.tonari-select { min-width:105px; width:110px;}
+.tonari-input { width:92px;}
+.tonari-btn {
+  background:linear-gradient(90deg, #ffd6a5 0%, #ffb066 100%);
+  border:none; border-radius:10px; height:40px; width:60px; padding:0; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:box-shadow 0.18s, background 0.18s;
+  box-shadow:0 2px 6px rgba(250,160,70,0.08); box-sizing:border-box;
+}
+.tonari-btn:hover {
+  background:linear-gradient(90deg, #ffb066 0%, #eb5030 100%);
+  box-shadow:0 4px 16px rgba(235,80,48,0.11);
+}
+.tonari-btn svg { width:26px; height:26px; display:block; }
+/* Google検索結果ハイライト色 */
+.page-archive span.highlight {
+  background:rgba(255,241,106,0.5); border-radius:6px; padding:0 8px;
+  color:#d25300; font-weight:bold; box-shadow:0 1px 4px rgba(240,180,0,0.07); display:inline-block;
+}
+/* ============================= */
+/* ====== テーブルデザイン ===== */
+/* ============================= */
+.tonari-prediction-table-wrap {
+  overflow-x: auto;
+  max-width: 100vw;
+  margin: 18px 0;
+}
+.tonari-prediction-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  table-layout: fixed; /* ←これ超重要 */
+  font-size: 13.6px;
+}
+.tonari-prediction-table th, .tonari-prediction-table td {
+  padding: 7px 10px;
+  border: 1px solid #ddd;
+  vertical-align: top;
+}
+/* ---- 折り返しさせたくない列 ---- */
+.tonari-prediction-table .nowrap {
+  white-space: nowrap;
+  width: 1%;
+}
+/* ---- “特徴と狙い”は残り全部 ---- */
+.tonari-prediction-table .feature {
+  width: auto;
+  word-break: break-all;
+  /* 任意：見やすくするためにline-height調整してもOK */
+}
+/* ---- PCではスクロールさせない ---- */
+@media (min-width: 800px) {
+  .tonari-prediction-table-wrap {
+    overflow-x: visible;
+  }
+  .tonari-prediction-table {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+/* ============================= */
+/* ========= 相互リンク ======== */
+/* ============================= */
+.mutual-links-page {
+  background: #faf8f6;
+  padding: 2em 1em;
+  border-radius: 16px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.mutual-links-title {
+  font-size: 2em;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  border-left: 6px solid #bc7816;
+  padding-left: 0.6em;
+  letter-spacing: 0.05em;
+}
+.mutual-links-desc {
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 1.5em;
+}
+.mutual-links-list {
+  margin-bottom: 2em;
+}
+.mutual-link-item {
+  background: #fff7e6;
+  border-radius: 9px;
+  box-shadow: 0 1px 4px rgba(255,180,100,0.07);
+  margin-bottom: 1.1em;
+  padding: 1em 1.2em;
+}
+.mutual-link-name {
+  font-weight: bold;
+  color: #214c7e;
+  font-size: 1.13em;
+  text-decoration: underline dotted #c9a45a;
+}
+.mutual-link-desc {
+  color: #432;
+  font-size: 0.97em;
+  margin-top: 0.3em;
+}
+.mutual-links-contact {
+  background: #fff7e6;
+  border-radius: 9px;
+  padding: 1em 1.2em;
+  text-align: center;
+  font-weight: bold;
+}
+.mutual-links-contact a {
+  color: #bc7816;
+  text-decoration: underline;
+  font-size: 1.08em;
+}
