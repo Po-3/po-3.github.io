@@ -1,15 +1,18 @@
 /*
- * logicmap-embed.js
+ * logicmap-embed.js (v1.1 responsive)
  * 
  * はてなブログ等に埋め込める、純JavaScript + SVG の軽量ロジックマップ。
  * 依存ライブラリなし。window.createLogicMap(options) を呼び出してください。
  * 
  * options:
- *  - targetId:  描画先の要素ID（必須）
- *  - jsonUrl:   過去結果JSONのURL（必須）
- *  - lotoType:  'loto6' | 'loto7' | 'miniloto'（必須）
- *  - windowSize: 直近N回で評価（既定:30）
+ *  - targetId:     描画先の要素ID（必須）
+ *  - jsonUrl:      過去結果JSONのURL（必須）
+ *  - lotoType:     'loto6' | 'loto7' | 'miniloto'（必須）
+ *  - windowSize:   直近N回で評価（既定:30）
  *  - showControls: 窓サイズセレクトを表示（既定:true）
+ *  - fit:          'auto' ならセル幅を自動縮小して1画面に収めやすく（既定:'auto'）
+ *                  'scroll'なら固定セル幅で横スクロール
+ *  - baseCellW:    fit='scroll'時の基準セル幅（既定:28）
  * 
  * JSONは { game, draws:[{no,date,main[],bonus?}] } 形式か、
  * 日本語キー（開催回/日付/第n数字/ボーナス数字...）配列のどちらにも対応。
@@ -181,11 +184,29 @@
 
     container.appendChild(head);
 
-    // SVGグリッド
-    var cellW = 28, cellH = 40, pad = 6;
-    var width = pad * 2 + cellW * maxNumber;
-    var height = pad * 2 + cellH;
+    // === レイアウト計算（レスポンシブ） ===
+    var pad = 6; // セル周囲の余白
+    var fitMode = options.fit || 'auto';
+    var baseCellW = options.baseCellW || 28;
 
+    // コンテナ表示領域の概算幅（パディング分を差し引く）
+    var viewportW = Math.max(0, (root.clientWidth || 360) - 24);
+    var cellW;
+    if (fitMode === 'auto') {
+      cellW = Math.max(18, Math.floor((viewportW - pad * 2) / maxNumber));
+    } else {
+      cellW = baseCellW;
+      container.style.overflowX = 'auto'; // 横スクロール許可
+    }
+    var cellH = Math.max(32, Math.round(cellW * 1.4)); // 読みやすさ確保
+
+    var width = pad * 2 + cellW * maxNumber;
+    var height = pad * 2 + cellH; // 1段
+
+    // 画面幅より広い場合は横スクロール
+    if (width > viewportW) container.style.overflowX = 'auto';
+
+    // SVGグリッド
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('width', String(width));
     svg.setAttribute('height', String(height));
@@ -252,9 +273,9 @@
 
         var text = document.createElementNS(svg.namespaceURI, 'text');
         text.setAttribute('x', String(x + (cellW - 2) / 2));
-        text.setAttribute('y', String(y + 22));
+        text.setAttribute('y', String(y + Math.round(cellH * 0.55)));
         text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('font-size', '13');
+        text.setAttribute('font-size', String(Math.max(11, Math.round(cellW * 0.45))));
         text.setAttribute('fill', '#222');
         text.setAttribute('font-weight', '600');
         text.textContent = String(n);
@@ -268,17 +289,17 @@
           var badge = document.createElementNS(svg.namespaceURI, 'rect');
           badge.setAttribute('x', String(x + 4));
           badge.setAttribute('y', String(y + 4));
-          badge.setAttribute('width', '18');
-          badge.setAttribute('height', '16');
+          badge.setAttribute('width', String(Math.max(16, Math.round(cellW * 0.64))));
+          badge.setAttribute('height', String(Math.max(14, Math.round(cellH * 0.36))));
           badge.setAttribute('rx', '4');
           badge.setAttribute('fill', (style.label === '新') ? '#b370ff' : '#2bb4d6');
           svg.appendChild(badge);
 
           var btxt = document.createElementNS(svg.namespaceURI, 'text');
-          btxt.setAttribute('x', String(x + 13));
-          btxt.setAttribute('y', String(y + 16));
+          btxt.setAttribute('x', String(x + 4 + Math.max(16, Math.round(cellW * 0.64)) / 2));
+          btxt.setAttribute('y', String(y + 4 + Math.max(14, Math.round(cellH * 0.36)) - 4));
           btxt.setAttribute('text-anchor', 'middle');
-          btxt.setAttribute('font-size', '12');
+          btxt.setAttribute('font-size', String(Math.max(10, Math.round(cellW * 0.36))));
           btxt.setAttribute('fill', '#fff');
           btxt.setAttribute('font-weight', '800');
           btxt.textContent = String(style.label);
