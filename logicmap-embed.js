@@ -262,23 +262,8 @@
       })(n);
     }
 
-    // 目盛り
-    var t1 = document.createElementNS(svg.namespaceURI, 'text');
-    t1.setAttribute('x', String(pad));
-    t1.setAttribute('y', String(height - 4));
-    t1.setAttribute('font-size', '11');
-    t1.setAttribute('fill', '#75839b');
-    t1.textContent = '1';
-    svg.appendChild(t1);
-    var t2 = document.createElementNS(svg.namespaceURI, 'text');
-    t2.setAttribute('x', String(width - pad - 10));
-    t2.setAttribute('y', String(height - 4));
-    t2.setAttribute('font-size', '11');
-    t2.setAttribute('fill', '#75839b');
-    t2.textContent = String(maxNumber);
-    svg.appendChild(t2);
-
-    container.appendChild(svg);
+// 目盛りは非表示にする
+container.appendChild(svg);
 
     // 凡例
     var legend = document.createElement('div');
