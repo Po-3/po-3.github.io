@@ -1,37 +1,17 @@
-/* logicmap-embed.js v1.3 (wrap+colsPerRow)
- * - 日本語キーJSON/共通形式どちらもOK
- * - layout:'wrap'（既定）で横幅に応じて折り返し
- * - colsPerRow で「1行あたりの個数」を固定できる
- * - baseCellW でセル幅（数字サイズ）を調整
- * - window.createLogicMap(options) を呼ぶだけ
- *
- * options:
- *  targetId     : 描画先ID（必須）
- *  jsonUrl      : 過去結果JSONのURL（必須）
- *  lotoType     : 'loto6'|'loto7'|'miniloto'（必須）
- *  windowSize   : 直近N回（既定30）
- *  showControls : true/false（既定true）
- *  layout       : 'wrap'|'single'（既定'wrap'）
- *  baseCellW    : セル幅px（既定28）
- *  colsPerRow   : wrap時の1行あたりの列数を固定（省略時は自動算出）
- */
-
+/* logicmap-embed.js v1.3 (wrap+colsPerRow) */
 (function () {
   var MAX_BY_TYPE = { miniloto: 31, loto6: 43, loto7: 37 };
   var DEFAULT_WINDOW = 30;
-  var HOT_THRESHOLD = 0.20;      // 出現率20%以上でHOT
-  var COLD_GAP_THRESHOLD = 18;   // 未出18回以上でCOLD
-  var REJOIN_GAP_THRESHOLD = 10; // 空白10回以上→直近で復帰=「新」
+  var HOT_THRESHOLD = 0.20;
+  var COLD_GAP_THRESHOLD = 18;
+  var REJOIN_GAP_THRESHOLD = 10;
 
   function normalizeFromJP(raw, lotoType) {
-    // 共通形式 {game, draws:[{no,date,main[],bonus?}]} はそのまま
     if (raw && typeof raw === 'object' && Array.isArray(raw.draws)) return raw;
     if (!Array.isArray(raw)) return null;
-
     var draws = raw.map(function (row) {
       var keys = Object.keys(row);
-      var numKeys = keys
-        .filter(function (k) { return /^第\d+数字$/.test(k); })
+      var numKeys = keys.filter(function (k) { return /^第\d+数字$/.test(k); })
         .sort(function (a, b) {
           var na = parseInt(a.replace(/\D/g, ''), 10);
           var nb = parseInt(b.replace(/\D/g, ''), 10);
@@ -39,14 +19,12 @@
         });
       var main = numKeys.map(function (k) { return parseInt(String(row[k]), 10); })
         .filter(function (n) { return Number.isFinite(n); });
-
       var no = parseInt(String(row['開催回'] || ''), 10) || 0;
       var date = String(row['日付'] || '');
       var braw = row['ボーナス数字'];
       var bonus = (braw === '' || braw == null) ? undefined : parseInt(String(braw), 10);
       return { no: no, date: date, main: main, bonus: bonus };
     }).filter(function (d) { return d.main && d.main.length > 0; });
-
     return { game: lotoType, draws: draws };
   }
 
@@ -58,9 +36,7 @@
     var appearMap = {};
     for (var n = 1; n <= maxNumber; n++) appearMap[n] = [];
     lastN.forEach(function (d, idx) {
-      d.main.forEach(function (v) {
-        if (v >= 1 && v <= maxNumber) appearMap[v].push(idx);
-      });
+      d.main.forEach(function (v) { if (v >= 1 && v <= maxNumber) appearMap[v].push(idx); });
     });
 
     var latest = lastN[lastN.length - 1] || { main: [] };
@@ -68,33 +44,17 @@
 
     var streakMap = {}, gapMap = {}, freqMap = {}, rejoinMap = {}, scoreMap = {};
     for (var n2 = 1; n2 <= maxNumber; n2++) {
-      // 連続
-      var s = 0;
-      for (var i = lastN.length - 1; i >= 0; i--) {
-        var hit = lastN[i].main.indexOf(n2) >= 0;
-        if (hit) s++; else break;
-      }
+      var s = 0; for (var i = lastN.length - 1; i >= 0; i--) { if (lastN[i].main.indexOf(n2) >= 0) s++; else break; }
       streakMap[n2] = s;
-
-      // 未出
-      var g = 0;
-      for (var j = lastN.length - 1; j >= 0; j--) {
-        var hit2 = lastN[j].main.indexOf(n2) >= 0;
-        if (!hit2) g++; else break;
-      }
+      var g = 0; for (var j = lastN.length - 1; j >= 0; j--) { if (lastN[j].main.indexOf(n2) < 0) g++; else break; }
       gapMap[n2] = g;
-
-      // 出現率
       freqMap[n2] = appearMap[n2].length / Math.max(1, lastN.length);
     }
 
     var prev = lastN[lastN.length - 2] || { main: [] };
     var prevSet = new Set(prev.main || []);
     for (var n3 = 1; n3 <= maxNumber; n3++) {
-      var nowHit = latestSet.has(n3);
-      var prevHit = prevSet.has(n3);
-      var gap = gapMap[n3];
-      rejoinMap[n3] = !!(nowHit && !prevHit && gap >= REJOIN_GAP_THRESHOLD);
+      rejoinMap[n3] = !!(latestSet.has(n3) && !prevSet.has(n3) && (gapMap[n3] >= REJOIN_GAP_THRESHOLD));
     }
 
     for (var n4 = 1; n4 <= maxNumber; n4++) {
@@ -106,26 +66,21 @@
       });
     }
 
-    return {
-      lastN: lastN, freqMap: freqMap, streakMap: streakMap,
-      gapMap: gapMap, rejoinMap: rejoinMap, scoreMap: scoreMap, latest: latest
-    };
+    return { lastN: lastN, freqMap: freqMap, streakMap: streakMap, gapMap: gapMap, rejoinMap: rejoinMap, scoreMap: scoreMap, latest: latest };
   }
 
   function makeScore(o) {
-    var freq = o.freq, streak = o.streak, gap = o.gap, rejoin = o.rejoin;
-    var freqPart = Math.min(freq, 0.30) * 100;
-    var streakPart = Math.min(streak, 3) * 6;
-    var gapIdeal = 8;
-    var gapPart = Math.max(0, 12 - Math.abs(gap - gapIdeal));
-    var rejoinPart = rejoin ? 5 : 0;
+    var freqPart = Math.min(o.freq, 0.30) * 100;
+    var streakPart = Math.min(o.streak, 3) * 6;
+    var gapPart = Math.max(0, 12 - Math.abs(o.gap - 8));
+    var rejoinPart = o.rejoin ? 5 : 0;
     return Math.round((freqPart + streakPart + gapPart + rejoinPart) * 100) / 100;
   }
 
   function cellStyle(freq, gap, streak, rejoin) {
     var bg = '#fff';
     if (freq >= HOT_THRESHOLD) bg = '#ffebe8';
-    if (gap >= COLD_GAP_THRESHOLD) bg = '#eaf3ff'; // COLDがHOTを上書き
+    if (gap >= COLD_GAP_THRESHOLD) bg = '#eaf3ff';
     var label = null;
     if (rejoin) label = '新';
     else if (streak >= 2) label = String(streak);
@@ -143,7 +98,6 @@
     container.style.padding = '12px';
     container.style.boxShadow = '0 6px 20px #d2e4fa22';
 
-    // ヘッダー
     var head = document.createElement('div');
     head.style.display = 'flex';
     head.style.alignItems = 'center';
@@ -185,7 +139,7 @@
     }
     container.appendChild(head);
 
-    // ===== レイアウト（折返し） =====
+    // ---- レイアウト（折返し） ----
     var pad = 6;
     var baseCellW = options.baseCellW || 28;
     var layout = options.layout || 'wrap';
@@ -196,7 +150,6 @@
 
     var cols, rows;
     if (layout === 'wrap') {
-      // 指定があれば優先、なければ幅から自動
       var autoCols = Math.max(8, Math.floor((viewportW - pad * 2) / cellW));
       cols = Math.min(maxNumber, options.colsPerRow || autoCols);
       if (!isFinite(cols) || cols < 1) cols = Math.min(maxNumber, 10);
@@ -209,7 +162,7 @@
     var width = pad * 2 + cellW * cols;
     var height = pad * 2 + cellH * rows;
 
-    // ===== SVG =====
+    // ---- SVG ----
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('width', String(width));
     svg.setAttribute('height', String(height));
@@ -227,7 +180,7 @@
     bgRect.setAttribute('rx', '10');
     svg.appendChild(bgRect);
 
-    // ツールチップ
+    // tooltip
     var tip = document.createElement('div');
     tip.style.position = 'fixed';
     tip.style.pointerEvents = 'none';
@@ -240,13 +193,7 @@
     tip.style.boxShadow = '0 2px 8px #0004';
     tip.style.display = 'none';
     document.body.appendChild(tip);
-
-    function showTip(text, x, y) {
-      tip.textContent = text;
-      tip.style.left = (x + 12) + 'px';
-      tip.style.top = (y - 40) + 'px';
-      tip.style.display = 'block';
-    }
+    function showTip(text, x, y) { tip.textContent = text; tip.style.left = (x + 12) + 'px'; tip.style.top = (y - 40) + 'px'; tip.style.display = 'block'; }
     function hideTip() { tip.style.display = 'none'; }
 
     // セル描画
@@ -404,7 +351,6 @@
     listWrap.appendChild(ol);
 
     container.appendChild(listWrap);
-
     root.appendChild(container);
   }
 
@@ -438,6 +384,5 @@
     fetchAndRender(root, options);
   };
 
-  // デバッグ用（読み替え確認）
-  console.log('LogicMap v1.3 loaded', { hasWrap: true, supportsColsPerRow: true });
+  console.log('LogicMap v1.3 loaded', { supportsColsPerRow: true });
 })();
