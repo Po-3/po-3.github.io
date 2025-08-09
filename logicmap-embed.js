@@ -118,12 +118,12 @@
 
       var select = document.createElement('select');
 [10, 20, 30, 40, 50, 100].forEach(function (n) {
-        var opt = document.createElement('option');
-        opt.value = String(n);
-        opt.textContent = n + '回';
-        if (n === options.windowSize) opt.selected = true;
-        select.appendChild(opt);
-      });
+  var opt = document.createElement('option');
+  opt.value = String(n);
+  opt.textContent = n + '回';
+  if (n === options.windowSize) opt.selected = true;
+  select.appendChild(opt);
+});
       select.style.padding = '6px 8px';
       select.style.border = '1px solid #d9e1ee';
       select.style.borderRadius = '8px';
