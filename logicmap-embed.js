@@ -117,7 +117,7 @@
       label.style.marginRight = '6px';
 
       var select = document.createElement('select');
-      [20, 30, 40, 50, 100].forEach(function (n) {
+[10, 20, 30, 40, 50, 100].forEach(function (n) {
         var opt = document.createElement('option');
         opt.value = String(n);
         opt.textContent = n + '回';
