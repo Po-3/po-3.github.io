@@ -1,31 +1,14 @@
-/*
- * logicmap-embed.js
- * 
- * はてなブログ等に埋め込める、純JavaScript + SVG の軽量ロジックマップ。
- * 依存ライブラリなし。window.createLogicMap(options) を呼び出してください。
- * 
- * options:
- *  - targetId:  描画先の要素ID（必須）
- *  - jsonUrl:   過去結果JSONのURL（必須）
- *  - lotoType:  'loto6' | 'loto7' | 'miniloto'（必須）
- *  - windowSize: 直近N回で評価（既定:30）
- *  - showControls: 窓サイズセレクトを表示（既定:true）
- * 
- * JSONは { game, draws:[{no,date,main[],bonus?}] } 形式か、
- * 日本語キー（開催回/日付/第n数字/ボーナス数字...）配列のどちらにも対応。
- */
+/* logicmap-embed.js v1.3 (wrap+colsPerRow) */
 (function () {
   var MAX_BY_TYPE = { miniloto: 31, loto6: 43, loto7: 37 };
   var DEFAULT_WINDOW = 30;
-  var HOT_THRESHOLD = 0.20;      // 出現率20%以上でHOT
-  var COLD_GAP_THRESHOLD = 18;   // 未出18回以上でCOLD
-  var REJOIN_GAP_THRESHOLD = 10; // 10回以上空いて直近で出たら「新（復帰）」
+  var HOT_THRESHOLD = 0.20;
+  var COLD_GAP_THRESHOLD = 18;
+  var REJOIN_GAP_THRESHOLD = 10;
 
   function normalizeFromJP(raw, lotoType) {
-    // すでに {game, draws} 形式ならそのまま
     if (raw && typeof raw === 'object' && Array.isArray(raw.draws)) return raw;
     if (!Array.isArray(raw)) return null;
-
     var draws = raw.map(function (row) {
       var keys = Object.keys(row);
       var numKeys = keys.filter(function (k) { return /^第\d+数字$/.test(k); })
@@ -36,14 +19,12 @@
         });
       var main = numKeys.map(function (k) { return parseInt(String(row[k]), 10); })
         .filter(function (n) { return Number.isFinite(n); });
-
       var no = parseInt(String(row['開催回'] || ''), 10) || 0;
       var date = String(row['日付'] || '');
       var braw = row['ボーナス数字'];
       var bonus = (braw === '' || braw == null) ? undefined : parseInt(String(braw), 10);
       return { no: no, date: date, main: main, bonus: bonus };
     }).filter(function (d) { return d.main && d.main.length > 0; });
-
     return { game: lotoType, draws: draws };
   }
 
@@ -55,44 +36,25 @@
     var appearMap = {};
     for (var n = 1; n <= maxNumber; n++) appearMap[n] = [];
     lastN.forEach(function (d, idx) {
-      d.main.forEach(function (v) {
-        if (v >= 1 && v <= maxNumber) appearMap[v].push(idx);
-      });
+      d.main.forEach(function (v) { if (v >= 1 && v <= maxNumber) appearMap[v].push(idx); });
     });
 
     var latest = lastN[lastN.length - 1] || { main: [] };
     var latestSet = new Set(latest.main || []);
 
     var streakMap = {}, gapMap = {}, freqMap = {}, rejoinMap = {}, scoreMap = {};
-
     for (var n2 = 1; n2 <= maxNumber; n2++) {
-      // streak（連続）
-      var s = 0;
-      for (var i = lastN.length - 1; i >= 0; i--) {
-        var hit = lastN[i].main.indexOf(n2) >= 0;
-        if (hit) s++; else break;
-      }
+      var s = 0; for (var i = lastN.length - 1; i >= 0; i--) { if (lastN[i].main.indexOf(n2) >= 0) s++; else break; }
       streakMap[n2] = s;
-
-      // gap（未出）
-      var g = 0;
-      for (var j = lastN.length - 1; j >= 0; j--) {
-        var hit2 = lastN[j].main.indexOf(n2) >= 0;
-        if (!hit2) g++; else break;
-      }
+      var g = 0; for (var j = lastN.length - 1; j >= 0; j--) { if (lastN[j].main.indexOf(n2) < 0) g++; else break; }
       gapMap[n2] = g;
-
-      // freq（出現率）
       freqMap[n2] = appearMap[n2].length / Math.max(1, lastN.length);
     }
 
     var prev = lastN[lastN.length - 2] || { main: [] };
     var prevSet = new Set(prev.main || []);
     for (var n3 = 1; n3 <= maxNumber; n3++) {
-      var nowHit = latestSet.has(n3);
-      var prevHit = prevSet.has(n3);
-      var gap = gapMap[n3];
-      rejoinMap[n3] = !!(nowHit && !prevHit && gap >= REJOIN_GAP_THRESHOLD);
+      rejoinMap[n3] = !!(latestSet.has(n3) && !prevSet.has(n3) && (gapMap[n3] >= REJOIN_GAP_THRESHOLD));
     }
 
     for (var n4 = 1; n4 <= maxNumber; n4++) {
@@ -108,21 +70,20 @@
   }
 
   function makeScore(o) {
-    var freq = o.freq, streak = o.streak, gap = o.gap, rejoin = o.rejoin;
-    var freqPart = Math.min(freq, 0.30) * 100;
-    var streakPart = Math.min(streak, 3) * 6;
-    var gapIdeal = 8;
-    var gapPart = Math.max(0, 12 - Math.abs(gap - gapIdeal));
-    var rejoinPart = rejoin ? 5 : 0;
+    var freqPart = Math.min(o.freq, 0.30) * 100;
+    var streakPart = Math.min(o.streak, 3) * 6;
+    var gapPart = Math.max(0, 12 - Math.abs(o.gap - 8));
+    var rejoinPart = o.rejoin ? 5 : 0;
     return Math.round((freqPart + streakPart + gapPart + rejoinPart) * 100) / 100;
   }
 
   function cellStyle(freq, gap, streak, rejoin) {
     var bg = '#fff';
     if (freq >= HOT_THRESHOLD) bg = '#ffebe8';
-    if (gap >= COLD_GAP_THRESHOLD) bg = '#eaf3ff'; // 注: COLDがHOTを上書き（必要なら順序調整）
+    if (gap >= COLD_GAP_THRESHOLD) bg = '#eaf3ff';
     var label = null;
-    if (rejoin) label = '新'; else if (streak >= 2) label = String(streak);
+    if (rejoin) label = '新';
+    else if (streak >= 2) label = String(streak);
     return { bg: bg, label: label };
   }
 
@@ -137,7 +98,6 @@
     container.style.padding = '12px';
     container.style.boxShadow = '0 6px 20px #d2e4fa22';
 
-    // ヘッダー + コントロール
     var head = document.createElement('div');
     head.style.display = 'flex';
     head.style.alignItems = 'center';
@@ -157,19 +117,18 @@
       label.style.marginRight = '6px';
 
       var select = document.createElement('select');
-      [20, 30, 40, 50, 100].forEach(function (n) {
-        var opt = document.createElement('option');
-        opt.value = String(n);
-        opt.textContent = n + '回';
-        if (n === options.windowSize) opt.selected = true;
-        select.appendChild(opt);
-      });
+[10, 20, 30, 40, 50, 100].forEach(function (n) {
+  var opt = document.createElement('option');
+  opt.value = String(n);
+  opt.textContent = n + '回';
+  if (n === options.windowSize) opt.selected = true;
+  select.appendChild(opt);
+});
       select.style.padding = '6px 8px';
       select.style.border = '1px solid #d9e1ee';
       select.style.borderRadius = '8px';
       select.addEventListener('change', function () {
         options.windowSize = parseInt(select.value, 10);
-        // 再レンダリング
         fetchAndRender(root, options);
       });
 
@@ -178,14 +137,32 @@
       right.appendChild(select);
       head.appendChild(right);
     }
-
     container.appendChild(head);
 
-    // SVGグリッド
-    var cellW = 28, cellH = 40, pad = 6;
-    var width = pad * 2 + cellW * maxNumber;
-    var height = pad * 2 + cellH;
+    // ---- レイアウト（折返し） ----
+    var pad = 6;
+    var baseCellW = options.baseCellW || 28;
+    var layout = options.layout || 'wrap';
 
+    var viewportW = Math.max(0, (root.clientWidth || 360) - 24);
+    var cellW = baseCellW;
+    var cellH = Math.max(32, Math.round(cellW * 1.4));
+
+    var cols, rows;
+    if (layout === 'wrap') {
+      var autoCols = Math.max(8, Math.floor((viewportW - pad * 2) / cellW));
+      cols = Math.min(maxNumber, options.colsPerRow || autoCols);
+      if (!isFinite(cols) || cols < 1) cols = Math.min(maxNumber, 10);
+      rows = Math.ceil(maxNumber / cols);
+    } else {
+      cols = maxNumber; rows = 1;
+      if (pad * 2 + cellW * cols > viewportW) container.style.overflowX = 'auto';
+    }
+
+    var width = pad * 2 + cellW * cols;
+    var height = pad * 2 + cellH * rows;
+
+    // ---- SVG ----
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('width', String(width));
     svg.setAttribute('height', String(height));
@@ -203,7 +180,7 @@
     bgRect.setAttribute('rx', '10');
     svg.appendChild(bgRect);
 
-    // ツールチップ
+    // tooltip
     var tip = document.createElement('div');
     tip.style.position = 'fixed';
     tip.style.pointerEvents = 'none';
@@ -216,20 +193,18 @@
     tip.style.boxShadow = '0 2px 8px #0004';
     tip.style.display = 'none';
     document.body.appendChild(tip);
-
-    function showTip(text, x, y) {
-      tip.textContent = text;
-      tip.style.left = (x + 12) + 'px';
-      tip.style.top = (y - 40) + 'px';
-      tip.style.display = 'block';
-    }
+    function showTip(text, x, y) { tip.textContent = text; tip.style.left = (x + 12) + 'px'; tip.style.top = (y - 40) + 'px'; tip.style.display = 'block'; }
     function hideTip() { tip.style.display = 'none'; }
 
+    // セル描画
     for (var n = 1; n <= maxNumber; n++) {
       (function (n) {
         var idx = n - 1;
-        var x = pad + idx * cellW;
-        var y = pad;
+        var col = idx % cols;
+        var row = Math.floor(idx / cols);
+        var x = pad + col * cellW;
+        var y = pad + row * cellH;
+
         var freq = stats.freqMap[n] || 0;
         var streak = stats.streakMap[n] || 0;
         var gap = stats.gapMap[n] || 0;
@@ -245,21 +220,21 @@
         rect.setAttribute('stroke', '#dfe5ef');
         rect.setAttribute('rx', '6');
         rect.addEventListener('mousemove', function (ev) {
-          showTip('#' + n + '  出現率:' + (freq * 100).toFixed(1) + '%  連続:' + streak + '  未出:' + gap + '回' + (rejoin ? ' / 新(復帰)' : ''), ev.clientX, ev.clientY);
+          showTip('#' + n + ' 出現率:' + (freq * 100).toFixed(1) + '%  連続:' + streak + '  未出:' + gap + '回' + (rejoin ? ' / 新(復帰)' : ''), ev.clientX, ev.clientY);
         });
         rect.addEventListener('mouseleave', hideTip);
         svg.appendChild(rect);
 
         var text = document.createElementNS(svg.namespaceURI, 'text');
         text.setAttribute('x', String(x + (cellW - 2) / 2));
-        text.setAttribute('y', String(y + 22));
+        text.setAttribute('y', String(y + Math.round(cellH * 0.55)));
         text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('font-size', '13');
+        text.setAttribute('font-size', String(Math.max(11, Math.round(cellW * 0.45))));
         text.setAttribute('fill', '#222');
         text.setAttribute('font-weight', '600');
         text.textContent = String(n);
         text.addEventListener('mousemove', function (ev) {
-          showTip('#' + n + '  出現率:' + (freq * 100).toFixed(1) + '%  連続:' + streak + '  未出:' + gap + '回' + (rejoin ? ' / 新(復帰)' : ''), ev.clientX, ev.clientY);
+          showTip('#' + n + ' 出現率:' + (freq * 100).toFixed(1) + '%  連続:' + streak + '  未出:' + gap + '回' + (rejoin ? ' / 新(復帰)' : ''), ev.clientX, ev.clientY);
         });
         text.addEventListener('mouseleave', hideTip);
         svg.appendChild(text);
@@ -268,17 +243,17 @@
           var badge = document.createElementNS(svg.namespaceURI, 'rect');
           badge.setAttribute('x', String(x + 4));
           badge.setAttribute('y', String(y + 4));
-          badge.setAttribute('width', '18');
-          badge.setAttribute('height', '16');
+          badge.setAttribute('width', String(Math.max(16, Math.round(cellW * 0.64))));
+          badge.setAttribute('height', String(Math.max(14, Math.round(cellH * 0.36))));
           badge.setAttribute('rx', '4');
           badge.setAttribute('fill', (style.label === '新') ? '#b370ff' : '#2bb4d6');
           svg.appendChild(badge);
 
           var btxt = document.createElementNS(svg.namespaceURI, 'text');
-          btxt.setAttribute('x', String(x + 13));
-          btxt.setAttribute('y', String(y + 16));
+          btxt.setAttribute('x', String(x + 4 + Math.max(16, Math.round(cellW * 0.64)) / 2));
+          btxt.setAttribute('y', String(y + 4 + Math.max(14, Math.round(cellH * 0.36)) - 4));
           btxt.setAttribute('text-anchor', 'middle');
-          btxt.setAttribute('font-size', '12');
+          btxt.setAttribute('font-size', String(Math.max(10, Math.round(cellW * 0.36))));
           btxt.setAttribute('fill', '#fff');
           btxt.setAttribute('font-weight', '800');
           btxt.textContent = String(style.label);
@@ -287,23 +262,8 @@
       })(n);
     }
 
-    // 目盛り
-    var t1 = document.createElementNS(svg.namespaceURI, 'text');
-    t1.setAttribute('x', String(pad));
-    t1.setAttribute('y', String(height - 4));
-    t1.setAttribute('font-size', '11');
-    t1.setAttribute('fill', '#75839b');
-    t1.textContent = '1';
-    svg.appendChild(t1);
-    var t2 = document.createElementNS(svg.namespaceURI, 'text');
-    t2.setAttribute('x', String(width - pad - 10));
-    t2.setAttribute('y', String(height - 4));
-    t2.setAttribute('font-size', '11');
-    t2.setAttribute('fill', '#75839b');
-    t2.textContent = String(maxNumber);
-    svg.appendChild(t2);
-
-    container.appendChild(svg);
+// 目盛りは非表示にする
+container.appendChild(svg);
 
     // 凡例
     var legend = document.createElement('div');
@@ -345,7 +305,7 @@
     legend.appendChild(item1); legend.appendChild(item2); legend.appendChild(item3); legend.appendChild(item4);
     container.appendChild(legend);
 
-    // 狙い目 Top（自動抽出）
+    // 狙い目 Top
     var listWrap = document.createElement('div');
     listWrap.style.marginTop = '16px';
     listWrap.style.padding = '10px 12px';
@@ -376,7 +336,6 @@
     listWrap.appendChild(ol);
 
     container.appendChild(listWrap);
-
     root.appendChild(container);
   }
 
@@ -409,4 +368,6 @@
     if (!root) throw new Error('createLogicMap: 指定IDの要素が見つかりません: #' + options.targetId);
     fetchAndRender(root, options);
   };
+
+  console.log('LogicMap v1.3 loaded', { supportsColsPerRow: true });
 })();
