@@ -339,6 +339,12 @@
       initShare();
       initA11yLinkNames(); // ★ サムネリンクに識別名を自動付与
       initAdsenseLazy();
+
+      // unload イベント解除（非推奨API警告を消す）
+      try {
+        if (window.jQuery) jQuery(window).off('unload');
+        window.onunload = null;
+      } catch (e) {}
     });
   });
 })();
