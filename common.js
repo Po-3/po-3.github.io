@@ -50,9 +50,22 @@
     const type  = latest?.type  ?? "";
     const nums  = Array.isArray(latest?.nums) ? latest.nums.join('・') : "";
     const bonus = latest?.bonus ?? "";
-    const link  = latest?.link  ?? "#";
     const round = latest?.round ?? "-";
     const date  = latest?.date  ?? "-";
+
+    // typeごとにリンク先を固定化
+    let link = "#";
+    switch (type) {
+      case "ロト6":
+        link = "https://po-3.github.io/loto6-data/";
+        break;
+      case "ミニロト":
+        link = "https://po-3.github.io/miniloto-data/";
+        break;
+      case "ロト7":
+        link = "https://po-3.github.io/loto7-data/";
+        break;
+    }
 
     const carryDefs = [
       { name: "ロト6 キャリーオーバー", amount: latest?.carry_loto6 || 0,
