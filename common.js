@@ -1,6 +1,5 @@
-
-/* common.js v2025-08-11-lcp-sniper-fix1
- * 目的：LCP/FCP/TBT 改善（初期は最小、装飾は遅延）
+/* common.js v2025-08-11-lcp-sniper-fix2
+ * 目的：LCP/FCP/TBT 改善（初期は最小、装飾は遅延）＋ A11y リンク名自動付与
  * 読み込み側は必ず <script src=".../common.js" defer></script>
  */
 (function () {
@@ -122,13 +121,51 @@
     } catch {}
   }
 
+  // ====== アクセシビリティ：サムネリンクに識別名を自動付与 ======
+  function initA11yLinkNames() {
+    const links = document.querySelectorAll('section.archive-entry a.entry-thumb-link');
+
+    const getEntryTitle = (a) => {
+      const sec = a.closest('section.archive-entry');
+      if (!sec) return "";
+      // タイトル候補を広めに探索（テーマ差分吸収）
+      const tEl = sec.querySelector('.entry-title a, .entry-title, h2.entry-title, h1, h2, h3');
+      let text = (tEl?.textContent || "").trim();
+      if (!text) {
+        // スラッグからのフォールバック
+        const href = a.getAttribute('href') || "";
+        const slug = href.split('/').pop() || "";
+        text = decodeURIComponent(slug)
+          .replace(/\.[a-z0-9]+$/i, '')
+          .replace(/[-_]+/g, ' ')
+          .trim();
+      }
+      return text || "記事リンク";
+    };
+
+    links.forEach(a => {
+      const hasText = (a.textContent || "").trim().length > 0;
+      const hasAria = a.hasAttribute('aria-label');
+      if (!hasText || !hasAria) {
+        const title = getEntryTitle(a);
+        a.setAttribute('aria-label', `${title}（サムネイル）`);
+        a.setAttribute('title', title);
+
+        const img = a.querySelector('img');
+        if (img && (!img.hasAttribute('alt') || img.getAttribute('alt') === "")) {
+          img.setAttribute('alt', `${title} のサムネイル`);
+        }
+      }
+    });
+  }
+
   // ====== LCPに関わる最小描画 ======
   function renderLatest(latest) {
     const wrap = document.getElementById('tonari-latest-carry');
     if (!wrap) return;
 
     const type  = latest?.type  ?? "";
-       const nums  = Array.isArray(latest?.nums) ? latest.nums.join('・') : "";
+    const nums  = Array.isArray(latest?.nums) ? latest.nums.join('・') : "";
     const bonus = latest?.bonus ?? "";
     const round = latest?.round ?? "-";
     const date  = latest?.date  ?? "-";
@@ -300,6 +337,7 @@
       initDecorations();
       initPageTop();
       initShare();
+      initA11yLinkNames(); // ★ サムネリンクに識別名を自動付与
       initAdsenseLazy();
     });
   });
