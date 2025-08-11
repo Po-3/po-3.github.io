@@ -6,7 +6,7 @@
   // ====== 設定 ======
   const ballColors = ['red','orange','yellow','yellowgreen','blue','purple','pink'];
   const CACHE_KEY = "tonari-latest-json:v1";
-  const CACHE_TTL_MS = 5 * 60 * 1000; // 5分
+  const CACHE_TTL_MS = 5 * 60 * 1000;
   const LATEST_URL = "https://po-3.github.io/latest.json";
 
   // ====== ユーティリティ ======
@@ -15,8 +15,10 @@
     ('requestIdleCallback' in window)
       ? requestIdleCallback(fn, { timeout })
       : setTimeout(fn, 0);
-
-  const raf = (fn) => ('requestAnimationFrame' in window) ? requestAnimationFrame(fn) : setTimeout(fn, 0);
+  const raf = (fn) =>
+    ('requestAnimationFrame' in window)
+      ? requestAnimationFrame(fn)
+      : setTimeout(fn, 0);
 
   function fetchJson(url, { timeout=2000 } = {}) {
     const ctrl = new AbortController();
@@ -42,6 +44,21 @@
     return out.join(' ');
   }
 
+  // ★ 追加：先頭サムネイルの背景画像をpreload
+  function preloadFirstEntryThumb() {
+    const el = document.querySelector('.entry-thumb');
+    if (!el) return;
+    const m = (getComputedStyle(el).backgroundImage || "")
+                .match(/url\(["']?(.*?)["']?\)/);
+    const url = m && m[1] ? new URL(m[1], location.href).href : "";
+    if (!url) return;
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = url;
+    document.head.appendChild(link);
+  }
+
   // ====== LCPに関わる最小描画 ======
   function renderLatest(latest) {
     const wrap = document.getElementById('tonari-latest-carry');
@@ -53,7 +70,6 @@
     const round = latest?.round ?? "-";
     const date  = latest?.date  ?? "-";
 
-    // typeごとにリンク先を固定化
     let link = "#";
     switch (type) {
       case "ロト6":
@@ -117,12 +133,9 @@
         </div>`;
     }
 
-    raf(() => {
-      wrap.innerHTML = html;
-    });
+    raf(() => { wrap.innerHTML = html; });
   }
 
-  // ====== 装飾・イベントはアイドル時へ（TBT低減） ======
   function initDecorations() {
     document.querySelectorAll('.date.archive-date:not([data-lotoball])').forEach(el => {
       const y = el.querySelector('.date-year')?.textContent?.trim();
@@ -195,7 +208,6 @@
     io.observe(slot);
   }
 
-  // ====== 起動 ======
   document.addEventListener("DOMContentLoaded", () => {
     const wrap = document.getElementById('tonari-latest-carry');
     if (wrap) wrap.innerHTML = `<div style="font-size:13px;color:#999;">読込中...</div>`;
@@ -230,6 +242,7 @@
       initPageTop();
       initShare();
       initAdsenseLazy();
+      preloadFirstEntryThumb(); // ★ここで呼び出し
     });
   });
 })();
