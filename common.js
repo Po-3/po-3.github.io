@@ -348,3 +348,10 @@
     });
   });
 })();
+
+window.addEventListener('load', () => {
+  try {
+    if (window.jQuery) jQuery(window).off('unload');
+    window.onunload = null;
+  } catch {}
+}, { once: true });
