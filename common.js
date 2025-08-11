@@ -1,4 +1,4 @@
-/* common.js v2025-08-11-lite-css
+/* common.js v2025-08-11-lite-css+thumbs
  * 目的：LCP/FCP/TBT 改善（初期は最小、装飾は遅延）
  * 読み込み側は必ず <script src=".../common.js" defer></script>
  */
@@ -44,19 +44,38 @@
     return out.join(' ');
   }
 
-  // ★ 先頭サムネイルの背景画像をpreload
-  function preloadFirstEntryThumb() {
-    const el = document.querySelector('.entry-thumb');
-    if (!el) return;
-    const m = (getComputedStyle(el).backgroundImage || "")
-                .match(/url\(["']?(.*?)["']?\)/);
-    const url = m && m[1] ? new URL(m[1], location.href).href : "";
-    if (!url) return;
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = url;
-    document.head.appendChild(link);
+  // ★ 複数サムネイルをpreload（BG/IMG両対応・重複除外）
+  function preloadEntryThumbs(limit = 4) {
+    try {
+      const urls = new Set();
+
+      // background-image方式
+      document.querySelectorAll('.entry-thumb').forEach(el => {
+        const bg = getComputedStyle(el).backgroundImage || "";
+        const m = bg.match(/url\(["']?(.*?)["']?\)/);
+        const abs = m && m[1] ? new URL(m[1], location.href).href : "";
+        if (abs) urls.add(abs);
+      });
+
+      // <img>方式
+      document.querySelectorAll('img.entry-thumb, .entry-thumb img, .archive-entry img').forEach(img => {
+        const src = img.getAttribute('data-src') || img.currentSrc || img.src || "";
+        if (src) urls.add(new URL(src, location.href).href);
+      });
+
+      // preload実行
+      let count = 0;
+      for (const href of urls) {
+        if (count >= limit) break;
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = href;
+        link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+        count++;
+      }
+    } catch (e) {}
   }
 
   // ====== LCPに関わる最小描画 ======
@@ -72,26 +91,18 @@
 
     let link = "#";
     switch (type) {
-      case "ロト6":
-        link = "https://po-3.github.io/loto6-data/";
-        break;
-      case "ミニロト":
-        link = "https://po-3.github.io/miniloto-data/";
-        break;
-      case "ロト7":
-        link = "https://po-3.github.io/loto7-data/";
-        break;
+      case "ロト6": link = "https://po-3.github.io/loto6-data/"; break;
+      case "ミニロト": link = "https://po-3.github.io/miniloto-data/"; break;
+      case "ロト7": link = "https://po-3.github.io/loto7-data/"; break;
     }
 
     const carryDefs = [
       { name: "ロト6 キャリーオーバー", amount: latest?.carry_loto6 || 0,
         icon: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250726/20250726222053.jpg",
-        link: "https://www.kujitonari.net/archive/category/ロト6",
-        w: 38, h: 38 },
+        link: "https://www.kujitonari.net/archive/category/ロト6", w: 38, h: 38 },
       { name: "ロト7 キャリーオーバー", amount: latest?.carry_loto7 || 0,
         icon: "https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20250726/20250726222056.jpg",
-        link: "https://www.kujitonari.net/archive/category/ロト7",
-        w: 38, h: 38 }
+        link: "https://www.kujitonari.net/archive/category/ロト7", w: 38, h: 38 }
     ];
 
     let html = `
@@ -209,7 +220,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    preloadFirstEntryThumb(); // ★LCP短縮のため最初に呼び出す
+    preloadEntryThumbs(); // ★複数先読み
 
     const wrap = document.getElementById('tonari-latest-carry');
     if (wrap) wrap.innerHTML = `<div style="font-size:13px;color:#999;">読込中...</div>`;
