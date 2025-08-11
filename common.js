@@ -44,7 +44,7 @@
     return out.join(' ');
   }
 
-  // ★ 追加：先頭サムネイルの背景画像をpreload
+  // ★ 先頭サムネイルの背景画像をpreload
   function preloadFirstEntryThumb() {
     const el = document.querySelector('.entry-thumb');
     if (!el) return;
@@ -209,6 +209,8 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    preloadFirstEntryThumb(); // ★LCP短縮のため最初に呼び出す
+
     const wrap = document.getElementById('tonari-latest-carry');
     if (wrap) wrap.innerHTML = `<div style="font-size:13px;color:#999;">読込中...</div>`;
 
@@ -242,7 +244,6 @@
       initPageTop();
       initShare();
       initAdsenseLazy();
-      preloadFirstEntryThumb(); // ★ここで呼び出し
     });
   });
 })();
