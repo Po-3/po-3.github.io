@@ -1,4 +1,5 @@
-/* common.js v2025-08-11-lcp-sniper
+
+/* common.js v2025-08-11-lcp-sniper-fix1
  * 目的：LCP/FCP/TBT 改善（初期は最小、装飾は遅延）
  * 読み込み側は必ず <script src=".../common.js" defer></script>
  */
@@ -88,17 +89,14 @@
       if (bestImg && bestImg.currentSrc) links.add(bestImg.currentSrc || bestImg.src);
       if (bestBgUrl) links.add(bestBgUrl);
 
-      // preload差し込み＋fetchpriorityを引き上げ
-      let count = 0;
+      // preload差し込み（CORS不要なので crossOrigin は付けない）
       for (const href of links) {
         if (!href) continue;
         const link = document.createElement('link');
         link.rel = 'preload';
         link.as  = 'image';
         link.href = href;
-        link.crossOrigin = 'anonymous';
         document.head.appendChild(link);
-        count++;
       }
 
       // 該当<img>の優先度も上げる（ChromeのPriority Hints）
@@ -110,7 +108,7 @@
         } catch {}
       }
 
-      // 背景画像しかないケースも考慮して preconnect（CDNをよく使うなら）
+      // 背景画像しかないケースも考慮して preconnect（CORS不要）
       const cdn = (href) => {
         try { return new URL(href).origin; } catch { return ""; }
       };
@@ -119,7 +117,6 @@
         const l = document.createElement('link');
         l.rel = 'preconnect';
         l.href = o;
-        l.crossOrigin = 'anonymous';
         document.head.appendChild(l);
       }
     } catch {}
@@ -131,7 +128,7 @@
     if (!wrap) return;
 
     const type  = latest?.type  ?? "";
-    const nums  = Array.isArray(latest?.nums) ? latest.nums.join('・') : "";
+       const nums  = Array.isArray(latest?.nums) ? latest.nums.join('・') : "";
     const bonus = latest?.bonus ?? "";
     const round = latest?.round ?? "-";
     const date  = latest?.date  ?? "-";
