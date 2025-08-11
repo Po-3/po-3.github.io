@@ -1,4 +1,4 @@
-/* common.js v2025-08-11-lite
+/* common.js v2025-08-11-lite-css
  * 目的：LCP/FCP/TBT 改善（初期は最小、装飾は遅延）
  * 読み込み側は必ず <script src=".../common.js" defer></script>
  */
@@ -105,19 +105,12 @@
     }
 
     raf(() => {
-      if (html.includes('carry-flash')) {
-        const style = document.createElement('style');
-        style.textContent =
-          '@keyframes carry-flash{0%{background:#ea1212;color:#fff;box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff;}60%{background:#ffe600;color:#b00;box-shadow:0 0 14px 7px #fff388,0 0 5px 3px #ffe600;}100%{background:#ea1212;color:#fff;box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff;}} .carry-flash{animation:carry-flash 1.25s infinite alternate;border:1.3px solid #ffe600;box-shadow:0 0 9px 3px #ffe600,0 0 3px 1px #fff;}';
-        document.head.appendChild(style);
-      }
       wrap.innerHTML = html;
     });
   }
 
   // ====== 装飾・イベントはアイドル時へ（TBT低減） ======
   function initDecorations() {
-    // 日付のロトボール化
     document.querySelectorAll('.date.archive-date:not([data-lotoball])').forEach(el => {
       const y = el.querySelector('.date-year')?.textContent?.trim();
       const m = parseInt(el.querySelector('.date-month')?.textContent, 10);
@@ -129,7 +122,6 @@
       el.dataset.lotoball = 'done';
     });
 
-    // サイドバー見出し
     document.querySelectorAll('.sidebar h3, .hatena-module-title, .hatena-module .module-title').forEach(el => {
       if (el.dataset.lotoball || !el.textContent) return;
       const t = el.textContent.trim();
@@ -140,7 +132,6 @@
       el.dataset.lotoball = 'done';
     });
 
-    // h2 色属性（レイアウト不変更）
     document.querySelectorAll('.entry-content h2:not([data-color])')
       .forEach(el => el.setAttribute('data-color', ballColors[(Math.random()*ballColors.length)|0]));
   }
@@ -196,7 +187,6 @@
     const wrap = document.getElementById('tonari-latest-carry');
     if (wrap) wrap.innerHTML = `<div style="font-size:13px;color:#999;">読込中...</div>`;
 
-    // localStorage優先（永続キャッシュ）→なければ sessionStorage →取得
     const readCache = () => {
       const s = localStorage.getItem(CACHE_KEY) || sessionStorage.getItem(CACHE_KEY);
       if (!s) return null;
@@ -222,7 +212,6 @@
       });
     }
 
-    // 装飾 & 重め処理はアイドル時
     idle(() => {
       initDecorations();
       initPageTop();
