@@ -1,4 +1,4 @@
-/* common.js v2025-08-11-lite-css+thumbs
+/* common.js v2025-08-11-lcp-sniper
  * 目的：LCP/FCP/TBT 改善（初期は最小、装飾は遅延）
  * 読み込み側は必ず <script src=".../common.js" defer></script>
  */
@@ -12,13 +12,9 @@
   // ====== ユーティリティ ======
   const now = () => Date.now();
   const idle = (fn, timeout=1200) =>
-    ('requestIdleCallback' in window)
-      ? requestIdleCallback(fn, { timeout })
-      : setTimeout(fn, 0);
+    ('requestIdleCallback' in window) ? requestIdleCallback(fn, { timeout }) : setTimeout(fn, 0);
   const raf = (fn) =>
-    ('requestAnimationFrame' in window)
-      ? requestAnimationFrame(fn)
-      : setTimeout(fn, 0);
+    ('requestAnimationFrame' in window) ? requestAnimationFrame(fn) : setTimeout(fn, 0);
 
   function fetchJson(url, { timeout=2000 } = {}) {
     const ctrl = new AbortController();
@@ -44,38 +40,89 @@
     return out.join(' ');
   }
 
-  // ★ 複数サムネイルをpreload（BG/IMG両対応・重複除外）
-  function preloadEntryThumbs(limit = 4) {
+  // ====== ランタイムで「今このページのLCP候補」を即座にpreload ======
+  function preloadLikelyLCP() {
     try {
-      const urls = new Set();
+      const links = new Set();
+      const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-      // background-image方式
-      document.querySelectorAll('.entry-thumb').forEach(el => {
+      // 0) og:image を最優先候補に（記事詳細でLCPになりがち）
+      const og = document.querySelector('meta[property="og:image"]')?.content;
+      if (og) links.add(new URL(og, location.href).href);
+
+      // 1) 初回ビューポート内の大きい<img>を収集
+      const imgCandidates = Array.from(document.images).filter(img => {
+        const r = img.getBoundingClientRect();
+        return r.top < vh && r.bottom > 0; // 画面内
+      });
+
+      // 2) 背景画像系（ヒーロー/サムネのdiv）も収集
+      const bgCandidates = Array.from(document.querySelectorAll(
+        '.entry-figure, .entry-hero, .entry-thumb, header .eyecatch, .archive-entry .thumb, .hatena-post img'
+      ));
+
+      // スコアリング：画面内面積 × 解像度係数（雑だが軽い）
+      function scoreRect(el) {
+        const r = el.getBoundingClientRect();
+        const area = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0)) * Math.max(0, r.width);
+        return area;
+      }
+
+      let bestImg = null, bestImgScore = 0;
+      for (const img of imgCandidates) {
+        const s = scoreRect(img) * (Math.max(img.naturalWidth, 1) * Math.max(img.naturalHeight, 1) > 400*300 ? 1.2 : 1);
+        if (s > bestImgScore) { bestImgScore = s; bestImg = img; }
+      }
+
+      let bestBgUrl = "", bestBgScore = 0;
+      for (const el of bgCandidates) {
         const bg = getComputedStyle(el).backgroundImage || "";
         const m = bg.match(/url\(["']?(.*?)["']?\)/);
         const abs = m && m[1] ? new URL(m[1], location.href).href : "";
-        if (abs) urls.add(abs);
-      });
+        if (!abs) continue;
+        const s = scoreRect(el);
+        if (s > bestBgScore) { bestBgScore = s; bestBgUrl = abs; }
+      }
 
-      // <img>方式
-      document.querySelectorAll('img.entry-thumb, .entry-thumb img, .archive-entry img').forEach(img => {
-        const src = img.getAttribute('data-src') || img.currentSrc || img.src || "";
-        if (src) urls.add(new URL(src, location.href).href);
-      });
+      // どちらが強いかで採用（両方あれば両方preloadしてもOK）
+      if (bestImg && bestImg.currentSrc) links.add(bestImg.currentSrc || bestImg.src);
+      if (bestBgUrl) links.add(bestBgUrl);
 
-      // preload実行
+      // preload差し込み＋fetchpriorityを引き上げ
       let count = 0;
-      for (const href of urls) {
-        if (count >= limit) break;
+      for (const href of links) {
+        if (!href) continue;
         const link = document.createElement('link');
         link.rel = 'preload';
-        link.as = 'image';
+        link.as  = 'image';
         link.href = href;
         link.crossOrigin = 'anonymous';
         document.head.appendChild(link);
         count++;
       }
-    } catch (e) {}
+
+      // 該当<img>の優先度も上げる（ChromeのPriority Hints）
+      if (bestImg) {
+        try {
+          bestImg.setAttribute('fetchpriority', 'high');
+          bestImg.setAttribute('decoding', 'async'); // デコードでメインブロックしない
+          bestImg.setAttribute('loading', 'eager');  // LCP対象は遅延しない
+        } catch {}
+      }
+
+      // 背景画像しかないケースも考慮して preconnect（CDNをよく使うなら）
+      const cdn = (href) => {
+        try { return new URL(href).origin; } catch { return ""; }
+      };
+      const origins = new Set(Array.from(links).map(cdn).filter(Boolean));
+      for (const o of origins) {
+        const l = document.createElement('link');
+        l.rel = 'preconnect';
+        l.href = o;
+        l.crossOrigin = 'anonymous';
+        document.head.appendChild(l);
+      }
+    } catch {}
   }
 
   // ====== LCPに関わる最小描画 ======
@@ -219,8 +266,10 @@
     io.observe(slot);
   }
 
+  // ====== 起動 ======
   document.addEventListener("DOMContentLoaded", () => {
-    preloadEntryThumbs(); // ★複数先読み
+    // LCP候補を即preload（この一手でFCP/LCPを一段引き下げ）
+    preloadLikelyLCP();
 
     const wrap = document.getElementById('tonari-latest-carry');
     if (wrap) wrap.innerHTML = `<div style="font-size:13px;color:#999;">読込中...</div>`;
