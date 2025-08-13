@@ -1,2 +1,15 @@
-/hatena-style/style.20250809.css
+/hatena-style/*.woff2
   Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/hatena-style/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/hatena-style/style.20250810.css
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+  /common.*.js
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Encoding: br
