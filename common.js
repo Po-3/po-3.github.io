@@ -1,5 +1,11 @@
-/* common.js v2025-08-11-lcp-sniper-fix2
- * 目的：LCP/FCP/TBT 改善（初期は最小、装飾は遅延）＋ A11y リンク名自動付与
+/* common.js v2025-08-13-lcp-sniper-fix3
+ * 目的：
+ *  - LCP/FCP/TBT 改善（初期は最小、装飾は遅延）
+ *  - a11y強化（サムネリンク自動ラベル）
+ *  - 参照データのキャッシュ（latest.json）
+ *  - jQuery不要のカテゴリ階層化／パンくず補正
+ *  - Twitter引用リンク除去（theme依存の微ゴミ掃除）
+ *
  * 読み込み側は必ず <script src=".../common.js" defer></script>
  */
 (function () {
@@ -15,6 +21,10 @@
     ('requestIdleCallback' in window) ? requestIdleCallback(fn, { timeout }) : setTimeout(fn, 0);
   const raf = (fn) =>
     ('requestAnimationFrame' in window) ? requestAnimationFrame(fn) : setTimeout(fn, 0);
+  const onReady = (fn) => {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn, { once:true });
+    else fn();
+  };
 
   function fetchJson(url, { timeout=2000 } = {}) {
     const ctrl = new AbortController();
@@ -61,16 +71,17 @@
         '.entry-figure, .entry-hero, .entry-thumb, header .eyecatch, .archive-entry .thumb, .hatena-post img'
       ));
 
-      // スコアリング：画面内面積 × 解像度係数（雑だが軽い）
+      // スコアリング：画面内面積 × 解像度係数（軽量）
       function scoreRect(el) {
         const r = el.getBoundingClientRect();
-        const area = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0)) * Math.max(0, r.width);
-        return area;
+        const w = Math.max(r.width, 0), h = Math.max(Math.min(r.bottom, vh) - Math.max(r.top, 0), 0);
+        return w * h;
       }
 
       let bestImg = null, bestImgScore = 0;
       for (const img of imgCandidates) {
-        const s = scoreRect(img) * (Math.max(img.naturalWidth, 1) * Math.max(img.naturalHeight, 1) > 400*300 ? 1.2 : 1);
+        const hiRes = (Math.max(img.naturalWidth, 1) * Math.max(img.naturalHeight, 1) > 400*300) ? 1.2 : 1;
+        const s = scoreRect(img) * hiRes;
         if (s > bestImgScore) { bestImgScore = s; bestImg = img; }
       }
 
@@ -84,11 +95,9 @@
         if (s > bestBgScore) { bestBgScore = s; bestBgUrl = abs; }
       }
 
-      // どちらが強いかで採用（両方あれば両方preloadしてもOK）
-      if (bestImg && bestImg.currentSrc) links.add(bestImg.currentSrc || bestImg.src);
+      if (bestImg && (bestImg.currentSrc || bestImg.src)) links.add(bestImg.currentSrc || bestImg.src);
       if (bestBgUrl) links.add(bestBgUrl);
 
-      // preload差し込み（CORS不要なので crossOrigin は付けない）
       for (const href of links) {
         if (!href) continue;
         const link = document.createElement('link');
@@ -98,20 +107,19 @@
         document.head.appendChild(link);
       }
 
-      // 該当<img>の優先度も上げる（ChromeのPriority Hints）
       if (bestImg) {
         try {
           bestImg.setAttribute('fetchpriority', 'high');
-          bestImg.setAttribute('decoding', 'async'); // デコードでメインブロックしない
-          bestImg.setAttribute('loading', 'eager');  // LCP対象は遅延しない
+          bestImg.setAttribute('decoding', 'async');
+          bestImg.setAttribute('loading', 'eager');
         } catch {}
       }
 
-      // 背景画像しかないケースも考慮して preconnect（CORS不要）
-      const cdn = (href) => {
-        try { return new URL(href).origin; } catch { return ""; }
-      };
-      const origins = new Set(Array.from(links).map(cdn).filter(Boolean));
+      // 背景画像が別オリジンなら preconnect
+      const origins = new Set();
+      for (const href of links) {
+        try { origins.add(new URL(href).origin); } catch {}
+      }
       for (const o of origins) {
         const l = document.createElement('link');
         l.rel = 'preconnect';
@@ -124,25 +132,18 @@
   // ====== アクセシビリティ：サムネリンクに識別名を自動付与 ======
   function initA11yLinkNames() {
     const links = document.querySelectorAll('section.archive-entry a.entry-thumb-link');
-
     const getEntryTitle = (a) => {
       const sec = a.closest('section.archive-entry');
       if (!sec) return "";
-      // タイトル候補を広めに探索（テーマ差分吸収）
       const tEl = sec.querySelector('.entry-title a, .entry-title, h2.entry-title, h1, h2, h3');
       let text = (tEl?.textContent || "").trim();
       if (!text) {
-        // スラッグからのフォールバック
         const href = a.getAttribute('href') || "";
         const slug = href.split('/').pop() || "";
-        text = decodeURIComponent(slug)
-          .replace(/\.[a-z0-9]+$/i, '')
-          .replace(/[-_]+/g, ' ')
-          .trim();
+        text = decodeURIComponent(slug).replace(/\.[a-z0-9]+$/i, '').replace(/[-_]+/g, ' ').trim();
       }
       return text || "記事リンク";
     };
-
     links.forEach(a => {
       const hasText = (a.textContent || "").trim().length > 0;
       const hasAria = a.hasAttribute('aria-label');
@@ -150,7 +151,6 @@
         const title = getEntryTitle(a);
         a.setAttribute('aria-label', `${title}（サムネイル）`);
         a.setAttribute('title', title);
-
         const img = a.querySelector('img');
         if (img && (!img.hasAttribute('alt') || img.getAttribute('alt') === "")) {
           img.setAttribute('alt', `${title} のサムネイル`);
@@ -159,7 +159,7 @@
     });
   }
 
-  // ====== LCPに関わる最小描画 ======
+  // ====== 最新結果・キャリー（LCPに関わる最小描画） ======
   function renderLatest(latest) {
     const wrap = document.getElementById('tonari-latest-carry');
     if (!wrap) return;
@@ -228,7 +228,9 @@
     raf(() => { wrap.innerHTML = html; });
   }
 
+  // ====== 装飾まわり（遅延実行） ======
   function initDecorations() {
+    // 日付→ロトボール
     document.querySelectorAll('.date.archive-date:not([data-lotoball])').forEach(el => {
       const y = el.querySelector('.date-year')?.textContent?.trim();
       const m = parseInt(el.querySelector('.date-month')?.textContent, 10);
@@ -240,6 +242,7 @@
       el.dataset.lotoball = 'done';
     });
 
+    // サイドバー見出しの先頭文字をボール化
     document.querySelectorAll('.sidebar h3, .hatena-module-title, .hatena-module .module-title').forEach(el => {
       if (el.dataset.lotoball || !el.textContent) return;
       const t = el.textContent.trim();
@@ -250,10 +253,12 @@
       el.dataset.lotoball = 'done';
     });
 
+    // H2の色相ばらし（軽めの遊び）
     document.querySelectorAll('.entry-content h2:not([data-color])')
       .forEach(el => el.setAttribute('data-color', ballColors[(Math.random()*ballColors.length)|0]));
   }
 
+  // ====== ページトップ ======
   function initPageTop() {
     const btn = document.getElementById('pageTop');
     if (!btn) return;
@@ -272,6 +277,7 @@
     }, { passive: true });
   }
 
+  // ====== 共有リンク ======
   function initShare() {
     const pageUrl = encodeURIComponent(location.href);
     const pageTitle = encodeURIComponent(document.title);
@@ -279,12 +285,13 @@
     document.querySelectorAll('.share-x').forEach(el => el.href = `https://twitter.com/intent/tweet?text=${pageTitle}&url=${pageUrl}&hashtags=宝くじ,ロト6`);
   }
 
+  // ====== AdSense スロットの遅延初期化（script本体はフッタのlazy loaderが読む想定） ======
   function initAdsenseLazy() {
     const slot = document.getElementById("profile-adsense");
-    if (!slot) return;
+    if (!slot || !('IntersectionObserver' in window)) return;
     const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
         const ad = document.createElement('ins');
         ad.className = "adsbygoogle";
         ad.style.display = "block";
@@ -293,21 +300,179 @@
         ad.setAttribute("data-ad-format", "auto");
         ad.setAttribute("data-full-width-responsive", "true");
         slot.appendChild(ad);
-        if (window.adsbygoogle) window.adsbygoogle.push({});
+        if (window.adsbygoogle) try { window.adsbygoogle.push({}); } catch {}
         io.disconnect();
-      });
+        break;
+      }
     }, { rootMargin: "600px 0px" });
     io.observe(slot);
   }
 
+  // ====== Twitter引用リンクの掃除（テーマ依存の余計なリンクを除去） ======
+  function removeTweetQuoteLinks() {
+    try {
+      document.querySelectorAll('a.js-tweet-quote').forEach(el => el.remove());
+    } catch {}
+  }
+
+  // ====== カテゴリ階層化・パンくず補正（jQuery不要版・軽量化） ======
+  function normalizeCategoryText(el) {
+    // "親-子-孫" → "孫" で表示（ラベル部分）
+    const text = (el.textContent || "").trim();
+    if (!text) return;
+    const parts = text.split('-');
+    el.textContent = parts[parts.length - 1];
+  }
+
+  function remapArticleCategories() {
+    // 記事ヘッダ内のカテゴリ表示を末尾名称へ差し替え
+    const catLinks = document.querySelectorAll('#main-inner > article.entry header .entry-categories > a');
+    if (!catLinks.length) return false;
+    catLinks.forEach(normalizeCategoryText);
+    return true;
+  }
+
+  function remapBreadcrumbTrail() {
+    // 上部パンくずの最初のカテゴリを"親>子>孫"のリンク列に展開
+    const bcFirst = document.querySelector('#top-box .breadcrumb .breadcrumb-inner .breadcrumb-child:first-child');
+    if (!bcFirst) return false;
+    const label = bcFirst.querySelector('span');
+    const host = location.host;
+    if (!label) return false;
+    const parts = label.textContent.split('-').map(s => s.trim()).filter(Boolean);
+    if (parts.length <= 1) return false;
+
+    // 新しいスパン列を生成
+    const frag = document.createDocumentFragment();
+    parts.forEach((p, idx) => {
+      const span = document.createElement('span');
+      span.className = 'breadcrumb-child';
+      const a = document.createElement('a');
+      a.className = 'breadcrumb-child-link';
+      const urlParts = parts.slice(0, idx + 1).join('-');
+      a.href = `https://${host}/archive/category/${urlParts}`;
+      const s = document.createElement('span');
+      s.textContent = p;
+      a.appendChild(s);
+      span.appendChild(a);
+      frag.appendChild(span);
+      if (idx < parts.length - 1) {
+        const gt = document.createElement('span');
+        gt.className = 'breadcrumb-gt';
+        gt.textContent = ' >';
+        frag.appendChild(gt);
+      }
+    });
+
+    bcFirst.replaceWith(frag);
+    return true;
+  }
+
+  function remapArchiveCategoryList() {
+    // アーカイブ一覧のカテゴリ表示も末尾名称へ統一
+    const archives = document.querySelectorAll('#main-inner .archive-entries');
+    if (!archives.length) return false;
+    archives.forEach(sec => {
+      sec.querySelectorAll('section > div.categories > a').forEach(normalizeCategoryText);
+    });
+    return true;
+  }
+
+  function buildSidebarCategoryTree() {
+    // サイドバーのカテゴリモジュール(li列)を親子で畳めるツリー化（軽量）
+    const mod = document.querySelector('div.hatena-module-category');
+    if (!mod) return false;
+    const list = mod.querySelector('ul, ol');
+    if (!list) return false;
+
+    const items = Array.from(list.children).filter(li => li.tagName === 'LI');
+    if (!items.length) return false;
+
+    // 既存リストを階層構造に再配置
+    const root = document.createElement('ul');
+    root.className = 'hatena-breadcrumb-plus-root';
+
+    const stack = [{ level: 1, ul: root }];
+
+    function levelOf(text) { return (text.split('-').length) || 1; }
+    function lastPart(text) { const p = text.split('-'); return p[p.length-1]; }
+    function ensureLevel(targetLevel) {
+      // stack末尾のlevelをtargetに合わせる
+      while (stack[stack.length - 1].level > targetLevel) stack.pop();
+      while (stack[stack.length - 1].level < targetLevel) {
+        const newUl = document.createElement('ul');
+        newUl.className = (stack[stack.length - 1].level >= 2) ? 'hatena-breadcrumb-plus-child2' : 'hatena-breadcrumb-plus-child1';
+        const parentUl = stack[stack.length - 1].ul;
+        // 直前のliへぶら下げる
+        const lastLi = parentUl.lastElementChild;
+        if (!lastLi) break;
+        lastLi.appendChild(newUl);
+        stack.push({ level: stack[stack.length - 1].level + 1, ul: newUl });
+      }
+    }
+
+    items.forEach(li => {
+      const a = li.querySelector('a');
+      if (!a) return;
+      const text = (a.textContent || "").trim();
+      const level = levelOf(text);
+      ensureLevel(level);
+      const ul = stack[stack.length - 1].ul;
+
+      // トグルボタン（親だけ表示）
+      const displayName = lastPart(text);
+      a.textContent = displayName;
+
+      const newLi = document.createElement('li');
+      // トグル用のボタン（子が出来たときに後で活かす）
+      newLi.appendChild(a.cloneNode(true));
+      ul.appendChild(newLi);
+    });
+
+    // 子を持つLIへトグルボタン付与
+    root.querySelectorAll('li').forEach(li => {
+      const childUl = li.querySelector(':scope > ul');
+      if (!childUl) return;
+      const openBtn = document.createElement('span');
+      openBtn.textContent = '▼';
+      openBtn.className = 'hatena-breadcrumb-plus-toggle-button';
+      openBtn.style.display = 'none';
+
+      const closeBtn = document.createElement('span');
+      closeBtn.textContent = '▶';
+      closeBtn.className = 'hatena-breadcrumb-plus-toggle-button';
+
+      // 初期：第2レベル以上は閉じる
+      if (childUl.className.includes('child1')) childUl.style.display = 'none';
+
+      const link = li.querySelector('a');
+      li.insertBefore(closeBtn, link);
+      li.insertBefore(openBtn, closeBtn);
+
+      function toggle(toOpen) {
+        childUl.style.display = toOpen ? '' : 'none';
+        openBtn.style.display = toOpen ? 'inline' : 'none';
+        closeBtn.style.display = toOpen ? 'none' : 'inline';
+      }
+      openBtn.addEventListener('click', () => toggle(false));
+      closeBtn.addEventListener('click', () => toggle(true));
+    });
+
+    // 置き換え
+    list.replaceWith(root);
+    return true;
+  }
+
   // ====== 起動 ======
-  document.addEventListener("DOMContentLoaded", () => {
+  onReady(() => {
     // LCP候補を即preload（この一手でFCP/LCPを一段引き下げ）
     preloadLikelyLCP();
 
+    // プレースホルダ
     const wrap = document.getElementById('tonari-latest-carry');
     if (wrap) wrap.innerHTML = `<div style="font-size:13px;color:#999;">読込中...</div>`;
 
+    // latest.json キャッシュ制御
     const readCache = () => {
       const s = localStorage.getItem(CACHE_KEY) || sessionStorage.getItem(CACHE_KEY);
       if (!s) return null;
@@ -333,12 +498,20 @@
       });
     }
 
+    // 初期描画後に軽い処理をまとめて実行
     idle(() => {
       initDecorations();
       initPageTop();
       initShare();
-      initA11yLinkNames(); // ★ サムネリンクに識別名を自動付与
-      initAdsenseLazy();
+      initA11yLinkNames();     // サムネのa11yラベル
+      initAdsenseLazy();       // スロット生成（script読込はフッタのlazyAdsense側）
+      removeTweetQuoteLinks(); // 余計な引用リンクを掃除
+
+      // カテゴリ／パンくず（該当ページでのみ動く）
+      remapArticleCategories();
+      remapBreadcrumbTrail();
+      remapArchiveCategoryList();
+      buildSidebarCategoryTree();
     });
   });
 })();
