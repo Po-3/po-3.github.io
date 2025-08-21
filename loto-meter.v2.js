@@ -156,10 +156,10 @@
     // ミニロトはキャリーが無いためスコアには反映しない
     if (game === "miniloto") carry = 0;
 
-    // 重み設定（ゲーム別）
+    // 重み設定（ロト別）
     const W = WEIGHTS[game] || { att: 0.30, carry: 0.50, part: 0.20, bonus: 1.00 };
 
-    // スコア算出（ゲーム別の重みで合成）
+    // スコア算出（ロト別の重みで合成）
     const sAttention = attentionScore(game);   // 0..100
     const sCarry     = carryScore(carry);      // 0..100
     const sPart      = participantApprox(game); // 0..20（後で×5で0..100化）
