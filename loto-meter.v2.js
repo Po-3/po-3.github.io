@@ -11,6 +11,13 @@
   const DRAW_DAY = { loto6:[1,4], miniloto:[2], loto7:[5] };
   const TTL_MS = 10 * 60 * 1000; // 10分キャッシュ
 
+  // ===== game-specific weights (att:注目, carry:キャリー, part:参加, bonus:ボーナス) 0.0..1.0 =====
+  const WEIGHTS = {
+    loto6:    { att: 0.30, carry: 0.40, part: 0.20, bonus: 1.00 },
+    miniloto: { att: 0.45, carry: 0.00, part: 0.35, bonus: 1.00 },
+    loto7:    { att: 0.25, carry: 0.60, part: 0.15, bonus: 1.00 },
+  };
+
   // ===== utils =====
   const $  = (sel, root=document) => root.querySelector(sel);
   const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
@@ -108,28 +115,37 @@
     const score = $('.loto-score', card);
 
     const game = card.dataset.game;
-    const { date, carry, nums } = payload;
+    let { date, carry, nums } = payload;
 
-    // スコア算出（注目30% + キャリー50% + 参加20% + ボーナス）
-    const sAttention = attentionScore(game);
-    const sCarry     = carryScore(carry);
-    const sPart      = participantApprox(game);
-    const sRarity    = rarityBonus(nums);
+    // ミニロトはキャリーが無いためスコアには反映しない
+    if (game === "miniloto") carry = 0;
 
-    const final = clamp(
-      Math.round(
-        (sAttention * 0.30) +
-        (sCarry     * 0.50) +
-        ((sPart * 5) * 0.20) +
-        sRarity
-      ), 0, 100
-    );
+    // 重み設定（ゲーム別）
+    const W = WEIGHTS[game] || { att: 0.30, carry: 0.50, part: 0.20, bonus: 1.00 };
+
+    // スコア算出（ゲーム別の重みで合成）
+    const sAttention = attentionScore(game);   // 0..100
+    const sCarry     = carryScore(carry);      // 0..100
+    const sPart      = participantApprox(game); // 0..20（後で×5で0..100化）
+    const sRarity    = rarityBonus(nums);      // 0..10（そのまま加点）
+
+    const composite =
+      (sAttention * W.att) +
+      (sCarry     * W.carry) +
+      ((sPart * 5) * W.part) +
+      (sRarity * W.bonus);
+
+    const final = clamp(Math.round(composite), 0, 100);
 
     // 表示（width方式：CSSのtransition: widthに合わせる）
     fill.style.width = `${final}%`;
     score.textContent = `${final} 点`;
-    meta.textContent  = `最新回: ${date || "—"} ／ 繰越金: ¥${JPY(carry)} ／ 数字: ${nums.length ? nums.map(n=>String(n).padStart(2,"0")).join("・") : "—"}`;
-    hint.textContent  = `内訳: 注目${Math.round(sAttention*0.30)}点 + キャリー${Math.round(sCarry*0.50)}点 + 参加${Math.round((sPart*5)*0.20)}点 + ボーナス${sRarity}点`;
+    if (game === "miniloto") {
+      meta.textContent = `最新回: ${date || "—"} ／ キャリーなし ／ 数字: ${nums.length ? nums.map(n=>String(n).padStart(2,"0")).join("・") : "—"}`;
+    } else {
+      meta.textContent = `最新回: ${date || "—"} ／ 繰越金: ¥${JPY(carry)} ／ 数字: ${nums.length ? nums.map(n=>String(n).padStart(2,"0")).join("・") : "—"}`;
+    }
+    hint.textContent  = `内訳: 注目${Math.round(sAttention*W.att)}点(${Math.round(W.att*100)}%) + キャリー${Math.round(sCarry*W.carry)}点(${Math.round(W.carry*100)}%) + 参加${Math.round((sPart*5)*W.part)}点(${Math.round(W.part*100)}%) + ボーナス${Math.round(sRarity*W.bonus)}点`;
   }
 
   async function init(){
