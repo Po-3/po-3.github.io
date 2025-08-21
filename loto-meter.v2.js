@@ -155,6 +155,15 @@
     // 表示（width方式：CSSのtransition: widthに合わせる）
     fill.style.width = `${final}%`;
     score.textContent = `${final} 点`;
+    // 盛り上がり度に応じて背景色を変える（0=赤 → 100=緑）
+    const hue = Math.round((final / 100) * 120);            // 0:赤, 120:緑
+    const bg  = `hsl(${hue}, 80%, 92%)`;                    // やや薄めの背景
+    const brd = `hsl(${hue}, 70%, 75%)`;                    // 枠線も近い色に
+    card.style.background = bg;
+    card.style.borderColor = brd;
+    // なめらかに切り替え
+    if (!card.style.transition) card.style.transition = 'background .4s ease, border-color .4s ease';
+
     if (game === "miniloto") {
       meta.textContent = `最新回: ${date || "—"} ／ キャリーなし ／ 数字: ${nums.length ? nums.map(n=>String(n).padStart(2,"0")).join("・") : "—"}`;
     } else {
