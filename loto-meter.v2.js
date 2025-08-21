@@ -90,6 +90,16 @@
     try{ localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data })); }catch{}
   }
 
+  // ===== ツールチップ文言（iアイコン内）をユーザー向けに上書き =====
+  function setTooltipText(){
+    const text = `注目度：抽せんまでの残り時間で加点（当日>前日>それ以外）
+キャリー額：最新回の繰越金を0〜100で正規化（ミニロトは対象外）
+参加人数：当日+20／前日+10（APIなし近似）
+＋珍現象ボーナス：全偶数・極端な合計・末尾かぶり多発などで最大+10
+※ミニロトはキャリーオーバー制度がないため、注目度と参加人数を強めに反映し、各ロトが不利にならないようゲーム別に重みを調整しています`;
+    document.querySelectorAll('.info-icon .tooltip').forEach(el=>{ el.textContent = text; });
+  }
+
   async function fetchLatest(url, game){
     const CK = "meter:" + game;
     const cached = getCache(CK);
@@ -150,8 +160,7 @@
     } else {
       meta.textContent = `最新回: ${date || "—"} ／ 繰越金: ¥${JPY(carry)} ／ 数字: ${nums.length ? nums.map(n=>String(n).padStart(2,"0")).join("・") : "—"}`;
     }
-    hint.textContent  = `内訳: 注目${Math.round(sAttention*W.att)}点(${Math.round(W.att*100)}%) + キャリー${Math.round(sCarry*W.carry)}点(${Math.round(W.carry*100)}%) + 参加${Math.round((sPart*5)*W.part)}点(${Math.round(W.part*100)}%) + ボーナス${Math.round(sRarity*W.bonus)}点
-※ミニロトはキャリーオーバー制度がないため、注目度と参加人数を強めに反映し、各ロトが不利にならないようゲーム別に重みを調整しています`;
+    hint.textContent  = `内訳: 注目${Math.round(sAttention*W.att)}点(${Math.round(W.att*100)}%) + キャリー${Math.round(sCarry*W.carry)}点(${Math.round(W.carry*100)}%) + 参加${Math.round((sPart*5)*W.part)}点(${Math.round(W.part*100)}%) + ボーナス${Math.round(sRarity*W.bonus)}点`;
   }
 
   async function init(){
@@ -172,7 +181,7 @@
 
   // 遅延初期化（見えたら or アイドル時）
   const root = document.getElementById('loto-meter-root');
-  const start = () => { init(); if(obs) obs.disconnect(); };
+  const start = () => { setTooltipText(); init(); if(obs) obs.disconnect(); };
   let obs;
   if(root && 'IntersectionObserver' in window){
     obs = new IntersectionObserver(entries => {
