@@ -125,8 +125,8 @@
       ), 0, 100
     );
 
-    // 表示（transform: scaleXで軽量アニメ）
-    fill.style.transform = `scaleX(${final/100})`;
+    // 表示（width方式：CSSのtransition: widthに合わせる）
+    fill.style.width = `${final}%`;
     score.textContent = `${final} 点`;
     meta.textContent  = `最新回: ${date || "—"} ／ 繰越金: ¥${JPY(carry)} ／ 数字: ${nums.length ? nums.map(n=>String(n).padStart(2,"0")).join("・") : "—"}`;
     hint.textContent  = `内訳: 注目${Math.round(sAttention*0.30)}点 + キャリー${Math.round(sCarry*0.50)}点 + 参加${Math.round((sPart*5)*0.20)}点 + ボーナス${sRarity}点`;
