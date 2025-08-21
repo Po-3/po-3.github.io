@@ -103,7 +103,8 @@
     const text = `注目度：抽せんまでの残り時間で加点（当日>前日>それ以外）
 キャリー額：最新回の繰越金を指標化
 参加人数：当日・前日を考慮した近似
-＋ボーナス：出目の特徴などで加点`;
+＋ボーナス：出目の特徴などで加点
+背景色：スコアに応じて赤→緑に変化`;
     document.querySelectorAll('.info-icon .tooltip').forEach(el=>{ el.textContent = text; });
   }
 
