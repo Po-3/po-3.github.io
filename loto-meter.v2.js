@@ -150,7 +150,8 @@
     } else {
       meta.textContent = `最新回: ${date || "—"} ／ 繰越金: ¥${JPY(carry)} ／ 数字: ${nums.length ? nums.map(n=>String(n).padStart(2,"0")).join("・") : "—"}`;
     }
-    hint.textContent  = `内訳: 注目${Math.round(sAttention*W.att)}点(${Math.round(W.att*100)}%) + キャリー${Math.round(sCarry*W.carry)}点(${Math.round(W.carry*100)}%) + 参加${Math.round((sPart*5)*W.part)}点(${Math.round(W.part*100)}%) + ボーナス${Math.round(sRarity*W.bonus)}点`;
+    hint.textContent  = `内訳: 注目${Math.round(sAttention*W.att)}点(${Math.round(W.att*100)}%) + キャリー${Math.round(sCarry*W.carry)}点(${Math.round(W.carry*100)}%) + 参加${Math.round((sPart*5)*W.part)}点(${Math.round(W.part*100)}%) + ボーナス${Math.round(sRarity*W.bonus)}点
+※ミニロトはキャリーオーバー制度がないため、注目度と参加人数を強めに反映し、各ロトが不利にならないようゲーム別に重みを調整しています`;
   }
 
   async function init(){
