@@ -18,9 +18,9 @@
 
   // ===== game-specific weights (att:注目, carry:キャリー, part:参加, bonus:ボーナス) 0.0..1.0 =====
   const WEIGHTS = {
-    loto6:    { att: 0.30, carry: 0.40, part: 0.20, bonus: 1.00 },
-    miniloto: { att: 0.45, carry: 0.00, part: 0.35, bonus: 1.00 },
-    loto7:    { att: 0.25, carry: 0.60, part: 0.15, bonus: 1.00 },
+    loto6:    { att: 0.30, carry: 0.40, part: 0.20, bonus: 1.00, social: 0.10 },
+    miniloto: { att: 0.45, carry: 0.00, part: 0.35, bonus: 1.00, social: 0.20 },
+    loto7:    { att: 0.25, carry: 0.60, part: 0.15, bonus: 1.00, social: 0.10 },
   };
 
   // ===== utils =====
@@ -77,6 +77,21 @@
     return clamp(bonus, 0, 10);
   }
 
+  // X等の外部APIなしで近似する軽量バズスコア（0..100）
+  function buzzProxyScore(game, payload){
+    const { carry=0, prevCarry=0, streak=0 } = payload || {};
+    // 1) キャリー増加率（直近の盛り上がりの変化）
+    const delta = Math.max(carry - prevCarry, 0);
+    const deltaScore = clamp(Math.round((delta / 1_0000_0000) * 40), 0, 40); // +10億で+40点上限
+    // 2) 連続キャリー回数（話題の継続性）
+    const streakScore = clamp(streak * 8, 0, 40); // 1回=+8, 5回で+40上限
+    // 3) 当日ブースト（SNSが動きやすい）
+    const att = attentionScore(game); // 0..100
+    const dayBoost = Math.round(att * 0.2); // 最大+20
+    // ミニロトはキャリーが無いので、deltaは効かない→日付/連続性をより重視
+    return clamp(deltaScore + streakScore + dayBoost, 0, 100);
+  }
+
   function getCache(key){
     try{
       const raw = localStorage.getItem(key);
@@ -107,18 +122,31 @@
 
     const r = await fetch(url, { cache: "default" }); // ブラウザHTTPキャッシュ活用
     const data = await r.json();
-    const last = Array.isArray(data) ? data[data.length - 1] : data;
+    const arr = Array.isArray(data) ? data : [data];
+    const last = arr[arr.length - 1];
+    const prev = arr[arr.length - 2] || null;
 
     const date  = last["日付"] ?? last["date"] ?? last["抽せん日"] ?? last["draw_date"];
     const carry = +(last["キャリーオーバー"] ?? last["carry"] ?? last["キャリー"] ?? 0);
 
-    // 第1数字〜第7数字／num1…のいずれか
+    // 直前回のキャリーと差分
+    const prevCarry = prev ? +(prev["キャリーオーバー"] ?? prev["carry"] ?? prev["キャリー"] ?? 0) : 0;
+
+    // 連続キャリー回数（末尾から遡って >0 の回数）
+    let streak = 0;
+    for(let i=arr.length-1; i>=0; i--){
+      const c = +(arr[i]["キャリーオーバー"] ?? arr[i]["carry"] ?? arr[i]["キャリー"] ?? 0);
+      if(c>0) streak++; else break;
+    }
+
+    // 数字抽出（第1数字〜第7数字／num1〜）
     const nums = [];
     for(let i=1;i<=7;i++){
       const v = last[`第${i}数字`] ?? last[`num${i}`] ?? last[`第${i}数`];
       if(Number.isFinite(+v)) nums.push(+v);
     }
-    const out = { raw:last, date, carry, nums };
+
+    const out = { raw:last, date, carry, prevCarry, streak, nums };
     setCache(CK, out);
     return out;
   }
@@ -143,12 +171,14 @@
     const sCarry     = carryScore(carry);      // 0..100
     const sPart      = participantApprox(game); // 0..20（後で×5で0..100化）
     const sRarity    = rarityBonus(nums);      // 0..10（そのまま加点）
+    const sBuzz     = buzzProxyScore(game, payload); // 0..100（JSのみ・外部APIなし）
 
     const composite =
       (sAttention * W.att) +
       (sCarry     * W.carry) +
       ((sPart * 5) * W.part) +
-      (sRarity * W.bonus);
+      (sRarity * W.bonus) +
+      (sBuzz * (W.social || 0));
 
     const final = clamp(Math.round(composite), 0, 100);
 
@@ -169,7 +199,7 @@
     } else {
       meta.textContent = `最新回: ${date || "—"} ／ 繰越金: ¥${JPY(carry)} ／ 数字: ${nums.length ? nums.map(n=>String(n).padStart(2,"0")).join("・") : "—"}`;
     }
-    hint.textContent  = `内訳: 注目${Math.round(sAttention*W.att)}点(${Math.round(W.att*100)}%) + キャリー${Math.round(sCarry*W.carry)}点(${Math.round(W.carry*100)}%) + 参加${Math.round((sPart*5)*W.part)}点(${Math.round(W.part*100)}%) + ボーナス${Math.round(sRarity*W.bonus)}点`;
+    hint.textContent  = `内訳: 注目${Math.round(sAttention*W.att)}点(${Math.round(W.att*100)}%) + キャリー${Math.round(sCarry*W.carry)}点(${Math.round(W.carry*100)}%) + 参加${Math.round((sPart*5)*W.part)}点(${Math.round(W.part*100)}%) + ボーナス${Math.round(sRarity*W.bonus)}点 + バズ${Math.round(sBuzz*(W.social||0))}点(${Math.round((W.social||0)*100)}%)`;
   }
 
   async function init(){
