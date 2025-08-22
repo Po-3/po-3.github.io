@@ -9,6 +9,26 @@
   const DRAW_DAY = { loto6:[1,4], miniloto:[2], loto7:[5] };
   const TTL_MS = 10 * 60 * 1000; // 10分キャッシュ
 
+  // ===== Googleトレンド（軽量JSON） =====
+  const TRENDS_URL = "https://po-3.github.io/trends.latest.json";
+
+  async function fetchTrends(){
+    try{
+      const CK = "meter:trends";
+      const cached = getCache(CK);
+      if (cached) return cached;
+      const r = await fetch(TRENDS_URL, { cache: "no-store" });
+      if(!r.ok) return null;
+      const json = await r.json();
+      setCache(CK, json);
+      return json;
+    }catch{ return null; }
+  }
+  function trendsScore(trends, game){
+    const v = trends?.metrics?.[game]?.score;
+    return Number.isFinite(v) ? v : 0;
+  }
+
   // ===== game-specific weights (att:注目, carry:キャリー, part:参加, bonus:ボーナス) 0.0..1.0 =====
   const WEIGHTS = {
     loto6:    { att: 0.30, carry: 0.40, part: 0.20, bonus: 1.00, social: 0.10 },
@@ -105,7 +125,7 @@
 参加人数：当日+20／前日+10（APIなし近似）
 ＋珍現象ボーナス：全偶数・極端な合計・末尾かぶり多発などで最大+10
 ※ミニロトはキャリーオーバー制度がないため、注目度と参加人数を強めに反映し、各ロトが不利にならないよう重みを調整しています
-SNSバズ度：キャリー増減や連続キャリー、当日ブーストから近似（外部API不使用の軽量スコア）
+SNS/検索トレンド：Googleトレンドのスコアを軽量取得して加味（取得不可のときは内部近似で代替）
 背景色：スコアに応じて赤→緑に変化`;
     document.querySelectorAll('.info-icon .tooltip').forEach(el=>{ el.textContent = text; });
   }
@@ -146,7 +166,7 @@ SNSバズ度：キャリー増減や連続キャリー、当日ブーストか�
     return out;
   }
 
-  function renderCard(card, payload){
+  function renderCard(card, payload, trends){
     const meta  = $('[data-meta]', card);
     const hint  = $('[data-hint]', card);
     const fill  = $('.loto-fill', card);
@@ -166,14 +186,15 @@ SNSバズ度：キャリー増減や連続キャリー、当日ブーストか�
     const sCarry     = carryScore(carry);      // 0..100
     const sPart      = participantApprox(game); // 0..20（後で×5で0..100化）
     const sRarity    = rarityBonus(nums);      // 0..10（そのまま加点）
-    const sBuzz     = buzzProxyScore(game, payload); // 0..100（JSのみ・外部APIなし）
+    const sBuzz      = buzzProxyScore(game, payload); // 0..100（JSのみ・外部APIなし）
+    const sSocial   = trendsScore(trends, game) || sBuzz; // Trends優先、無ければ近似
 
     const composite =
       (sAttention * W.att) +
       (sCarry     * W.carry) +
       ((sPart * 5) * W.part) +
       (sRarity * W.bonus) +
-      (sBuzz * (W.social || 0));
+      (sSocial * (W.social || 0));
 
     const final = clamp(Math.round(composite), 0, 100);
 
@@ -197,18 +218,19 @@ SNSバズ度：キャリー増減や連続キャリー、当日ブーストか�
     const attPts   = Math.round(sAttention * W.att);
     const carryPts = Math.round(sCarry * W.carry);
     const partPts  = Math.round((sPart * 5) * W.part);
-    const bonusPts = Math.round((sRarity * W.bonus) + (sBuzz * (W.social || 0))); // バズ分はボーナスに含めて表示
+    const bonusPts = Math.round((sRarity * W.bonus) + (sSocial * (W.social || 0))); // バズ分はボーナスに含めて表示
     hint.textContent = `内訳: 注目${attPts}点 + キャリー${carryPts}点 + 参加${partPts}点 + ボーナス${bonusPts}点`;
   }
 
   async function init(){
     const cards = $$('.loto-meter');
+    const trends = await fetchTrends();
     const tasks = cards.map(c => fetchLatest(FEEDS[c.dataset.game], c.dataset.game));
     const settled = await Promise.allSettled(tasks);
     settled.forEach((res, i) => {
       const card = cards[i];
       if(res.status === "fulfilled"){
-        renderCard(card, res.value);
+        renderCard(card, res.value, trends);
       }else{
         $('.loto-score', card).textContent = "— 点";
         $('[data-meta]', card).textContent = "データ取得に失敗しました";
