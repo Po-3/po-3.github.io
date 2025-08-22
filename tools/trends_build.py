@@ -16,7 +16,12 @@ if 'isPartial' in df.columns:
     df = df.drop(columns=['isPartial'])
 
 cut = datetime.datetime.utcnow() - datetime.timedelta(hours=24)
-df_24 = df[df.index.tz_convert('UTC') >= pd.Timestamp(cut, tz='UTC')]
+
+# index が tz-naive の場合は一度 tz_localize する
+if df.index.tz is None:
+    df.index = df.index.tz_localize("UTC")
+
+df_24 = df[df.index >= pd.Timestamp(cut, tz="UTC")]
 
 result = {"since_utc": cut.isoformat(timespec='seconds') + "Z", "metrics": {}}
 for key, kw in KW_MAP.items():
