@@ -1,5 +1,5 @@
 {
-  "since_utc": "2025-08-21T05:19:30Z",
+  "since_utc": "2025-08-21T05:41:36Z",
   "metrics": {
     "loto6": {
       "mean": 39.2,
@@ -10,7 +10,7 @@
       "score": 2
     },
     "loto7": {
-      "mean": 9.3,
+      "mean": 9.2,
       "score": 9
     }
   }
