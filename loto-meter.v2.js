@@ -122,10 +122,9 @@
   function setTooltipText(){
     const text = `注目度：抽せんまでの残り時間で加点（当日>前日>それ以外）
 キャリー額：最新回の繰越金を0〜100で正規化（ミニロトは対象外）
-参加人数：当日+20／前日+10（APIなし近似）
 ＋珍現象ボーナス：全偶数・極端な合計・末尾かぶり多発などで最大+10（珍現象のみを集計）
-※ミニロトはキャリーオーバー制度がないため、注目度と参加人数を強めに反映し、不利にならないよう重みを調整しています
-トレンド：Googleトレンドの score(0〜100) を0〜50点に換算して加味（取得不可のときは内部近似で代替）
+※ミニロトはキャリーオーバー制度がないため、注目度を強めに反映し、不利にならないよう重みを調整しています
+トレンド：Googleトレンドの score(0〜100) を0〜60点に換算して加味（取得不可のときは内部近似で代替）
 背景色：スコアに応じて赤→緑に変化`;
     document.querySelectorAll('.info-icon .tooltip').forEach(el=>{ el.textContent = text; });
   }
@@ -188,7 +187,7 @@
     const sRarity    = rarityBonus(nums);      // 0..10（そのまま加点）
     const sBuzz      = buzzProxyScore(game, payload); // 0..100（JSのみ・外部APIなし）
     const sSocialScore   = trendsScore(trends, game) || sBuzz; // 0..100
-    const trendPts = Math.round((sSocialScore / 100) * 50); // 0..50
+    const trendPts = Math.round((sSocialScore / 100) * 60); // 0..60
 
     const composite =
       (sAttention * W.att) +
