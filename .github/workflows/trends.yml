@@ -5,6 +5,10 @@ on:
     - cron: "*/30 * * * *"   # 30分ごと
   workflow_dispatch: {}
 
+# ← これが肝。Actionsトークンにpush権限を付与
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,18 +19,15 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Debug env
-        run: |
-          python -V
-          ls -la
-          ls -la tools || true
-
       - name: Install deps
         run: pip install pytrends pandas
 
       - name: Build trends JSON
         run: python tools/trends_build.py > trends.latest.json
 
+      # 好きな方で。下(Ａ)か下(Ｂ)のどちらか1つだけ使う
+
+      # (Ａ) 手動gitでコミット&プッシュ
       - name: Commit JSON
         run: |
           git config user.name "actions-bot"
@@ -34,3 +35,9 @@ jobs:
           git add trends.latest.json
           git commit -m "Update trends JSON" || echo "No changes"
           git push
+
+      # (Ｂ) アクションでコミット（簡単版）
+      # - uses: stefanzweifel/git-auto-commit-action@v5
+      #   with:
+      #     commit_message: "Update trends JSON"
+      #     file_pattern: "trends.latest.json"
