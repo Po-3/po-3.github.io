@@ -219,7 +219,7 @@
     const carryPts = Math.round(sCarry * W.carry);
     const partPts  = Math.round((sPart * 5) * W.part);
     const rarityPts = Math.round(sRarity * W.bonus);
-    hint.textContent = `内訳: 注目${attPts}点 + キャリー${carryPts}点 + 参加${partPts}点 + ボーナス${rarityPts}点 + トレンド${trendPts}点`;
+    hint.textContent = `内訳: 注目${attPts}点 + キャリー${carryPts}点 + ボーナス${rarityPts}点 + トレンド${trendPts}点`;
   }
 
   async function init(){
