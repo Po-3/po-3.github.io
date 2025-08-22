@@ -125,7 +125,7 @@
 参加人数：当日+20／前日+10（APIなし近似）
 ＋珍現象ボーナス：全偶数・極端な合計・末尾かぶり多発などで最大+10（珍現象のみを集計）
 ※ミニロトはキャリーオーバー制度がないため、注目度と参加人数を強めに反映し、各ロトが不利にならないよう重みを調整しています
-トレンド：Googleトレンドの score(0〜100) を係数で点に換算し加味（取得不可のときは内部近似で代替）
+トレンド：Googleトレンドの score(0〜100) を0〜50点に換算して加味（取得不可のときは内部近似で代替）
 背景色：スコアに応じて赤→緑に変化`;
     document.querySelectorAll('.info-icon .tooltip').forEach(el=>{ el.textContent = text; });
   }
@@ -187,14 +187,15 @@
     const sPart      = participantApprox(game); // 0..20（後で×5で0..100化）
     const sRarity    = rarityBonus(nums);      // 0..10（そのまま加点）
     const sBuzz      = buzzProxyScore(game, payload); // 0..100（JSのみ・外部APIなし）
-    const sSocial   = trendsScore(trends, game) || sBuzz; // Trends優先、無ければ近似
+    const sSocialScore   = trendsScore(trends, game) || sBuzz; // 0..100
+    const trendPts = Math.round((sSocialScore / 100) * 50); // 0..50
 
     const composite =
       (sAttention * W.att) +
       (sCarry     * W.carry) +
       ((sPart * 5) * W.part) +
       (sRarity * W.bonus) +
-      (sSocial * (W.social || 0));
+      trendPts;
 
     const final = clamp(Math.round(composite), 0, 100);
 
@@ -219,7 +220,6 @@
     const carryPts = Math.round(sCarry * W.carry);
     const partPts  = Math.round((sPart * 5) * W.part);
     const rarityPts = Math.round(sRarity * W.bonus);
-    const trendPts  = Math.round(sSocial * (W.social || 0));
     hint.textContent = `内訳: 注目${attPts}点 + キャリー${carryPts}点 + 参加${partPts}点 + ボーナス${rarityPts}点 + トレンド${trendPts}点`;
   }
 
