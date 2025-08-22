@@ -218,8 +218,9 @@ SNS/検索トレンド：Googleトレンドのスコアを軽量取得して加�
     const attPts   = Math.round(sAttention * W.att);
     const carryPts = Math.round(sCarry * W.carry);
     const partPts  = Math.round((sPart * 5) * W.part);
-    const bonusPts = Math.round((sRarity * W.bonus) + (sSocial * (W.social || 0))); // バズ分はボーナスに含めて表示
-    hint.textContent = `内訳: 注目${attPts}点 + キャリー${carryPts}点 + 参加${partPts}点 + ボーナス${bonusPts}点`;
+    const rarityPts = Math.round(sRarity * W.bonus);
+    const trendPts  = Math.round(sSocial * (W.social || 0));
+    hint.textContent = `内訳: 注目${attPts}点 + キャリー${carryPts}点 + 参加${partPts}点 + ボーナス${rarityPts}点 + トレンド${trendPts}点`;
   }
 
   async function init(){
