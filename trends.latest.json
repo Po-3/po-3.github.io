@@ -1,16 +1,16 @@
 {
-  "since_utc": "2025-08-25T09:21:31Z",
+  "since_utc": "2025-08-25T10:21:11Z",
   "metrics": {
     "loto6": {
-      "mean": 44.6,
-      "score": 45
+      "mean": 41.6,
+      "score": 42
     },
     "miniloto": {
-      "mean": 5.9,
-      "score": 6
+      "mean": 7.1,
+      "score": 7
     },
     "loto7": {
-      "mean": 5.3,
+      "mean": 5.4,
       "score": 5
     }
   }
