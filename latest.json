@@ -1,18 +1,18 @@
 {
   "type": "ロト6",
-  "date": "2025/08/28",
   "round": "2029",
+  "date": "2025/08/28",
   "nums": [
-    "7",
-    "21",
-    "31",
-    "36",
-    "40",
-    "43"
+    7,
+    21,
+    31,
+    36,
+    40,
+    43
   ],
-  "bonus": "41",
-  "carry": 81535997,
-  "link": "https://po-3.github.io/loto6-data/loto6.json",
+  "bonus": [
+    41
+  ],
   "carry_loto6": 81535997,
   "carry_loto7": 0
 }
