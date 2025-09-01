@@ -2,7 +2,7 @@ name: Build Google Trends JSON
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # 30分ごと
+    - cron: "*/90 * * * *"   # 90分ごと
   workflow_dispatch: {}
 
 # ← これが肝。Actionsトークンにpush権限を付与
