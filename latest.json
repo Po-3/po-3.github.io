@@ -1,17 +1,18 @@
 {
-  "type": "ミニロト",
-  "date": "2025/09/02",
-  "round": "1350",
+  "type": "ロト6",
+  "round": "2031",
+  "date": "2025/09/04",
   "nums": [
-    "2",
-    "3",
-    "11",
-    "22",
-    "28"
+    2,
+    3,
+    16,
+    20,
+    23,
+    29
   ],
-  "bonus": "15",
-  "carry": 0,
-  "link": "https://po-3.github.io/miniloto-data/miniloto.json",
-  "carry_loto6": 324569514,
+  "bonus": [
+    27
+  ],
+  "carry_loto6": 0,
   "carry_loto7": 0
 }
