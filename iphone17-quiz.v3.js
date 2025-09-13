@@ -191,10 +191,10 @@
     ]},
     // カラー嗜好（Airはライト系/新色、Pro系は落ち着き系）
     { t: "好みのカラーはどれ？", o: [
-      opt("ライトゴールド／シルバー系",{Air:2,17:2,Pro:0,ProMax:0}),
-      opt("チタングレー／ブラック系",{Air:1,17:0,Pro:2,ProMax:2}),
-      opt("明るい新色や限定カラーを試したい",{Air:2,17:2,Pro:1,ProMax:0}),
-      opt("色は気にしない",{Air:1,17:1,Pro:1,ProMax:1}),
+      opt("ライト系（ライトゴールド／シルバー等）",{Air:2,17:2,Pro:1,ProMax:1}),
+      opt("ダーク系（黒／グラファイト／濃紺系）",{Air:0,17:1,Pro:1,ProMax:1}),
+      opt("明るい新色・限定色を試したい",{Air:2,17:2,Pro:1,ProMax:0}),
+      opt("近い色でもOK（色は重視しない）",{Air:1,17:1,Pro:1,ProMax:1}),
     ]},
   ];
 
@@ -338,6 +338,12 @@
       });
 
       card.append(title, opts);
+      if (q.t.includes("カラー")) {
+        const note = document.createElement("div");
+        note.className = "hint";
+        note.textContent = "※ 2025年のPro/Pro Maxに黒系はありません。ダーク系を選んだ場合は近い質感としてDeep Blueを提案します。";
+        card.appendChild(note);
+      }
       grid.appendChild(card);
     });
 
@@ -377,10 +383,27 @@
         `<div class="row"><span>${modelName(m)}</span><strong>${v} 点</strong></div>`
       ).join("");
 
+      // Color choice note for transparency
+      const colorQi = Q.findIndex(q => q.t.includes("好みのカラー"));
+      let colorNote = "";
+      if (colorQi !== -1) {
+        const sel = saved[`q${colorQi}`];
+        if (sel != null) {
+          if (sel === 1) { // ダーク系（黒/グラファイト/濃紺）
+            colorNote = "<p class=\"hint\">※ 黒系は現行の Pro/Pro Max にありません。近い質感として <strong>Deep Blue</strong> を提案しています。</p>";
+          } else if (sel === 0) { // ライト系
+            colorNote = "<p class=\"hint\">※ ライト系をご希望のため、質感が近い <strong>Silver/Light 系</strong> を優先提案しています。</p>";
+          } else if (sel === 2) { // 明るい新色
+            colorNote = "<p class=\"hint\">※ 明るい新色・限定色をご希望のため、今年の <strong>Cosmic Orange 等</strong> を優先提案しています。</p>";
+          }
+        }
+      }
+
       result.style.display = "block";
       result.innerHTML = `
         <h3>診断結果：<span class="badge">おすすめ</span> ${modelName(top[0])}</h3>
         <p class="okay">${advice}</p>
+        ${colorNote}
         <div class="rank" style="margin-top:10px">${rankHtml}</div>
         <div class="hint" style="margin-top:8px">※ 地域によってSIM仕様（eSIM/物理SIM）は異なる場合があります。購入前に各国/キャリアの販売仕様をご確認ください。</div>
       `;
