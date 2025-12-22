@@ -1,12 +1,12 @@
 (() => {
-  // === 設定 ===
+  // === 設定項目 ===
   const FEED_URL = 'https://script.google.com/macros/s/AKfycbxH9abvykBsK5DJwIDDpXWV9qZ7HCf_GwUIysGqMcly-meanUR_teKLP9YaHCJua_OAwQ/exec';
-  const AMAZON_TAG = 'k09cf-22'; // 空文字で非表示
+  const AMAZON_TAG = 'k09cf-22'; // アソシエイトタグ
   const CACHE_KEY = 'refurbCache_v2';
-  const CACHE_AGE = 5*60*1000;        // 新鮮（5分）
-  const STALE_MAX_AGE = 24*60*60*1000;// stale許容（24時間）
-  const FETCH_TIMEOUT = 6000;         // PSI配慮で6秒
-  const MAX_ATTEMPTS = 3;
+  const CACHE_AGE = 5 * 60 * 1000;         // キャッシュの鮮度（5分）
+  const STALE_MAX_AGE = 24 * 60 * 60 * 1000; // 許容する古さ（24時間）
+  const FETCH_TIMEOUT = 6000;              // タイムアウト（6秒）
+  const MAX_ATTEMPTS = 3;                  // 最大リトライ回数
 
   const root = document.getElementById('refurb-watch');
   const list = document.getElementById('rw-list');
@@ -14,117 +14,146 @@
 
   let fetching = false;
 
-  const fmt = new Intl.DateTimeFormat('ja-JP', { timeZone:'Asia/Tokyo', year:'numeric', month:'2-digit', day:'2-digit' });
-  const toJST = iso => { const d=new Date(iso); if(isNaN(d)) return ''; const [{value:y},,{value:m},,{value:day}]=fmt.formatToParts(d); return `${y}/${m}/${day}`; };
+  // 日付フォーマット設定 (JST)
+  const fmt = new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' });
+  const toJST = iso => {
+    const d = new Date(iso);
+    if (isNaN(d)) return '';
+    const [{ value: y }, , { value: m }, , { value: day }] = fmt.formatToParts(d);
+    return `${y}/${m}/${day}`;
+  };
 
-  const cached = readCache();
-  if (cached && (Date.now() - cached.ts) < CACHE_AGE) render(cached.data);
-
-  // 初期描画を優先：アイドル時間にfetch（fallbackあり）
-  const idle = window.requestIdleCallback || (cb => setTimeout(cb, 1));
-  idle(() => { if (!fetching) fetchLatest({ silent: !!cached }); });
-
-  // ===== 関数 =====
-  function readCache(){
+  const readCache = () => {
     try { return JSON.parse(sessionStorage.getItem(CACHE_KEY) || 'null'); } catch { return null; }
-  }
+  };
 
-  function render(data){
+  /**
+   * DOMレンダリング関数
+   */
+  function render(data) {
+    if (!list) return;
     if (!Array.isArray(data) || data.length === 0) {
       list.replaceChildren(liText('最近の更新は見つかりませんでした。'));
       return;
     }
-    const mapped = data.map(x => ({ ...x, _ts: Date.parse(x?.date || '') || 0 }));
-    mapped.sort((a,b)=>b._ts - a._ts);
-    const items = mapped.slice(0, MAX_ITEMS);
+
+    // 日付順にソートして最大件数で切り出し
+    const items = data
+      .map(x => ({ ...x, _ts: Date.parse(x?.date || '') || 0 }))
+      .sort((a, b) => b._ts - a._ts)
+      .slice(0, MAX_ITEMS);
 
     const frag = document.createDocumentFragment();
-    for (const item of items){
+
+    items.forEach(item => {
       const li = document.createElement('li');
+      li.className = 'rw-item';
 
-      const a = document.createElement('a');
-      a.href = item.url || 'https://www.apple.com/jp/shop/refurbished';
-      a.textContent = item.title || '整備済み更新';
-      a.target = '_blank';
-      a.rel = 'noopener';
-      li.appendChild(a);
+      // 1. 商品名エリア（Apple公式リンク）
+      const aName = document.createElement('a');
+      aName.className = 'rw-name';
+      aName.href = item.url || 'https://www.apple.com/jp/shop/refurbished';
+      aName.target = '_blank';
+      aName.rel = 'noopener';
 
-      if (item._ts){
-        const s = document.createElement('small');
-        s.style.marginLeft='6px'; s.style.opacity='.7';
-        s.textContent = `（${toJST(item.date)}）`;
-        li.appendChild(s);
-      }
+      const dateStr = item._ts ? `<small class="rw-date">（${toJST(item.date)}）</small>` : '';
+      aName.innerHTML = `${item.title || '整備済み更新'} ${dateStr}`;
+      li.appendChild(aName);
 
-      if (AMAZON_TAG){
-        const q = encodeURIComponent(`${item.title || 'Apple'} 整備済み`);
-        const a2 = document.createElement('a');
-        a2.href = `https://www.amazon.co.jp/s?k=${q}&tag=${encodeURIComponent(AMAZON_TAG)}`;
-        a2.textContent = 'Amazonで探す';
-        a2.target = '_blank';
-        a2.rel = 'noopener sponsored nofollow';
-        a2.style.marginLeft='8px';
-        li.appendChild(a2);
+      // 2. Amazonで探すボタンの追加
+      if (AMAZON_TAG) {
+        const query = encodeURIComponent(`${item.title || 'Apple'} 整備済み`);
+        const aAmz = document.createElement('a');
+        aAmz.className = 'rw-amazon-btn';
+        aAmz.href = `https://www.amazon.co.jp/s?k=${query}&tag=${encodeURIComponent(AMAZON_TAG)}`;
+        aAmz.textContent = 'Amazonで探す';
+        aAmz.target = '_blank';
+        aAmz.rel = 'noopener sponsored nofollow';
+        li.appendChild(aAmz);
       }
 
       frag.appendChild(li);
-    }
+    });
+
     list.replaceChildren(frag);
   }
 
-  function liText(t){ const li=document.createElement('li'); li.textContent=t; return li; }
+  function liText(t) {
+    const li = document.createElement('li');
+    li.textContent = t;
+    li.style.listStyle = 'none';
+    return li;
+  }
 
-  async function fetchLatest({ silent=false } = {}){
-    if (fetching) return; fetching = true;
+  /**
+   * 最新データの取得
+   */
+  async function fetchLatest({ silent = false } = {}) {
+    if (fetching) return;
+    fetching = true;
 
-    if ('onLine' in navigator && !navigator.onLine){
-      if (!cached) list.replaceChildren(liText('オフラインです。前回の情報を表示します。'));
-      fetching = false; return;
+    // オフライン時は何もしない
+    if ('onLine' in navigator && !navigator.onLine) {
+      fetching = false;
+      return;
     }
 
     try {
       const data = await fetchJSONWithRetry(FEED_URL, { attempts: MAX_ATTEMPTS, timeoutMs: FETCH_TIMEOUT });
-      if (!Array.isArray(data)) throw new Error('invalid payload');
+      if (!Array.isArray(data)) throw new Error('Invalid payload');
+
       render(data);
       sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
-    } catch (e){
+    } catch (e) {
+      console.warn('RefurbWatch fetch failed:', e);
       const stale = readCache();
-      if (stale && (Date.now() - stale.ts) < STALE_MAX_AGE){
-        if (!silent){
-          const note = document.createElement('li');
-          note.textContent = '最新の取得に失敗しました（前回の情報を表示中）';
-          note.style.opacity='.7'; note.style.listStyle='none';
-          list.appendChild(note);
-        }
-      } else {
-        list.replaceChildren(liText('フィードの取得に失敗しました。しばらくして再度お試しください。'));
+      // キャッシュが全くない、または非常に古い場合のみエラー表示
+      if (!silent && (!stale || (Date.now() - stale.ts) > STALE_MAX_AGE)) {
+        list.replaceChildren(liText('情報の取得に失敗しました。'));
       }
-    } finally { fetching = false; }
+    } finally {
+      fetching = false;
+    }
   }
 
-  async function fetchJSONWithRetry(url, { attempts=3, timeoutMs=6000 }={}){
+  /**
+   * タイムアウト・リトライ付きfetch
+   */
+  async function fetchJSONWithRetry(url, { attempts = 3, timeoutMs = 6000 } = {}) {
     let lastErr;
-    for (let i=0; i<attempts; i++){
+    for (let i = 0; i < attempts; i++) {
       const ctrl = new AbortController();
-      const timer = setTimeout(()=>ctrl.abort(), timeoutMs);
+      const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+
       try {
-        const res = await fetch(url, { cache:'no-store', mode:'cors', signal: ctrl.signal });
+        const res = await fetch(url, { cache: 'no-store', mode: 'cors', signal: ctrl.signal });
         clearTimeout(timer);
-        if (!res.ok) throw new Error(`http ${res.status}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await res.json();
-      } catch (err){
+      } catch (err) {
         clearTimeout(timer);
         lastErr = err;
-        const retriable = (err.name === 'AbortError') || /http (429|5..)/.test(String(err.message));
-        if (i < attempts-1 && retriable){
-          const base = 400 * Math.pow(2, i);
-          const jitter = base * (0.5 + Math.random());
-          await new Promise(r => setTimeout(r, jitter));
-          continue;
+        // 指数バックオフで待機してリトライ
+        if (i < attempts - 1) {
+          await new Promise(r => setTimeout(r, 400 * Math.pow(2, i)));
         }
-        break;
       }
     }
-    throw lastErr || new Error('fetch failed');
+    throw lastErr;
   }
+
+  // === 実行フロー ===
+  const cached = readCache();
+  
+  // 1. キャッシュがあれば即座に表示（表示速度優先）
+  if (cached && (Date.now() - cached.ts) < CACHE_AGE) {
+    render(cached.data);
+  }
+
+  // 2. アイドル時にバックグラウンドで最新情報を取得
+  const idle = window.requestIdleCallback || (cb => setTimeout(cb, 1));
+  idle(() => {
+    fetchLatest({ silent: !!cached });
+  });
+
 })();
