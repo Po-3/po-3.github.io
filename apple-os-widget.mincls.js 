@@ -1,27 +1,15 @@
-/* apple-os-widget.mincls.js
-   Purpose:
-   - Apple Developer Releases RSS から Stable / Beta を自動判別して表示
-   - CLS/体感のガタつきを抑えるため、更新は1バッチで反映し、キャッシュで失敗耐性を上げる
-
-   Requirements:
-   - Beta判定: title に "beta", "RC", "Developer Beta", "Public Beta" を含む
-   - Stable判定: 上記語を含まない（バージョン番号のみ側）
-   - "(23D5033l)" 等のビルド番号は非表示
-*/
-
-(function () {
+/* ==========================================================
+   Apple OS Widget - Workers RSS 取得版（軽量 / バッチ更新）
+   - RSS取得先：Cloudflare Workers（CORS回避済み）
+   - 初期表示：--（プレースホルダー）
+   - DOM更新：requestAnimationFrameで一括反映（体感の揺れ防止）
+   ========================================================== */
+(function(){
   "use strict";
 
-  // =========================
-  // Settings
-  // =========================
-  var RSS_URL = "https://developer.apple.com/news/releases/rss/releases.rss";
+  var RSS_URL = "https://apple-os-rss-proxy.7xjvnhs9mz.workers.dev/";
+  var BETA_RE = /\b(beta|rc|developer beta|public beta)\b/i;
 
-  // Beta 判定キーワード（要件どおり）
-  // NOTE: "RC" は単語境界で拾う。タイトルに "Release Candidate" が来るケースもあるので rc を広めに拾う。
-  var BETA_KEYWORDS_RE = /\b(beta|rc|developer beta|public beta)\b/i;
-
-  // 対象OS（タイトル中に含まれる前提）
   var OS_KEYS = [
     { key: "iOS",      id: "ios" },
     { key: "iPadOS",   id: "ipados" },
@@ -32,295 +20,207 @@
     { key: "audioOS",  id: "audioos" }
   ];
 
-  // DOM id mapping（HTML側のidと一致している前提）
   var DOM_IDS = [
-    { os: "ios",      stable: "os-ios-stable",      beta: "os-ios-beta" },
-    { os: "ipados",   stable: "os-ipados-stable",   beta: "os-ipados-beta" },
-    { os: "macos",    stable: "os-macos-stable",    beta: "os-macos-beta" },
-    { os: "watchos",  stable: "os-watchos-stable",  beta: "os-watchos-beta" },
-    { os: "tvos",     stable: "os-tvos-stable",     beta: "os-tvos-beta" },
-    { os: "audioos",  stable: "os-audioos-stable",  beta: "os-audioos-beta" },
-    { os: "visionos", stable: "os-visionos-stable", beta: "os-visionos-beta" }
+    { os:"ios",      stable:"os-ios-stable",      beta:"os-ios-beta" },
+    { os:"ipados",   stable:"os-ipados-stable",   beta:"os-ipados-beta" },
+    { os:"macos",    stable:"os-macos-stable",    beta:"os-macos-beta" },
+    { os:"watchos",  stable:"os-watchos-stable",  beta:"os-watchos-beta" },
+    { os:"tvos",     stable:"os-tvos-stable",     beta:"os-tvos-beta" },
+    { os:"audioos",  stable:"os-audioos-stable",  beta:"os-audioos-beta" },
+    { os:"visionos", stable:"os-visionos-stable", beta:"os-visionos-beta" }
   ];
 
-  // キャッシュ（失敗時にも “直近値” を出す）
   var CACHE_KEY = "tnr_os_widget_cache_v1";
-  var CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
-
-  // fetchタイムアウト（遅延で突然更新される体験を抑える）
+  var CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6h
   var FETCH_TIMEOUT_MS = 3500;
 
-  // =========================
-  // Small utilities
-  // =========================
-  function $(id) { return document.getElementById(id); }
+  function $(id){ return document.getElementById(id); }
+  function safeText(el, v){ if(el) el.textContent = v; }
+  function now(){ return Date.now ? Date.now() : new Date().getTime(); }
 
-  function safeText(el, value) {
-    if (!el) return;
-    el.textContent = value;
-  }
-
-  function nowMs() { return Date.now ? Date.now() : new Date().getTime(); }
-
-  function toYYYYMMDD(dateObj) {
-    var y = dateObj.getFullYear();
-    var m = String(dateObj.getMonth() + 1).padStart(2, "0");
-    var d = String(dateObj.getDate()).padStart(2, "0");
-    return y + "-" + m + "-" + d;
-  }
-
-  function isValidDate(d) {
-    return (d instanceof Date) && !isNaN(d.getTime());
-  }
-
-  function readCache() {
-    try {
+  function readCache(){
+    try{
       var raw = localStorage.getItem(CACHE_KEY);
-      if (!raw) return null;
+      if(!raw) return null;
       var obj = JSON.parse(raw);
-      if (!obj || typeof obj !== "object") return null;
-      if (!obj.savedAt || !obj.data) return null;
-      if (nowMs() - obj.savedAt > CACHE_TTL_MS) return null;
+      if(!obj || !obj.savedAt || !obj.data) return null;
+      if(now() - obj.savedAt > CACHE_TTL_MS) return null;
       return obj.data;
-    } catch (_) {
-      return null;
-    }
+    }catch(e){ return null; }
+  }
+  function writeCache(data){
+    try{
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: now(), data: data }));
+    }catch(e){}
   }
 
-  function writeCache(data) {
-    try {
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: nowMs(), data: data }));
-    } catch (_) {
-      // storage full / blocked: ignore
-    }
-  }
-
-  // =========================
-  // Version extraction
-  // =========================
-  // Example:
-  // "iOS 26.3 beta 2 (23D5033l)" -> "26.3 beta 2"
-  // "iOS 26.2 (23C65)" -> "26.2"
-  // "macOS Tahoe 26.4.1 (23...)" -> "26.4.1" （OS名の直後に数字があるパターンを拾う）
-  function extractVersionPart(title, osKey) {
-    // OS名の直後に続く "X", "X.Y", "X.Y.Z" + optional "beta N" or "RC"
-    // ここでは括弧内のビルドを最初から対象外にする。
-    var re = new RegExp(
-      osKey + "\\s+([0-9]+(?:\\.[0-9]+){0,2}(?:\\s+(?:beta\\s*\\d+|RC))?)",
-      "i"
-    );
+  function extractVersionPart(title, osKey){
+    // "iOS 26.3 beta 2 (23D5033l)" -> "26.3 beta 2"
+    // "(...)" はそもそも拾わない
+    var re = new RegExp(osKey + "\\s+([0-9]+(?:\\.[0-9]+){0,2}(?:\\s+(?:beta\\s*\\d+|RC))?)","i");
     var m = title.match(re);
-    if (!m) return null;
-    return String(m[1] || "").replace(/\s+/g, " ").trim() || null;
+    if(!m) return null;
+    return String(m[1]||"").replace(/\s+/g," ").trim() || null;
   }
 
-  function normalizeBetaDisplay(stable, beta) {
-    if (!beta) return "-";
-    if (!stable) return beta;
-
-    var s = String(stable).trim().toLowerCase();
-    var b = String(beta).trim().toLowerCase();
-
-    // beta/rc表記があるなら、同じ番号でも段階を見せる
-    if (/\b(beta|rc)\b/i.test(beta)) return beta;
-
-    // 表記が完全一致なら "-"
-    if (s === b) return "-";
+  function normalizeBeta(stable, beta){
+    if(!beta) return "-";
+    if(!stable) return beta;
+    if(/\b(beta|rc)\b/i.test(beta)) return beta;
+    if(String(stable).trim().toLowerCase() === String(beta).trim().toLowerCase()) return "-";
     return beta;
   }
 
-  // =========================
-  // RSS parse
-  // =========================
-  function parseRSS(xmlText) {
+  function parseRSS(xmlText){
     var parser = new DOMParser();
     var xml = parser.parseFromString(xmlText, "application/xml");
-    if (xml.getElementsByTagName("parsererror").length) {
-      throw new Error("RSS parse error");
-    }
+    if(xml.getElementsByTagName("parsererror").length) throw new Error("parse error");
     return xml;
   }
 
-  function getItems(xml) {
+  function getItems(xml){
     var items = xml.getElementsByTagName("item");
     var out = [];
-    for (var i = 0; i < items.length; i++) {
+    for(var i=0;i<items.length;i++){
       var it = items[i];
-      var titleEl = it.getElementsByTagName("title")[0];
-      var pubEl = it.getElementsByTagName("pubDate")[0];
-
-      var title = titleEl ? titleEl.textContent : "";
-      var pubDate = pubEl ? new Date(pubEl.textContent) : null;
-
-      out.push({ title: title, pubDate: pubDate });
+      var t = it.getElementsByTagName("title")[0];
+      var p = it.getElementsByTagName("pubDate")[0];
+      out.push({
+        title: t ? t.textContent : "",
+        pubDate: p ? new Date(p.textContent) : null
+      });
     }
     return out;
   }
 
-  // RSSが常に新しい順と限らない可能性に備え、
-  // pubDateが有効なら “新しい順にソート” してから走査する
-  function sortItemsNewestFirst(items) {
-    return items.slice().sort(function (a, b) {
-      var ad = isValidDate(a.pubDate) ? a.pubDate.getTime() : 0;
-      var bd = isValidDate(b.pubDate) ? b.pubDate.getTime() : 0;
-      return bd - ad;
+  function sortNewest(items){
+    return items.slice().sort(function(a,b){
+      var at = a.pubDate && !isNaN(a.pubDate.getTime()) ? a.pubDate.getTime() : 0;
+      var bt = b.pubDate && !isNaN(b.pubDate.getTime()) ? b.pubDate.getTime() : 0;
+      return bt - at;
     });
   }
 
-  function pickLatest(items) {
-    var result = {
-      ios:      { stable: null, beta: null },
-      ipados:   { stable: null, beta: null },
-      macos:    { stable: null, beta: null },
-      watchos:  { stable: null, beta: null },
-      tvos:     { stable: null, beta: null },
-      visionos: { stable: null, beta: null },
-      audioos:  { stable: null, beta: null },
-      updated:  null
+  function pickLatest(items){
+    var res = {
+      ios:{stable:null,beta:null},
+      ipados:{stable:null,beta:null},
+      macos:{stable:null,beta:null},
+      watchos:{stable:null,beta:null},
+      tvos:{stable:null,beta:null},
+      audioos:{stable:null,beta:null},
+      visionos:{stable:null,beta:null},
+      updated:null
     };
-
-    if (items.length && isValidDate(items[0].pubDate)) {
-      result.updated = items[0].pubDate;
+    if(items[0] && items[0].pubDate && !isNaN(items[0].pubDate.getTime())){
+      res.updated = items[0].pubDate.toISOString();
     }
 
-    for (var i = 0; i < items.length; i++) {
-      var t = (items[i].title || "").trim();
-      if (!t) continue;
+    for(var i=0;i<items.length;i++){
+      var title = (items[i].title||"").trim();
+      if(!title) continue;
 
-      var isBeta = BETA_KEYWORDS_RE.test(t);
+      var isBeta = BETA_RE.test(title);
 
-      for (var k = 0; k < OS_KEYS.length; k++) {
+      for(var k=0;k<OS_KEYS.length;k++){
         var osKey = OS_KEYS[k].key;
-        var osId = OS_KEYS[k].id;
+        var osId  = OS_KEYS[k].id;
+        if(title.indexOf(osKey) === -1) continue;
 
-        if (t.indexOf(osKey) === -1) continue;
+        var ver = extractVersionPart(title, osKey);
+        if(!ver) continue;
 
-        var ver = extractVersionPart(t, osKey);
-        if (!ver) continue;
-
-        if (isBeta) {
-          if (!result[osId].beta) result[osId].beta = ver;
-        } else {
-          if (!result[osId].stable) result[osId].stable = ver;
+        if(isBeta){
+          if(!res[osId].beta) res[osId].beta = ver;
+        }else{
+          if(!res[osId].stable) res[osId].stable = ver;
         }
       }
-
-      // 埋まり具合を見て早期終了（軽量化）
-      var done =
-        result.ios.stable && result.ios.beta &&
-        result.ipados.stable && result.ipados.beta &&
-        result.macos.stable && result.macos.beta &&
-        result.watchos.stable && result.watchos.beta &&
-        result.tvos.stable && result.tvos.beta &&
-        result.visionos.stable && result.visionos.beta &&
-        result.audioos.stable && result.audioos.beta;
-
-      if (done) break;
     }
-
-    return result;
+    return res;
   }
 
-  // =========================
-  // DOM apply (single batch)
-  // =========================
-  function applyToDOM(data) {
-    // 途中で順番に書き換えず、1フレームでまとめて反映
-    requestAnimationFrame(function () {
-      for (var i = 0; i < DOM_IDS.length; i++) {
+  function applyToDOM(data){
+    requestAnimationFrame(function(){
+      for(var i=0;i<DOM_IDS.length;i++){
         var os = DOM_IDS[i].os;
-        var stableId = DOM_IDS[i].stable;
-        var betaId = DOM_IDS[i].beta;
+        var stableEl = $(DOM_IDS[i].stable);
+        var betaEl   = $(DOM_IDS[i].beta);
 
-        var stableVal = (data[os] && data[os].stable) ? data[os].stable : "--";
-        var betaValRaw = (data[os] && data[os].beta) ? data[os].beta : null;
-        var betaVal = normalizeBetaDisplay(stableVal !== "--" ? stableVal : null, betaValRaw);
-        if (!betaVal) betaVal = "--";
+        var stable = (data[os] && data[os].stable) ? data[os].stable : "--";
+        var betaRaw = (data[os] && data[os].beta) ? data[os].beta : null;
+        var beta = normalizeBeta(stable !== "--" ? stable : null, betaRaw);
+        if(!beta) beta = "--";
 
-        safeText($(stableId), stableVal);
-        safeText($(betaId), betaVal);
+        safeText(stableEl, stable);
+        safeText(betaEl, beta);
       }
 
-      if (data.updated && isValidDate(new Date(data.updated))) {
-        safeText($("os-updated"), toYYYYMMDD(new Date(data.updated)));
+      if(data.updated){
+        var d = new Date(data.updated);
+        if(!isNaN(d.getTime())){
+          var y = d.getFullYear();
+          var m = String(d.getMonth()+1).padStart(2,"0");
+          var dd= String(d.getDate()).padStart(2,"0");
+          safeText($("os-updated"), y + "-" + m + "-" + dd);
+        }
       }
     });
   }
 
-  // =========================
-  // Fetch with timeout
-  // =========================
-  function fetchWithTimeout(url, timeoutMs) {
-    var controller = null;
+  function fetchWithTimeout(url, timeoutMs){
+    var controller = (typeof AbortController !== "undefined") ? new AbortController() : null;
     var timer = null;
 
-    if (typeof AbortController !== "undefined") {
-      controller = new AbortController();
-    }
-
-    if (controller) {
-      timer = setTimeout(function () {
-        try { controller.abort(); } catch (_) {}
-      }, timeoutMs);
+    if(controller){
+      timer = setTimeout(function(){ try{ controller.abort(); }catch(e){} }, timeoutMs);
     }
 
     return fetch(url, {
       cache: "no-store",
       signal: controller ? controller.signal : undefined
-    }).then(function (res) {
-      if (timer) clearTimeout(timer);
-      if (!res.ok) throw new Error("HTTP " + res.status);
+    }).then(function(res){
+      if(timer) clearTimeout(timer);
+      if(!res.ok) throw new Error("HTTP " + res.status);
       return res.text();
     });
   }
 
-  // =========================
-  // Run
-  // =========================
-  function run() {
-    // 1) まずキャッシュがあれば即反映（“ずっと--”を避ける）
+  function run(){
+    // 1) cache即反映（体感速度UP）
     var cached = readCache();
-    if (cached) {
-      applyToDOM(cached);
-    }
+    if(cached) applyToDOM(cached);
 
-    // 2) その後、RSSを取りに行き、取れたら更新（1バッチで反映）
+    // 2) fresh取得 → 1バッチ反映
     fetchWithTimeout(RSS_URL, FETCH_TIMEOUT_MS)
       .then(parseRSS)
       .then(getItems)
-      .then(sortItemsNewestFirst)
+      .then(sortNewest)
       .then(pickLatest)
-      .then(function (fresh) {
-        // updated を文字列化してキャッシュ（DateはJSONで壊れるため）
-        var payload = {
-          ios: fresh.ios, ipados: fresh.ipados, macos: fresh.macos, watchos: fresh.watchos,
-          tvos: fresh.tvos, audioos: fresh.audioos, visionos: fresh.visionos,
-          updated: fresh.updated && isValidDate(fresh.updated) ? fresh.updated.toISOString() : null
-        };
-
-        // “何も取れなかった”場合は無理に上書きしない（壊れ表示防止）
+      .then(function(fresh){
+        // 取れた形跡がない場合は上書きしない
         var any =
-          (payload.ios.stable || payload.ios.beta) ||
-          (payload.ipados.stable || payload.ipados.beta) ||
-          (payload.macos.stable || payload.macos.beta) ||
-          (payload.watchos.stable || payload.watchos.beta) ||
-          (payload.tvos.stable || payload.tvos.beta) ||
-          (payload.audioos.stable || payload.audioos.beta) ||
-          (payload.visionos.stable || payload.visionos.beta);
+          (fresh.ios.stable || fresh.ios.beta) ||
+          (fresh.ipados.stable || fresh.ipados.beta) ||
+          (fresh.macos.stable || fresh.macos.beta) ||
+          (fresh.watchos.stable || fresh.watchos.beta) ||
+          (fresh.tvos.stable || fresh.tvos.beta) ||
+          (fresh.audioos.stable || fresh.audioos.beta) ||
+          (fresh.visionos.stable || fresh.visionos.beta);
 
-        if (!any) return;
+        if(!any) return;
 
-        writeCache(payload);
-        applyToDOM(payload);
+        writeCache(fresh);
+        applyToDOM(fresh);
       })
-      .catch(function () {
-        // 失敗時：キャッシュがあればそれが出ている。なければHTMLの "--" のまま。
+      .catch(function(){
+        // 失敗時：cacheがあればそれが出る。なければ--のまま（レイアウト不変）
       });
   }
 
-  if (document.readyState === "loading") {
+  if(document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded", run);
-  } else {
+  }else{
     run();
   }
 })();
