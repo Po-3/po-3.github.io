@@ -1,43 +1,51 @@
 /* ==========================================================
-   Apple OS Widget - Workers RSS 取得版（軽量 / バッチ更新）
-   - RSS取得先：Cloudflare Workers（CORS回避済み）
-   - 初期表示：--（プレースホルダー）
-   - DOM更新：requestAnimationFrameで一括反映（体感の揺れ防止）
+   Apple OS Widget - Compact (Common version first)
+   - Source: Cloudflare Workers (CORS OK)
+   - CLS: DOM text only / widget height is fixed by CSS
+   - Strategy:
+     1) 全OSの "Stable" を集計して多数派を「共通Stable」として表示
+     2) 全OSの "Beta" を集計して多数派を「共通Beta」として表示
+     3) 例外（共通から外れる/未掲載）は小さく注記として表示
    ========================================================== */
 (function(){
   "use strict";
 
   var RSS_URL = "https://apple-os-rss-proxy.7xjvnhs9mz.workers.dev/";
-  var BETA_RE = /\b(beta|rc|developer beta|public beta)\b/i;
 
+  // beta2 / beta 2 / RC1 / Release Candidate も拾う
+  var BETA_RE = /(?:\bbeta\b|\bbeta\d+\b|\bbeta\s*\d+\b|\bdeveloper\s+beta\b|\bpublic\s+beta\b|\brelease\s+candidate\b|\brc\b|\brc\d+\b|\brc\s*\d+\b)/i;
+
+  // 対象OS（例外注記用）
   var OS_KEYS = [
-    { key: "iOS",      id: "ios" },
-    { key: "iPadOS",   id: "ipados" },
-    { key: "macOS",    id: "macos" },
-    { key: "watchOS",  id: "watchos" },
-    { key: "tvOS",     id: "tvos" },
-    { key: "visionOS", id: "visionos" },
-    { key: "audioOS",  id: "audioos" }
+    { key: "iOS",      id: "ios",      label: "iOS" },
+    { key: "iPadOS",   id: "ipados",   label: "iPadOS" },
+    { key: "macOS",    id: "macos",    label: "macOS" },
+    { key: "watchOS",  id: "watchos",  label: "watchOS" },
+    { key: "tvOS",     id: "tvos",     label: "tvOS" },
+    { key: "visionOS", id: "visionos", label: "visionOS" },
+    { key: "audioOS",  id: "audioos",  label: "audioOS" }
   ];
 
-  var DOM_IDS = [
-    { os:"ios",      stable:"os-ios-stable",      beta:"os-ios-beta" },
-    { os:"ipados",   stable:"os-ipados-stable",   beta:"os-ipados-beta" },
-    { os:"macos",    stable:"os-macos-stable",    beta:"os-macos-beta" },
-    { os:"watchos",  stable:"os-watchos-stable",  beta:"os-watchos-beta" },
-    { os:"tvos",     stable:"os-tvos-stable",     beta:"os-tvos-beta" },
-    { os:"audioos",  stable:"os-audioos-stable",  beta:"os-audioos-beta" },
-    { os:"visionos", stable:"os-visionos-stable", beta:"os-visionos-beta" }
-  ];
+  // DOM（このIDをHTML側で用意してください）
+  //  - os-common-stable: 共通Stable
+  //  - os-common-beta  : 共通Beta
+  //  - os-exceptions   : 例外注記（小さく）
+  //  - os-updated      : 更新日
+  var DOM = {
+    stable: "os-common-stable",
+    beta: "os-common-beta",
+    exceptions: "os-exceptions",
+    updated: "os-updated"
+  };
 
-  var CACHE_KEY = "tnr_os_widget_cache_v1";
+  var CACHE_KEY = "tnr_os_widget_cache_compact_v1";
   var CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6h
   var FETCH_TIMEOUT_MS = 3500;
 
   function $(id){ return document.getElementById(id); }
   function safeText(el, v){ if(el) el.textContent = v; }
   function now(){ return Date.now ? Date.now() : new Date().getTime(); }
-  function z2(n){ return (n < 10 ? "0" : "") + n; } // padStart互換
+  function z2(n){ return (n < 10 ? "0" : "") + n; }
 
   function readCache(){
     try{
@@ -53,22 +61,6 @@
     try{
       localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: now(), data: data }));
     }catch(e){}
-  }
-
-  function extractVersionPart(title, osKey){
-    // "iOS 26.3 beta 2 (23D5033l)" -> "26.3 beta 2"
-    var re = new RegExp(osKey + "\\s+([0-9]+(?:\\.[0-9]+){0,2}(?:\\s+(?:beta\\s*\\d+|RC))?)","i");
-    var m = title.match(re);
-    if(!m) return null;
-    return String(m[1]||"").replace(/\s+/g," ").trim() || null;
-  }
-
-  function normalizeBeta(stable, beta){
-    if(!beta) return "-";
-    if(!stable) return beta;
-    if(/\b(beta|rc)\b/i.test(beta)) return beta;
-    if(String(stable).trim().toLowerCase() === String(beta).trim().toLowerCase()) return "-";
-    return beta;
   }
 
   function parseRSS(xmlText){
@@ -101,7 +93,19 @@
     });
   }
 
-  function pickLatest(items){
+  function extractVersionPart(title, osKey){
+    // "iOS 26.3 beta 2 (23D5033l)" -> "26.3 beta 2"
+    // "(...)" は拾わない
+    var re = new RegExp(
+      osKey + "\\s+([0-9]+(?:\\.[0-9]+){0,2}(?:\\s*(?:beta\\s*\\d+|beta\\d+|RC\\s*\\d+|RC\\d+))?)",
+      "i"
+    );
+    var m = title.match(re);
+    if(!m) return null;
+    return String(m[1]||"").replace(/\s+/g," ").trim() || null;
+  }
+
+  function pickLatestPerOS(items){
     var res = {
       ios:{stable:null,beta:null},
       ipados:{stable:null,beta:null},
@@ -112,6 +116,7 @@
       visionos:{stable:null,beta:null},
       updated:null
     };
+
     if(items[0] && items[0].pubDate && !isNaN(items[0].pubDate.getTime())){
       res.updated = items[0].pubDate.toISOString();
     }
@@ -137,30 +142,116 @@
         }
       }
     }
+
     return res;
   }
 
-  function applyToDOM(data){
-    requestAnimationFrame(function(){
-      for(var i=0;i<DOM_IDS.length;i++){
-        var os = DOM_IDS[i].os;
-        var stableEl = $(DOM_IDS[i].stable);
-        var betaEl   = $(DOM_IDS[i].beta);
+  function majorityValue(values){
+    // values: ["26.2","26.2",null,"26.3"] など
+    var counts = Object.create(null);
+    var best = null;
+    var bestCount = 0;
 
-        var stable = (data[os] && data[os].stable) ? data[os].stable : "--";
-        var betaRaw = (data[os] && data[os].beta) ? data[os].beta : null;
-        var beta = normalizeBeta(stable !== "--" ? stable : null, betaRaw);
-        if(!beta) beta = "--";
+    for(var i=0;i<values.length;i++){
+      var v = values[i];
+      if(!v) continue;
+      counts[v] = (counts[v] || 0) + 1;
+      if(counts[v] > bestCount){
+        bestCount = counts[v];
+        best = v;
+      }
+    }
+    return best || null;
+  }
 
-        safeText(stableEl, stable);
-        safeText(betaEl, beta);
+  function buildCompact(data){
+    // 1) 共通Stable / 共通Beta（多数派）
+    var st = [];
+    var bt = [];
+    for(var i=0;i<OS_KEYS.length;i++){
+      var id = OS_KEYS[i].id;
+      st.push(data[id] ? data[id].stable : null);
+      bt.push(data[id] ? data[id].beta : null);
+    }
+
+    var commonStable = majorityValue(st);
+    var commonBeta = majorityValue(bt);
+
+    // betaが未掲載なら "-"
+    var commonStableOut = commonStable ? commonStable : "--";
+    var commonBetaOut = commonBeta ? commonBeta : "-";
+
+    // 2) 例外注記
+    //  - stable が共通と違う or 未掲載
+    //  - beta が共通と違う（ただし beta未掲載は出しすぎない）
+    var ex = [];
+    for(var j=0;j<OS_KEYS.length;j++){
+      var os = OS_KEYS[j];
+      var d = data[os.id] || {stable:null,beta:null};
+
+      // stable例外
+      if(commonStable){
+        if(!d.stable){
+          ex.push(os.label + " Stable: --");
+        }else if(d.stable !== commonStable){
+          ex.push(os.label + " Stable: " + d.stable);
+        }
+      }else{
+        if(d.stable){
+          ex.push(os.label + " Stable: " + d.stable);
+        }
       }
 
-      if(data.updated){
-        var d = new Date(data.updated);
-        if(!isNaN(d.getTime())){
-          safeText($("os-updated"), d.getFullYear() + "-" + z2(d.getMonth()+1) + "-" + z2(d.getDate()));
+      // beta例外（共通betaがある時のみ比較。共通betaが無いなら出しすぎない）
+      if(commonBeta){
+        if(d.beta && d.beta !== commonBeta){
+          ex.push(os.label + " Beta: " + d.beta);
         }
+      }else{
+        // 共通betaが無いとき：betaが存在するOSだけ軽く出す
+        if(d.beta){
+          ex.push(os.label + " Beta: " + d.beta);
+        }
+      }
+    }
+
+    // 3) 更新日
+    var updated = null;
+    if(data.updated){
+      var dd = new Date(data.updated);
+      if(!isNaN(dd.getTime())){
+        updated = dd.getFullYear() + "-" + z2(dd.getMonth()+1) + "-" + z2(dd.getDate());
+      }
+    }
+
+    return {
+      commonStable: commonStableOut,
+      commonBeta: commonBetaOut,
+      exceptions: ex,
+      updated: updated
+    };
+  }
+
+  function applyToDOM(compact){
+    requestAnimationFrame(function(){
+      safeText($(DOM.stable), compact.commonStable);
+      safeText($(DOM.beta), compact.commonBeta);
+
+      var exEl = $(DOM.exceptions);
+      if(exEl){
+        if(compact.exceptions && compact.exceptions.length){
+          // 例外は最大5行に制限（サイドバーの見た目維持）
+          var list = compact.exceptions.slice(0,5);
+          exEl.textContent = "例外: " + list.join(" / ");
+          exEl.style.display = "";
+        }else{
+          exEl.textContent = "";
+          exEl.style.display = "none";
+        }
+      }
+
+      if(compact.updated){
+        safeText($(DOM.updated), compact.updated);
       }
     });
   }
@@ -173,39 +264,41 @@
       timer = setTimeout(function(){ try{ controller.abort(); }catch(e){} }, timeoutMs);
     }
 
-    return fetch(url, {
-      cache: "no-store",
-      signal: controller ? controller.signal : undefined
-    }).then(function(res){
-      if(timer) clearTimeout(timer);
-      if(!res.ok) throw new Error("HTTP " + res.status);
-      return res.text();
-    });
+    return fetch(url, { cache:"no-store", signal: controller ? controller.signal : undefined })
+      .then(function(res){
+        if(timer) clearTimeout(timer);
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      });
+  }
+
+  function hasAny(data){
+    for(var i=0;i<OS_KEYS.length;i++){
+      var id = OS_KEYS[i].id;
+      if((data[id] && (data[id].stable || data[id].beta))) return true;
+    }
+    return false;
   }
 
   function run(){
+    // cache即反映
     var cached = readCache();
-    if(cached) applyToDOM(cached);
+    if(cached){
+      applyToDOM(cached);
+    }
 
+    // fresh取得
     fetchWithTimeout(RSS_URL, FETCH_TIMEOUT_MS)
       .then(parseRSS)
       .then(getItems)
       .then(sortNewest)
-      .then(pickLatest)
-      .then(function(fresh){
-        var any =
-          (fresh.ios.stable || fresh.ios.beta) ||
-          (fresh.ipados.stable || fresh.ipados.beta) ||
-          (fresh.macos.stable || fresh.macos.beta) ||
-          (fresh.watchos.stable || fresh.watchos.beta) ||
-          (fresh.tvos.stable || fresh.tvos.beta) ||
-          (fresh.audioos.stable || fresh.audioos.beta) ||
-          (fresh.visionos.stable || fresh.visionos.beta);
+      .then(pickLatestPerOS)
+      .then(function(raw){
+        if(!hasAny(raw)) return;
 
-        if(!any) return;
-
-        writeCache(fresh);
-        applyToDOM(fresh);
+        var compact = buildCompact(raw);
+        writeCache(compact);
+        applyToDOM(compact);
       })
       .catch(function(){});
   }
