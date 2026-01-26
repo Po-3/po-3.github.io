@@ -6,6 +6,8 @@
      1) 全OSの "Stable" を集計して多数派を「共通Stable」として表示
      2) 全OSの "Beta" を集計して多数派を「共通Beta」として表示
      3) 例外（共通から外れる/未掲載）は小さく注記として表示
+   - Fix:
+     - beta2 / beta 2 / RC1 / RC 1 などの表記ゆれを正規化して比較
    ========================================================== */
 (function(){
   "use strict";
@@ -38,7 +40,7 @@
     updated: "os-updated"
   };
 
-  var CACHE_KEY = "tnr_os_widget_cache_compact_v1";
+  var CACHE_KEY = "tnr_os_widget_cache_compact_v2"; // v2（比較ロジック更新）
   var CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6h
   var FETCH_TIMEOUT_MS = 3500;
 
@@ -46,6 +48,26 @@
   function safeText(el, v){ if(el) el.textContent = v; }
   function now(){ return Date.now ? Date.now() : new Date().getTime(); }
   function z2(n){ return (n < 10 ? "0" : "") + n; }
+
+  // 表示ゆれを比較用に正規化（表示は原文のままにする）
+  function normalizeVersion(v){
+    if(!v) return null;
+    return String(v)
+      .replace(/\([^)]*\)/g, "")            // 念のため括弧内除去
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase()
+      .replace(/\b(beta)\s*(\d+)\b/g, "beta $2")
+      .replace(/\b(rc)\s*(\d+)\b/g, "rc $2")
+      .replace(/\brelease\s+candidate\b/g, "rc");
+  }
+
+  function sameVersion(a, b){
+    var na = normalizeVersion(a);
+    var nb = normalizeVersion(b);
+    if(!na || !nb) return false;
+    return na === nb;
+  }
 
   function readCache(){
     try{
@@ -148,20 +170,29 @@
 
   function majorityValue(values){
     // values: ["26.2","26.2",null,"26.3"] など
+    // 比較は正規化して行い、返すのは「最初に出た原文」を優先する
     var counts = Object.create(null);
-    var best = null;
+    var firstRaw = Object.create(null);
+    var bestKey = null;
     var bestCount = 0;
 
     for(var i=0;i<values.length;i++){
-      var v = values[i];
-      if(!v) continue;
-      counts[v] = (counts[v] || 0) + 1;
-      if(counts[v] > bestCount){
-        bestCount = counts[v];
-        best = v;
+      var raw = values[i];
+      if(!raw) continue;
+
+      var key = normalizeVersion(raw);
+      if(!key) continue;
+
+      if(!firstRaw[key]) firstRaw[key] = raw;
+      counts[key] = (counts[key] || 0) + 1;
+
+      if(counts[key] > bestCount){
+        bestCount = counts[key];
+        bestKey = key;
       }
     }
-    return best || null;
+
+    return bestKey ? firstRaw[bestKey] : null;
   }
 
   function buildCompact(data){
@@ -181,9 +212,7 @@
     var commonStableOut = commonStable ? commonStable : "--";
     var commonBetaOut = commonBeta ? commonBeta : "-";
 
-    // 2) 例外注記
-    //  - stable が共通と違う or 未掲載
-    //  - beta が共通と違う（ただし beta未掲載は出しすぎない）
+    // 2) 例外注記（比較は正規化して行う）
     var ex = [];
     for(var j=0;j<OS_KEYS.length;j++){
       var os = OS_KEYS[j];
@@ -193,7 +222,7 @@
       if(commonStable){
         if(!d.stable){
           ex.push(os.label + " Stable: --");
-        }else if(d.stable !== commonStable){
+        }else if(!sameVersion(d.stable, commonStable)){
           ex.push(os.label + " Stable: " + d.stable);
         }
       }else{
@@ -202,9 +231,9 @@
         }
       }
 
-      // beta例外（共通betaがある時のみ比較。共通betaが無いなら出しすぎない）
-      if(commonBeta){
-        if(d.beta && d.beta !== commonBeta){
+      // beta例外（共通betaがある時のみ比較）
+      if(commonBeta && commonBeta !== "-"){
+        if(d.beta && !sameVersion(d.beta, commonBeta)){
           ex.push(os.label + " Beta: " + d.beta);
         }
       }else{
