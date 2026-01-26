@@ -37,6 +37,7 @@
   function $(id){ return document.getElementById(id); }
   function safeText(el, v){ if(el) el.textContent = v; }
   function now(){ return Date.now ? Date.now() : new Date().getTime(); }
+  function z2(n){ return (n < 10 ? "0" : "") + n; } // padStart互換
 
   function readCache(){
     try{
@@ -56,7 +57,6 @@
 
   function extractVersionPart(title, osKey){
     // "iOS 26.3 beta 2 (23D5033l)" -> "26.3 beta 2"
-    // "(...)" はそもそも拾わない
     var re = new RegExp(osKey + "\\s+([0-9]+(?:\\.[0-9]+){0,2}(?:\\s+(?:beta\\s*\\d+|RC))?)","i");
     var m = title.match(re);
     if(!m) return null;
@@ -159,10 +159,7 @@
       if(data.updated){
         var d = new Date(data.updated);
         if(!isNaN(d.getTime())){
-          var y = d.getFullYear();
-          var m = String(d.getMonth()+1).padStart(2,"0");
-          var dd= String(d.getDate()).padStart(2,"0");
-          safeText($("os-updated"), y + "-" + m + "-" + dd);
+          safeText($("os-updated"), d.getFullYear() + "-" + z2(d.getMonth()+1) + "-" + z2(d.getDate()));
         }
       }
     });
@@ -187,18 +184,15 @@
   }
 
   function run(){
-    // 1) cache即反映（体感速度UP）
     var cached = readCache();
     if(cached) applyToDOM(cached);
 
-    // 2) fresh取得 → 1バッチ反映
     fetchWithTimeout(RSS_URL, FETCH_TIMEOUT_MS)
       .then(parseRSS)
       .then(getItems)
       .then(sortNewest)
       .then(pickLatest)
       .then(function(fresh){
-        // 取れた形跡がない場合は上書きしない
         var any =
           (fresh.ios.stable || fresh.ios.beta) ||
           (fresh.ipados.stable || fresh.ipados.beta) ||
@@ -213,9 +207,7 @@
         writeCache(fresh);
         applyToDOM(fresh);
       })
-      .catch(function(){
-        // 失敗時：cacheがあればそれが出る。なければ--のまま（レイアウト不変）
-      });
+      .catch(function(){});
   }
 
   if(document.readyState === "loading"){
