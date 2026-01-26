@@ -8,6 +8,9 @@
      3) 例外（共通から外れる/未掲載）は小さく注記として表示
    - Fix:
      - beta2 / beta 2 / RC1 / RC 1 などの表記ゆれを正規化して比較
+   - Add:
+     - 更新目安の横に「自動更新/キャッシュ」を薄く表示（任意）
+     - Appleイベント期のみ例外を太字にする（iOS/iPadOS Betaが例外のとき）
    ========================================================== */
 (function(){
   "use strict";
@@ -33,16 +36,21 @@
   //  - os-common-beta  : 共通Beta
   //  - os-exceptions   : 例外注記（小さく）
   //  - os-updated      : 更新日
+  //  - os-auto         : 任意（自動更新/キャッシュ表示）
   var DOM = {
     stable: "os-common-stable",
     beta: "os-common-beta",
     exceptions: "os-exceptions",
-    updated: "os-updated"
+    updated: "os-updated",
+    auto: "os-auto"
   };
 
   var CACHE_KEY = "tnr_os_widget_cache_compact_v2"; // v2（比較ロジック更新）
   var CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6h
   var FETCH_TIMEOUT_MS = 3500;
+
+  // Appleイベント期判定（直近X日以内に更新があったらイベント期とみなす）
+  var EVENT_WINDOW_DAYS = 14;
 
   function $(id){ return document.getElementById(id); }
   function safeText(el, v){ if(el) el.textContent = v; }
@@ -253,15 +261,34 @@
       }
     }
 
+    // 4) イベント期 & “注目例外” 判定（例外を太字にするか）
+    //   - 直近EVENT_WINDOW_DAYS日以内に更新がある
+    //   - 例外に iOS/iPadOS の Beta が含まれる
+    var isEvent = false;
+    if(updated){
+      var d2 = new Date(updated + "T00:00:00Z");
+      if(!isNaN(d2.getTime())){
+        var days = (Date.now() - d2.getTime()) / 86400000;
+        if(days <= EVENT_WINDOW_DAYS) isEvent = true;
+      }
+    }
+
+    var isHot = false;
+    if(isEvent && ex.length){
+      var s = ex.join(" / ");
+      if(/(?:^|\/|\s)(iOS|iPadOS)\s+Beta:/i.test(s)) isHot = true;
+    }
+
     return {
       commonStable: commonStableOut,
       commonBeta: commonBetaOut,
       exceptions: ex,
-      updated: updated
+      updated: updated,
+      isHot: isHot
     };
   }
 
-  function applyToDOM(compact){
+  function applyToDOM(compact, state){
     requestAnimationFrame(function(){
       safeText($(DOM.stable), compact.commonStable);
       safeText($(DOM.beta), compact.commonBeta);
@@ -273,14 +300,32 @@
           var list = compact.exceptions.slice(0,5);
           exEl.textContent = "例外: " + list.join(" / ");
           exEl.style.display = "";
+
+          // Appleイベント期だけ例外を太字（CSS側で .is-hot を定義）
+          exEl.classList.toggle("is-hot", !!compact.isHot);
         }else{
           exEl.textContent = "";
           exEl.style.display = "none";
+          exEl.classList.remove("is-hot");
         }
       }
 
       if(compact.updated){
         safeText($(DOM.updated), compact.updated);
+      }
+
+      // キャッシュ/自動更新 表示（任意：HTMLに <span id="os-auto"> がある場合のみ）
+      var autoEl = $(DOM.auto);
+      if(autoEl){
+        if(state === "cache"){
+          autoEl.textContent = "キャッシュ";
+          autoEl.style.display = "";
+        }else if(state === "fresh"){
+          autoEl.textContent = "自動更新";
+          autoEl.style.display = "";
+        }else{
+          autoEl.style.display = "none";
+        }
       }
     });
   }
@@ -313,7 +358,7 @@
     // cache即反映
     var cached = readCache();
     if(cached){
-      applyToDOM(cached);
+      applyToDOM(cached, "cache");
     }
 
     // fresh取得
@@ -327,9 +372,11 @@
 
         var compact = buildCompact(raw);
         writeCache(compact);
-        applyToDOM(compact);
+        applyToDOM(compact, "fresh");
       })
-      .catch(function(){});
+      .catch(function(){
+        // 失敗時：キャッシュが出ていればOK。なければ--のまま。
+      });
   }
 
   if(document.readyState === "loading"){
