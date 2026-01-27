@@ -1,16 +1,15 @@
 /* ==========================================================
-   Apple OS Widget - Compact (Common version first)
+   Apple OS Widget - Compact (Auto DOM + CLS safe)
    - Source: Cloudflare Workers (CORS OK)
-   - CLS: DOM text only / widget height is fixed by CSS
+   - CLS: widget height should be fixed by CSS (.tnr-osw / .tnr-osw-body)
    - Strategy:
-     1) 全OSの "Stable" を集計して多数派を「共通Stable」として表示
-     2) 全OSの "Beta" を集計して多数派を「共通Beta」として表示
-     3) 例外（共通から外れる/未掲載）は小さく注記として表示
+     1) 全OSの "Stable" を集計して多数派を「共通Stable」
+     2) 全OSの "Beta"   を集計して多数派を「共通Beta」
+     3) 例外（共通から外れる/未掲載）を注記
    - Fix:
-     - beta2 / beta 2 / RC1 / RC 1 などの表記ゆれを正規化して比較
+     - beta2 / beta 2 / RC1 / RC 1 / Release Candidate を正規化して比較
    - Add:
-     - 更新目安の横に「自動更新/キャッシュ」を薄く表示（任意）
-     - Appleイベント期のみ例外を太字にする（iOS/iPadOS Betaが例外のとき）
+     - JSがDOMを自動生成（HTMLは最小でOK）
    ========================================================== */
 (function(){
   "use strict";
@@ -31,12 +30,7 @@
     { key: "audioOS",  id: "audioos",  label: "audioOS" }
   ];
 
-  // DOM（このIDをHTML側で用意してください）
-  //  - os-common-stable: 共通Stable
-  //  - os-common-beta  : 共通Beta
-  //  - os-exceptions   : 例外注記（小さく）
-  //  - os-updated      : 更新日
-  //  - os-auto         : 任意（自動更新/キャッシュ表示）
+  // 既存ID（後方互換）
   var DOM = {
     stable: "os-common-stable",
     beta: "os-common-beta",
@@ -45,7 +39,13 @@
     auto: "os-auto"
   };
 
-  var CACHE_KEY = "tnr_os_widget_cache_compact_v2"; // v2（比較ロジック更新）
+  // JSが探す「差し込み先」(どれか見つかればOK)
+  // - 推奨: <div id="tnr-os-widget"></div>
+  // - 互換: <div class="tnr-osw">...</div>
+  var ROOT_ID = "tnr-os-widget";
+  var ROOT_CLASS = "tnr-osw";
+
+  var CACHE_KEY = "tnr_os_widget_cache_compact_v3"; // v3（DOM自動生成）
   var CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6h
   var FETCH_TIMEOUT_MS = 3500;
 
@@ -61,7 +61,7 @@
   function normalizeVersion(v){
     if(!v) return null;
     return String(v)
-      .replace(/\([^)]*\)/g, "")            // 念のため括弧内除去
+      .replace(/\([^)]*\)/g, "")
       .replace(/\s+/g, " ")
       .trim()
       .toLowerCase()
@@ -125,7 +125,6 @@
 
   function extractVersionPart(title, osKey){
     // "iOS 26.3 beta 2 (23D5033l)" -> "26.3 beta 2"
-    // "(...)" は拾わない
     var re = new RegExp(
       osKey + "\\s+([0-9]+(?:\\.[0-9]+){0,2}(?:\\s*(?:beta\\s*\\d+|beta\\d+|RC\\s*\\d+|RC\\d+))?)",
       "i"
@@ -177,8 +176,6 @@
   }
 
   function majorityValue(values){
-    // values: ["26.2","26.2",null,"26.3"] など
-    // 比較は正規化して行い、返すのは「最初に出た原文」を優先する
     var counts = Object.create(null);
     var firstRaw = Object.create(null);
     var bestKey = null;
@@ -204,7 +201,6 @@
   }
 
   function buildCompact(data){
-    // 1) 共通Stable / 共通Beta（多数派）
     var st = [];
     var bt = [];
     for(var i=0;i<OS_KEYS.length;i++){
@@ -216,17 +212,14 @@
     var commonStable = majorityValue(st);
     var commonBeta = majorityValue(bt);
 
-    // betaが未掲載なら "-"
     var commonStableOut = commonStable ? commonStable : "--";
     var commonBetaOut = commonBeta ? commonBeta : "-";
 
-    // 2) 例外注記（比較は正規化して行う）
     var ex = [];
     for(var j=0;j<OS_KEYS.length;j++){
       var os = OS_KEYS[j];
       var d = data[os.id] || {stable:null,beta:null};
 
-      // stable例外
       if(commonStable){
         if(!d.stable){
           ex.push(os.label + " Stable: --");
@@ -239,20 +232,17 @@
         }
       }
 
-      // beta例外（共通betaがある時のみ比較）
       if(commonBeta && commonBeta !== "-"){
         if(d.beta && !sameVersion(d.beta, commonBeta)){
           ex.push(os.label + " Beta: " + d.beta);
         }
       }else{
-        // 共通betaが無いとき：betaが存在するOSだけ軽く出す
         if(d.beta){
           ex.push(os.label + " Beta: " + d.beta);
         }
       }
     }
 
-    // 3) 更新日
     var updated = null;
     if(data.updated){
       var dd = new Date(data.updated);
@@ -261,9 +251,6 @@
       }
     }
 
-    // 4) イベント期 & “注目例外” 判定（例外を太字にするか）
-    //   - 直近EVENT_WINDOW_DAYS日以内に更新がある
-    //   - 例外に iOS/iPadOS の Beta が含まれる
     var isEvent = false;
     if(updated){
       var d2 = new Date(updated + "T00:00:00Z");
@@ -296,12 +283,9 @@
       var exEl = $(DOM.exceptions);
       if(exEl){
         if(compact.exceptions && compact.exceptions.length){
-          // 例外は最大5行に制限（サイドバーの見た目維持）
           var list = compact.exceptions.slice(0,5);
           exEl.textContent = "例外: " + list.join(" / ");
           exEl.style.display = "";
-
-          // Appleイベント期だけ例外を太字（CSS側で .is-hot を定義）
           exEl.classList.toggle("is-hot", !!compact.isHot);
         }else{
           exEl.textContent = "";
@@ -314,7 +298,6 @@
         safeText($(DOM.updated), compact.updated);
       }
 
-      // キャッシュ/自動更新 表示（任意：HTMLに <span id="os-auto"> がある場合のみ）
       var autoEl = $(DOM.auto);
       if(autoEl){
         if(state === "cache"){
@@ -354,7 +337,61 @@
     return false;
   }
 
+  // ====== 追加：DOM自動生成（全自動化の肝） ======
+  function ensureRoot(){
+    var root = document.getElementById(ROOT_ID);
+    if(root) return root;
+
+    // 互換：既存HTMLが .tnr-osw で置かれている場合
+    var legacy = document.querySelector("." + ROOT_CLASS);
+    return legacy || null;
+  }
+
+  function idsExist(){
+    return !!($(DOM.stable) && $(DOM.beta) && $(DOM.exceptions) && $(DOM.updated));
+  }
+
+  function injectTemplate(root){
+    // 既に子要素がある場合でも「必要IDが無い」なら上書きする
+    // （サイドバーの断片崩れを避けるため）
+    root.innerHTML = [
+      '<div class="tnr-osw">',
+        '<div class="tnr-osw-head">',
+          '<div class="tnr-osw-title">最新OSバージョン</div>',
+          '<div class="tnr-osw-sub">Stable / Beta（Apple公式RSSより）</div>',
+        '</div>',
+        '<div class="tnr-osw-body">',
+          '<div class="tnr-osw-compact">',
+            '<div class="tnr-osw-row">',
+              '<span class="tnr-osw-label">共通・正式版</span>',
+              '<span class="tnr-osw-value" id="' + DOM.stable + '">--</span>',
+            '</div>',
+            '<div class="tnr-osw-row">',
+              '<span class="tnr-osw-label">共通・ベータ</span>',
+              '<span class="tnr-osw-value tnr-osw-beta" id="' + DOM.beta + '">--</span>',
+            '</div>',
+            '<div class="tnr-osw-ex" id="' + DOM.exceptions + '"></div>',
+            '<div class="tnr-osw-foot">',
+              '更新：<span id="' + DOM.updated + '">----</span>',
+              '<span id="' + DOM.auto + '" class="tnr-osw-auto" aria-hidden="true" style="display:none;"></span>',
+            '</div>',
+          '</div>',
+        '</div>',
+      '</div>'
+    ].join("");
+  }
+
   function run(){
+    var root = ensureRoot();
+    if(!root) return; // 差し込み先が無いなら何もしない（安全）
+
+    if(!idsExist()){
+      injectTemplate(root.id === ROOT_ID ? root : root.parentNode || root);
+      // inject後、legacyのとき二重にならないよう最小限に：rootが.tnr-oswなら親に入れる可能性があるので
+      // 「確実にIDができたか」だけ最終チェック
+      if(!idsExist()) return;
+    }
+
     // cache即反映
     var cached = readCache();
     if(cached){
