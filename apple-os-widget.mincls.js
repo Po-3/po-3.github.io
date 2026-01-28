@@ -17,8 +17,9 @@
 
   var RSS_URL = "https://apple-os-rss-proxy.7xjvnhs9mz.workers.dev/";
 
-  // beta2 / beta 2 / RC1 / Release Candidate も拾う
-  var BETA_RE = /(?:\bbeta\b|\bbeta\d+\b|\bbeta\s*\d+\b|\bdeveloper\s+beta\b|\bpublic\s+beta\b|\brelease\s+candidate\b|\brc\b|\brc\d+\b|\brc\s*\d+\b)/i;
+  // beta2 / beta 2 / RC1 / Release Candidate / (b) などを拾う
+  // (b) は iOS 26.3(b) のような表記を想定（ビルド番号の括弧は normalizeVersion 側で除去）
+  var BETA_RE = /(?:\bbeta\b|\bbeta\d+\b|\bbeta\s*\d+\b|\bdeveloper\s+beta\b|\bpublic\s+beta\b|\brelease\s+candidate\b|\brc\b|\brc\d+\b|\brc\s*\d+\b|\(\s*[a-z]\s*\))/i;
 
   // 対象OS（例外注記用）
   var OS_KEYS = [
@@ -61,9 +62,11 @@
   function normalizeVersion(v){
     if(!v) return null;
     return String(v)
-      .replace(/\([^)]*\)/g, "")            // 念のため括弧内除去
+      // 括弧は基本残す（例: 26.3(b)）。ただしビルド番号の括弧（先頭が数字）は比較ノイズなので除去
+      .replace(/\(\s*\d[^)]*\)/g, "")
       .replace(/\s+/g, " ")
       .trim()
+      .replace(/\(\s*([a-z])\s*\)/g, "($1)")
       .toLowerCase()
       .replace(/\b(beta)\s*(\d+)\b/g, "beta $2")
       .replace(/\b(rc)\s*(\d+)\b/g, "rc $2")
@@ -127,7 +130,7 @@
     // "iOS 26.3 beta 2 (23D5033l)" -> "26.3 beta 2"
     // "(...)" は拾わない
     var re = new RegExp(
-      osKey + "\\s+([0-9]+(?:\\.[0-9]+){0,2}(?:\\s*(?:beta\\s*\\d+|beta\\d+|RC\\s*\\d+|RC\\d+))?)",
+      osKey + "\\s+([0-9]+(?:\\.[0-9]+){0,2}(?:\\s*\\(\\s*[a-z]\\s*\\))?(?:\\s*(?:beta\\s*\\d+|beta\\d+|RC\\s*\\d+|RC\\d+))?)",
       "i"
     );
     var m = title.match(re);
@@ -226,18 +229,18 @@
       var os = OS_KEYS[j];
       var d = data[os.id] || {stable:null,beta:null};
 
-      // stable例外
-      if(commonStable){
-        if(!d.stable){
-          ex.push(os.label + " Stable: --");
-        }else if(!sameVersion(d.stable, commonStable)){
-          ex.push(os.label + " Stable: " + d.stable);
-        }
-      }else{
-        if(d.stable){
-          ex.push(os.label + " Stable: " + d.stable);
-        }
-      }
+// stable例外
+if(commonStable){
+  if(!d.stable){
+    ex.push(os.label + " 正式版: --");
+  }else if(!sameVersion(d.stable, commonStable)){
+    ex.push(os.label + " 正式版: " + d.stable);
+  }
+}else{
+  if(d.stable){
+    ex.push(os.label + " 正式版: " + d.stable);
+  }
+}
 
       // beta例外（共通betaがある時のみ比較）
       if(commonBeta && commonBeta !== "-"){
