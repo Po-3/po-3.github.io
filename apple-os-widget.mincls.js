@@ -46,7 +46,7 @@
     auto: "os-auto"
   };
 
-  var CACHE_KEY = "tnr_os_widget_cache_compact_v2"; // v2（比較ロジック更新）
+  var CACHE_KEY = "tnr_os_widget_cache_compact_v3"; // v3（比較ロジック更新）
   var CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6h
   var FETCH_TIMEOUT_MS = 3500;
 
@@ -79,6 +79,76 @@
     if(!na || !nb) return false;
     return na === nb;
   }
+
+  // ---- Inserted helper functions for version-aware selection ----
+  function parseVersionForCompare(raw){
+    var norm = normalizeVersion(raw);
+    if(!norm) return null;
+
+    // Extract numeric version parts (up to 3 components)
+    var numMatch = norm.match(/^(\d+)(?:\.(\d+))?(?:\.(\d+))?/);
+    var nums = [0,0,0];
+    if(numMatch){
+      nums[0] = parseInt(numMatch[1],10);
+      nums[1] = numMatch[2] !== undefined ? parseInt(numMatch[2],10) : 0;
+      nums[2] = numMatch[3] !== undefined ? parseInt(numMatch[3],10) : 0;
+    }
+
+    // Determine stage and stageNum
+    var stage = 2; // stable=2, rc=1, beta=0
+    var stageNum = 0;
+
+    if(/\brc\b/.test(norm)){
+      stage = 1;
+      var rcMatch = norm.match(/\brc\s*(\d+)/);
+      if(rcMatch) stageNum = parseInt(rcMatch[1],10);
+    } else if(/\bbeta\b/.test(norm)){
+      stage = 0;
+      var betaMatch = norm.match(/\bbeta\s*(\d+)/);
+      if(betaMatch) stageNum = parseInt(betaMatch[1],10);
+    }
+
+    return { nums: nums, stage: stage, stageNum: stageNum };
+  }
+
+  function compareVersionRaw(a,b){
+    if(!a && !b) return 0;
+    if(!a) return -1;
+    if(!b) return 1;
+
+    var pa = parseVersionForCompare(a);
+    var pb = parseVersionForCompare(b);
+    if(!pa && !pb) return 0;
+    if(!pa) return -1;
+    if(!pb) return 1;
+
+    for(var i=0; i<3; i++){
+      if(pa.nums[i] > pb.nums[i]) return 1;
+      if(pa.nums[i] < pb.nums[i]) return -1;
+    }
+    // Compare stage: stable(2) > rc(1) > beta(0)
+    if(pa.stage > pb.stage) return 1;
+    if(pa.stage < pb.stage) return -1;
+
+    // Compare stageNum
+    if(pa.stageNum > pb.stageNum) return 1;
+    if(pa.stageNum < pb.stageNum) return -1;
+
+    return 0;
+  }
+
+  function maxVersionValue(values){
+    var maxVal = null;
+    for(var i=0; i<values.length; i++){
+      var v = values[i];
+      if(!v) continue;
+      if(maxVal === null || compareVersionRaw(v, maxVal) > 0){
+        maxVal = v;
+      }
+    }
+    return maxVal;
+  }
+  // ---- end inserted helper functions ----
 
   function readCache(){
     try{
@@ -169,9 +239,15 @@
         if(!ver) continue;
 
         if(isBeta){
-          if(!res[osId].beta) res[osId].beta = ver;
+          // if(!res[osId].beta) res[osId].beta = ver;
+          if(!res[osId].beta || compareVersionRaw(ver, res[osId].beta) > 0) {
+            res[osId].beta = ver;
+          }
         }else{
-          if(!res[osId].stable) res[osId].stable = ver;
+          // if(!res[osId].stable) res[osId].stable = ver;
+          if(!res[osId].stable || compareVersionRaw(ver, res[osId].stable) > 0) {
+            res[osId].stable = ver;
+          }
         }
       }
     }
@@ -216,8 +292,10 @@
       bt.push(data[id] ? data[id].beta : null);
     }
 
-    var commonStable = majorityValue(st);
-    var commonBeta = majorityValue(bt);
+    // var commonStable = majorityValue(st);
+    // var commonBeta = majorityValue(bt);
+    var commonStable = maxVersionValue(st);
+    var commonBeta = maxVersionValue(bt);
 
     // betaが未掲載なら "-"
     var commonStableOut = commonStable ? commonStable : "--";
