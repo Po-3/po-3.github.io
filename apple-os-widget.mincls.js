@@ -7,7 +7,7 @@
      2) 全OSの "Beta" を集計して多数派を「共通Beta」として表示
      3) 例外（共通から外れる/未掲載）は小さく注記として表示
    - Fix:
-     - beta2 / beta 2 / RC1 / RC 1 などの表記ゆれを正規化して比較
+     - beta2 / beta 2 / RC1 / RC 1 / Release Candidate / (RC) などの表記ゆれを正規化して比較
    - Add:
      - 更新目安の横に「自動更新/キャッシュ」を薄く表示（任意）
      - Appleイベント期のみ例外を太字にする（iOS/iPadOS Betaが例外のとき）
@@ -17,9 +17,9 @@
 
   var RSS_URL = "https://apple-os-rss-proxy.7xjvnhs9mz.workers.dev/";
 
-  // beta2 / beta 2 / RC1 / Release Candidate / (b) などを拾う
+  // beta2 / beta 2 / RC1 / Release Candidate / (RC) / (b) などを拾う
   // (b) は iOS 26.3(b) のような表記を想定（ビルド番号の括弧は normalizeVersion 側で除去）
-  var BETA_RE = /(?:\bbeta\b|\bbeta\d+\b|\bbeta\s*\d+\b|\bdeveloper\s+beta\b|\bpublic\s+beta\b|\brelease\s+candidate\b|\brc\b|\brc\d+\b|\brc\s*\d+\b|\(\s*[a-z]\s*\))/i;
+  var BETA_RE = /(?:\bbeta\b|\bbeta\d+\b|\bbeta\s*\d+\b|\bdeveloper\s+beta\b|\bpublic\s+beta\b|\brelease\s+candidate\b|\brc\b|\brc\d+\b|\brc\s*\d+\b|\(\s*rc\s*\)|\(\s*[a-z]\s*\))/i;
 
   // 対象OS（例外注記用）
   var OS_KEYS = [
@@ -70,7 +70,8 @@
       .toLowerCase()
       .replace(/\b(beta)\s*(\d+)\b/g, "beta $2")
       .replace(/\b(rc)\s*(\d+)\b/g, "rc $2")
-      .replace(/\brelease\s+candidate\b/g, "rc");
+      .replace(/\brelease\s+candidate\b/g, "rc")
+      .replace(/\(\s*rc\s*\)/g, "rc");
   }
 
   function sameVersion(a, b){
@@ -197,15 +198,44 @@
   }
 
   function extractVersionPart(title, osKey){
+    // 例:
+    // "iOS 26.3 Release Candidate (23D60)" -> "26.3RC"
+    // "iOS 26.3 RC" -> "26.3RC"
+    // "iOS 26.3 RC 1" -> "26.3RC1"
     // "iOS 26.3 beta 2 (23D5033l)" -> "26.3 beta 2"
-    // "(...)" は拾わない
+    // "(...)" は拾わない（normalizeVersion側でビルド括弧は比較ノイズとして除去）
+
     var re = new RegExp(
-      osKey + "\\s+([0-9]+(?:\\.[0-9]+){0,2}(?:\\s*\\(\\s*[a-z]\\s*\\))?(?:\\s*(?:beta\\s*\\d+|beta\\d+|RC\\s*\\d+|RC\\d+))?)",
+      osKey +
+        "\\s+(" +
+          "[0-9]+(?:\\.[0-9]+){0,2}" +
+          "(?:\\s*\\(\\s*[a-z]\\s*\\))?" +
+          "(?:" +
+            "\\s*(?:beta\\s*\\d+|beta\\d+)" +
+            "|" +
+            "\\s*(?:rc\\s*\\d+|rc\\d+|rc|release\\s+candidate)" +
+          ")?" +
+        ")",
       "i"
     );
+
     var m = title.match(re);
     if(!m) return null;
-    return String(m[1]||"").replace(/\s+/g," ").trim() || null;
+
+    var v = String(m[1] || "").replace(/\s+/g," ").trim();
+    if(!v) return null;
+
+    // "Release Candidate" -> "RC"（表示用）
+    if(/\brelease\s+candidate\b/i.test(v)){
+      v = v.replace(/\brelease\s+candidate\b/ig, "RC");
+    }
+
+    // "26.3 RC" / "26.3 RC 1" / "26.3RC1" を「26.3RC」「26.3RC1」に寄せる
+    v = v
+      .replace(/\bRC\s*(\d+)\b/i, "RC$1")
+      .replace(/\bRC\b/i, "RC");
+
+    return v;
   }
 
   function pickLatestPerOS(items){
@@ -239,12 +269,10 @@
         if(!ver) continue;
 
         if(isBeta){
-          // if(!res[osId].beta) res[osId].beta = ver;
           if(!res[osId].beta || compareVersionRaw(ver, res[osId].beta) > 0) {
             res[osId].beta = ver;
           }
         }else{
-          // if(!res[osId].stable) res[osId].stable = ver;
           if(!res[osId].stable || compareVersionRaw(ver, res[osId].stable) > 0) {
             res[osId].stable = ver;
           }
@@ -255,35 +283,8 @@
     return res;
   }
 
-  function majorityValue(values){
-    // values: ["26.2","26.2",null,"26.3"] など
-    // 比較は正規化して行い、返すのは「最初に出た原文」を優先する
-    var counts = Object.create(null);
-    var firstRaw = Object.create(null);
-    var bestKey = null;
-    var bestCount = 0;
-
-    for(var i=0;i<values.length;i++){
-      var raw = values[i];
-      if(!raw) continue;
-
-      var key = normalizeVersion(raw);
-      if(!key) continue;
-
-      if(!firstRaw[key]) firstRaw[key] = raw;
-      counts[key] = (counts[key] || 0) + 1;
-
-      if(counts[key] > bestCount){
-        bestCount = counts[key];
-        bestKey = key;
-      }
-    }
-
-    return bestKey ? firstRaw[bestKey] : null;
-  }
-
   function buildCompact(data){
-    // 1) 共通Stable / 共通Beta（多数派）
+    // 1) 共通Stable / 共通Beta（最大値）
     var st = [];
     var bt = [];
     for(var i=0;i<OS_KEYS.length;i++){
@@ -292,8 +293,6 @@
       bt.push(data[id] ? data[id].beta : null);
     }
 
-    // var commonStable = majorityValue(st);
-    // var commonBeta = majorityValue(bt);
     var commonStable = maxVersionValue(st);
     var commonBeta = maxVersionValue(bt);
 
@@ -307,18 +306,18 @@
       var os = OS_KEYS[j];
       var d = data[os.id] || {stable:null,beta:null};
 
-// stable例外
-if(commonStable){
-  if(!d.stable){
-    ex.push(os.label + " 正式版: --");
-  }else if(!sameVersion(d.stable, commonStable)){
-    ex.push(os.label + " 正式版: " + d.stable);
-  }
-}else{
-  if(d.stable){
-    ex.push(os.label + " 正式版: " + d.stable);
-  }
-}
+      // stable例外
+      if(commonStable){
+        if(!d.stable){
+          ex.push(os.label + " 正式版: --");
+        }else if(!sameVersion(d.stable, commonStable)){
+          ex.push(os.label + " 正式版: " + d.stable);
+        }
+      }else{
+        if(d.stable){
+          ex.push(os.label + " 正式版: " + d.stable);
+        }
+      }
 
       // beta例外（共通betaがある時のみ比較）
       if(commonBeta && commonBeta !== "-"){
