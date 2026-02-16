@@ -211,8 +211,7 @@
           "[0-9]+(?:\\.[0-9]+){0,2}" +
           "(?:\\s*\\(\\s*[a-z]\\s*\\))?" +
           "(?:" +
--            "\\s*(?:beta\\s*\\d+|beta\\d+)" +
-+            "\\s*(?:beta(?:\\s*\\d+)?|beta\\d+)" +
+            "\\s*(?:beta(?:\\s*\\d+)?|beta\\d+)" +
             "|" +
             "\\s*(?:rc\\s*\\d+|rc\\d+|rc|release\\s+candidate)" +
           ")?" +
@@ -230,6 +229,11 @@
     if(/\brelease\s+candidate\b/i.test(v)){
       v = v.replace(/\brelease\s+candidate\b/ig, "RC");
     }
+
+    // "26.4 beta" / "26.4 beta 1" / "26.4beta1" を「26.4 Beta」「26.4 Beta1」に寄せる（表示用）
+    v = v
+      .replace(/\bbeta\s*(\d+)\b/i, "Beta$1")
+      .replace(/\bbeta\b/i, "Beta");
 
     // "26.3 RC" / "26.3 RC 1" / "26.3RC1" を「26.3RC」「26.3RC1」に寄せる
     v = v
