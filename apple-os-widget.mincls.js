@@ -1,6 +1,7 @@
 /* ==========================================================
    Apple OS Widget - Compact (Common version first)
    v4: 日本時間リリース日をバージョン横に表示 (JST = UTC+9)
+      日付は小span分離でスタイル制御可能
    ========================================================== */
 (function(){
   "use strict";
@@ -20,16 +21,17 @@
   ];
 
   var DOM = {
-    stable:     "os-common-stable",
-    beta:       "os-common-beta",
+    stableVer:  "os-stable-ver",
+    stableDate: "os-stable-date",
+    betaVer:    "os-beta-ver",
+    betaDate:   "os-beta-date",
     exceptions: "os-exceptions",
     updated:    "os-updated",
     auto:       "os-auto"
   };
 
-  // ★ v4 に変更（日付フィールド追加によりキャッシュ構造が変わるため）
-  var CACHE_KEY      = "tnr_os_widget_cache_compact_v4";
-  var CACHE_TTL_MS   = 6 * 60 * 60 * 1000;
+  var CACHE_KEY        = "tnr_os_widget_cache_compact_v4";
+  var CACHE_TTL_MS     = 6 * 60 * 60 * 1000;
   var FETCH_TIMEOUT_MS = 3500;
   var EVENT_WINDOW_DAYS = 14;
 
@@ -38,16 +40,16 @@
   function now(){ return Date.now ? Date.now() : new Date().getTime(); }
   function z2(n){ return (n < 10 ? "0" : "") + n; }
 
-  // ★ NEW: UTC の Date オブジェクトを JST 日付文字列 "YYYY/MM/DD" に変換
+  /* UTC の Date → JST 日付文字列 "YYYY/MM/DD" */
   function toJSTDateStr(date){
     if(!date || isNaN(date.getTime())) return null;
-    var jst = new Date(date.getTime() + 9 * 60 * 60 * 1000); // UTC+9
+    var jst = new Date(date.getTime() + 9 * 60 * 60 * 1000);
     return jst.getUTCFullYear() + "/" +
            z2(jst.getUTCMonth() + 1) + "/" +
            z2(jst.getUTCDate());
   }
 
-  // ★ NEW: バージョン文字列と日付文字列を結合（日付無しの場合はそのまま返す）
+  /* 例外行用：バージョン + 日付を "(YYYY/MM/DD)" 付きテキストに結合 */
   function joinVerDate(ver, dateStr){
     if(!ver || ver === "--" || ver === "-") return ver;
     if(!dateStr) return ver;
@@ -118,11 +120,9 @@
     return 0;
   }
 
-  // ★ CHANGED: 最大バージョンと、そのバージョンに対応する最古の日付を返す
+  /* 最大バージョンと対応する最古の日付を返す */
   function maxVersionWithDate(pairs){
-    // pairs = [{ver, date}, ...]
-    var maxVer  = null;
-    var maxDate = null;
+    var maxVer = null, maxDate = null;
     for(var i=0; i<pairs.length; i++){
       var v = pairs[i].ver;
       var d = pairs[i].date;
@@ -131,7 +131,6 @@
         maxVer  = v;
         maxDate = d;
       } else if(sameVersion(v, maxVer)){
-        // 同バージョンなら最古の日付を採用（全OS同日リリースが多いが念のため）
         if(d && (!maxDate || d < maxDate)) maxDate = d;
       }
     }
@@ -164,7 +163,7 @@
   function getItems(xml){
     var items = xml.getElementsByTagName("item");
     var out = [];
-    for(var i=0;i<items.length;i++){
+    for(var i=0; i<items.length; i++){
       var it = items[i];
       var t  = it.getElementsByTagName("title")[0];
       var p  = it.getElementsByTagName("pubDate")[0];
@@ -205,16 +204,11 @@
     if(/\brelease\s+candidate\b/i.test(v)){
       v = v.replace(/\brelease\s+candidate\b/ig, "RC");
     }
-    v = v
-      .replace(/\bbeta\s*(\d+)\b/i, "Beta$1")
-      .replace(/\bbeta\b/i, "Beta");
-    v = v
-      .replace(/\bRC\s*(\d+)\b/i, "RC$1")
-      .replace(/\bRC\b/i, "RC");
+    v = v.replace(/\bbeta\s*(\d+)\b/i, "Beta$1").replace(/\bbeta\b/i, "Beta");
+    v = v.replace(/\bRC\s*(\d+)\b/i,   "RC$1"  ).replace(/\bRC\b/i,   "RC"  );
     return v;
   }
 
-  // ★ CHANGED: stable/beta に加え stableDate/betaDate も記録
   function pickLatestPerOS(items){
     var res = {
       ios:      { stable:null, stableDate:null, beta:null, betaDate:null },
@@ -232,7 +226,7 @@
     }
 
     for(var i=0; i<items.length; i++){
-      var title  = (items[i].title||"").trim();
+      var title   = (items[i].title||"").trim();
       var pubDate = items[i].pubDate;
       if(!title) continue;
 
@@ -249,9 +243,8 @@
         if(isBeta){
           if(!res[osId].beta || compareVersionRaw(ver, res[osId].beta) > 0){
             res[osId].beta     = ver;
-            res[osId].betaDate = pubDate; // ★ 日付を一緒に保存
+            res[osId].betaDate = pubDate;
           } else if(sameVersion(ver, res[osId].beta)){
-            // 同バージョン・より古い日付があれば上書き
             if(pubDate && (!res[osId].betaDate || pubDate < res[osId].betaDate)){
               res[osId].betaDate = pubDate;
             }
@@ -259,7 +252,7 @@
         } else {
           if(!res[osId].stable || compareVersionRaw(ver, res[osId].stable) > 0){
             res[osId].stable     = ver;
-            res[osId].stableDate = pubDate; // ★ 日付を一緒に保存
+            res[osId].stableDate = pubDate;
           } else if(sameVersion(ver, res[osId].stable)){
             if(pubDate && (!res[osId].stableDate || pubDate < res[osId].stableDate)){
               res[osId].stableDate = pubDate;
@@ -271,11 +264,8 @@
     return res;
   }
 
-  // ★ CHANGED: 共通バージョンに日付フィールドを追加
   function buildCompact(data){
-    // 1) 共通Stable / Beta（最大値 + 日付）
-    var stPairs = [];
-    var btPairs = [];
+    var stPairs = [], btPairs = [];
     for(var i=0; i<OS_KEYS.length; i++){
       var id = OS_KEYS[i].id;
       var d  = data[id] || {};
@@ -286,19 +276,16 @@
     var stResult = maxVersionWithDate(stPairs);
     var btResult = maxVersionWithDate(btPairs);
 
-    var commonStable     = stResult.ver;
-    var commonStableDate = stResult.date;   // Date オブジェクト or null
-    var commonBeta       = btResult.ver;
-    var commonBetaDate   = btResult.date;
-
-    var commonStableOut = commonStable ? commonStable : "--";
-    var commonBetaOut   = commonBeta   ? commonBeta   : "-";
-
-    // JST 文字列に変換
+    var commonStable        = stResult.ver;
+    var commonStableDate    = stResult.date;
+    var commonBeta          = btResult.ver;
+    var commonBetaDate      = btResult.date;
+    var commonStableOut     = commonStable ? commonStable : "--";
+    var commonBetaOut       = commonBeta   ? commonBeta   : "-";
     var commonStableDateStr = toJSTDateStr(commonStableDate);
     var commonBetaDateStr   = toJSTDateStr(commonBetaDate);
 
-    // 2) 例外注記
+    /* 例外注記 */
     var ex = [];
     for(var j=0; j<OS_KEYS.length; j++){
       var os = OS_KEYS[j];
@@ -308,31 +295,26 @@
         if(!od.stable){
           ex.push(os.label + " 正式版: --");
         } else if(!sameVersion(od.stable, commonStable)){
-          // 例外にも日付を付ける
-          var exStableDate = toJSTDateStr(od.stableDate);
-          ex.push(os.label + " 正式版: " + joinVerDate(od.stable, exStableDate));
+          ex.push(os.label + " 正式版: " + joinVerDate(od.stable, toJSTDateStr(od.stableDate)));
         }
       } else {
         if(od.stable){
-          var exStableDate2 = toJSTDateStr(od.stableDate);
-          ex.push(os.label + " 正式版: " + joinVerDate(od.stable, exStableDate2));
+          ex.push(os.label + " 正式版: " + joinVerDate(od.stable, toJSTDateStr(od.stableDate)));
         }
       }
 
       if(commonBeta && commonBeta !== "-"){
         if(od.beta && !sameVersion(od.beta, commonBeta)){
-          var exBetaDate = toJSTDateStr(od.betaDate);
-          ex.push(os.label + " Beta: " + joinVerDate(od.beta, exBetaDate));
+          ex.push(os.label + " Beta: " + joinVerDate(od.beta, toJSTDateStr(od.betaDate)));
         }
       } else {
         if(od.beta){
-          var exBetaDate2 = toJSTDateStr(od.betaDate);
-          ex.push(os.label + " Beta: " + joinVerDate(od.beta, exBetaDate2));
+          ex.push(os.label + " Beta: " + joinVerDate(od.beta, toJSTDateStr(od.betaDate)));
         }
       }
     }
 
-    // 3) 更新日
+    /* 更新日 */
     var updated = null;
     if(data.updated){
       var dd = new Date(data.updated);
@@ -341,58 +323,62 @@
       }
     }
 
-    // 4) イベント期判定
+    /* イベント期判定 */
     var isEvent = false;
     if(updated){
-      var d2   = new Date(updated + "T00:00:00Z");
+      var d2 = new Date(updated + "T00:00:00Z");
       if(!isNaN(d2.getTime())){
-        var days = (Date.now() - d2.getTime()) / 86400000;
-        if(days <= EVENT_WINDOW_DAYS) isEvent = true;
+        if((Date.now() - d2.getTime()) / 86400000 <= EVENT_WINDOW_DAYS) isEvent = true;
       }
     }
     var isHot = false;
     if(isEvent && ex.length){
-      var s = ex.join(" / ");
-      if(/(?:^|\/|\s)(iOS|iPadOS)\s+Beta:/i.test(s)) isHot = true;
+      if(/(?:^|\/|\s)(iOS|iPadOS)\s+Beta:/i.test(ex.join(" / "))) isHot = true;
     }
 
     return {
       commonStable:     commonStableOut,
-      commonStableDate: commonStableDateStr, // ★ 新フィールド（キャッシュに保存される）
+      commonStableDate: commonStableDateStr,
       commonBeta:       commonBetaOut,
-      commonBetaDate:   commonBetaDateStr,   // ★ 新フィールド
+      commonBetaDate:   commonBetaDateStr,
       exceptions:       ex,
       updated:          updated,
       isHot:            isHot
     };
   }
 
-  // ★ CHANGED: バージョンに日付を付加して表示
   function applyToDOM(compact, state){
     requestAnimationFrame(function(){
-      // 正式版: "26.3 (2025/06/10)"
-      safeText($(DOM.stable), joinVerDate(compact.commonStable, compact.commonStableDate));
-      // Beta:   "26.4 Beta2 (2025/06/17)"
-      safeText($(DOM.beta),   joinVerDate(compact.commonBeta,   compact.commonBetaDate));
 
+      /* ── バージョンと日付を別spanへ書き込む ── */
+      safeText($(DOM.stableVer),  compact.commonStable || "--");
+      safeText($(DOM.stableDate), compact.commonStableDate
+        ? "(" + compact.commonStableDate + ")" : "");
+
+      safeText($(DOM.betaVer),    compact.commonBeta || "-");
+      safeText($(DOM.betaDate),   compact.commonBetaDate
+        ? "(" + compact.commonBetaDate + ")" : "");
+
+      /* ── 例外 ── */
       var exEl = $(DOM.exceptions);
       if(exEl){
         if(compact.exceptions && compact.exceptions.length){
-          var list = compact.exceptions.slice(0, 5);
-          exEl.textContent = "例外: " + list.join(" / ");
+          exEl.textContent = "例外: " + compact.exceptions.slice(0,5).join(" / ");
           exEl.style.display = "";
           exEl.classList.toggle("is-hot", !!compact.isHot);
         } else {
-          exEl.textContent  = "";
+          exEl.textContent   = "";
           exEl.style.display = "none";
           exEl.classList.remove("is-hot");
         }
       }
 
+      /* ── 更新日 ── */
       if(compact.updated){
         safeText($(DOM.updated), compact.updated);
       }
 
+      /* ── キャッシュ/自動更新 ── */
       var autoEl = $(DOM.auto);
       if(autoEl){
         if(state === "cache"){
@@ -446,7 +432,7 @@
         applyToDOM(compact, "fresh");
       })
       .catch(function(){
-        // キャッシュ表示中ならそのまま
+        /* キャッシュ表示中ならそのまま */
       });
   }
 
