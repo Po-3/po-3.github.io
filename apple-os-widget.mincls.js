@@ -1,27 +1,14 @@
 /* ==========================================================
    Apple OS Widget - Compact (Common version first)
-   - Source: Cloudflare Workers (CORS OK)
-   - CLS: DOM text only / widget height is fixed by CSS
-   - Strategy:
-     1) 全OSの "Stable" を集計して多数派を「共通Stable」として表示
-     2) 全OSの "Beta" を集計して多数派を「共通Beta」として表示
-     3) 例外（共通から外れる/未掲載）は小さく注記として表示
-   - Fix:
-     - beta2 / beta 2 / RC1 / RC 1 / Release Candidate / (RC) などの表記ゆれを正規化して比較
-   - Add:
-     - 更新目安の横に「自動更新/キャッシュ」を薄く表示（任意）
-     - Appleイベント期のみ例外を太字にする（iOS/iPadOS Betaが例外のとき）
+   v4: 日本時間リリース日をバージョン横に表示 (JST = UTC+9)
    ========================================================== */
 (function(){
   "use strict";
 
   var RSS_URL = "https://apple-os-rss-proxy.7xjvnhs9mz.workers.dev/";
 
-  // beta2 / beta 2 / RC1 / Release Candidate / (RC) / (b) などを拾う
-  // (b) は iOS 26.3(b) のような表記を想定（ビルド番号の括弧は normalizeVersion 側で除去）
   var BETA_RE = /(?:\bbeta\b|\bbeta\d+\b|\bbeta\s*\d+\b|\bdeveloper\s+beta\b|\bpublic\s+beta\b|\brelease\s+candidate\b|\brc\b|\brc\d+\b|\brc\s*\d+\b|\(\s*rc\s*\)|\(\s*[a-z]\s*\))/i;
 
-  // 対象OS（例外注記用）
   var OS_KEYS = [
     { key: "iOS",      id: "ios",      label: "iOS" },
     { key: "iPadOS",   id: "ipados",   label: "iPadOS" },
@@ -32,25 +19,18 @@
     { key: "audioOS",  id: "audioos",  label: "audioOS" }
   ];
 
-  // DOM（このIDをHTML側で用意してください）
-  //  - os-common-stable: 共通Stable
-  //  - os-common-beta  : 共通Beta
-  //  - os-exceptions   : 例外注記（小さく）
-  //  - os-updated      : 更新日
-  //  - os-auto         : 任意（自動更新/キャッシュ表示）
   var DOM = {
-    stable: "os-common-stable",
-    beta: "os-common-beta",
+    stable:     "os-common-stable",
+    beta:       "os-common-beta",
     exceptions: "os-exceptions",
-    updated: "os-updated",
-    auto: "os-auto"
+    updated:    "os-updated",
+    auto:       "os-auto"
   };
 
-  var CACHE_KEY = "tnr_os_widget_cache_compact_v3"; // v3（比較ロジック更新）
-  var CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6h
+  // ★ v4 に変更（日付フィールド追加によりキャッシュ構造が変わるため）
+  var CACHE_KEY      = "tnr_os_widget_cache_compact_v4";
+  var CACHE_TTL_MS   = 6 * 60 * 60 * 1000;
   var FETCH_TIMEOUT_MS = 3500;
-
-  // Appleイベント期判定（直近X日以内に更新があったらイベント期とみなす）
   var EVENT_WINDOW_DAYS = 14;
 
   function $(id){ return document.getElementById(id); }
@@ -58,11 +38,25 @@
   function now(){ return Date.now ? Date.now() : new Date().getTime(); }
   function z2(n){ return (n < 10 ? "0" : "") + n; }
 
-  // 表示ゆれを比較用に正規化（表示は原文のままにする）
+  // ★ NEW: UTC の Date オブジェクトを JST 日付文字列 "YYYY/MM/DD" に変換
+  function toJSTDateStr(date){
+    if(!date || isNaN(date.getTime())) return null;
+    var jst = new Date(date.getTime() + 9 * 60 * 60 * 1000); // UTC+9
+    return jst.getUTCFullYear() + "/" +
+           z2(jst.getUTCMonth() + 1) + "/" +
+           z2(jst.getUTCDate());
+  }
+
+  // ★ NEW: バージョン文字列と日付文字列を結合（日付無しの場合はそのまま返す）
+  function joinVerDate(ver, dateStr){
+    if(!ver || ver === "--" || ver === "-") return ver;
+    if(!dateStr) return ver;
+    return ver + " (" + dateStr + ")";
+  }
+
   function normalizeVersion(v){
     if(!v) return null;
     return String(v)
-      // 括弧は基本残す（例: 26.3(b)）。ただしビルド番号の括弧（先頭が数字）は比較ノイズなので除去
       .replace(/\(\s*\d[^)]*\)/g, "")
       .replace(/\s+/g, " ")
       .trim()
@@ -81,12 +75,9 @@
     return na === nb;
   }
 
-  // ---- Inserted helper functions for version-aware selection ----
   function parseVersionForCompare(raw){
     var norm = normalizeVersion(raw);
     if(!norm) return null;
-
-    // Extract numeric version parts (up to 3 components)
     var numMatch = norm.match(/^(\d+)(?:\.(\d+))?(?:\.(\d+))?/);
     var nums = [0,0,0];
     if(numMatch){
@@ -94,11 +85,7 @@
       nums[1] = numMatch[2] !== undefined ? parseInt(numMatch[2],10) : 0;
       nums[2] = numMatch[3] !== undefined ? parseInt(numMatch[3],10) : 0;
     }
-
-    // Determine stage and stageNum
-    var stage = 2; // stable=2, rc=1, beta=0
-    var stageNum = 0;
-
+    var stage = 2; var stageNum = 0;
     if(/\brc\b/.test(norm)){
       stage = 1;
       var rcMatch = norm.match(/\brc\s*(\d+)/);
@@ -108,48 +95,48 @@
       var betaMatch = norm.match(/\bbeta\s*(\d+)/);
       if(betaMatch) stageNum = parseInt(betaMatch[1],10);
     }
-
     return { nums: nums, stage: stage, stageNum: stageNum };
   }
 
-  function compareVersionRaw(a,b){
+  function compareVersionRaw(a, b){
     if(!a && !b) return 0;
     if(!a) return -1;
     if(!b) return 1;
-
     var pa = parseVersionForCompare(a);
     var pb = parseVersionForCompare(b);
     if(!pa && !pb) return 0;
     if(!pa) return -1;
     if(!pb) return 1;
-
     for(var i=0; i<3; i++){
       if(pa.nums[i] > pb.nums[i]) return 1;
       if(pa.nums[i] < pb.nums[i]) return -1;
     }
-    // Compare stage: stable(2) > rc(1) > beta(0)
-    if(pa.stage > pb.stage) return 1;
-    if(pa.stage < pb.stage) return -1;
-
-    // Compare stageNum
+    if(pa.stage    > pb.stage)    return 1;
+    if(pa.stage    < pb.stage)    return -1;
     if(pa.stageNum > pb.stageNum) return 1;
     if(pa.stageNum < pb.stageNum) return -1;
-
     return 0;
   }
 
-  function maxVersionValue(values){
-    var maxVal = null;
-    for(var i=0; i<values.length; i++){
-      var v = values[i];
+  // ★ CHANGED: 最大バージョンと、そのバージョンに対応する最古の日付を返す
+  function maxVersionWithDate(pairs){
+    // pairs = [{ver, date}, ...]
+    var maxVer  = null;
+    var maxDate = null;
+    for(var i=0; i<pairs.length; i++){
+      var v = pairs[i].ver;
+      var d = pairs[i].date;
       if(!v) continue;
-      if(maxVal === null || compareVersionRaw(v, maxVal) > 0){
-        maxVal = v;
+      if(maxVer === null || compareVersionRaw(v, maxVer) > 0){
+        maxVer  = v;
+        maxDate = d;
+      } else if(sameVersion(v, maxVer)){
+        // 同バージョンなら最古の日付を採用（全OS同日リリースが多いが念のため）
+        if(d && (!maxDate || d < maxDate)) maxDate = d;
       }
     }
-    return maxVal;
+    return { ver: maxVer, date: maxDate };
   }
-  // ---- end inserted helper functions ----
 
   function readCache(){
     try{
@@ -179,10 +166,10 @@
     var out = [];
     for(var i=0;i<items.length;i++){
       var it = items[i];
-      var t = it.getElementsByTagName("title")[0];
-      var p = it.getElementsByTagName("pubDate")[0];
+      var t  = it.getElementsByTagName("title")[0];
+      var p  = it.getElementsByTagName("pubDate")[0];
       out.push({
-        title: t ? t.textContent : "",
+        title:   t ? t.textContent : "",
         pubDate: p ? new Date(p.textContent) : null
       });
     }
@@ -198,13 +185,6 @@
   }
 
   function extractVersionPart(title, osKey){
-    // 例:
-    // "iOS 26.3 Release Candidate (23D60)" -> "26.3RC"
-    // "iOS 26.3 RC" -> "26.3RC"
-    // "iOS 26.3 RC 1" -> "26.3RC1"
-    // "iOS 26.3 beta 2 (23D5033l)" -> "26.3 beta 2"
-    // "(...)" は拾わない（normalizeVersion側でビルド括弧は比較ノイズとして除去）
-
     var re = new RegExp(
       osKey +
         "\\s+(" +
@@ -218,54 +198,47 @@
         ")",
       "i"
     );
-
     var m = title.match(re);
     if(!m) return null;
-
     var v = String(m[1] || "").replace(/\s+/g," ").trim();
     if(!v) return null;
-
-    // "Release Candidate" -> "RC"（表示用）
     if(/\brelease\s+candidate\b/i.test(v)){
       v = v.replace(/\brelease\s+candidate\b/ig, "RC");
     }
-
-    // "26.4 beta" / "26.4 beta 1" / "26.4beta1" を「26.4 Beta」「26.4 Beta1」に寄せる（表示用）
     v = v
       .replace(/\bbeta\s*(\d+)\b/i, "Beta$1")
       .replace(/\bbeta\b/i, "Beta");
-
-    // "26.3 RC" / "26.3 RC 1" / "26.3RC1" を「26.3RC」「26.3RC1」に寄せる
     v = v
       .replace(/\bRC\s*(\d+)\b/i, "RC$1")
       .replace(/\bRC\b/i, "RC");
-
     return v;
   }
 
+  // ★ CHANGED: stable/beta に加え stableDate/betaDate も記録
   function pickLatestPerOS(items){
     var res = {
-      ios:{stable:null,beta:null},
-      ipados:{stable:null,beta:null},
-      macos:{stable:null,beta:null},
-      watchos:{stable:null,beta:null},
-      tvos:{stable:null,beta:null},
-      audioos:{stable:null,beta:null},
-      visionos:{stable:null,beta:null},
-      updated:null
+      ios:      { stable:null, stableDate:null, beta:null, betaDate:null },
+      ipados:   { stable:null, stableDate:null, beta:null, betaDate:null },
+      macos:    { stable:null, stableDate:null, beta:null, betaDate:null },
+      watchos:  { stable:null, stableDate:null, beta:null, betaDate:null },
+      tvos:     { stable:null, stableDate:null, beta:null, betaDate:null },
+      audioos:  { stable:null, stableDate:null, beta:null, betaDate:null },
+      visionos: { stable:null, stableDate:null, beta:null, betaDate:null },
+      updated:  null
     };
 
     if(items[0] && items[0].pubDate && !isNaN(items[0].pubDate.getTime())){
       res.updated = items[0].pubDate.toISOString();
     }
 
-    for(var i=0;i<items.length;i++){
-      var title = (items[i].title||"").trim();
+    for(var i=0; i<items.length; i++){
+      var title  = (items[i].title||"").trim();
+      var pubDate = items[i].pubDate;
       if(!title) continue;
 
       var isBeta = BETA_RE.test(title);
 
-      for(var k=0;k<OS_KEYS.length;k++){
+      for(var k=0; k<OS_KEYS.length; k++){
         var osKey = OS_KEYS[k].key;
         var osId  = OS_KEYS[k].id;
         if(title.indexOf(osKey) === -1) continue;
@@ -274,65 +247,87 @@
         if(!ver) continue;
 
         if(isBeta){
-          if(!res[osId].beta || compareVersionRaw(ver, res[osId].beta) > 0) {
-            res[osId].beta = ver;
+          if(!res[osId].beta || compareVersionRaw(ver, res[osId].beta) > 0){
+            res[osId].beta     = ver;
+            res[osId].betaDate = pubDate; // ★ 日付を一緒に保存
+          } else if(sameVersion(ver, res[osId].beta)){
+            // 同バージョン・より古い日付があれば上書き
+            if(pubDate && (!res[osId].betaDate || pubDate < res[osId].betaDate)){
+              res[osId].betaDate = pubDate;
+            }
           }
-        }else{
-          if(!res[osId].stable || compareVersionRaw(ver, res[osId].stable) > 0) {
-            res[osId].stable = ver;
+        } else {
+          if(!res[osId].stable || compareVersionRaw(ver, res[osId].stable) > 0){
+            res[osId].stable     = ver;
+            res[osId].stableDate = pubDate; // ★ 日付を一緒に保存
+          } else if(sameVersion(ver, res[osId].stable)){
+            if(pubDate && (!res[osId].stableDate || pubDate < res[osId].stableDate)){
+              res[osId].stableDate = pubDate;
+            }
           }
         }
       }
     }
-
     return res;
   }
 
+  // ★ CHANGED: 共通バージョンに日付フィールドを追加
   function buildCompact(data){
-    // 1) 共通Stable / 共通Beta（最大値）
-    var st = [];
-    var bt = [];
-    for(var i=0;i<OS_KEYS.length;i++){
+    // 1) 共通Stable / Beta（最大値 + 日付）
+    var stPairs = [];
+    var btPairs = [];
+    for(var i=0; i<OS_KEYS.length; i++){
       var id = OS_KEYS[i].id;
-      st.push(data[id] ? data[id].stable : null);
-      bt.push(data[id] ? data[id].beta : null);
+      var d  = data[id] || {};
+      stPairs.push({ ver: d.stable || null, date: d.stableDate || null });
+      btPairs.push({ ver: d.beta   || null, date: d.betaDate   || null });
     }
 
-    var commonStable = maxVersionValue(st);
-    var commonBeta = maxVersionValue(bt);
+    var stResult = maxVersionWithDate(stPairs);
+    var btResult = maxVersionWithDate(btPairs);
 
-    // betaが未掲載なら "-"
+    var commonStable     = stResult.ver;
+    var commonStableDate = stResult.date;   // Date オブジェクト or null
+    var commonBeta       = btResult.ver;
+    var commonBetaDate   = btResult.date;
+
     var commonStableOut = commonStable ? commonStable : "--";
-    var commonBetaOut = commonBeta ? commonBeta : "-";
+    var commonBetaOut   = commonBeta   ? commonBeta   : "-";
 
-    // 2) 例外注記（比較は正規化して行う）
+    // JST 文字列に変換
+    var commonStableDateStr = toJSTDateStr(commonStableDate);
+    var commonBetaDateStr   = toJSTDateStr(commonBetaDate);
+
+    // 2) 例外注記
     var ex = [];
-    for(var j=0;j<OS_KEYS.length;j++){
+    for(var j=0; j<OS_KEYS.length; j++){
       var os = OS_KEYS[j];
-      var d = data[os.id] || {stable:null,beta:null};
+      var od = data[os.id] || { stable:null, stableDate:null, beta:null, betaDate:null };
 
-      // stable例外
       if(commonStable){
-        if(!d.stable){
+        if(!od.stable){
           ex.push(os.label + " 正式版: --");
-        }else if(!sameVersion(d.stable, commonStable)){
-          ex.push(os.label + " 正式版: " + d.stable);
+        } else if(!sameVersion(od.stable, commonStable)){
+          // 例外にも日付を付ける
+          var exStableDate = toJSTDateStr(od.stableDate);
+          ex.push(os.label + " 正式版: " + joinVerDate(od.stable, exStableDate));
         }
-      }else{
-        if(d.stable){
-          ex.push(os.label + " 正式版: " + d.stable);
+      } else {
+        if(od.stable){
+          var exStableDate2 = toJSTDateStr(od.stableDate);
+          ex.push(os.label + " 正式版: " + joinVerDate(od.stable, exStableDate2));
         }
       }
 
-      // beta例外（共通betaがある時のみ比較）
       if(commonBeta && commonBeta !== "-"){
-        if(d.beta && !sameVersion(d.beta, commonBeta)){
-          ex.push(os.label + " Beta: " + d.beta);
+        if(od.beta && !sameVersion(od.beta, commonBeta)){
+          var exBetaDate = toJSTDateStr(od.betaDate);
+          ex.push(os.label + " Beta: " + joinVerDate(od.beta, exBetaDate));
         }
-      }else{
-        // 共通betaが無いとき：betaが存在するOSだけ軽く出す
-        if(d.beta){
-          ex.push(os.label + " Beta: " + d.beta);
+      } else {
+        if(od.beta){
+          var exBetaDate2 = toJSTDateStr(od.betaDate);
+          ex.push(os.label + " Beta: " + joinVerDate(od.beta, exBetaDate2));
         }
       }
     }
@@ -346,18 +341,15 @@
       }
     }
 
-    // 4) イベント期 & “注目例外” 判定（例外を太字にするか）
-    //   - 直近EVENT_WINDOW_DAYS日以内に更新がある
-    //   - 例外に iOS/iPadOS の Beta が含まれる
+    // 4) イベント期判定
     var isEvent = false;
     if(updated){
-      var d2 = new Date(updated + "T00:00:00Z");
+      var d2   = new Date(updated + "T00:00:00Z");
       if(!isNaN(d2.getTime())){
         var days = (Date.now() - d2.getTime()) / 86400000;
         if(days <= EVENT_WINDOW_DAYS) isEvent = true;
       }
     }
-
     var isHot = false;
     if(isEvent && ex.length){
       var s = ex.join(" / ");
@@ -365,31 +357,33 @@
     }
 
     return {
-      commonStable: commonStableOut,
-      commonBeta: commonBetaOut,
-      exceptions: ex,
-      updated: updated,
-      isHot: isHot
+      commonStable:     commonStableOut,
+      commonStableDate: commonStableDateStr, // ★ 新フィールド（キャッシュに保存される）
+      commonBeta:       commonBetaOut,
+      commonBetaDate:   commonBetaDateStr,   // ★ 新フィールド
+      exceptions:       ex,
+      updated:          updated,
+      isHot:            isHot
     };
   }
 
+  // ★ CHANGED: バージョンに日付を付加して表示
   function applyToDOM(compact, state){
     requestAnimationFrame(function(){
-      safeText($(DOM.stable), compact.commonStable);
-      safeText($(DOM.beta), compact.commonBeta);
+      // 正式版: "26.3 (2025/06/10)"
+      safeText($(DOM.stable), joinVerDate(compact.commonStable, compact.commonStableDate));
+      // Beta:   "26.4 Beta2 (2025/06/17)"
+      safeText($(DOM.beta),   joinVerDate(compact.commonBeta,   compact.commonBetaDate));
 
       var exEl = $(DOM.exceptions);
       if(exEl){
         if(compact.exceptions && compact.exceptions.length){
-          // 例外は最大5行に制限（サイドバーの見た目維持）
-          var list = compact.exceptions.slice(0,5);
+          var list = compact.exceptions.slice(0, 5);
           exEl.textContent = "例外: " + list.join(" / ");
           exEl.style.display = "";
-
-          // Appleイベント期だけ例外を太字（CSS側で .is-hot を定義）
           exEl.classList.toggle("is-hot", !!compact.isHot);
-        }else{
-          exEl.textContent = "";
+        } else {
+          exEl.textContent  = "";
           exEl.style.display = "none";
           exEl.classList.remove("is-hot");
         }
@@ -399,16 +393,15 @@
         safeText($(DOM.updated), compact.updated);
       }
 
-      // キャッシュ/自動更新 表示（任意：HTMLに <span id="os-auto"> がある場合のみ）
       var autoEl = $(DOM.auto);
       if(autoEl){
         if(state === "cache"){
-          autoEl.textContent = "キャッシュ";
+          autoEl.textContent  = "キャッシュ";
           autoEl.style.display = "";
-        }else if(state === "fresh"){
-          autoEl.textContent = "自動更新";
+        } else if(state === "fresh"){
+          autoEl.textContent  = "自動更新";
           autoEl.style.display = "";
-        }else{
+        } else {
           autoEl.style.display = "none";
         }
       }
@@ -418,11 +411,9 @@
   function fetchWithTimeout(url, timeoutMs){
     var controller = (typeof AbortController !== "undefined") ? new AbortController() : null;
     var timer = null;
-
     if(controller){
       timer = setTimeout(function(){ try{ controller.abort(); }catch(e){} }, timeoutMs);
     }
-
     return fetch(url, { cache:"no-store", signal: controller ? controller.signal : undefined })
       .then(function(res){
         if(timer) clearTimeout(timer);
@@ -432,21 +423,17 @@
   }
 
   function hasAny(data){
-    for(var i=0;i<OS_KEYS.length;i++){
+    for(var i=0; i<OS_KEYS.length; i++){
       var id = OS_KEYS[i].id;
-      if((data[id] && (data[id].stable || data[id].beta))) return true;
+      if(data[id] && (data[id].stable || data[id].beta)) return true;
     }
     return false;
   }
 
   function run(){
-    // cache即反映
     var cached = readCache();
-    if(cached){
-      applyToDOM(cached, "cache");
-    }
+    if(cached){ applyToDOM(cached, "cache"); }
 
-    // fresh取得
     fetchWithTimeout(RSS_URL, FETCH_TIMEOUT_MS)
       .then(parseRSS)
       .then(getItems)
@@ -454,19 +441,18 @@
       .then(pickLatestPerOS)
       .then(function(raw){
         if(!hasAny(raw)) return;
-
         var compact = buildCompact(raw);
         writeCache(compact);
         applyToDOM(compact, "fresh");
       })
       .catch(function(){
-        // 失敗時：キャッシュが出ていればOK。なければ--のまま。
+        // キャッシュ表示中ならそのまま
       });
   }
 
   if(document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded", run);
-  }else{
+  } else {
     run();
   }
 })();
