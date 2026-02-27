@@ -122,7 +122,7 @@
     return 0;
   }
 
-  /* 最大バージョンと対応する最古の日付を返す */
+  /* 最大バージョンと対応する最古の日付を返す（フォールバック用） */
   function maxVersionWithDate(pairs){
     var maxVer = null, maxDate = null;
     for(var i = 0; i < pairs.length; i++){
@@ -137,6 +137,50 @@
       }
     }
     return { ver: maxVer, date: maxDate };
+  }
+
+  /* 多数派（mode）バージョンと対応する最古の日付を返す
+     - ver は normalizeVersion() で同一判定しつつ、表示は「最初に出現した生文字列」を優先
+     - 同数タイの場合は compareVersionRaw() で大きい方を採用
+     - date は採用verを持つOS群のうち「最古」を採用 */
+  function modeVersionWithDate(pairs){
+    var map = Object.create(null);
+    var order = [];
+
+    for(var i = 0; i < pairs.length; i++){
+      var v = pairs[i].ver;
+      var d = pairs[i].date;
+      if(!v) continue;
+      var key = normalizeVersion(v);
+      if(!key) continue;
+
+      if(!map[key]){
+        map[key] = { count: 0, rep: v, earliest: d || null };
+        order.push(key);
+      }
+      map[key].count++;
+      if(d && (!map[key].earliest || d < map[key].earliest)) map[key].earliest = d;
+    }
+
+    if(!order.length) return { ver: null, date: null, count: 0, total: 0 };
+
+    var bestKey = order[0];
+    for(var j = 1; j < order.length; j++){
+      var k = order[j];
+      if(map[k].count > map[bestKey].count){
+        bestKey = k;
+      } else if(map[k].count === map[bestKey].count){
+        // 同数なら「より新しい」方を優先
+        if(compareVersionRaw(map[k].rep, map[bestKey].rep) > 0) bestKey = k;
+      }
+    }
+
+    return {
+      ver:   map[bestKey].rep,
+      date:  map[bestKey].earliest,
+      count: map[bestKey].count,
+      total: order.length
+    };
   }
 
   /* ── キャッシュ ── */
@@ -285,13 +329,26 @@
       btPairs.push({ ver: d.beta   || null, date: d.betaDate   || null });
     }
 
-    var stResult = maxVersionWithDate(stPairs);
-    var btResult = maxVersionWithDate(btPairs);
+    // 共通は「多数派（mode）」を優先。揃っていない時に“共通=最新”と誤解されるのを防ぐ。
+    var stMode = modeVersionWithDate(stPairs);
+    var btMode = modeVersionWithDate(btPairs);
 
-    var commonStable     = stResult.ver;
-    var commonStableDate = stResult.date;
-    var commonBeta       = btResult.ver;
-    var commonBetaDate   = btResult.date;
+    var commonStable     = stMode.ver;
+    var commonStableDate = stMode.date;
+    var commonBeta       = btMode.ver;
+    var commonBetaDate   = btMode.date;
+
+    // もし全OSがバラけていて mode が実質意味を持たない（全て1件ずつ）場合は、従来どおり最大を共通にする
+    if(stMode.count <= 1){
+      var stMax = maxVersionWithDate(stPairs);
+      commonStable     = stMax.ver;
+      commonStableDate = stMax.date;
+    }
+    if(btMode.count <= 1){
+      var btMax = maxVersionWithDate(btPairs);
+      commonBeta     = btMax.ver;
+      commonBetaDate = btMax.date;
+    }
 
     var commonStableOut     = commonStable ? commonStable : "--";
     var commonBetaOut       = commonBeta   ? commonBeta   : "-";
@@ -304,6 +361,7 @@
       var os = OS_KEYS[j];
       var od = data[os.id] || { stable:null, stableDate:null, beta:null, betaDate:null };
 
+      // 正式版：共通と違うものだけ「例外」として出す
       if(commonStable){
         if(!od.stable){
           ex.push(os.label + " 正式版: --");
@@ -312,18 +370,21 @@
             joinVerDate(od.stable, toJSTDateStr(od.stableDate)));
         }
       } else {
+        // 共通が決められない場合は、値があるOSだけ列挙
         if(od.stable){
           ex.push(os.label + " 正式版: " +
             joinVerDate(od.stable, toJSTDateStr(od.stableDate)));
         }
       }
 
+      // Beta：共通がある場合は「共通と違うものだけ」例外として出す
       if(commonBeta && commonBeta !== "-"){
         if(od.beta && !sameVersion(od.beta, commonBeta)){
           ex.push(os.label + " Beta: " +
             joinVerDate(od.beta, toJSTDateStr(od.betaDate)));
         }
       } else {
+        // 共通がない場合は、値があるOSだけ列挙
         if(od.beta){
           ex.push(os.label + " Beta: " +
             joinVerDate(od.beta, toJSTDateStr(od.betaDate)));
