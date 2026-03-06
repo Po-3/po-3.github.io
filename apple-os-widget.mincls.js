@@ -6,6 +6,8 @@
         isHot 簡略化 / 例外を縦並び表示
    Fix2: Apple Developer表記の "v.2" など再リリースも反映
          (例: iOS 26.4 beta 3 v.2)
+   Fix3: 例外を「正式版」「Beta」でグルーピング表示
+         - 正式/ベータの混在を解消して視認性改善
    ========================================================== */
 (function(){
   "use strict";
@@ -159,10 +161,7 @@
     return { ver: maxVer, date: maxDate };
   }
 
-  /* 多数派（mode）バージョンと対応する最古の日付を返す
-     - ver は normalizeVersion() で同一判定しつつ、表示は「最初に出現した生文字列」を優先
-     - 同数タイの場合は compareVersionRaw() で大きい方を採用
-     - date は採用verを持つOS群のうち「最古」を採用 */
+  /* 多数派（mode）バージョンと対応する最古の日付を返す */
   function modeVersionWithDate(pairs){
     var map = Object.create(null);
     var order = [];
@@ -190,7 +189,6 @@
       if(map[k].count > map[bestKey].count){
         bestKey = k;
       } else if(map[k].count === map[bestKey].count){
-        // 同数なら「より新しい」方を優先（v2差分もここで効く）
         if(compareVersionRaw(map[k].rep, map[bestKey].rep) > 0) bestKey = k;
       }
     }
@@ -252,11 +250,7 @@
     });
   }
 
-  /* ── バージョン抽出 ──
-     [FIX] (?:[A-Za-z]+\s+)? を追加し、macOS のコードネーム
-     （Sequoia / Tahoe 等）をスキップできるようにした。
-     他の OS には影響なし（直後に数字が来ればそのままマッチ）。
-     [Fix2] 末尾の "v.2" / "v2" など再リリース表記も取り込む。 */
+  /* ── バージョン抽出 ── */
   function extractVersionPart(title, osKey){
     var re = new RegExp(
       osKey +
@@ -269,7 +263,6 @@
             "|" +
             "\\s*(?:rc\\s*\\d+|rc\\d+|rc|release\\s+candidate)" +
           ")?" +
-          /* Fix2: v.2 / v2 をオプションで許可 */
           "(?:\\s*v\\.?\\s*\\d+)?" +
         ")",
       "i"
@@ -287,7 +280,6 @@
     v = v.replace(/\bbeta\s*(\d+)\b/i, "Beta$1").replace(/\bbeta\b/i, "Beta");
     v = v.replace(/\bRC\s*(\d+)\b/i,   "RC$1"  ).replace(/\bRC\b/i,   "RC"  );
 
-    /* Fix2: v表記を表示用に " v.2" へ寄せる（比較は normalizeVersion で吸収） */
     v = v.replace(/\bv\.?\s*(\d+)\b/i, " v.$1");
 
     return v;
@@ -359,7 +351,6 @@
       btPairs.push({ ver: d.beta   || null, date: d.betaDate   || null });
     }
 
-    // 共通は「多数派（mode）」を優先。揃っていない時に“共通=最新”と誤解されるのを防ぐ。
     var stMode = modeVersionWithDate(stPairs);
     var btMode = modeVersionWithDate(btPairs);
 
@@ -368,7 +359,6 @@
     var commonBeta       = btMode.ver;
     var commonBetaDate   = btMode.date;
 
-    // もし全OSがバラけていて mode が実質意味を持たない（全て1件ずつ）場合は、従来どおり最大を共通にする
     if(stMode.count <= 1){
       var stMax = maxVersionWithDate(stPairs);
       commonStable     = stMax.ver;
@@ -385,70 +375,62 @@
     var commonStableDateStr = toJSTDateStr(commonStableDate);
     var commonBetaDateStr   = toJSTDateStr(commonBetaDate);
 
-    /* 例外注記 */
-    var ex = [];
+    /* Fix3: 例外を正式/ベータで分けて保持 */
+    var exStable = [];
+    var exBeta   = [];
+
     for(var j = 0; j < OS_KEYS.length; j++){
       var os = OS_KEYS[j];
       var od = data[os.id] || { stable:null, stableDate:null, beta:null, betaDate:null };
 
-      // 正式版：共通と違うものだけ「例外」として出す
+      // 正式版
       if(commonStable){
         if(!od.stable){
-          ex.push(os.label + " 正式版: --");
+          exStable.push(os.label + ": --");
         } else if(!sameVersion(od.stable, commonStable)){
-          ex.push(os.label + " 正式版: " +
-            joinVerDate(od.stable, toJSTDateStr(od.stableDate)));
+          exStable.push(os.label + ": " + joinVerDate(od.stable, toJSTDateStr(od.stableDate)));
         }
       } else {
-        // 共通が決められない場合は、値があるOSだけ列挙
         if(od.stable){
-          ex.push(os.label + " 正式版: " +
-            joinVerDate(od.stable, toJSTDateStr(od.stableDate)));
+          exStable.push(os.label + ": " + joinVerDate(od.stable, toJSTDateStr(od.stableDate)));
         }
       }
 
-      // Beta：共通がある場合は「共通と違うものだけ」例外として出す
+      // Beta
       if(commonBeta && commonBeta !== "-"){
         if(od.beta && !sameVersion(od.beta, commonBeta)){
-          ex.push(os.label + " Beta: " +
-            joinVerDate(od.beta, toJSTDateStr(od.betaDate)));
+          exBeta.push(os.label + ": " + joinVerDate(od.beta, toJSTDateStr(od.betaDate)));
         }
       } else {
-        // 共通がない場合は、値があるOSだけ列挙
         if(od.beta){
-          ex.push(os.label + " Beta: " +
-            joinVerDate(od.beta, toJSTDateStr(od.betaDate)));
+          exBeta.push(os.label + ": " + joinVerDate(od.beta, toJSTDateStr(od.betaDate)));
         }
       }
     }
 
-    /* 更新日
-       [FIX] UTC → JST に統一（stableDate / betaDate と同じ基準） */
     var updated = null;
     if(data.updated){
       var dd = new Date(data.updated);
       if(!isNaN(dd.getTime())){
-        updated = toJSTDateStr(dd).replace(/\//g, "-"); // "YYYY-MM-DD" (JST)
+        updated = toJSTDateStr(dd).replace(/\//g, "-");
       }
     }
 
-    /* イベント期判定
-       [FIX] isHot = 14日以内に更新があれば true に簡略化 */
     var isEvent = false;
     if(updated){
-      var d2 = new Date(updated + "T00:00:00+09:00"); // JST基準で比較
+      var d2 = new Date(updated + "T00:00:00+09:00");
       if(!isNaN(d2.getTime())){
         if((Date.now() - d2.getTime()) / 86400000 <= EVENT_WINDOW_DAYS) isEvent = true;
       }
     }
-    var isHot = isEvent; // [FIX] 14日以内の更新があればそのまま isHot
+    var isHot = isEvent;
 
     return {
       commonStable:     commonStableOut,
       commonStableDate: commonStableDateStr,
       commonBeta:       commonBetaOut,
       commonBetaDate:   commonBetaDateStr,
-      exceptions:       ex,
+      exceptions:       { stable: exStable, beta: exBeta }, /* ← 変更点 */
       updated:          updated,
       isHot:            isHot
     };
@@ -457,28 +439,45 @@
   /* ── DOM に反映 ── */
   function applyToDOM(compact, state){
     requestAnimationFrame(function(){
-
-      /* バージョンと日付を別 span へ書き込む */
       safeText($(DOM.stableVer),  compact.commonStable || "--");
-      safeText($(DOM.stableDate), compact.commonStableDate
-        ? "(" + compact.commonStableDate + ")" : "");
+      safeText($(DOM.stableDate), compact.commonStableDate ? "(" + compact.commonStableDate + ")" : "");
 
       safeText($(DOM.betaVer),    compact.commonBeta || "-");
-      safeText($(DOM.betaDate),   compact.commonBetaDate
-        ? "(" + compact.commonBetaDate + ")" : "");
+      safeText($(DOM.betaDate),   compact.commonBetaDate ? "(" + compact.commonBetaDate + ")" : "");
 
-      /* 例外
-         [FIX] 横並び join(" / ") → 1件ずつ <div> で縦並びに変更
-               スマホでの折り返し問題を解消 */
+      /* Fix3: 例外をグルーピング描画（正式→Beta） */
       var exEl = $(DOM.exceptions);
       if(exEl){
         exEl.textContent = "";
-        if(compact.exceptions && compact.exceptions.length){
-          compact.exceptions.slice(0, 5).forEach(function(line){
+
+        var st = (compact.exceptions && compact.exceptions.stable) ? compact.exceptions.stable : [];
+        var bt = (compact.exceptions && compact.exceptions.beta)   ? compact.exceptions.beta   : [];
+
+        function addGroup(title, items, kindClass){
+          if(!items || !items.length) return;
+
+          var g = document.createElement("div");
+          g.className = "tnr-osw-ex-group " + kindClass;
+
+          var h = document.createElement("div");
+          h.className = "tnr-osw-ex-h";
+          h.textContent = title;
+          g.appendChild(h);
+
+          items.slice(0, 5).forEach(function(line){
             var div = document.createElement("div");
+            div.className = "tnr-osw-ex-item";
             div.textContent = line;
-            exEl.appendChild(div);
+            g.appendChild(div);
           });
+
+          exEl.appendChild(g);
+        }
+
+        addGroup("正式版", st, "is-stable");
+        addGroup("Beta",   bt, "is-beta");
+
+        if((st && st.length) || (bt && bt.length)){
           exEl.style.display = "";
           exEl.classList.toggle("is-hot", !!compact.isHot);
         } else {
@@ -487,12 +486,10 @@
         }
       }
 
-      /* 更新日 */
       if(compact.updated){
         safeText($(DOM.updated), compact.updated);
       }
 
-      /* キャッシュ / 自動更新 */
       var autoEl = $(DOM.auto);
       if(autoEl){
         if(state === "cache"){
@@ -508,7 +505,6 @@
     });
   }
 
-  /* ── fetch（タイムアウト付き） ── */
   function fetchWithTimeout(url, timeoutMs){
     var controller = (typeof AbortController !== "undefined")
       ? new AbortController() : null;
@@ -536,7 +532,6 @@
     return false;
   }
 
-  /* ── エントリーポイント ── */
   function run(){
     var cached = readCache();
     if(cached){ applyToDOM(cached, "cache"); }
