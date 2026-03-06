@@ -4,6 +4,8 @@
       日付は小span分離でスタイル制御可能
    Fix: macOS コードネームスキップ / updated JST化 /
         isHot 簡略化 / 例外を縦並び表示
+   Fix2: Apple Developer表記の "v.2" など再リリースも反映
+         (例: iOS 26.4 beta 3 v.2)
    ========================================================== */
 (function(){
   "use strict";
@@ -69,7 +71,9 @@
       .replace(/\b(beta)\s*(\d+)\b/g, "beta $2")
       .replace(/\b(rc)\s*(\d+)\b/g, "rc $2")
       .replace(/\brelease\s+candidate\b/g, "rc")
-      .replace(/\(\s*rc\s*\)/g, "rc");
+      .replace(/\(\s*rc\s*\)/g, "rc")
+      /* Fix2: v.2 / v2 を比較用に "v2" に統一（表記揺れ吸収） */
+      .replace(/\bv\.?\s*(\d+)\b/g, "v$1");
   }
 
   function sameVersion(a, b){
@@ -82,6 +86,7 @@
   function parseVersionForCompare(raw){
     var norm = normalizeVersion(raw);
     if(!norm) return null;
+
     var numMatch = norm.match(/^(\d+)(?:\.(\d+))?(?:\.(\d+))?/);
     var nums = [0, 0, 0];
     if(numMatch){
@@ -89,6 +94,7 @@
       nums[1] = numMatch[2] !== undefined ? parseInt(numMatch[2], 10) : 0;
       nums[2] = numMatch[3] !== undefined ? parseInt(numMatch[3], 10) : 0;
     }
+
     var stage = 2, stageNum = 0;
     if(/\brc\b/.test(norm)){
       stage = 1;
@@ -99,7 +105,13 @@
       var betaMatch = norm.match(/\bbeta\s*(\d+)/);
       if(betaMatch) stageNum = parseInt(betaMatch[1], 10);
     }
-    return { nums: nums, stage: stage, stageNum: stageNum };
+
+    /* Fix2: “v2” を再リリースのリビジョンとして比較キーに追加 */
+    var rev = 0;
+    var revMatch = norm.match(/\bv(\d+)\b/);
+    if(revMatch) rev = parseInt(revMatch[1], 10);
+
+    return { nums: nums, stage: stage, stageNum: stageNum, rev: rev };
   }
 
   function compareVersionRaw(a, b){
@@ -111,14 +123,22 @@
     if(!pa && !pb) return 0;
     if(!pa) return -1;
     if(!pb) return  1;
+
     for(var i = 0; i < 3; i++){
       if(pa.nums[i] > pb.nums[i]) return  1;
       if(pa.nums[i] < pb.nums[i]) return -1;
     }
+
     if(pa.stage    > pb.stage)    return  1;
     if(pa.stage    < pb.stage)    return -1;
+
     if(pa.stageNum > pb.stageNum) return  1;
     if(pa.stageNum < pb.stageNum) return -1;
+
+    /* Fix2: 同一Beta/RC番号なら、v2 > v1 として扱う */
+    if(pa.rev > pb.rev) return  1;
+    if(pa.rev < pb.rev) return -1;
+
     return 0;
   }
 
@@ -170,7 +190,7 @@
       if(map[k].count > map[bestKey].count){
         bestKey = k;
       } else if(map[k].count === map[bestKey].count){
-        // 同数なら「より新しい」方を優先
+        // 同数なら「より新しい」方を優先（v2差分もここで効く）
         if(compareVersionRaw(map[k].rep, map[bestKey].rep) > 0) bestKey = k;
       }
     }
@@ -235,11 +255,12 @@
   /* ── バージョン抽出 ──
      [FIX] (?:[A-Za-z]+\s+)? を追加し、macOS のコードネーム
      （Sequoia / Tahoe 等）をスキップできるようにした。
-     他の OS には影響なし（直後に数字が来ればそのままマッチ）。 */
+     他の OS には影響なし（直後に数字が来ればそのままマッチ）。
+     [Fix2] 末尾の "v.2" / "v2" など再リリース表記も取り込む。 */
   function extractVersionPart(title, osKey){
     var re = new RegExp(
       osKey +
-        "\\s+(?:[A-Za-z]+\\s+)?" +          // ← [FIX] コードネームをオプションでスキップ
+        "\\s+(?:[A-Za-z]+\\s+)?" +
         "(" +
           "[0-9]+(?:\\.[0-9]+){0,2}" +
           "(?:\\s*\\(\\s*[a-z]\\s*\\))?" +
@@ -248,18 +269,27 @@
             "|" +
             "\\s*(?:rc\\s*\\d+|rc\\d+|rc|release\\s+candidate)" +
           ")?" +
+          /* Fix2: v.2 / v2 をオプションで許可 */
+          "(?:\\s*v\\.?\\s*\\d+)?" +
         ")",
       "i"
     );
     var m = title.match(re);
     if(!m) return null;
+
     var v = String(m[1] || "").replace(/\s+/g, " ").trim();
     if(!v) return null;
+
     if(/\brelease\s+candidate\b/i.test(v)){
       v = v.replace(/\brelease\s+candidate\b/ig, "RC");
     }
+
     v = v.replace(/\bbeta\s*(\d+)\b/i, "Beta$1").replace(/\bbeta\b/i, "Beta");
     v = v.replace(/\bRC\s*(\d+)\b/i,   "RC$1"  ).replace(/\bRC\b/i,   "RC"  );
+
+    /* Fix2: v表記を表示用に " v.2" へ寄せる（比較は normalizeVersion で吸収） */
+    v = v.replace(/\bv\.?\s*(\d+)\b/i, " v.$1");
+
     return v;
   }
 
