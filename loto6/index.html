@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ロト6情報サイト - 最新抽選結果と統計分析</title>
+    <meta name="description" content="ロト6の最新抽選結果、統計分析、当選チェッカーを提供する非公式情報サイト">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <h1>🎱 ロト6情報サイト</h1>
+                </div>
+                <button class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="active">ホーム</a></li>
+                    <li><a href="pages/analysis.html">統計分析</a></li>
+                    <li><a href="pages/checker.html">当選チェック</a></li>
+                    <li><a href="pages/about.html">サイト情報</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- 最新抽選結果セクション -->
+        <section class="hero-section">
+            <div class="card">
+                <h2>最新の抽選結果</h2>
+                <div id="latestDrawInfo" class="draw-info">
+                    <p class="draw-number">第<span id="drawNumber">-</span>回</p>
+                    <p class="draw-date"><span id="drawDate">-</span></p>
+                </div>
+                <div id="latestNumbers" class="number-balls">
+                    <!-- JavaScriptで動的生成 -->
+                </div>
+                <div class="bonus-section">
+                    <p>ボーナス数字</p>
+                    <div id="bonusNumber" class="bonus-ball">-</div>
+                </div>
+                <div id="carryOverInfo" class="carry-over hidden">
+                    <!-- JavaScriptで動的生成 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 次回抽選カウントダウン -->
+        <section class="countdown-section">
+            <div class="card">
+                <h3>次回抽選まで</h3>
+                <div id="countdown" class="countdown">
+                    <div class="countdown-item">
+                        <span id="days" class="countdown-value">0</span>
+                        <span class="countdown-label">日</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="hours" class="countdown-value">0</span>
+                        <span class="countdown-label">時間</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="minutes" class="countdown-value">0</span>
+                        <span class="countdown-label">分</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="seconds" class="countdown-value">0</span>
+                        <span class="countdown-label">秒</span>
+                    </div>
+                </div>
+                <p id="nextDrawDate" class="next-draw-date"></p>
+            </div>
+        </section>
+
+        <!-- クイック統計 -->
+        <section class="quick-stats">
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <h3>頻出数字 TOP5</h3>
+                    <div id="topFrequent" class="stat-list">
+                        <!-- JavaScriptで動的生成 -->
+                    </div>
+                </div>
+                <div class="card stat-card">
+                    <h3>最近出ていない数字 TOP5</h3>
+                    <div id="leastRecent" class="stat-list">
+                        <!-- JavaScriptで動的生成 -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 直近の抽選結果 -->
+        <section class="recent-draws">
+            <div class="card">
+                <h3>直近10回の抽選結果</h3>
+                <div class="table-responsive">
+                    <table id="recentDrawsTable">
+                        <thead>
+                            <tr>
+                                <th>回号</th>
+                                <th>抽選日</th>
+                                <th>当選番号</th>
+                                <th>ボーナス</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- JavaScriptで動的生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 機能へのリンク -->
+        <section class="features">
+            <h2>サイト機能</h2>
+            <div class="feature-grid">
+                <a href="pages/analysis.html" class="feature-card card">
+                    <div class="feature-icon">📊</div>
+                    <h3>統計分析</h3>
+                    <p>出現頻度、間隔分析、相関など詳細な統計データを可視化</p>
+                </a>
+                <a href="pages/checker.html" class="feature-card card">
+                    <div class="feature-icon">✅</div>
+                    <h3>当選チェッカー</h3>
+                    <p>あなたの数字が過去に当選したか確認できます</p>
+                </a>
+                <a href="pages/about.html" class="feature-card card">
+                    <div class="feature-icon">ℹ️</div>
+                    <h3>サイト情報</h3>
+                    <p>当サイトについて、免責事項、お問い合わせ</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>当サイトは非公式のファンサイトです。正確な情報は<a href="https://www.mizuhobank.co.jp/retail/takarakuji/loto/loto6/index.html" target="_blank" rel="noopener">みずほ銀行公式サイト</a>でご確認ください。</p>
+            <p>&copy; 2025 ロト6情報サイト</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/core.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

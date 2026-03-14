@@ -1,0 +1,174 @@
+// データ管理とユーティリティ関数
+
+// グローバルデータストア
+const AppData = {
+    latest: [],
+    history: [],
+    initialized: false
+};
+
+// パス解決（相対パス問題の解決）
+function getBasePath() {
+    const path = window.location.pathname;
+    return path.includes('/pages/') ? '../' : './';
+}
+
+// データ読み込み
+async function loadData() {
+    if (AppData.initialized) return;
+    
+    const basePath = getBasePath();
+    
+    try {
+        // 最新データ読み込み
+        const latestResponse = await fetch(`${basePath}assets/data/latest.json`);
+        if (latestResponse.ok) {
+            AppData.latest = await latestResponse.json();
+        }
+        
+        // 履歴データ読み込み
+        const historyResponse = await fetch(`${basePath}assets/data/history.json`);
+        if (historyResponse.ok) {
+            AppData.history = await historyResponse.json();
+        }
+        
+        AppData.initialized = true;
+        console.log('データ読み込み完了:', {
+            latest: AppData.latest.length,
+            history: AppData.history.length
+        });
+    } catch (error) {
+        console.error('データ読み込みエラー:', error);
+        // サンプルデータで初期化
+        initializeSampleData();
+    }
+}
+
+// サンプルデータ初期化
+function initializeSampleData() {
+    const sample = [];
+    const baseDate = new Date('2025-01-13');
+    
+    for (let i = 0; i < 50; i++) {
+        const drawDate = new Date(baseDate);
+        drawDate.setDate(drawDate.getDate() - (i * 3));
+        
+        sample.push({
+            drawNumber: 1890 - i,
+            drawDate: drawDate.toISOString().split('T')[0],
+            numbers: generateRandomNumbers(),
+            bonusNumber: Math.floor(Math.random() * 43) + 1,
+            prizes: {
+                1: { winners: Math.floor(Math.random() * 3), amount: 200000000 },
+                2: { winners: Math.floor(Math.random() * 10), amount: 15000000 }
+            },
+            carryOver: Math.random() > 0.7 ? Math.floor(Math.random() * 500000000) : 0
+        });
+    }
+    
+    AppData.latest = sample.slice(0, 10);
+    AppData.history = sample;
+    AppData.initialized = true;
+}
+
+// ランダム数字生成（重複なし6個）
+function generateRandomNumbers() {
+    const numbers = [];
+    while (numbers.length < 6) {
+        const num = Math.floor(Math.random() * 43) + 1;
+        if (!numbers.includes(num)) {
+            numbers.push(num);
+        }
+    }
+    return numbers.sort((a, b) => a - b);
+}
+
+// 数字フォーマット（3桁カンマ区切り）
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+// 日付フォーマット
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+}
+
+// 次回抽選日計算（月・木曜日18:30）
+function getNextDrawDate() {
+    const now = new Date();
+    const next = new Date(now);
+    
+    // 現在の曜日取得（0=日曜, 1=月曜, ..., 4=木曜）
+    const currentDay = now.getDay();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    
+    // 抽選時刻は18:30
+    const drawHour = 18;
+    const drawMinute = 30;
+    
+    let daysUntilNext = 0;
+    
+    if (currentDay === 1) { // 月曜日
+        if (currentHour < drawHour || (currentHour === drawHour && currentMinute < drawMinute)) {
+            daysUntilNext = 0; // 今日
+        } else {
+            daysUntilNext = 3; // 木曜日
+        }
+    } else if (currentDay === 4) { // 木曜日
+        if (currentHour < drawHour || (currentHour === drawHour && currentMinute < drawMinute)) {
+            daysUntilNext = 0; // 今日
+        } else {
+            daysUntilNext = 4; // 次の月曜日
+        }
+    } else if (currentDay < 1) { // 日曜日
+        daysUntilNext = 1;
+    } else if (currentDay < 4) { // 火・水曜日
+        daysUntilNext = 4 - currentDay;
+    } else { // 金・土曜日
+        daysUntilNext = 8 - currentDay;
+    }
+    
+    next.setDate(next.getDate() + daysUntilNext);
+    next.setHours(drawHour, drawMinute, 0, 0);
+    
+    return next;
+}
+
+// カウントダウン更新
+function updateCountdown() {
+    const nextDraw = getNextDrawDate();
+    const now = new Date();
+    const diff = nextDraw - now;
+    
+    if (diff < 0) {
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    return { days, hours, minutes, seconds };
+}
+
+// ハンバーガーメニュー
+document.addEventListener('DOMContentLoaded', () => {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // メニュー項目クリックで閉じる
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+    }
+});
