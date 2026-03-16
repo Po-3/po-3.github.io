@@ -1,0 +1,127 @@
+name: Auto Update Loto6 Data
+
+on:
+  schedule:
+    # 日本時間 月曜・木曜 21:00 (UTC 12:00)
+    - cron: '0 12 * * 1,4'
+  workflow_dispatch:
+    inputs:
+      force_update:
+        description: '強制更新を実行'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+          
+      - name: Create necessary directories
+        run: |
+          mkdir -p assets/data
+          
+      - name: Fetch and update data
+        id: fetch_data
+        run: |
+          cd scripts
+          if python fetch_data.py; then
+            echo "success=true" >> $GITHUB_OUTPUT
+          else
+            echo "success=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet assets/data/; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true' || github.event.inputs.force_update == 'true'
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add assets/data/*.json
+          
+          # コミットメッセージに詳細情報を含める
+          COMMIT_MSG="🎱 Auto-update: Loto6 data $(date '+%Y-%m-%d %H:%M:%S JST')"
+          
+          if git diff --staged --quiet; then
+            echo "変更がありません"
+          else
+            git commit -m "$COMMIT_MSG"
+            git push
+            echo "データを更新しました"
+          fi
+          
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## 🎱 ロト6データ更新結果" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **実行日時**: $(date '+%Y-%m-%d %H:%M:%S JST')" >> $GITHUB_STEP_SUMMARY
+          echo "- **データ取得**: ${{ steps.fetch_data.outputs.success == 'true' && '✅ 成功' || '❌ 失敗' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **変更有無**: ${{ steps.check_changes.outputs.changes == 'true' && '✅ 更新あり' || '➖ 変更なし' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f scripts/loto6_fetch.log ]; then
+            echo "### ログ出力" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            tail -n 20 scripts/loto6_fetch.log >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
+          
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: loto6-fetch-logs-${{ github.run_number }}
+          path: scripts/loto6_fetch.log
+          retention-days: 30
+
+  # デプロイ後の動作確認
+  verify-deployment:
+    needs: update-data
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Verify site accessibility
+        run: |
+          # GitHub Pagesのデプロイを待機
+          sleep 60
+          
+          SITE_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+          
+          if curl -f -s "$SITE_URL" > /dev/null; then
+            echo "✅ サイトへのアクセス確認成功: $SITE_URL"
+          else
+            echo "⚠️ サイトへのアクセス確認失敗: $SITE_URL"
+          fi
