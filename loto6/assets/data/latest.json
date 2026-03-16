@@ -1,16 +1,16 @@
 [
   {
-    "drawNumber": 1900,
-    "drawDate": "2025-01-30",
-    "numbers": [3, 11, 18, 25, 32, 40],
-    "bonusNumber": 2,
+    "drawNumber": 1890,
+    "drawDate": "2026-03-16",
+    "numbers": [1,13,19,28,30,41],
+    "bonusNumber": 22,
     "prizes": {
-      "1": {"winners": 1, "amount": 200000000},
-      "2": {"winners": 3, "amount": 15000000},
-      "3": {"winners": 50, "amount": 500000},
-      "4": {"winners": 500, "amount": 10000},
-      "5": {"winners": 5000, "amount": 1000}
+      "1": {"winners": 2, "amount": 200025567},
+      "2": {"winners": 6, "amount": 10019841},
+      "3": {"winners": 11, "amount": 306362},
+      "4": {"winners": 487, "amount": 5609},
+      "5": {"winners": 10423, "amount": 1000}
     },
-    "carryOver": 0
+    "carryOver": 20946
   }
 ]
