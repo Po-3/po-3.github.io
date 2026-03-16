@@ -63,3 +63,34 @@ function displayRecentDraws() {
         tbody.appendChild(row);
     });
 }
+ 
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('✅ dashboard.js 初期化開始');
+
+    try {
+        await loadLoto6Data();
+
+        console.log('✅ データ読込後', {
+            latest: Array.isArray(Loto6Data.latest) ? Loto6Data.latest.length : 0,
+            history: Array.isArray(Loto6Data.history) ? Loto6Data.history.length : 0
+        });
+
+        if (typeof displayLatestDraw === 'function') {
+            displayLatestDraw();
+        }
+
+        if (typeof displayCountdown === 'function') {
+            displayCountdown();
+        }
+
+        if (typeof displayQuickStats === 'function') {
+            displayQuickStats();
+        }
+
+        if (typeof displayRecentDraws === 'function') {
+            displayRecentDraws();
+        }
+    } catch (error) {
+        console.error('❌ dashboard.js 初期化エラー:', error);
+    }
+});
