@@ -3,7 +3,7 @@ name: Auto Update Loto6 Data
 on:
   schedule:
     - cron: '0 12 * * 1,4'  # 月・木 21:00 JST
-  workflow_dispatch:        # 手動実行ボタン
+  workflow_dispatch:        # 手動実行可能
 
 permissions:
   contents: write
@@ -22,28 +22,47 @@ jobs:
         with:
           python-version: '3.11'
           
-      - name: 📦 Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4 lxml
-          
       - name: 📁 Create directories
-        run: mkdir -p assets/data
+        # 【重要】loto6フォルダ内にデータディレクトリを作成
+        run: mkdir -p loto6/assets/data
           
       - name: 🎱 Create test data
         run: |
-          echo '[{"drawNumber":1900,"drawDate":"2025-01-30","numbers":[3,11,18,25,32,40],"bonusNumber":2,"carryOver":0}]' > assets/data/latest.json
-          echo "✅ Test data created successfully"
+          # 【修正】loto6/assets/data/ に保存
+          echo '[
+            {
+              "drawNumber": 1900,
+              "drawDate": "2025-01-30",
+              "numbers": [3, 11, 18, 25, 32, 40],
+              "bonusNumber": 2,
+              "prizes": {
+                "1": {"winners": 1, "amount": 200000000},
+                "2": {"winners": 3, "amount": 15000000},
+                "3": {"winners": 50, "amount": 500000},
+                "4": {"winners": 500, "amount": 10000},
+                "5": {"winners": 5000, "amount": 1000}
+              },
+              "carryOver": 0
+            }
+          ]' > loto6/assets/data/latest.json
+          
+          # history.jsonも同時に作成（エラー回避）
+          cp loto6/assets/data/latest.json loto6/assets/data/history.json
+          
+          echo "✅ Data files created in correct location: loto6/assets/data/"
+          ls -la loto6/assets/data/
           
       - name: 💾 Commit changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add assets/data/*.json
+          
+          # 【修正】loto6フォルダ内のJSONファイルを追加
+          git add loto6/assets/data/*.json
           
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "🎱 Auto-update: Loto6 test data"
+            git commit -m "🎱 Fix: Save data to correct loto6/assets/data directory"
             git push
           fi
