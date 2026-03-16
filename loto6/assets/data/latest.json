@@ -1,38 +1,16 @@
 [
   {
-    "drawNumber": 1909,
-    "drawDate": "2026-03-10",
-    "numbers": [
-      16,
-      18,
-      21,
-      28,
-      31,
-      37
-    ],
-    "bonusNumber": 40,
+    "drawNumber": 2084,
+    "drawDate": "2026-03-12",
+    "numbers": [8, 17, 18, 19, 30, 39],
+    "bonusNumber": 9,
     "prizes": {
-      "1": {
-        "winners": 3,
-        "amount": 686665549
-      },
-      "2": {
-        "winners": 7,
-        "amount": 49399651
-      },
-      "3": {
-        "winners": 25,
-        "amount": 709855
-      },
-      "4": {
-        "winners": 1126,
-        "amount": 19015
-      },
-      "5": {
-        "winners": 8368,
-        "amount": 1000
-      }
+      "1": {"winners": 0, "amount": 0},
+      "2": {"winners": 8, "amount": 9460500},
+      "3": {"winners": 290, "amount": 281800},
+      "4": {"winners": 11789, "amount": 7300},
+      "5": {"winners": 183453, "amount": 1000}
     },
-    "carryOver": 1019646028
+    "carryOver": 462516068
   }
 ]
