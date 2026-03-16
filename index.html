@@ -24,7 +24,7 @@
                     <span></span>
                 </button>
                 <ul class="nav-menu" id="navMenu">
-                    <li><a href="pages/index.html" class="nav-link active">ホーム</a></li>
+                    <li><a href="index.html" class="nav-link active">ホーム</a></li>
                     <li><a href="pages/analysis.html" class="nav-link">統計分析</a></li>
                     <li><a href="pages/checker.html" class="nav-link">当選チェック</a></li>
                     <li><a href="pages/about.html" class="nav-link">サイト情報</a></li>
@@ -35,7 +35,6 @@
 
     <main class="main-content">
         <div class="container">
-            <!-- ヒーローセクション：最新抽選結果 -->
             <section class="hero-section">
                 <div class="card hero-card">
                     <div class="card-header">
@@ -47,9 +46,7 @@
                     </div>
 
                     <div class="numbers-display">
-                        <div class="main-numbers" id="mainNumbers">
-                            <!-- JavaScriptで動的生成 -->
-                        </div>
+                        <div class="main-numbers" id="mainNumbers"></div>
                         <div class="bonus-display">
                             <span class="bonus-label">ボーナス</span>
                             <div class="bonus-number" id="bonusNumber">-</div>
@@ -66,7 +63,6 @@
                 </div>
             </section>
 
-            <!-- カウントダウンセクション -->
             <section class="countdown-section">
                 <div class="card countdown-card">
                     <h3 class="countdown-title">次回抽選まで</h3>
@@ -91,30 +87,24 @@
                             <div class="countdown-label">秒</div>
                         </div>
                     </div>
-                    <div class="next-draw-info" id="nextDrawInfo">-</div>
+                    <div class="nextDrawInfo" id="nextDrawInfo">-</div>
                 </div>
             </section>
 
-            <!-- クイック統計 -->
             <section class="quick-stats-section">
                 <h2 class="section-title">クイック統計</h2>
                 <div class="stats-grid">
                     <div class="card stat-card">
                         <h3 class="stat-title">頻出数字 TOP5</h3>
-                        <div class="stat-list" id="topFrequentNumbers">
-                            <!-- JavaScriptで動的生成 -->
-                        </div>
+                        <div class="stat-list" id="topFrequentNumbers"></div>
                     </div>
                     <div class="card stat-card">
                         <h3 class="stat-title">最近出ていない数字 TOP5</h3>
-                        <div class="stat-list" id="leastRecentNumbers">
-                            <!-- JavaScriptで動的生成 -->
-                        </div>
+                        <div class="stat-list" id="leastRecentNumbers"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- 直近の抽選結果 -->
             <section class="recent-draws-section">
                 <div class="card">
                     <h3 class="section-title">直近10回の抽選結果</h3>
@@ -129,19 +119,16 @@
                                     <th>1等当選者</th>
                                 </tr>
                             </thead>
-                            <tbody id="recentDrawsTable">
-                                <!-- JavaScriptで動的生成 -->
-                            </tbody>
+                            <tbody id="recentDrawsTable"></tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- 機能カード -->
             <section class="features-section">
                 <h2 class="section-title">サイト機能</h2>
                 <div class="features-grid">
-                    <a href="analysis.html" class="feature-card card">
+                    <a href="pages/analysis.html" class="feature-card card">
                         <div class="feature-icon">📊</div>
                         <h3 class="feature-title">統計分析</h3>
                         <p class="feature-description">出現頻度、間隔分析、数字相関など詳細な統計データをグラフで可視化</p>
