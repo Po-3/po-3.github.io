@@ -3,150 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ロト6情報サイト - 最新抽選結果と統計分析</title>
-    <meta name="description" content="ロト6の最新抽選結果、統計分析、当選チェッカーを提供する非公式情報サイト">
+    <meta name="description" content="ロト6の最新抽選結果、統計分析、当選チェッカーを提供する完全自動更新ポータルサイト">
+    <title>ロト6ポータル - 最新結果と統計分析</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <header>
+    <header class="header">
         <nav class="navbar">
             <div class="container">
                 <div class="nav-brand">
-                    <h1>🎱 ロト6情報サイト</h1>
+                    <span class="logo-icon">🎱</span>
+                    <h1 class="logo-text">ロト6ポータル</h1>
                 </div>
-                <button class="nav-toggle" id="navToggle">
+                <button class="nav-toggle" id="navToggle" aria-label="メニュー">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
                 <ul class="nav-menu" id="navMenu">
-                    <li><a href="index.html" class="active">ホーム</a></li>
-                    <li><a href="pages/analysis.html">統計分析</a></li>
-                    <li><a href="pages/checker.html">当選チェック</a></li>
-                    <li><a href="pages/about.html">サイト情報</a></li>
+                    <li><a href="index.html" class="nav-link active">ホーム</a></li>
+                    <li><a href="pages/analysis.html" class="nav-link">統計分析</a></li>
+                    <li><a href="pages/checker.html" class="nav-link">当選チェック</a></li>
+                    <li><a href="pages/about.html" class="nav-link">サイト情報</a></li>
                 </ul>
             </div>
         </nav>
     </header>
 
-    <main class="container">
-        <!-- 最新抽選結果セクション -->
-        <section class="hero-section">
-            <div class="card">
-                <h2>最新の抽選結果</h2>
-                <div id="latestDrawInfo" class="draw-info">
-                    <p class="draw-number">第<span id="drawNumber">-</span>回</p>
-                    <p class="draw-date"><span id="drawDate">-</span></p>
-                </div>
-                <div id="latestNumbers" class="number-balls">
-                    <!-- JavaScriptで動的生成 -->
-                </div>
-                <div class="bonus-section">
-                    <p>ボーナス数字</p>
-                    <div id="bonusNumber" class="bonus-ball">-</div>
-                </div>
-                <div id="carryOverInfo" class="carry-over hidden">
-                    <!-- JavaScriptで動的生成 -->
-                </div>
-            </div>
-        </section>
-
-        <!-- 次回抽選カウントダウン -->
-        <section class="countdown-section">
-            <div class="card">
-                <h3>次回抽選まで</h3>
-                <div id="countdown" class="countdown">
-                    <div class="countdown-item">
-                        <span id="days" class="countdown-value">0</span>
-                        <span class="countdown-label">日</span>
+    <main class="main-content">
+        <div class="container">
+            <!-- ヒーローセクション：最新抽選結果 -->
+            <section class="hero-section">
+                <div class="card hero-card">
+                    <div class="card-header">
+                        <h2 class="section-title">最新の抽選結果</h2>
+                        <div class="draw-info">
+                            <span class="draw-number">第<span id="latestDrawNumber">-</span>回</span>
+                            <span class="draw-date" id="latestDrawDate">-</span>
+                        </div>
                     </div>
-                    <div class="countdown-item">
-                        <span id="hours" class="countdown-value">0</span>
-                        <span class="countdown-label">時間</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span id="minutes" class="countdown-value">0</span>
-                        <span class="countdown-label">分</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span id="seconds" class="countdown-value">0</span>
-                        <span class="countdown-label">秒</span>
-                    </div>
-                </div>
-                <p id="nextDrawDate" class="next-draw-date"></p>
-            </div>
-        </section>
-
-        <!-- クイック統計 -->
-        <section class="quick-stats">
-            <div class="stats-grid">
-                <div class="card stat-card">
-                    <h3>頻出数字 TOP5</h3>
-                    <div id="topFrequent" class="stat-list">
-                        <!-- JavaScriptで動的生成 -->
-                    </div>
-                </div>
-                <div class="card stat-card">
-                    <h3>最近出ていない数字 TOP5</h3>
-                    <div id="leastRecent" class="stat-list">
-                        <!-- JavaScriptで動的生成 -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 直近の抽選結果 -->
-        <section class="recent-draws">
-            <div class="card">
-                <h3>直近10回の抽選結果</h3>
-                <div class="table-responsive">
-                    <table id="recentDrawsTable">
-                        <thead>
-                            <tr>
-                                <th>回号</th>
-                                <th>抽選日</th>
-                                <th>当選番号</th>
-                                <th>ボーナス</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    
+                    <div class="numbers-display">
+                        <div class="main-numbers" id="mainNumbers">
                             <!-- JavaScriptで動的生成 -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
+                        </div>
+                        <div class="bonus-display">
+                            <span class="bonus-label">ボーナス</span>
+                            <div class="bonus-number" id="bonusNumber">-</div>
+                        </div>
+                    </div>
 
-        <!-- 機能へのリンク -->
-        <section class="features">
-            <h2>サイト機能</h2>
-            <div class="feature-grid">
-                <a href="pages/analysis.html" class="feature-card card">
-                    <div class="feature-icon">📊</div>
-                    <h3>統計分析</h3>
-                    <p>出現頻度、間隔分析、相関など詳細な統計データを可視化</p>
-                </a>
-                <a href="pages/checker.html" class="feature-card card">
-                    <div class="feature-icon">✅</div>
-                    <h3>当選チェッカー</h3>
-                    <p>あなたの数字が過去に当選したか確認できます</p>
-                </a>
-                <a href="pages/about.html" class="feature-card card">
-                    <div class="feature-icon">ℹ️</div>
-                    <h3>サイト情報</h3>
-                    <p>当サイトについて、免責事項、お問い合わせ</p>
-                </a>
-            </div>
-        </section>
+                    <div id="carryOverAlert" class="carry-over-alert hidden">
+                        <div class="alert-icon">🎉</div>
+                        <div class="alert-content">
+                            <div class="alert-title">キャリーオーバー発生中！</div>
+                            <div class="alert-amount" id="carryOverAmount">-</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- カウントダウンセクション -->
+            <section class="countdown-section">
+                <div class="card countdown-card">
+                    <h3 class="countdown-title">次回抽選まで</h3>
+                    <div class="countdown-display">
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdownDays">0</div>
+                            <div class="countdown-label">日</div>
+                        </div>
+                        <div class="countdown-separator">:</div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdownHours">0</div>
+                            <div class="countdown-label">時間</div>
+                        </div>
+                        <div class="countdown-separator">:</div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdownMinutes">0</div>
+                            <div class="countdown-label">分</div>
+                        </div>
+                        <div class="countdown-separator">:</div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdownSeconds">0</div>
+                            <div class="countdown-label">秒</div>
+                        </div>
+                    </div>
+                    <div class="next-draw-info" id="nextDrawInfo">-</div>
+                </div>
+            </section>
+
+            <!-- クイック統計 -->
+            <section class="quick-stats-section">
+                <h2 class="section-title">クイック統計</h2>
+                <div class="stats-grid">
+                    <div class="card stat-card">
+                        <h3 class="stat-title">頻出数字 TOP5</h3>
+                        <div class="stat-list" id="topFrequentNumbers">
+                            <!-- JavaScriptで動的生成 -->
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <h3 class="stat-title">最近出ていない数字 TOP5</h3>
+                        <div class="stat-list" id="leastRecentNumbers">
+                            <!-- JavaScriptで動的生成 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 直近の抽選結果 -->
+            <section class="recent-draws-section">
+                <div class="card">
+                    <h3 class="section-title">直近10回の抽選結果</h3>
+                    <div class="table-container">
+                        <table class="draws-table">
+                            <thead>
+                                <tr>
+                                    <th>回号</th>
+                                    <th>抽選日</th>
+                                    <th>当選番号</th>
+                                    <th>ボーナス</th>
+                                    <th>1等当選者</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentDrawsTable">
+                                <!-- JavaScriptで動的生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 機能カード -->
+            <section class="features-section">
+                <h2 class="section-title">サイト機能</h2>
+                <div class="features-grid">
+                    <a href="pages/analysis.html" class="feature-card card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">統計分析</h3>
+                        <p class="feature-description">出現頻度、間隔分析、数字相関など詳細な統計データをグラフで可視化</p>
+                        <div class="feature-action">詳しく見る →</div>
+                    </a>
+                    <a href="pages/checker.html" class="feature-card card">
+                        <div class="feature-icon">✅</div>
+                        <h3 class="feature-title">当選チェッカー</h3>
+                        <p class="feature-description">あなたの選んだ数字が過去に当選したか確認。Myセット保存機能付き</p>
+                        <div class="feature-action">チェックする →</div>
+                    </a>
+                    <a href="pages/about.html" class="feature-card card">
+                        <div class="feature-icon">ℹ️</div>
+                        <h3 class="feature-title">サイト情報</h3>
+                        <p class="feature-description">当サイトについて、免責事項、データソースなどの情報</p>
+                        <div class="feature-action">詳細を見る →</div>
+                    </a>
+                </div>
+            </section>
+        </div>
     </main>
 
-    <footer>
+    <footer class="footer">
         <div class="container">
-            <p>当サイトは非公式のファンサイトです。正確な情報は<a href="https://www.mizuhobank.co.jp/retail/takarakuji/loto/loto6/index.html" target="_blank" rel="noopener">みずほ銀行公式サイト</a>でご確認ください。</p>
-            <p>&copy; 2025 ロト6情報サイト</p>
+            <div class="footer-content">
+                <p class="footer-disclaimer">
+                    当サイトは非公式のファンサイトです。正確な情報は
+                    <a href="https://www.mizuhobank.co.jp/retail/takarakuji/loto/loto6/index.html" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="footer-link">みずほ銀行公式サイト</a>
+                    でご確認ください。
+                </p>
+                <p class="footer-copyright">&copy; 2025 ロト6ポータル</p>
+            </div>
         </div>
     </footer>
 
