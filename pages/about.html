@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サイト情報 - ロト6ポータル</title>
+    <meta name="description" content="当サイトについて、免責事項、データソース、利用規約などの重要な情報">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <span class="logo-icon">🎱</span>
+                    <h1 class="logo-text">ロト6ポータル</h1>
+                </div>
+                <button class="nav-toggle" id="navToggle" aria-label="メニュー">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="../index.html" class="nav-link">ホーム</a></li>
+                    <li><a href="analysis.html" class="nav-link">統計分析</a></li>
+                    <li><a href="checker.html" class="nav-link">当選チェック</a></li>
+                    <li><a href="about.html" class="nav-link active">サイト情報</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- ページヘッダー -->
+            <section class="page-header">
+                <h1 class="page-title">ℹ️ サイト情報</h1>
+                <p class="page-description">当サイトについて、免責事項、データソース、利用規約などの重要な情報をご確認ください</p>
+            </section>
+
+            <!-- 重要なお知らせ -->
+            <section class="notice-section">
+                <div class="card notice-card">
+                    <div class="notice-header">
+                        <div class="notice-icon">⚠️</div>
+                        <h2 class="notice-title">重要なお知らせ</h2>
+                    </div>
+                    <div class="notice-content">
+                        <p><strong>当サイトは非公式のファンサイトです。</strong></p>
+                        <p>みずほ銀行およびロト6の公式機関とは一切関係がありません。正確な当選情報は必ず<a href="https://www.mizuhobank.co.jp/retail/takarakuji/loto/loto6/index.html" target="_blank" rel="noopener noreferrer" class="official-link">みずほ銀行公式サイト</a>でご確認ください。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- サイトについて -->
+            <section class="about-section">
+                <div class="card">
+                    <h2 class="section-title">🎱 当サイトについて</h2>
+                    
+                    <div class="about-content">
+                        <h3>サイトの目的</h3>
+                        <p>ロト6ポータルは、ロト6ファンの皆様に統計分析や過去データの検索など、便利な情報ツールを提供することを目的とした非営利の情報サイトです。</p>
+
+                        <h3>提供している機能</h3>
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <div class="feature-icon">📊</div>
+                                <h4>統計分析</h4>
+                                <p>出現頻度、間隔分析、数字相関など、過去のデータに基づいた詳細な統計情報をグラフで可視化します。</p>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">✅</div>
+                                <h4>当選チェッカー</h4>
+                                <p>あなたの選んだ数字が過去に当選したかを確認できます。Myセット保存機能で複数の組み合わせを管理できます。</p>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">📈</div>
+                                <h4>最新結果表示</h4>
+                                <p>最新の抽選結果を見やすく表示。次回抽選までのカウントダウン機能も搭載しています。</p>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">🔄</div>
+                                <h4>自動更新</h4>
+                                <p>抽選日（月曜・木曜）の夜に自動的にデータを更新します。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- データソース -->
+            <section class="data-source-section">
+                <div class="card">
+                    <h2 class="section-title">📊 データソースと取り扱い</h2>
+                    
+                    <div class="data-content">
+                        <h3>公式データの利用</h3>
+                        <p>当サイトで表示される抽選結果データは、みずほ銀行公式サイトから取得した数値情報（事実情報）を利用しています。</p>
+                        
+                        <div class="data-table">
+                            <table class="info-table">
+                                <tr>
+                                    <th>データ取得元</th>
+                                    <td>みずほ銀行 宝くじ公式サイト</td>
+                                </tr>
+                                <tr>
+                                    <th>更新頻度</th>
+                                    <td>週2回（月曜・木曜の21:00頃）</td>
+                                </tr>
+                                <tr>
+                                    <th>取得方法</th>
+                                    <td>GitHub Actions自動取得システム</td>
+                                </tr>
+                                <tr>
+                                    <th>利用データ</th>
+                                    <td>公開された数値データ（事実情報）のみ</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <h3>データ取り扱い方針</h3>
+                        <ul class="policy-list">
+                            <li>✅ 公開された数値データ（事実情報）のみを利用</li>
+                            <li>✅ HTML構造、デザイン、文章の複製は一切行わない</li>
+                            <li>✅ 適切なアクセス間隔（5秒以上）でサーバー負荷に配慮</li>
+                            <li>✅ 利用規約を遵守し、適切な運用を実施</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 免責事項 -->
+            <section class="disclaimer-section">
+                <div class="card disclaimer-card">
+                    <h2 class="section-title">⚖️ 免責事項</h2>
+                    
+                    <div class="disclaimer-content">
+                        <h3>データの正確性について</h3>
+                        <p>当サイトは正確な情報の提供に努めていますが、以下の点にご注意ください：</p>
+                        <ul class="disclaimer-list">
+                            <li>データ取得時の技術的問題により、情報が不正確または古い場合があります</li>
+                            <li>公式サイトの構造変更により、一時的にデータ更新が停止する場合があります</li>
+                            <li>統計情報は過去のデータに基づく参考値であり、将来の当選を保証するものではありません</li>
+                            <li><strong>正確な当選情報は必ず公式サイトでご確認ください</strong></li>
+                        </ul>
+
+                        <h3>利用に関する免責</h3>
+                        <p>当サイトの利用により生じたいかなる損害についても、運営者は一切の責任を負いません：</p>
+                        <ul class="disclaimer-list">
+                            <li>当サイトの情報に基づく購入判断は、全てご自身の責任で行ってください</li>
+                            <li>データの誤りや遅延による損害について、補償は一切行いません</li>
+                            <li>サイトの予告なき変更、一時停止、終了の可能性があります</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ギャンブル依存症への配慮 -->
+            <section class="gambling-section">
+                <div class="card warning-card">
+                    <h2 class="section-title">⚠️ ギャンブル依存症への注意</h2>
+                    
+                    <div class="gambling-content">
+                        <div class="warning-box">
+                            <p><strong>宝くじは適度に楽しむ娯楽です</strong></p>
+                            <p>過度な購入は生活に支障をきたす可能性があります。以下の点にご注意ください：</p>
+                            <ul class="warning-list">
+                                <li>🚫 <strong>20歳未満の購入は法律で禁止されています</strong></li>
+                                <li>💰 予算を決めて、無理のない範囲で楽しみましょう</li>
+                                <li>⚠️ 借金をしてまで購入することは絶対に避けてください</li>
+                                <li>🆘 依存症が疑われる場合は、専門機関にご相談ください</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="help-links">
+                            <h4>相談窓口</h4>
+                            <p><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000070789.html" target="_blank" rel="noopener noreferrer" class="help-link">厚生労働省 - ギャンブル等依存症対策</a></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- プライバシーポリシー -->
+            <section class="privacy-section">
+                <div class="card">
+                    <h2 class="section-title">🔒 プライバシーポリシー</h2>
+                    
+                    <div class="privacy-content">
+                        <h3>個人情報の取り扱い</h3>
+                        <p>当サイトは、個人情報保護を重視し、以下の方針で運営しています：</p>
+
+                        <h4>収集する情報</h4>
+                        <ul class="privacy-list">
+                            <li><strong>LocalStorage</strong>: 当選チェッカーのMyセット機能で、選択した数字をブラウザ内に保存</li>
+                            <li><strong>個人を特定する情報</strong>: 氏名、メールアドレスなどの個人情報は一切収集しません</li>
+                        </ul>
+
+                        <h4>データの管理</h4>
+                        <ul class="privacy-list">
+                            <li>LocalStorageのデータは、お使いのブラウザ内にのみ保存されます</li>
+                            <li>サーバーへの送信は一切行いません</li>
+                            <li>ブラウザのキャッシュクリアで、いつでもデータを削除できます</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- お問い合わせ -->
+            <section class="contact-section">
+                <div class="card">
+                    <h2 class="section-title">📧 お問い合わせ</h2>
+                    
+                    <div class="contact-content">
+                        <h3>サイトに関するお問い合わせ</h3>
+                        <p>当サイトに関するご意見、ご要望、不具合報告などがございましたら、GitHubのIssuesでご報告ください。</p>
+                        
+                        <div class="contact-note">
+                            <h4>⚠️ 対応できないお問い合わせ</h4>
+                            <p>以下のお問い合わせには対応できませんので、公式サイトをご利用ください：</p>
+                            <ul>
+                                <li>ロト6の購入方法、当選金の受け取り方法</li>
+                                <li>当選番号の予想、購入アドバイス</li>
+                                <li>個別の当選確認、賞金計算</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-disclaimer">
+                    当サイトは非公式のファンサイトです。正確な情報は
+                    <a href="https://www.mizuhobank.co.jp/retail/takarakuji/loto/loto6/index.html" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="footer-link">みずほ銀行公式サイト</a>
+                    でご確認ください。
+                </p>
+                <p class="footer-copyright">&copy; 2025 ロト6ポータル</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* About専用スタイル */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .notice-section {
+            margin-bottom: 2rem;
+        }
+
+        .notice-card {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-left: 5px solid #ff9800;
+        }
+
+        .notice-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .notice-icon {
+            font-size: 2rem;
+        }
+
+        .notice-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin: 0;
+        }
+
+        .notice-content {
+            line-height: 1.8;
+        }
+
+        .official-link {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .about-content h3,
+        .data-content h3,
+        .disclaimer-content h3,
+        .privacy-content h3,
+        .contact-content h3,
+        .gambling-content h4 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .about-content h4,
+        .privacy-content h4,
+        .contact-content h4 {
+            color: var(--primary-light);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-item {
+            padding: 1.5rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            border-left: 4px solid var(--accent);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h4 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-table th,
+        .info-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            width: 30%;
+        }
+
+        .policy-list,
+        .disclaimer-list,
+        .privacy-list,
+        .warning-list {
+            line-height: 2;
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .policy-list li,
+        .disclaimer-list li,
+        .privacy-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .disclaimer-card {
+            border-left: 5px solid var(--danger);
+        }
+
+        .warning-card {
+            border-left: 5px solid var(--warning);
+        }
+
+        .warning-box {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--danger);
+            margin: 1.5rem 0;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+            font-size: 1.1rem;
+        }
+
+        .help-links {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+        }
+
+        .help-link {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .contact-note {
+            padding: 1.5rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--warning);
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-table th,
+            .info-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .info-table th {
+                border-bottom: none;
+            }
+
+            .notice-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+
+    <script src="../assets/js/core.js"></script>
+</body>
+</html>

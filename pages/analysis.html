@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>統計分析 - ロト6ポータル</title>
+    <meta name="description" content="ロト6の詳細な統計分析。出現頻度、間隔分析、数字相関をグラフで可視化">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <span class="logo-icon">🎱</span>
+                    <h1 class="logo-text">ロト6ポータル</h1>
+                </div>
+                <button class="nav-toggle" id="navToggle" aria-label="メニュー">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="../index.html" class="nav-link">ホーム</a></li>
+                    <li><a href="analysis.html" class="nav-link active">統計分析</a></li>
+                    <li><a href="checker.html" class="nav-link">当選チェック</a></li>
+                    <li><a href="about.html" class="nav-link">サイト情報</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- ページヘッダー -->
+            <section class="page-header">
+                <h1 class="page-title">📊 統計分析</h1>
+                <p class="page-description">過去の抽選データから数字の出現傾向を詳細に分析します</p>
+            </section>
+
+            <!-- 期間選択 -->
+            <section class="period-selector-section">
+                <div class="card">
+                    <div class="period-selector">
+                        <label class="period-label">分析期間：</label>
+                        <div class="period-buttons">
+                            <button class="period-btn active" data-period="all">全期間</button>
+                            <button class="period-btn" data-period="100">直近100回</button>
+                            <button class="period-btn" data-period="50">直近50回</button>
+                        </div>
+                    </div>
+                    <div class="analysis-info" id="analysisInfo">
+                        分析対象: <span id="analysisPeriodText">-</span> / データ件数: <span id="analysisCount">-</span>件
+                    </div>
+                </div>
+            </section>
+
+            <!-- 出現頻度グラフ -->
+            <section class="chart-section">
+                <div class="card">
+                    <h2 class="section-title">数字別出現頻度</h2>
+                    <p class="chart-description">各数字が抽選で出現した回数を表示します。理論値との差異も確認できます。</p>
+                    <div class="chart-container">
+                        <canvas id="frequencyChart"></canvas>
+                    </div>
+                    <div class="chart-stats" id="frequencyStats"></div>
+                </div>
+            </section>
+
+            <!-- 出現間隔グラフ -->
+            <section class="chart-section">
+                <div class="card">
+                    <h2 class="section-title">最後の出現からの経過回数</h2>
+                    <p class="chart-description">各数字が最後に出現してから何回経過したかを表示します。赤いほど長期間出現していません。</p>
+                    <div class="chart-container">
+                        <canvas id="intervalChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 奇偶・大小比率 -->
+            <section class="ratio-section">
+                <div class="ratio-grid">
+                    <div class="card">
+                        <h3 class="section-title">奇数・偶数比率</h3>
+                        <div class="chart-container-small">
+                            <canvas id="oddEvenChart"></canvas>
+                        </div>
+                        <div class="ratio-stats" id="oddEvenStats"></div>
+                    </div>
+                    <div class="card">
+                        <h3 class="section-title">大小比率</h3>
+                        <p class="ratio-note">大: 23-43 / 小: 1-22</p>
+                        <div class="chart-container-small">
+                            <canvas id="highLowChart"></canvas>
+                        </div>
+                        <div class="ratio-stats" id="highLowStats"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 数字ヒートマップ -->
+            <section class="heatmap-section">
+                <div class="card">
+                    <h2 class="section-title">出現頻度ヒートマップ</h2>
+                    <p class="chart-description">色の濃さで出現頻度を視覚化（濃いほど頻出）。数字をクリックすると詳細情報を表示します。</p>
+                    <div class="heatmap-grid" id="heatmapGrid">
+                        <!-- JavaScriptで動的生成 -->
+                    </div>
+                    <div class="heatmap-legend">
+                        <span>低頻度</span>
+                        <div class="legend-gradient"></div>
+                        <span>高頻度</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 数字ペア相関 -->
+            <section class="correlation-section">
+                <div class="card">
+                    <h2 class="section-title">よく一緒に出る数字ペア TOP10</h2>
+                    <p class="chart-description">同じ抽選で同時に出現することが多い数字の組み合わせを表示します。</p>
+                    <div class="correlation-list" id="correlationList">
+                        <!-- JavaScriptで動的生成 -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-disclaimer">
+                    当サイトは非公式のファンサイトです。正確な情報は
+                    <a href="https://www.mizuhobank.co.jp/retail/takarakuji/loto/loto6/index.html" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="footer-link">みずほ銀行公式サイト</a>
+                    でご確認ください。
+                </p>
+                <p class="footer-copyright">&copy; 2025 ロト6ポータル</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* 分析ページ専用スタイル */
+        .page-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: var(--spacing-sm);
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .period-selector-section {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .period-selector {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+            justify-content: center;
+        }
+
+        .period-label {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .period-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+
+        .period-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: var(--radius-lg);
+            font-weight: 700;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .period-btn:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .period-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .analysis-info {
+            padding: var(--spacing-md);
+            background: linear-gradient(135deg, var(--bg-primary), #f8f9ff);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            border: 2px solid var(--primary);
+        }
+
+        .analysis-info span {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .chart-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .chart-description {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.6;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: var(--spacing-md);
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-sm);
+        }
+
+        .chart-container-small {
+            position: relative;
+            height: 250px;
+            margin: var(--spacing-md) 0;
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-sm);
+        }
+
+        .chart-stats {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .ratio-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .ratio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .ratio-note {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+            text-align: center;
+        }
+
+        .ratio-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 2px solid var(--bg-primary);
+        }
+
+        .ratio-stat-item {
+            text-align: center;
+        }
+
+        .ratio-stat-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .ratio-stat-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .heatmap-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 8px;
+            margin: var(--spacing-md) 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .heatmap-cell:hover {
+            transform: scale(1.2);
+            z-index: 10;
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-gradient {
+            width: 200px;
+            height: 20px;
+            background: linear-gradient(90deg, #e3f2fd, #1976d2);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .correlation-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .correlation-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .correlation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            background: linear-gradient(90deg, var(--bg-primary), white);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            border-left: 4px solid var(--accent);
+        }
+
+        .correlation-item:hover {
+            background: linear-gradient(90deg, var(--primary-light), var(--primary));
+            color: white;
+            transform: translateX(8px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .correlation-pair {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .correlation-rank {
+            background: var(--accent);
+            color: var(--primary-dark);
+            width: 30px;
+            height: 30px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 900;
+        }
+
+        .correlation-numbers {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .correlation-count {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: var(--primary);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-lg);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+
+            .heatmap-grid {
+                grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+                gap: 6px;
+            }
+
+            .heatmap-cell {
+                font-size: 1rem;
+            }
+
+            .period-selector {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .correlation-pair {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+
+    <script src="../assets/js/core.js"></script>
+    <script src="../assets/js/analysis.js"></script>
+</body>
+</html>
