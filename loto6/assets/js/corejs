@@ -169,4 +169,274 @@ function generateBonusNumber(mainNumbers) {
  * 数字フォーマット（3桁カンマ区切り）
  */
 function formatNumber(num) {
-    if (num === null || num === undefined ||<span class="cursor">█</span>
+    if (num === null || num === undefined || isNaN(num)) return '-';
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+/**
+ * 金額フォーマット（円表示）
+ */
+function formatCurrency(amount) {
+    if (amount === null || amount === undefined || isNaN(amount)) return '-';
+    
+    if (amount >= 100000000) {
+        const oku = (amount / 100000000);
+        return oku >= 10 ? `${Math.floor(oku)}億円` : `${oku.toFixed(1)}億円`;
+    } else if (amount >= 10000) {
+        const man = (amount / 10000);
+        return man >= 10 ? `${Math.floor(man)}万円` : `${man.toFixed(1)}万円`;
+    }
+    return `${formatNumber(amount)}円`;
+}
+
+/**
+ * 日付フォーマット（YYYY-MM-DD → YYYY年M月D日）
+ */
+function formatDate(dateStr) {
+    if (!dateStr) return '-';
+    try {
+        const date = new Date(dateStr);
+        if (isNaN(date.getTime())) return dateStr;
+        return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+    } catch (error) {
+        console.error('日付フォーマットエラー:', error);
+        return dateStr;
+    }
+}
+
+/**
+ * 次回抽選日計算（月曜・木曜 18:30）
+ */
+function getNextDrawDate() {
+    const now = new Date();
+    const next = new Date(now);
+    
+    const currentDay = now.getDay(); // 0=日, 1=月, 4=木
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    
+    const drawHour = 18;
+    const drawMinute = 30;
+    
+    let daysUntilNext = 0;
+    
+    if (currentDay === 1) { // 月曜日
+        if (currentHour < drawHour || (currentHour === drawHour && currentMinute < drawMinute)) {
+            daysUntilNext = 0; // 今日
+        } else {
+            daysUntilNext = 3; // 木曜日
+        }
+    } else if (currentDay === 4) { // 木曜日
+        if (currentHour < drawHour || (currentHour === drawHour && currentMinute < drawMinute)) {
+            daysUntilNext = 0; // 今日
+        } else {
+            daysUntilNext = 4; // 次の月曜日
+        }
+    } else if (currentDay === 0) { // 日曜日
+        daysUntilNext = 1; // 月曜日
+    } else if (currentDay < 4) { // 火・水曜日
+        daysUntilNext = 4 - currentDay; // 木曜日まで
+    } else { // 金・土曜日
+        daysUntilNext = 8 - currentDay; // 次の月曜日まで
+    }
+    
+    next.setDate(next.getDate() + daysUntilNext);
+    next.setHours(drawHour, drawMinute, 0, 0);
+    
+    return next;
+}
+
+/**
+ * カウントダウン計算
+ */
+function calculateCountdown() {
+    const nextDraw = getNextDrawDate();
+    const now = new Date();
+    const diff = nextDraw - now;
+    
+    if (diff < 0) {
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    return { days, hours, minutes, seconds };
+}
+
+/**
+ * 統計計算：数字の出現頻度
+ */
+function calculateNumberFrequency(draws, period = 'all') {
+    const frequency = {};
+    for (let i = 1; i <= 43; i++) {
+        frequency[i] = 0;
+    }
+    
+    let targetDraws = draws;
+    if (period === '50') {
+        targetDraws = draws.slice(0, 50);
+    } else if (period === '100') {
+        targetDraws = draws.slice(0, 100);
+    }
+    
+    targetDraws.forEach(draw => {
+        if (draw.numbers && Array.isArray(draw.numbers)) {
+            draw.numbers.forEach(num => {
+                if (num >= 1 && num <= 43) {
+                    frequency[num]++;
+                }
+            });
+        }
+    });
+    
+    return frequency;
+}
+
+/**
+ * 統計計算：最後の出現からの経過回数
+ */
+function calculateLastAppearance(draws) {
+    const lastAppearance = {};
+    for (let i = 1; i <= 43; i++) {
+        lastAppearance[i] = draws.length;
+    }
+    
+    draws.forEach((draw, index) => {
+        if (draw.numbers && Array.isArray(draw.numbers)) {
+            draw.numbers.forEach(num => {
+                if (num >= 1 && num <= 43 && lastAppearance[num] === draws.length) {
+                    lastAppearance[num] = index;
+                }
+            });
+        }
+    });
+    
+    return lastAppearance;
+}
+
+/**
+ * 当選判定（数字の一致数を返す）
+ */
+function checkWinning(userNumbers, drawNumbers, bonusNumber) {
+    if (!Array.isArray(userNumbers) || !Array.isArray(drawNumbers)) {
+        return { rank: 0, matches: 0, bonusMatch: false };
+    }
+    
+    const matches = userNumbers.filter(num => drawNumbers.includes(num)).length;
+    const bonusMatch = userNumbers.includes(bonusNumber);
+    
+    // 1等: 6個一致
+    if (matches === 6) return { rank: 1, matches, bonusMatch: false };
+    // 2等: 5個一致 + ボーナス
+    if (matches === 5 && bonusMatch) return { rank: 2, matches, bonusMatch: true };
+    // 3等: 5個一致
+    if (matches === 5) return { rank: 3, matches, bonusMatch: false };
+    // 4等: 4個一致
+    if (matches === 4) return { rank: 4, matches, bonusMatch: false };
+    // 5等: 3個一致
+    if (matches === 3) return { rank: 5, matches, bonusMatch: false };
+    
+    return { rank: 0, matches, bonusMatch };
+}
+
+/**
+ * ローカルストレージ管理
+ */
+const Storage = {
+    save(key, data) {
+        try {
+            localStorage.setItem(`loto6_${key}`, JSON.stringify(data));
+        } catch (error) {
+            console.error('ローカルストレージ保存エラー:', error);
+        }
+    },
+    
+    load(key) {
+        try {
+            const data = localStorage.getItem(`loto6_${key}`);
+            return data ? JSON.parse(data) : null;
+        } catch (error) {
+            console.error('ローカルストレージ読み込みエラー:', error);
+            return null;
+        }
+    },
+    
+    remove(key) {
+        try {
+            localStorage.removeItem(`loto6_${key}`);
+        } catch (error) {
+            console.error('ローカルストレージ削除エラー:', error);
+        }
+    }
+};
+
+/**
+ * ナビゲーション初期化
+ */
+function initializeNavigation() {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle('active');
+        });
+        
+        // メニュー項目クリックで閉じる
+        navMenu.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // 外側クリックで閉じる
+        document.addEventListener('click', (e) => {
+            if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+        
+        // ESCキーで閉じる
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                navMenu.classList.remove('active');
+            }
+        });
+    }
+}
+
+/**
+ * エラーハンドリング
+ */
+window.addEventListener('error', (e) => {
+    console.error('❌ JavaScriptエラー:', e.error);
+});
+
+window.addEventListener('unhandledrejection', (e) => {
+    console.error('❌ 未処理のPromise拒否:', e.reason);
+});
+
+// ページ読み込み時の初期化
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🎱 ロト6ポータル - Core.js 読み込み完了');
+    initializeNavigation();
+});
+
+// エクスポート（他のスクリプトから使用可能に）
+window.Loto6Data = Loto6Data;
+window.loadLoto6Data = loadLoto6Data;
+window.formatNumber = formatNumber;
+window.formatCurrency = formatCurrency;
+window.formatDate = formatDate;
+window.getNextDrawDate = getNextDrawDate;
+window.calculateCountdown = calculateCountdown;
+window.calculateNumberFrequency = calculateNumberFrequency;
+window.calculateLastAppearance = calculateLastAppearance;
+window.checkWinning = checkWinning;
+window.Storage = Storage;
+
+console.log('✅ Core.js: すべての関数がグローバルスコープに登録されました');
