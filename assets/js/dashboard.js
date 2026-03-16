@@ -1,3 +1,5 @@
+console.log('✅ dashboard.js 読み込み完了');
+
 function displayRecentDraws() {
     const tbody = document.getElementById('recentDrawsTable');
     if (!tbody) return;
