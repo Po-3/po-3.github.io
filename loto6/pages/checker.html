@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>当選チェッカー - ロト6ポータル</title>
+    <meta name="description" content="あなたの選んだ数字が過去に当選したかチェックできます">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <span class="logo-icon">🎱</span>
+                    <h1 class="logo-text">ロト6ポータル</h1>
+                </div>
+                <button class="nav-toggle" id="navToggle" aria-label="メニュー">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="../index.html" class="nav-link">ホーム</a></li>
+                    <li><a href="analysis.html" class="nav-link">統計分析</a></li>
+                    <li><a href="checker.html" class="nav-link active">当選チェック</a></li>
+                    <li><a href="about.html" class="nav-link">サイト情報</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="page-header">
+                <h1 class="page-title">✅ 当選チェッカー</h1>
+                <p class="page-description">あなたの選んだ6つの数字が過去に当選したか確認できます。Myセット保存機能付き。</p>
+            </section>
+
+            <!-- 数字入力セクション -->
+            <section class="checker-section">
+                <div class="card">
+                    <h2 class="section-title">数字を選択してください</h2>
+                    <div class="number-selector" id="numberSelector">
+                        <!-- JavaScriptで1-43のボタンを生成 -->
+                    </div>
+                    <div class="selected-numbers">
+                        <h3>選択中の数字</h3>
+                        <div class="selected-display" id="selectedDisplay">
+                            <span class="empty-message">数字を6つ選択してください</span>
+                        </div>
+                    </div>
+                    <div class="checker-actions">
+                        <button class="btn btn-primary" id="checkBtn" disabled>当選チェック</button>
+                        <button class="btn btn-secondary" id="clearBtn">クリア</button>
+                        <button class="btn btn-accent" id="randomBtn">ランダム選択</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 結果表示セクション -->
+            <section class="results-section hidden" id="resultsSection">
+                <div class="card">
+                    <h2 class="section-title">チェック結果</h2>
+                    <div class="result-summary" id="resultSummary">
+                        <!-- JavaScriptで結果サマリーを表示 -->
+                    </div>
+                    <div class="result-details">
+                        <h3>詳細結果</h3>
+                        <div class="table-container">
+                            <table class="draws-table">
+                                <thead>
+                                    <tr>
+                                        <th>回号</th>
+                                        <th>抽選日</th>
+                                        <th>当選番号</th>
+                                        <th>ボーナス</th>
+                                        <th>一致数</th>
+                                        <th>等級</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resultTableBody">
+                                    <!-- JavaScriptで結果を表示 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Myセット管理 -->
+            <section class="mysets-section">
+                <div class="card">
+                    <h2 class="section-title">💾 Myセット管理</h2>
+                    <div class="myset-actions">
+                        <input type="text" id="setName" placeholder="セット名を入力" class="set-input">
+                        <button class="btn btn-accent" id="saveSetBtn">現在の数字を保存</button>
+                    </div>
+                    <div class="mysets-list" id="mysetsList">
+                        <!-- JavaScriptで保存済みセットを表示 -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-disclaimer">
+                    当サイトは非公式のファンサイトです。正確な情報は
+                    <a href="https://www.mizuhobank.co.jp/retail/takarakuji/loto/loto6/index.html" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="footer-link">みずほ銀行公式サイト</a>
+                    でご確認ください。
+                </p>
+                <p class="footer-copyright">&copy; 2025 ロト6ポータル</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .checker-section {
+            margin-bottom: 2rem;
+        }
+
+        .number-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .number-btn {
+            aspect-ratio: 1;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .number-btn:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .number-btn.selected {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.3);
+        }
+
+        .selected-numbers {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        .selected-display {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            min-height: 60px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .selected-ball {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .empty-message {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .checker-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--text-secondary);
+            color: white;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--primary-dark);
+        }
+
+        .results-section {
+            margin: 2rem 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .result-summary {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #e3f2fd, #f8f9ff);
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .mysets-section {
+            margin-top: 3rem;
+        }
+
+        .myset-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .set-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+        }
+
+        .mysets-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .myset-item {
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .myset-item:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .myset-numbers {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .myset-ball {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .myset-actions-btn {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .number-selector {
+                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            }
+
+            .myset-actions {
+                flex-direction: column;
+            }
+
+            .selected-ball {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+    <script src="../assets/js/core.js"></script>
+    <script src="../assets/js/checker.js"></script>
+</body>
+</html>
