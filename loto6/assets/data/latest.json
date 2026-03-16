@@ -1,0 +1,16 @@
+[
+  {
+    "drawNumber": 1900,
+    "drawDate": "2025-01-30",
+    "numbers": [3, 11, 18, 25, 32, 40],
+    "bonusNumber": 2,
+    "prizes": {
+      "1": {"winners": 1, "amount": 200000000},
+      "2": {"winners": 3, "amount": 15000000},
+      "3": {"winners": 50, "amount": 500000},
+      "4": {"winners": 500, "amount": 10000},
+      "5": {"winners": 5000, "amount": 1000}
+    },
+    "carryOver": 0
+  }
+]
