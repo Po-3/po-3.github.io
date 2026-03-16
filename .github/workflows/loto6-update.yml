@@ -1,4 +1,4 @@
-name: Auto Update Loto6 Data (Enhanced)
+name: Auto Update Loto6 Data (Stable)
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
   push:
     paths:
       - 'loto6/**'
-  workflow_dispatch:        # 手動実行可能
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -14,7 +14,7 @@ permissions:
 jobs:
   update-data:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     
     defaults:
       run:
@@ -28,25 +28,17 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
           
       - name: 📦 Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 lxml
-          echo "✅ 依存関係インストール完了"
           
-      - name: 📝 Generate enhanced data fetcher
+      - name: 📝 Generate enhanced fetcher
         run: |
           mkdir -p scripts
-          cat << 'ENHANCED_SCRIPT_EOF' > scripts/fetch_data.py
+          cat << 'SCRIPT_EOF' > scripts/fetch_data.py
           #!/usr/bin/env python3
-          # -*- coding: utf-8 -*-
-          """
-          ロト6実データ取得スクリプト（改良版）
-          みずほ銀行公式サイトから最新抽選結果を安全に取得
-          """
-          
           import requests
           from bs4 import BeautifulSoup
           import json
@@ -56,138 +48,76 @@ jobs:
           from datetime import datetime
           import sys
           
-          # 設定
           DATA_DIR = "assets/data"
           LATEST_FILE = os.path.join(DATA_DIR, "latest.json")
           HISTORY_FILE = os.path.join(DATA_DIR, "history.json")
           MIZUHO_URL = "https://www.mizuhobank.co.jp/retail/takarakuji/loto/loto6/index.html"
           
           def safe_request():
-              """安全で人間らしいHTTPリクエスト"""
-              print("🌐 みずほ銀行公式サイトアクセス中...")
-              
-              # 【改善1】リアルなブラウザUser-Agent + 完全なヘッダーセット
               headers = {
                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-                  'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8',
-                  'Accept-Encoding': 'gzip, deflate, br',
-                  'DNT': '1',
-                  'Connection': 'keep-alive',
-                  'Upgrade-Insecure-Requests': '1',
-                  'Sec-Fetch-Dest': 'document',
-                  'Sec-Fetch-Mode': 'navigate',
-                  'Sec-Fetch-Site': 'none',
-                  'Cache-Control': 'max-age=0',
+                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                  'Accept-Language': 'ja,en-US;q=0.9',
                   'Referer': 'https://www.google.com/'
               }
               
-              # サーバー負荷軽減（必須）
               time.sleep(5)
               
               try:
-                  session = requests.Session()
-                  response = session.get(MIZUHO_URL, headers=headers, timeout=30, allow_redirects=True)
+                  response = requests.get(MIZUHO_URL, headers=headers, timeout=30)
                   response.raise_for_status()
-                  response.encoding = response.apparent_encoding or 'utf-8'
-                  
+                  response.encoding = 'utf-8'
                   soup = BeautifulSoup(response.text, 'html.parser')
-                  print(f"✅ アクセス成功 (HTMLサイズ: {len(response.text)} bytes)")
+                  print(f"✅ アクセス成功 ({len(response.text)} bytes)")
                   return soup
-                  
               except Exception as e:
                   print(f"❌ アクセスエラー: {e}")
                   return None
           
           def extract_draw_data(soup):
-              """改良されたデータ抽出ロジック"""
               try:
                   page_text = soup.get_text()
-                  print("📄 データ抽出開始...")
                   
-                  # 【改善3】回号の抽出（空白対応の正規表現）
+                  # 回号抽出（改良版正規表現）
                   draw_number = None
-                  
-                  # パターン1: 特定の要素から
-                  selectors_for_draw = ['h1', 'h2', 'h3', '.title', '.draw-title', 'strong', 'span']
-                  for selector in selectors_for_draw:
-                      elements = soup.select(selector)
-                      for elem in elements:
-                          text = elem.get_text(strip=True)
-                          match = re.search(r'第\s*(\d+)\s*回', text)
-                          if match:
-                              draw_number = int(match.group(1))
-                              print(f"✅ 回号取得: 第{draw_number}回")
-                              break
-                      if draw_number:
-                          break
-                  
-                  # パターン2: ページ全体から
-                  if not draw_number:
-                      match = re.search(r'第\s*(\d+)\s*回', page_text)
-                      if match:
-                          draw_number = int(match.group(1))
-                          print(f"✅ 回号取得: 第{draw_number}回 (全体検索)")
+                  match = re.search(r'第\s*(\d+)\s*回', page_text)
+                  if match:
+                      draw_number = int(match.group(1))
+                      print(f"✅ 回号: 第{draw_number}回")
                   
                   if not draw_number:
-                      print("❌ 回号が見つかりません")
                       return None
                   
-                  # 抽選日の抽出
+                  # 抽選日
                   draw_date = datetime.now().strftime('%Y-%m-%d')
-                  date_patterns = [
-                      r'(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日',
-                      r'(\d{1,2})\s*月\s*(\d{1,2})\s*日',
-                      r'(\d{4})/(\d{1,2})/(\d{1,2})'
-                  ]
+                  date_match = re.search(r'(\d{4})年(\d{1,2})月(\d{1,2})日', page_text)
+                  if date_match:
+                      y, m, d = date_match.groups()
+                      draw_date = f"{y}-{m.zfill(2)}-{d.zfill(2)}"
                   
-                  for pattern in date_patterns:
-                      match = re.search(pattern, page_text)
-                      if match:
-                          groups = match.groups()
-                          if len(groups) == 3:
-                              year, month, day = groups
-                              draw_date = f"{year}-{month.zfill(2)}-{day.zfill(2)}"
-                          break
-                  
-                  print(f"✅ 抽選日: {draw_date}")
-                  
-                  # 【改善2】当選番号の抽出（拡張セレクタ）
+                  # 当選番号（拡張セレクタ）
                   numbers = []
-                  
-                  # 包括的なセレクタリスト
                   selectors = [
                       'strong.js-lottery-number-pc',
-                      '.js-lottery-number-pc',
                       '.lottery-number strong',
                       '.number strong',
                       'span.num',
                       'td strong',
-                      'td.alnCenter strong',
-                      '.extension-numbers strong',
-                      '.winning-numbers span',
-                      '.result-numbers strong',
-                      'div[class*="number"] strong',
-                      'span[class*="num"]',
-                      'table.typeTK td strong'
+                      '.extension-numbers strong'
                   ]
                   
                   for selector in selectors:
-                      elements = soup.select(selector)
-                      for elem in elements:
+                      for elem in soup.select(selector):
                           text = elem.get_text(strip=True)
                           if text.isdigit():
                               num = int(text)
                               if 1 <= num <= 43 and num not in numbers:
                                   numbers.append(num)
-                      
                       if len(numbers) >= 6:
-                          print(f"✅ 当選番号取得成功: {selector}")
                           break
                   
-                  # フォールバック: 全strongタグ検索
+                  # フォールバック検索
                   if len(numbers) < 6:
-                      print("⚠️ フォールバック: 全strongタグ検索")
                       for elem in soup.find_all('strong'):
                           text = elem.get_text(strip=True)
                           if text.isdigit():
@@ -198,151 +128,89 @@ jobs:
                               break
                   
                   numbers = sorted(numbers[:6])
-                  print(f"✅ 当選番号: {numbers} ({len(numbers)}個)")
                   
-                  # ボーナス数字の抽出
+                  # ボーナス数字
                   bonus_number = 0
-                  bonus_selectors = [
-                      'strong.js-lottery-bonus-pc',
-                      '.js-lottery-bonus-pc',
-                      '.bonus strong',
-                      '.bonus-number',
-                      'span.bonus'
-                  ]
+                  for elem in soup.select('strong.js-lottery-bonus-pc, .bonus strong'):
+                      text = elem.get_text(strip=True)
+                      if text.isdigit():
+                          bonus_number = int(text)
+                          break
                   
-                  for selector in bonus_selectors:
-                      elem = soup.select_one(selector)
-                      if elem:
-                          text = elem.get_text(strip=True)
-                          if text.isdigit():
-                              bonus_number = int(text)
-                              break
-                  
-                  # 正規表現でのボーナス検索
                   if not bonus_number:
-                      bonus_match = re.search(r'ボーナス[数字]*[：:\s]*(\d+)', page_text)
+                      bonus_match = re.search(r'ボーナス[：:\s]*(\d+)', page_text)
                       if bonus_match:
                           bonus_number = int(bonus_match.group(1))
                   
-                  print(f"✅ ボーナス数字: {bonus_number}")
-                  
-                  # キャリーオーバーの抽出
+                  # キャリーオーバー
                   carry_over = 0
-                  carry_patterns = [
-                      r'キャリーオーバー[：:\s]*([\d,]+)\s*円',
-                      r'([\d,]+)\s*円.*キャリーオーバー',
-                      r'キャリー.*?([\d,]+)'
-                  ]
+                  carry_match = re.search(r'キャリーオーバー[：:\s]*([\d,]+)円', page_text)
+                  if carry_match:
+                      carry_over = int(carry_match.group(1).replace(',', ''))
                   
-                  for pattern in carry_patterns:
-                      match = re.search(pattern, page_text)
-                      if match:
-                          try:
-                              carry_over = int(match.group(1).replace(',', ''))
-                              break
-                          except ValueError:
-                              continue
-                  
-                  print(f"✅ キャリーオーバー: {carry_over:,}円")
-                  
-                  # データ検証
                   if len(numbers) < 6:
-                      print(f"❌ 当選番号不足: {numbers}")
+                      print(f"❌ 番号不足: {numbers}")
                       return None
                   
-                  result = {
+                  return {
                       "drawNumber": draw_number,
                       "drawDate": draw_date,
                       "numbers": numbers,
                       "bonusNumber": bonus_number,
                       "prizes": {
                           "1": {"winners": 0, "amount": 0},
-                          "2": {"winners": 0, "amount": 0},
-                          "3": {"winners": 0, "amount": 0},
-                          "4": {"winners": 0, "amount": 0},
-                          "5": {"winners": 0, "amount": 0}
+                          "2": {"winners": 0, "amount": 0}
                       },
                       "carryOver": carry_over
                   }
-                  
-                  print("✅ データ抽出完了")
-                  return result
-                  
               except Exception as e:
                   print(f"❌ 抽出エラー: {e}")
-                  import traceback
-                  traceback.print_exc()
                   return None
           
           def save_data(new_data):
-              """データ保存処理"""
               try:
                   os.makedirs(DATA_DIR, exist_ok=True)
                   
-                  # 既存履歴読み込み
                   history = []
                   if os.path.exists(HISTORY_FILE):
                       with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
                           history = json.load(f)
                   
-                  # 重複回避・更新
                   history = [d for d in history if d.get('drawNumber') != new_data['drawNumber']]
                   history.insert(0, new_data)
                   history.sort(key=lambda x: x.get('drawNumber', 0), reverse=True)
                   
-                  # ファイル保存
                   with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
                       json.dump(history, f, ensure_ascii=False, indent=2)
                   with open(LATEST_FILE, 'w', encoding='utf-8') as f:
                       json.dump(history[:10], f, ensure_ascii=False, indent=2)
                   
-                  print(f"✅ 保存完了 (履歴: {len(history)}件)")
                   return True
-                  
               except Exception as e:
                   print(f"❌ 保存エラー: {e}")
                   return False
           
           def main():
-              """メイン処理"""
-              print("=" * 50)
-              print("🎱 ロト6実データ取得（改良版）")
-              print("=" * 50)
-              print(f"⏰ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-              print(f"🌐 {MIZUHO_URL}")
-              print("⚖️ 利用規約遵守・適切な間隔でアクセス")
-              print("=" * 50)
-              
               soup = safe_request()
-              if not soup:
-                  sys.exit(1)
-              
-              data = extract_draw_data(soup)
-              if not data:
-                  sys.exit(1)
-              
-              if save_data(data):
-                  print("\n✅ 処理完了")
-                  sys.exit(0)
-              else:
-                  sys.exit(1)
+              if soup:
+                  data = extract_draw_data(soup)
+                  if data and save_data(data):
+                      print("✅ 実データ取得成功")
+                      sys.exit(0)
+              print("❌ 実データ取得失敗")
+              sys.exit(1)
           
           if __name__ == "__main__":
               main()
-          ENHANCED_SCRIPT_EOF
+          SCRIPT_EOF
           
-          chmod +x scripts/fetch_data.py
-          echo "✅ 改良版スクリプト生成完了"
-          
-      - name: 📁 Create data directory
-        run: |
-          mkdir -p assets/data
-          echo "✅ データディレクトリ準備"
-          
-      - name: 🎱 Execute real data fetch
+      - name: 📁 Prepare directories
+        run: mkdir -p assets/data
+        
+      - name: 🎱 Try real data fetch
         id: fetch_real
+        continue-on-error: true  # 【重要】失敗してもワークフロー継続
         run: |
-          echo "🚀 実データ取得開始..."
           if python scripts/fetch_data.py; then
             echo "success=true" >> $GITHUB_OUTPUT
             echo "✅ 実データ取得成功"
@@ -351,147 +219,118 @@ jobs:
             echo "⚠️ 実データ取得失敗"
           fi
           
-      - name: 🔄 Fallback test data generation
+      - name: 🔄 Generate fallback data
         if: steps.fetch_real.outputs.success != 'true'
         run: |
-          echo "📝 フォールバック: テストデータ生成"
-          CURRENT_DATE=$(date '+%Y-%m-%d')
-          RANDOM_DRAW=$((1890 + RANDOM % 20))
-          
-          # ランダム6数字生成
-          NUMS=($(shuf -i 1-43 -n 6 | sort -n))
-          BONUS=$(shuf -i 1-43 -n 1)
-          
-          cat > assets/data/latest.json << EOF
-          [
-            {
-              "drawNumber": $RANDOM_DRAW,
-              "drawDate": "$CURRENT_DATE",
-              "numbers": [${NUMS[0]}, ${NUMS[1]}, ${NUMS[2]}, ${NUMS[3]}, ${NUMS[4]}, ${NUMS[5]}],
-              "bonusNumber": $BONUS,
-              "prizes": {
-                "1": {"winners": $((RANDOM % 3)), "amount": $((200000000 + RANDOM % 500000000))},
-                "2": {"winners": $((RANDOM % 10 + 1)), "amount": $((10000000 + RANDOM % 20000000))},
-                "3": {"winners": $((RANDOM % 100 + 10)), "amount": $((300000 + RANDOM % 700000))},
-                "4": {"winners": $((RANDOM % 1000 + 100)), "amount": $((5000 + RANDOM % 10000))},
-                "5": {"winners": $((RANDOM % 10000 + 1000)), "amount": 1000}
-              },
-              "carryOver": $((RANDOM % 2 * RANDOM % 1000000000))
-            }
-          ]
-          EOF
-          
-          cp assets/data/latest.json assets/data/history.json
-          echo "✅ フォールバック完了"
-          
-      - name: 🔍 Verify data integrity
-        run: |
-          echo "📊 データ検証中..."
-          if [ -f assets/data/latest.json ]; then
-            echo "✅ latest.json 存在確認"
-            
-            # JSON構文チェック
-            if python -m json.tool assets/data/latest.json > /dev/null 2>&1; then
-              echo "✅ JSON構文: 正常"
-            else
-              echo "❌ JSON構文エラー"
-              exit 1
-            fi
-            
-            echo "📋 データ概要:"
-            python -c "
+          echo "📝 フォールバック: 高品質テストデータ生成"
+          python << 'FALLBACK_PYTHON'
           import json
-          with open('assets/data/latest.json', 'r', encoding='utf-8') as f:
-              data = json.load(f)
-          if data:
-              item = data[0]
-              print(f'回号: 第{item.get(\"drawNumber\", \"?\")回')
-              print(f'日付: {item.get(\"drawDate\", \"?\")}')
-              print(f'番号: {item.get(\"numbers\", [])}')
-              print(f'ボーナス: {item.get(\"bonusNumber\", \"?\")}')
-          "
-          else
-            echo "❌ latest.json 不存在"
+          import random
+          from datetime import datetime, timedelta
+          import os
+          
+          # より現実的なテストデータ生成
+          def generate_realistic_data():
+              base_date = datetime.now() - timedelta(days=random.randint(0, 7))
+              numbers = sorted(random.sample(range(1, 44), 6))
+              bonus = random.choice([n for n in range(1, 44) if n not in numbers])
+              
+              return {
+                  "drawNumber": random.randint(1890, 1910),
+                  "drawDate": base_date.strftime('%Y-%m-%d'),
+                  "numbers": numbers,
+                  "bonusNumber": bonus,
+                  "prizes": {
+                      "1": {"winners": random.randint(0, 3), "amount": random.randint(200000000, 800000000)},
+                      "2": {"winners": random.randint(1, 15), "amount": random.randint(10000000, 50000000)},
+                      "3": {"winners": random.randint(10, 200), "amount": random.randint(300000, 2000000)},
+                      "4": {"winners": random.randint(100, 2000), "amount": random.randint(5000, 20000)},
+                      "5": {"winners": random.randint(1000, 20000), "amount": 1000}
+                  },
+                  "carryOver": random.choice([0, 0, 0, random.randint(100000000, 2000000000)])
+              }
+          
+          os.makedirs('assets/data', exist_ok=True)
+          data = [generate_realistic_data()]
+          
+          with open('assets/data/latest.json', 'w', encoding='utf-8') as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+          with open('assets/data/history.json', 'w', encoding='utf-8') as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+          
+          print("✅ フォールバックデータ生成完了")
+          FALLBACK_PYTHON
+          
+      - name: 🔍 Validate data
+        run: |
+          if [ ! -f assets/data/latest.json ]; then
+            echo "❌ JSONファイルが存在しません"
             exit 1
           fi
           
-      - name: 💾 Commit and push changes
+          if ! python -m json.tool assets/data/latest.json > /dev/null 2>&1; then
+            echo "❌ JSON構文エラー"
+            exit 1
+          fi
+          
+          echo "✅ データ検証完了"
+          
+      - name: 💾 Commit and push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          
           git add assets/data/*.json
-          git add scripts/ 2>/dev/null || true
           
           if git diff --staged --quiet; then
             echo "ℹ️ 変更なし"
           else
             TIMESTAMP=$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M JST')
-            
             if [ "${{ steps.fetch_real.outputs.success }}" = "true" ]; then
-              MSG="🎱 Auto-update: Real Loto6 data ($TIMESTAMP)"
+              MSG="🎱 Update: Real Loto6 data ($TIMESTAMP)"
             else
-              MSG="🎱 Auto-update: Fallback test data ($TIMESTAMP)"
+              MSG="🎱 Update: Fallback test data ($TIMESTAMP)"
             fi
-            
             git commit -m "$MSG"
-            
-            # リトライ機能付きプッシュ
-            for i in {1..3}; do
-              if git push; then
-                echo "✅ プッシュ成功"
-                break
-              else
-                echo "⚠️ プッシュ失敗、リトライ中... ($i/3)"
-                sleep 5
-                git pull --rebase
-              fi
-            done
+            git push
           fi
           
-      - name: 📊 Generate execution summary
+      - name: 📊 Generate summary
         if: always()
         run: |
           echo "## 🎱 ロト6データ更新結果" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
           echo "### 📅 実行情報" >> $GITHUB_STEP_SUMMARY
           echo "- **実行時刻**: $(TZ=Asia/Tokyo date '+%Y年%m月%d日 %H:%M:%S JST')" >> $GITHUB_STEP_SUMMARY
-          echo "- **実行環境**: Ubuntu $(lsb_release -rs), Python $(python --version | cut -d' ' -f2)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
-          echo "### 🎯 取得結果" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.fetch_real.outputs.success }}" = "true" ]; then
-            echo "- **データソース**: ✅ **実データ取得成功**" >> $GITHUB_STEP_SUMMARY
+            echo "### ✅ 実データ取得成功" >> $GITHUB_STEP_SUMMARY
+            echo "みずほ銀行公式サイトから実際のデータを取得しました。" >> $GITHUB_STEP_SUMMARY
           else
-            echo "- **データソース**: ⚠️ **テストデータ使用**（実データ取得失敗）" >> $GITHUB_STEP_SUMMARY
+            echo "### ⚠️ テストデータ使用中" >> $GITHUB_STEP_SUMMARY
+            echo "実データ取得に失敗したため、高品質なテストデータを使用しています。" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**手動更新方法:**" >> $GITHUB_STEP_SUMMARY
+            echo "1. みずほ銀行公式サイトで最新結果を確認" >> $GITHUB_STEP_SUMMARY
+            echo "2. \`loto6/assets/data/latest.json\` を編集" >> $GITHUB_STEP_SUMMARY
+            echo "3. 実際の抽選データに書き換えてコミット" >> $GITHUB_STEP_SUMMARY
           fi
           
-          if [ -f assets/data/latest.json ]; then
-            echo "- **ファイル生成**: ✅ 成功" >> $GITHUB_STEP_SUMMARY
-            
-            python << 'PY_SUMMARY' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 データ内容" >> $GITHUB_STEP_SUMMARY
+          python << 'SUMMARY_PY' >> $GITHUB_STEP_SUMMARY
+          import json
           try:
-              import json
-              with open('assets/data/latest.json', 'r', encoding='utf-8') as f:
+              with open('assets/data/latest.json', 'r') as f:
                   data = json.load(f)
               if data:
                   item = data[0]
-                  print(f"- **抽選回号**: 第{item.get('drawNumber', 'N/A')}回")
-                  print(f"- **抽選日**: {item.get('drawDate', 'N/A')}")
-                  print(f"- **当選番号**: {', '.join(map(str, item.get('numbers', [])))}")
-                  print(f"- **ボーナス**: {item.get('bonusNumber', 'N/A')}")
+                  print(f"- **回号**: 第{item.get('drawNumber', '?')}回")
+                  print(f"- **日付**: {item.get('drawDate', '?')}")
+                  print(f"- **番号**: {', '.join(map(str, item.get('numbers', [])))}")
+                  print(f"- **ボーナス**: {item.get('bonusNumber', '?')}")
                   if item.get('carryOver', 0) > 0:
                       print(f"- **キャリーオーバー**: {item['carryOver']:,}円")
-          except Exception as e:
-              print(f"- **データ解析**: エラー ({e})")
-          PY_SUMMARY
-          else
-            echo "- **ファイル生成**: ❌ 失敗" >> $GITHUB_STEP_SUMMARY
-          fi
-          
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### ⚖️ 法的配慮" >> $GITHUB_STEP_SUMMARY
-          echo "- 公開された数値データ（事実情報）のみを利用" >> $GITHUB_STEP_SUMMARY
-          echo "- 適切なアクセス間隔（5秒以上）でサーバー負荷に配慮" >> $GITHUB_STEP_SUMMARY
-          echo "- みずほ銀行公式サイトの利用規約を遵守" >> $GITHUB_STEP_SUMMARY
+          except:
+              print("データ解析エラー")
+          SUMMARY_PY
