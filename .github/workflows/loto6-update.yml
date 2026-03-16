@@ -1,0 +1,112 @@
+name: Auto Update Loto6 Data
+
+on:
+  schedule:
+    - cron: '0 12 * * 1,4'  # 月・木 21:00 JST
+  push:
+    paths:
+      - 'loto6/**'          # loto6フォルダ変更時のみ実行
+  workflow_dispatch:        # 手動実行可能
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    # 【重要】すべての操作をloto6フォルダ内で実行
+    defaults:
+      run:
+        working-directory: ./loto6
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: 📍 Verify working directory
+        run: |
+          echo "✅ 現在の作業ディレクトリ: $(pwd)"
+          echo "📁 ファイル一覧:"
+          ls -la
+          echo "🎯 予想されるパス: $(pwd)/assets/data/"
+          
+      - name: 📁 Create data directory
+        run: |
+          mkdir -p assets/data
+          echo "✅ ディレクトリ作成完了: assets/data"
+          
+      - name: 🎱 Generate test data
+        run: |
+          cat > assets/data/latest.json << 'EOF'
+          [
+            {
+              "drawNumber": 1900,
+              "drawDate": "2025-01-30",
+              "numbers": [3, 11, 18, 25, 32, 40],
+              "bonusNumber": 2,
+              "prizes": {
+                "1": {"winners": 1, "amount": 200000000},
+                "2": {"winners": 3, "amount": 15000000},
+                "3": {"winners": 50, "amount": 500000},
+                "4": {"winners": 500, "amount": 10000},
+                "5": {"winners": 5000, "amount": 1000}
+              },
+              "carryOver": 0
+            }
+          ]
+          EOF
+          
+          # history.jsonも同時作成
+          cp assets/data/latest.json assets/data/history.json
+          
+          echo "✅ データファイル生成完了"
+          echo "📄 生成されたファイル:"
+          ls -la assets/data/
+          
+      - name: 💾 Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # loto6ディレクトリからの相対パスで追加
+          git add assets/data/*.json
+          
+          if git diff --staged --quiet; then
+            echo "ℹ️ 変更がありません"
+          else
+            TIMESTAMP=$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M JST')
+            git commit -m "🎱 Auto-update: Loto6 data ($TIMESTAMP)"
+            
+            # プッシュのリトライ機能
+            for i in {1..3}; do
+              if git push; then
+                echo "✅ プッシュ成功"
+                break
+              else
+                echo "⚠️ プッシュ失敗、リトライ中..."
+                sleep 5
+                git pull --rebase
+              fi
+            done
+          fi
+          
+      - name: 📊 実行サマリー
+        if: always()
+        run: |
+          echo "## 🎱 実行結果" >> $GITHUB_STEP_SUMMARY
+          echo "- **実行時刻**: $(TZ=Asia/Tokyo date)" >> $GITHUB_STEP_SUMMARY
+          echo "- **作業ディレクトリ**: $(pwd)" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f assets/data/latest.json ]; then
+            echo "- **データ生成**: ✅ 成功" >> $GITHUB_STEP_SUMMARY
+            echo "- **ファイルサイズ**: $(du -h assets/data/latest.json | cut -f1)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- **データ生成**: ❌ 失敗" >> $GITHUB_STEP_SUMMARY
+          fi
