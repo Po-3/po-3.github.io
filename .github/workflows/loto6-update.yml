@@ -2,7 +2,12 @@ name: Update Loto6 Data
 
 on:
   schedule:
-    - cron: "0 20 * * 1,4"
+    # JST 19:30 / 20:00 / 20:30（月・木）
+    # GitHub Actions の cron は UTC
+    # JST = UTC+9
+    - cron: "30 10 * * 1,4"
+    - cron: "0 11 * * 1,4"
+    - cron: "30 11 * * 1,4"
   workflow_dispatch:
 
 permissions:
@@ -26,10 +31,14 @@ jobs:
         run: |
           pwd
           ls -la
-          find . -maxdepth 3 -type f | sort
+          echo "----- root files -----"
+          find . -maxdepth 2 -type f | sort
+          echo "----- scripts -----"
+          ls -la scripts || true
 
       - name: Install dependencies
         run: |
+          python -V
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4
 
@@ -40,7 +49,7 @@ jobs:
       - name: Show updated files
         run: |
           echo "===== latest.json ====="
-          cat assets/data/latest.json
+          cat assets/data/latest.json || true
           echo
           echo "===== history.json head ====="
           python - <<'PY'
