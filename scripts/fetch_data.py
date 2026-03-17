@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-ロト6最新結果取得スクリプト（楽天版）
+ロト6最新結果取得スクリプト（楽天テーブル版）
 https://takarakuji.rakuten.co.jp/backnumber/loto6/
 から最新回を取得して JSON を更新する
 """
@@ -50,7 +50,7 @@ def normalize_text(text):
     return re.sub(r"\s+", " ", str(text)).replace("\u3000", " ").strip()
 
 
-def fetch_html():
+def fetch_soup():
     print("🌐 楽天ロト6ページにアクセス中...")
     time.sleep(2)
 
@@ -59,140 +59,114 @@ def fetch_html():
     response.encoding = response.apparent_encoding or "utf-8"
 
     print(f"✅ アクセス成功: {response.url} ({len(response.text)} bytes)")
-    return response.text
+    return BeautifulSoup(response.text, "html.parser")
 
 
-def extract_latest_block(text):
+def extract_latest_data_from_tables(soup):
     """
-    楽天ページ本文から最新回ブロックを切り出す。
-    例:
-      回号 第2085回
-      抽せん日 2026/03/16
-      本数字 ...
-      ...
-      キャリーオーバー ...
+    楽天の各回テーブルから最新回を抽出する
+    画面の表構造に合わせて tr/th/td をそのまま読む
     """
-    normalized = normalize_text(text)
-
-    all_draws = [int(x) for x in re.findall(r"回号\s*第(\d+)回", normalized)]
-    if not all_draws:
-        print("❌ 回号が見つかりません")
-        return None, None
-
-    latest_draw = max(all_draws)
-    print(f"✅ 最新回候補: 第{latest_draw}回")
-
-    start_marker = f"回号 第{latest_draw}回"
-    start = normalized.find(start_marker)
-    if start == -1:
-        print("❌ 最新回ブロック開始位置が見つかりません")
-        return None, None
-
-    # 次の「回号 第xxxx回」までを1ブロックとして扱う
-    next_match = re.search(r"回号\s*第\d+回", normalized[start + len(start_marker):])
-    if next_match:
-        end = start + len(start_marker) + next_match.start()
-        block = normalized[start:end]
-    else:
-        block = normalized[start:]
-
-    print(f"✅ 最新回ブロック抽出成功: 第{latest_draw}回")
-    return latest_draw, block
-
-
-def extract_numbers_in_order(block):
-    """
-    本数字の行だけから、順番を維持して6個取得
-    """
-    m = re.search(
-        r"本数字\s*([0-9０-９\s]+?)\s*ボーナス数字",
-        block
-    )
-    if not m:
-        # フォールバック
-        m = re.search(r"本数字\s*([0-9０-９\s]+)", block)
-
-    if not m:
-        return []
-
-    part = m.group(1)
-    nums = [parse_int(x) for x in re.findall(r"\d{1,2}", part)]
-    nums = [x for x in nums if 1 <= x <= 43]
-    return nums[:6]
-
-
-def extract_bonus(block):
-    m = re.search(r"ボーナス数字\s*\(?\s*(\d{1,2})\s*\)?", block)
-    if not m:
-        return 0
-    return parse_int(m.group(1))
-
-
-def extract_date(block):
-    m = re.search(r"抽せん日\s*(\d{4})/(\d{1,2})/(\d{1,2})", block)
-    if not m:
-        return None
-    y, mth, d = m.groups()
-    return f"{y}-{mth.zfill(2)}-{d.zfill(2)}"
-
-
-def extract_prizes(block):
-    prizes = {
-        "1": {"winners": 0, "amount": 0},
-        "2": {"winners": 0, "amount": 0},
-        "3": {"winners": 0, "amount": 0},
-        "4": {"winners": 0, "amount": 0},
-        "5": {"winners": 0, "amount": 0},
-    }
-
-    for rank in range(1, 6):
-        pattern = rf"{rank}等\s*([\d,]+)口\s*([\d,]+)円"
-        m = re.search(pattern, block)
-        if m:
-            prizes[str(rank)] = {
-                "winners": parse_int(m.group(1)),
-                "amount": parse_int(m.group(2)),
-            }
-
-    return prizes
-
-
-def extract_carry_over(block):
-    m = re.search(r"キャリーオーバー\s*([\d,]+)円", block)
-    if not m:
-        return 0
-    return parse_int(m.group(1))
-
-
-def extract_latest_data(html_text):
-    draw_number, block = extract_latest_block(html_text)
-    if not block:
+    tables = soup.find_all("table")
+    if not tables:
+        print("❌ table が見つかりません")
         return None
 
-    draw_date = extract_date(block)
-    numbers = extract_numbers_in_order(block)
-    bonus_number = extract_bonus(block)
-    prizes = extract_prizes(block)
-    carry_over = extract_carry_over(block)
+    best = None
 
-    print(f"✅ 抽せん日: {draw_date}")
-    print(f"✅ 本数字: {numbers}")
-    print(f"✅ ボーナス数字: {bonus_number}")
-    print(f"✅ 1等: {prizes['1']['winners']}口 / {prizes['1']['amount']:,}円")
-    print(f"✅ キャリーオーバー: {carry_over:,}円")
+    for table in tables:
+        rows = table.find_all("tr")
+        if not rows:
+            continue
 
-    if not draw_number or not draw_date or len(numbers) != 6:
-        print("❌ 抽出データが不足しています")
+        record = {
+            "drawNumber": None,
+            "drawDate": None,
+            "numbers": [],
+            "bonusNumber": 0,
+            "prizes": {
+                "1": {"winners": 0, "amount": 0},
+                "2": {"winners": 0, "amount": 0},
+                "3": {"winners": 0, "amount": 0},
+                "4": {"winners": 0, "amount": 0},
+                "5": {"winners": 0, "amount": 0},
+            },
+            "carryOver": 0,
+        }
+
+        for row in rows:
+            cells = row.find_all(["th", "td"])
+            if len(cells) < 2:
+                continue
+
+            label = normalize_text(cells[0].get_text(" ", strip=True))
+            tail_cells = cells[1:]
+            tail_text = normalize_text(" ".join(c.get_text(" ", strip=True) for c in tail_cells))
+
+            # 回号
+            if "回号" in label:
+                m = re.search(r"第\s*(\d+)\s*回", tail_text)
+                if m:
+                    record["drawNumber"] = int(m.group(1))
+
+            # 抽せん日
+            elif "抽せん日" in label:
+                m = re.search(r"(\d{4})/(\d{1,2})/(\d{1,2})", tail_text)
+                if not m:
+                    m = re.search(r"(\d{4})年(\d{1,2})月(\d{1,2})日", tail_text)
+                if m:
+                    y, mo, d = m.groups()
+                    record["drawDate"] = f"{y}-{mo.zfill(2)}-{d.zfill(2)}"
+
+            # 本数字（セル順そのままで取る）
+            elif "本数字" in label:
+                nums = []
+                for cell in tail_cells:
+                    t = normalize_text(cell.get_text(" ", strip=True))
+                    if re.fullmatch(r"\d{1,2}", t):
+                        n = int(t)
+                        if 1 <= n <= 43:
+                            nums.append(n)
+                record["numbers"] = nums[:6]
+
+            # ボーナス数字
+            elif "ボーナス数字" in label:
+                m = re.search(r"(\d{1,2})", tail_text)
+                if m:
+                    record["bonusNumber"] = int(m.group(1))
+
+            # 1〜5等
+            elif re.fullmatch(r"[1-5]等", label):
+                rank = label.replace("等", "")
+                winners_match = re.search(r"([\d,]+)\s*口", tail_text)
+                amount_match = re.search(r"([\d,]+)\s*円", tail_text)
+                record["prizes"][rank] = {
+                    "winners": parse_int(winners_match.group(1)) if winners_match else 0,
+                    "amount": parse_int(amount_match.group(1)) if amount_match else 0,
+                }
+
+            # キャリーオーバー
+            elif "キャリーオーバー" in label:
+                amount_match = re.search(r"([\d,]+)\s*円", tail_text)
+                if amount_match:
+                    record["carryOver"] = parse_int(amount_match.group(1))
+
+        if record["drawNumber"] and record["drawDate"] and len(record["numbers"]) == 6:
+            if best is None or record["drawNumber"] > best["drawNumber"]:
+                best = record
+
+    if not best:
+        print("❌ 有効な回データを抽出できませんでした")
         return None
 
-    return {
-        "drawNumber": draw_number,
-        "drawDate": draw_date,
-        "numbers": numbers,
-        "bonusNumber": bonus_number,
-        "prizes": prizes,
-        "carryOver": carry_over,
-    }
+    print(f"✅ 最新回抽出成功: 第{best['drawNumber']}回")
+    print(f"✅ 抽せん日: {best['drawDate']}")
+    print(f"✅ 本数字: {best['numbers']}")
+    print(f"✅ ボーナス数字: {best['bonusNumber']}")
+    print(f"✅ 1等: {best['prizes']['1']['winners']}口 / {best['prizes']['1']['amount']:,}円")
+    print(f"✅ キャリーオーバー: {best['carryOver']:,}円")
+
+    return best
 
 
 def load_history():
@@ -201,9 +175,9 @@ def load_history():
 
     try:
         with open(HISTORY_FILE, "r", encoding="utf-8") as f:
-            loaded = json.load(f)
-            if isinstance(loaded, list):
-                return [x for x in loaded if isinstance(x, dict) and x.get("drawNumber")]
+            data = json.load(f)
+            if isinstance(data, list):
+                return [x for x in data if isinstance(x, dict) and x.get("drawNumber")]
             return []
     except Exception as e:
         print(f"⚠️ history.json 読み込み失敗: {e}")
@@ -227,18 +201,19 @@ def save_data(new_data):
 
         print("✅ 保存完了")
         return True
+
     except Exception as e:
         print(f"❌ 保存エラー: {e}")
         return False
 
 
 def main():
-    print("🎱 ロト6取得開始（楽天版）")
+    print("🎱 ロト6取得開始（楽天テーブル版）")
     print(f"📁 保存先: {DATA_DIR}")
 
     try:
-        html_text = fetch_html()
-        data = extract_latest_data(html_text)
+        soup = fetch_soup()
+        data = extract_latest_data_from_tables(soup)
 
         if data:
             print("🧾 取得データ確認:")
