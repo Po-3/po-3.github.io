@@ -1,416 +1,65 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-ロト6実データ取得スクリプト（改良版）
-最新回のデータのみを正確に取得
-"""
+name: Update Loto6 Data
 
-import requests
-from bs4 import BeautifulSoup
-import json
-import re
-import os
-import time
-from datetime import datetime
-import sys
+on:
+  schedule:
+    - cron: "0 20 * * 1,4"
+  workflow_dispatch:
 
-DATA_DIR = "assets/data"
-LATEST_FILE = os.path.join(DATA_DIR, "latest.json")
-HISTORY_FILE = os.path.join(DATA_DIR, "history.json")
-MIZUHO_CHECK_URL = "https://www.mizuhobank.co.jp/takarakuji/check/loto/loto6/index.html"
+permissions:
+  contents: write
 
-def parse_int(text, default=0):
-    """数値文字列を int に変換"""
-    if text is None:
-        return default
-    try:
-        return int(str(text).replace(',', '').strip())
-    except (TypeError, ValueError):
-        return default
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-def normalize_text(text):
-    """空白・全角空白を吸収した比較用テキスト"""
-    if text is None:
-        return ""
-    return re.sub(r'\s+', ' ', str(text)).replace('\u3000', ' ').strip()
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
+      - name: Show working directory
+        run: |
+          pwd
+          ls -la
+          find . -maxdepth 3 -type f | sort
 
-def extract_numbers(text):
-    """1-43 の数字だけを順序維持で抽出"""
-    found = []
-    for m in re.findall(r'(?<!\d)(\d{1,2})(?!\d)', normalize_text(text)):
-        num = int(m)
-        if 1 <= num <= 43 and num not in found:
-            found.append(num)
-    return found
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
 
-def extract_prize_data(compact_text):
-    """ページ本文から等級別の口数・金額を抽出"""
-    prizes = {
-        "1": {"winners": 0, "amount": 0},
-        "2": {"winners": 0, "amount": 0},
-        "3": {"winners": 0, "amount": 0},
-        "4": {"winners": 0, "amount": 0},
-        "5": {"winners": 0, "amount": 0}
-    }
+      - name: Run fetch script
+        run: |
+          python fetch_data.py
 
-    normalized = normalize_text(compact_text).replace('当せん', '当選')
+      - name: Show updated files
+        run: |
+          echo "===== latest.json ====="
+          cat assets/data/latest.json
+          echo
+          echo "===== history.json head ====="
+          python - <<'PY'
+          import json
+          from pathlib import Path
 
-    for rank in range(1, 6):
-        # 例: 1等 3口 686,665,549円
-        patterns = [
-            rf'{rank}等[^\d]{0,20}([\d,]+)\s*口[^\d]{{0,20}}([\d,]+)\s*円',
-            rf'{rank}等[\s\S]{{0,40}}?([\d,]+)\s*口[\s\S]{{0,40}}?([\d,]+)\s*円',
-        ]
+          history_path = Path("assets/data/history.json")
+          if history_path.exists():
+              data = json.loads(history_path.read_text(encoding="utf-8"))
+              print(json.dumps(data[:3], ensure_ascii=False, indent=2))
+          else:
+              print("history.json not found")
+          PY
 
-        for pattern in patterns:
-            match = re.search(pattern, normalized)
-            if match:
-                prizes[str(rank)] = {
-                    "winners": parse_int(match.group(1)),
-                    "amount": parse_int(match.group(2))
-                }
-                break
-
-        # 該当なし / 0口 の表現にも対応
-        if prizes[str(rank)]["winners"] == 0 and prizes[str(rank)]["amount"] == 0:
-            no_win_match = re.search(rf'{rank}等[\s\S]{{0,40}}?(該当なし|0\s*口)', normalized)
-            if no_win_match:
-                prizes[str(rank)] = {"winners": 0, "amount": 0}
-
-    return prizes
-
-def safe_request():
-    """HTTPリクエスト（check系URLを優先し、取得URLもログ出力）"""
-    print("🌐 みずほ銀行公式サイトアクセス中...")
-
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'ja,en-US;q=0.9',
-        'Referer': 'https://www.google.com/',
-        'Connection': 'keep-alive'
-    }
-
-    candidate_urls = [MIZUHO_CHECK_URL]
-
-    for url in candidate_urls:
-        time.sleep(3)
-        try:
-            response = requests.get(url, headers=headers, timeout=30)
-            response.raise_for_status()
-            response.encoding = 'utf-8'
-            print(f"✅ アクセス成功: {response.url} ({len(response.text)} bytes)")
-            soup = BeautifulSoup(response.text, 'html.parser')
-            if '表示に時間がかかっております' in response.text:
-                print("⚠️ 取得HTMLがプレースホルダーです。別URLまたは後続処理で補完します")
-            return soup
-        except Exception as e:
-            print(f"⚠️ アクセス失敗: {url} -> {e}")
-
-    print("❌ すべての候補URLで取得に失敗しました")
-    return None
-
-def extract_draw_data_from_check_table(soup):
-    """check系ページの月別結果テーブルから最新回を抽出"""
-    try:
-        tables = soup.find_all('table')
-        if not tables:
-            print("⚠️ table 要素が見つかりません")
-            return None
-
-        best_data = None
-
-        for table in tables:
-            rows = table.find_all('tr')
-            if not rows:
-                continue
-
-            record = {
-                "drawNumber": None,
-                "drawDate": None,
-                "numbers": [],
-                "bonusNumber": 0,
-                "prizes": {
-                    "1": {"winners": 0, "amount": 0},
-                    "2": {"winners": 0, "amount": 0},
-                    "3": {"winners": 0, "amount": 0},
-                    "4": {"winners": 0, "amount": 0},
-                    "5": {"winners": 0, "amount": 0}
-                },
-                "carryOver": 0
-            }
-
-            for row in rows:
-                cells = row.find_all(['th', 'td'])
-                if len(cells) < 2:
-                    continue
-
-                label = normalize_text(cells[0].get_text(' ', strip=True))
-                value_text = normalize_text(' '.join(cell.get_text(' ', strip=True) for cell in cells[1:]))
-
-                if '回別' in label:
-                    match = re.search(r'第\s*(\d+)\s*回', value_text)
-                    if match:
-                        record['drawNumber'] = int(match.group(1))
-
-                elif '抽せん日' in label:
-                    match = re.search(r'(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日', value_text)
-                    if match:
-                        y, m, d = match.groups()
-                        record['drawDate'] = f"{y}-{m.zfill(2)}-{d.zfill(2)}"
-
-                elif '本数字' in label:
-                    record['numbers'] = extract_numbers(value_text)[:6]
-
-                elif 'ボーナス数字' in label:
-                    bonus_candidates = extract_numbers(value_text)
-                    if bonus_candidates:
-                        record['bonusNumber'] = bonus_candidates[0]
-
-                elif re.fullmatch(r'[1-5]等', label):
-                    rank = label.replace('等', '')
-                    winners_match = re.search(r'([\d,]+)\s*口', value_text)
-                    amount_match = re.search(r'([\d,]+)\s*円', value_text)
-                    record['prizes'][rank] = {
-                        "winners": parse_int(winners_match.group(1)) if winners_match else 0,
-                        "amount": parse_int(amount_match.group(1)) if amount_match else 0
-                    }
-
-                elif 'キャリーオーバー' in label:
-                    amount_match = re.search(r'([\d,]+)\s*円', value_text)
-                    if amount_match:
-                        record['carryOver'] = parse_int(amount_match.group(1))
-
-            if record['drawNumber'] and record['drawDate'] and len(record['numbers']) == 6:
-                if best_data is None or record['drawNumber'] > best_data['drawNumber']:
-                    best_data = record
-
-        if best_data:
-            print(f"✅ check系テーブル抽出成功: 第{best_data['drawNumber']}回")
-            return best_data
-
-        print("⚠️ check系テーブルから有効な回を抽出できませんでした")
-        return None
-
-    except Exception as e:
-        print(f"⚠️ check系テーブル抽出失敗: {e}")
-        return None
-
-def extract_draw_data(soup):
-    """最新回データの正確な抽出"""
-    try:
-        table_result = extract_draw_data_from_check_table(soup)
-        if table_result:
-            return table_result
-        page_text = soup.get_text()
-        normalized_text = normalize_text(page_text)
-        compact_text = normalized_text.replace('\u3000', ' ')
-        
-        draw_number = None
-        # 「最新」キーワード近くから検索（改行をまたいでも拾えるように正規化済みテキストを使う）
-        latest_match = re.search(r'最新[\s\S]{0,200}?第\s*(\d+)\s*回', compact_text)
-        if latest_match:
-            draw_number = int(latest_match.group(1))
-        else:
-            # フォールバック: 出現する回号の最大値を最新回とみなす
-            matches = re.findall(r'第\s*(\d+)\s*回', compact_text)
-            if matches:
-                draw_number = max(int(m) for m in matches)
-        
-        if not draw_number:
-            print("❌ 回号が見つかりません")
-            return None
-        
-        print(f"✅ 回号: 第{draw_number}回")
-        
-        draw_date = datetime.now().strftime('%Y-%m-%d')
-        anchor = compact_text.find(f'第{draw_number}回')
-        if anchor == -1:
-            anchor = 0
-        context_start = max(0, anchor - 300)
-        context_end = min(len(compact_text), anchor + 800)
-        context = compact_text[context_start:context_end]
-
-        date_match = re.search(r'(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日', context)
-        if date_match:
-            y, m, d = date_match.groups()
-            draw_date = f"{y}-{m.zfill(2)}-{d.zfill(2)}"
-        
-        print(f"✅ 抽選日: {draw_date}")
-        
-        # 当選番号の抽出（最新回の行や番号要素から優先的に取得）
-        numbers = []
-        bonus_number = 0
-
-        # 戦略1: 最新回の行を特定して、その行内の 1-43 の数値を回収
-        target_row = None
-        for row in soup.find_all('tr'):
-            row_text = normalize_text(row.get_text(' ', strip=True))
-            if f'第{draw_number}回' in row_text or re.search(fr'\b{draw_number}\b', row_text):
-                nums_in_row = [int(n) for n in re.findall(r'(?<!\d)(\d{1,2})(?!\d)', row_text)]
-                valid = [n for n in nums_in_row if 1 <= n <= 43]
-                if len(valid) >= 6:
-                    target_row = row
-                    break
-
-        if target_row:
-            candidates = []
-            for cell in target_row.find_all(['td', 'th', 'span', 'strong', 'div']):
-                text = cell.get_text(' ', strip=True)
-                for num in extract_numbers(text):
-                    if num not in candidates:
-                        candidates.append(num)
-            deduped = candidates[:]
-            numbers = sorted(deduped[:6])
-            if len(deduped) >= 7:
-                extra = [n for n in deduped if n not in numbers]
-                if extra:
-                    bonus_number = extra[0]
-
-        # 戦略2: セレクタベースの抽出
-        if len(numbers) < 6:
-            selectors = [
-                'strong.js-lottery-number-pc',
-                '.js-lottery-number-pc',
-                '.lottery-number strong',
-                '.number strong',
-                '.numbers strong',
-                '.numbers span'
-            ]
-            candidates = []
-            for selector in selectors:
-                for elem in soup.select(selector):
-                    text = elem.get_text(strip=True)
-                    if text.isdigit():
-                        num = int(text)
-                        if 1 <= num <= 43:
-                            candidates.append(num)
-                if len(candidates) >= 6:
-                    break
-
-            deduped = []
-            for num in candidates:
-                if num not in deduped:
-                    deduped.append(num)
-            if len(deduped) >= 6:
-                numbers = sorted(deduped[:6])
-                if len(deduped) >= 7 and not bonus_number:
-                    extra = [n for n in deduped if n not in numbers]
-                    if extra:
-                        bonus_number = extra[0]
-
-        # 戦略3: ページ全体の「本数字」付近から抽出
-        if len(numbers) < 6:
-            number_context_match = re.search(r'本数字[\s\S]{0,200}', compact_text)
-            if number_context_match:
-                valid_nums = extract_numbers(number_context_match.group(0))
-                if len(valid_nums) >= 6:
-                    numbers = sorted(valid_nums[:6])
-                    if len(valid_nums) >= 7 and not bonus_number:
-                        extra = [n for n in valid_nums if n not in numbers]
-                        if extra:
-                            bonus_number = extra[0]
-
-        if len(numbers) < 6:
-            print(f"❌ 番号不足: {numbers}")
-            return None
-
-        print(f"✅ 当選番号: {numbers}")
-        
-        # ボーナス数字の抽出
-        if not bonus_number:
-            for selector in ['strong.js-lottery-bonus-pc', '.js-lottery-bonus-pc', '.bonus strong', '.bonus span']:
-                elem = soup.select_one(selector)
-                if elem and elem.get_text(strip=True).isdigit():
-                    candidate = int(elem.get_text(strip=True))
-                    if candidate not in numbers:  # 本数字と重複しないことを確認
-                        bonus_number = candidate
-                        break
-
-        if not bonus_number:
-            bonus_match = re.search(r'ボーナス[数字]*[：:\s]*(\d+)', compact_text)
-            if bonus_match:
-                candidate = int(bonus_match.group(1))
-                if candidate not in numbers:
-                    bonus_number = candidate
-        
-        print(f"✅ ボーナス数字: {bonus_number}")
-
-        prizes = extract_prize_data(compact_text)
-        print(f"✅ 1等: {prizes['1']['winners']}口 / {prizes['1']['amount']:,}円")
-
-        # キャリーオーバーの抽出（総額上限で丸めない）
-        carry_over = 0
-        carry_match = re.search(r'キャリーオーバー[：:\s]*([\d,]+)\s*円', compact_text)
-        if carry_match:
-            try:
-                carry_over = int(carry_match.group(1).replace(',', ''))
-            except ValueError:
-                pass
-        
-        print(f"✅ キャリーオーバー: {carry_over:,}円")
-
-        # 注: ロト6の1等最高金額は通常6億円。prize 情報は本文から抽出し、拾えなかった等級のみ 0 のまま保持
-        return {
-            "drawNumber": draw_number,
-            "drawDate": draw_date,
-            "numbers": numbers,
-            "bonusNumber": bonus_number,
-            "prizes": prizes,
-            "carryOver": carry_over
-        }
-        
-    except Exception as e:
-        print(f"❌ 抽出エラー: {e}")
-        import traceback
-        traceback.print_exc()
-        return None
-
-def save_data(new_data):
-    """データ保存処理"""
-    try:
-        os.makedirs(DATA_DIR, exist_ok=True)
-        
-        history = []
-        if os.path.exists(HISTORY_FILE):
-            with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
-                loaded = json.load(f)
-                history = loaded if isinstance(loaded, list) else []
-        
-        history = [h for h in history if isinstance(h, dict) and h.get('drawNumber')]
-        # 重複削除・追加
-        history = [h for h in history if h.get('drawNumber') != new_data['drawNumber']]
-        history.insert(0, new_data)
-        history.sort(key=lambda x: x.get('drawNumber', 0), reverse=True)
-        if len(history) > 2085:
-            history = history[:2085]
-        
-        with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
-            json.dump(history, f, ensure_ascii=False, indent=2)
-        with open(LATEST_FILE, 'w', encoding='utf-8') as f:
-            json.dump(history[:1], f, ensure_ascii=False, indent=2)
-        
-        print(f"✅ 保存完了")
-        return True
-    except Exception as e:
-        print(f"❌ 保存エラー: {e}")
-        return False
-
-def main():
-    print("🎱 ロト6実データ取得（check系ページ優先版）")
-    print(f"📁 保存先: {DATA_DIR}")
-    soup = safe_request()
-    if soup:
-        data = extract_draw_data(soup)
-        if data:
-            print("🧾 取得データ確認:")
-            print(json.dumps(data, ensure_ascii=False, indent=2))
-        if data and save_data(data):
-            print("✅ 処理完了")
-            sys.exit(0)
-    sys.exit(1)
-
-if __name__ == "__main__":
-    main()
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/data/latest.json assets/data/history.json
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "auto update loto6 data"
+          git push
