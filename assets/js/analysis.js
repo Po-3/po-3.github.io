@@ -131,6 +131,9 @@
 
   function renderAll() {
     const stats = calculateStats(state.filteredData);
+    renderSummaryCards(stats);
+    renderInsightLists(stats);
+    renderBalanceMetrics(stats);
     renderFrequencyChart(stats);
     renderFrequencyStats(stats);
     renderIntervalChart(stats);
@@ -149,9 +152,11 @@
     let evenCount = 0;
     let lowCount = 0;
     let highCount = 0;
+    let totalSum = 0;
 
     data.forEach((draw, index) => {
       const nums = [...draw.numbers].sort((a, b) => a - b);
+      totalSum += nums.reduce((sum, num) => sum + num, 0);
 
       nums.forEach((num) => {
         frequencies[num] += 1;
@@ -211,6 +216,8 @@
       lowCount,
       highCount,
       theory,
+      totalSum,
+      averageSum: data.length > 0 ? totalSum / data.length : 0,
       maxFrequency: Math.max(...frequencies.slice(1)),
       minFrequency: Math.min(...frequencies.slice(1)),
       hotNumbers: getTopNumbers(frequencies, 5, 'desc'),
@@ -235,6 +242,115 @@
     });
 
     return list.slice(0, count);
+  }
+
+  function renderSummaryCards(stats) {
+    const leadEl = document.getElementById('analysisLeadText');
+    const bulletsEl = document.getElementById('analysisSummaryBullets');
+    const hotSummaryEl = document.getElementById('hotNumberSummary');
+    const coldSummaryEl = document.getElementById('coldNumberSummary');
+
+    const hotText = stats.hotNumbers.slice(0, 3).map((x) => `${x.number}`).join('・') || '-';
+    const coldText = stats.overdueNumbers.slice(0, 3).map((x) => `${x.number}`).join('・') || '-';
+
+    const oddRate = stats.totalPicks ? (stats.oddCount / stats.totalPicks) * 100 : 0;
+    const evenRate = stats.totalPicks ? (stats.evenCount / stats.totalPicks) * 100 : 0;
+    const lowRate = stats.totalPicks ? (stats.lowCount / stats.totalPicks) * 100 : 0;
+    const highRate = stats.totalPicks ? (stats.highCount / stats.totalPicks) * 100 : 0;
+
+    if (leadEl) {
+      leadEl.textContent = `${getPeriodLabel()}のデータから、出やすい数字・出ていない数字・出目のバランスを自動で整理しています。まずは偏りの方向をざっくりつかむのに向いています。`;
+    }
+
+    if (bulletsEl) {
+      const bullets = [
+        `出やすい数字は ${stats.hotNumbers.slice(0, 5).map((x) => `${x.number}（${x.value}回）`).join(' / ')} です。`,
+        `しばらく出ていない数字は ${stats.overdueNumbers.slice(0, 5).map((x) => `${x.number}（${x.value}回空き）`).join(' / ')} です。`,
+        `奇数 ${oddRate.toFixed(1)}%・偶数 ${evenRate.toFixed(1)}%、小 ${lowRate.toFixed(1)}%・大 ${highRate.toFixed(1)}% で推移しています。`
+      ];
+
+      bulletsEl.innerHTML = bullets.map((text) => `<div class="summary-bullet">${escapeHtml(text)}</div>`).join('');
+    }
+
+    if (hotSummaryEl) {
+      hotSummaryEl.textContent = hotText;
+    }
+
+    if (coldSummaryEl) {
+      coldSummaryEl.textContent = coldText;
+    }
+  }
+
+  function renderInsightLists(stats) {
+    const hotListEl = document.getElementById('hotNumbersList');
+    const coldListEl = document.getElementById('coldNumbersList');
+
+    if (hotListEl) {
+      hotListEl.innerHTML = stats.hotNumbers.map((item, index) => `
+        <div class="insight-item">
+          <div class="insight-main">
+            <span class="insight-rank">${index + 1}</span>
+            <span class="insight-number">${item.number}</span>
+          </div>
+          <span class="insight-meta">${item.value}回</span>
+        </div>
+      `).join('');
+    }
+
+    if (coldListEl) {
+      coldListEl.innerHTML = stats.overdueNumbers.map((item, index) => `
+        <div class="insight-item">
+          <div class="insight-main">
+            <span class="insight-rank">${index + 1}</span>
+            <span class="insight-number">${item.number}</span>
+          </div>
+          <span class="insight-meta">${item.value}回空き</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  function renderBalanceMetrics(stats) {
+    const metricsEl = document.getElementById('balanceMetrics');
+    if (!metricsEl) return;
+
+    const oddRate = stats.totalPicks ? (stats.oddCount / stats.totalPicks) * 100 : 0;
+    const evenRate = stats.totalPicks ? (stats.evenCount / stats.totalPicks) * 100 : 0;
+    const lowRate = stats.totalPicks ? (stats.lowCount / stats.totalPicks) * 100 : 0;
+    const highRate = stats.totalPicks ? (stats.highCount / stats.totalPicks) * 100 : 0;
+
+    const oddEvenTrend = Math.abs(oddRate - evenRate) < 5
+      ? 'ほぼ均衡'
+      : oddRate > evenRate
+        ? `奇数寄り（${oddRate.toFixed(1)}%）`
+        : `偶数寄り（${evenRate.toFixed(1)}%）`;
+
+    const highLowTrend = Math.abs(lowRate - highRate) < 5
+      ? 'ほぼ均衡'
+      : lowRate > highRate
+        ? `小寄り（${lowRate.toFixed(1)}%）`
+        : `大寄り（${highRate.toFixed(1)}%）`;
+
+    metricsEl.innerHTML = `
+      <div class="balance-metric">
+        <span class="balance-label">奇偶傾向</span>
+        <strong class="balance-value">${escapeHtml(oddEvenTrend)}</strong>
+      </div>
+      <div class="balance-metric">
+        <span class="balance-label">大小傾向</span>
+        <strong class="balance-value">${escapeHtml(highLowTrend)}</strong>
+      </div>
+      <div class="balance-metric">
+        <span class="balance-label">平均合計値</span>
+        <strong class="balance-value">${stats.averageSum.toFixed(1)}</strong>
+      </div>
+    `;
+  }
+
+  function getPeriodLabel() {
+    if (state.currentPeriod === '100') return '直近100回';
+    if (state.currentPeriod === '50') return '直近50回';
+    return '全期間';
   }
 
   function destroyChart(key) {
