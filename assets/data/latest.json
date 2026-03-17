@@ -1,16 +1,38 @@
 [
   {
-    "drawNumber": 2084,
-    "drawDate": "2026-03-12",
-    "numbers": [8, 17, 18, 19, 30, 39],
-    "bonusNumber": 9,
+    "drawNumber": 2085,
+    "drawDate": "2026-03-16",
+    "numbers": [
+      16,
+      6,
+      8,
+      13,
+      26,
+      35
+    ],
+    "bonusNumber": 43,
     "prizes": {
-      "1": {"winners": 0, "amount": 0},
-      "2": {"winners": 8, "amount": 9460500},
-      "3": {"winners": 290, "amount": 281800},
-      "4": {"winners": 11789, "amount": 7300},
-      "5": {"winners": 183453, "amount": 1000}
+      "1": {
+        "winners": 0,
+        "amount": 0
+      },
+      "2": {
+        "winners": 0,
+        "amount": 0
+      },
+      "3": {
+        "winners": 0,
+        "amount": 0
+      },
+      "4": {
+        "winners": 0,
+        "amount": 0
+      },
+      "5": {
+        "winners": 0,
+        "amount": 0
+      }
     },
-    "carryOver": 462516068
+    "carryOver": 0
   }
 ]
