@@ -42,6 +42,34 @@
                 <p class="page-description">過去の抽選データから数字の出現傾向を詳細に分析します</p>
             </section>
 
+            <!-- ファーストビュー要約 -->
+            <section class="analysis-summary-section">
+                <div class="summary-grid">
+                    <div class="card summary-card summary-card-wide">
+                        <div class="summary-card-header">
+                            <h2 class="section-title">まず押さえたい傾向</h2>
+                            <span class="summary-badge">自動分析</span>
+                        </div>
+                        <p class="summary-lead" id="analysisLeadText">直近データから、数字の偏り・頻出傾向・冷えた数字をまとめて表示します。</p>
+                        <div class="summary-bullets" id="analysisSummaryBullets">
+                            <div class="summary-bullet">集計中...</div>
+                            <div class="summary-bullet">集計中...</div>
+                            <div class="summary-bullet">集計中...</div>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <span class="summary-label">最近出やすい数字</span>
+                        <div class="summary-value" id="hotNumberSummary">-</div>
+                        <p class="summary-note">直近の集計で出現回数が多い数字です。</p>
+                    </div>
+                    <div class="card summary-card">
+                        <span class="summary-label">しばらく出ていない数字</span>
+                        <div class="summary-value" id="coldNumberSummary">-</div>
+                        <p class="summary-note">最後の出現から間隔が空いている数字です。</p>
+                    </div>
+                </div>
+            </section>
+
             <!-- 期間選択 -->
             <section class="period-selector-section">
                 <div class="card">
@@ -55,6 +83,44 @@
                     </div>
                     <div class="analysis-info" id="analysisInfo">
                         分析対象: <span id="analysisPeriodText">-</span> / データ件数: <span id="analysisCount">-</span>件
+                    </div>
+                </div>
+            </section>
+
+            <!-- 主要インサイト -->
+            <section class="insights-section">
+                <div class="insights-grid">
+                    <div class="card insight-card">
+                        <h2 class="section-title">出やすい数字 TOP5</h2>
+                        <p class="chart-description">期間内で出現回数が多かった数字です。選び方の参考にしやすい基本指標です。</p>
+                        <div class="insight-list" id="hotNumbersList">
+                            <div class="insight-empty">集計中...</div>
+                        </div>
+                    </div>
+                    <div class="card insight-card">
+                        <h2 class="section-title">出ていない数字 TOP5</h2>
+                        <p class="chart-description">最後の出現から間隔が空いている数字です。直近の偏りを確認したいときに便利です。</p>
+                        <div class="insight-list" id="coldNumbersList">
+                            <div class="insight-empty">集計中...</div>
+                        </div>
+                    </div>
+                    <div class="card insight-card">
+                        <h2 class="section-title">今回のバランス感</h2>
+                        <p class="chart-description">奇数・偶数、大・小、合計値の傾向から、最近の出目のバランスをざっくり把握できます。</p>
+                        <div class="balance-metrics" id="balanceMetrics">
+                            <div class="balance-metric">
+                                <span class="balance-label">奇偶傾向</span>
+                                <strong class="balance-value">-</strong>
+                            </div>
+                            <div class="balance-metric">
+                                <span class="balance-label">大小傾向</span>
+                                <strong class="balance-value">-</strong>
+                            </div>
+                            <div class="balance-metric">
+                                <span class="balance-label">平均合計値</span>
+                                <strong class="balance-value">-</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -103,6 +169,30 @@
                 </div>
             </section>
 
+            <!-- 傾向の読み取り -->
+            <section class="trend-reading-section">
+                <div class="card trend-reading-card">
+                    <div class="trend-reading-header">
+                        <h2 class="section-title">このデータから見えること</h2>
+                        <span class="summary-badge">読み取り補助</span>
+                    </div>
+                    <div class="trend-reading-grid">
+                        <div class="trend-reading-item">
+                            <h3 class="trend-reading-title">短期の偏りを見る</h3>
+                            <p class="trend-reading-text">直近50回・100回に切り替えると、長期平均では見えにくい一時的な偏りを確認できます。短期の動きと全期間の差を見るのがポイントです。</p>
+                        </div>
+                        <div class="trend-reading-item">
+                            <h3 class="trend-reading-title">頻出と冷えた数字を分けて考える</h3>
+                            <p class="trend-reading-text">出やすい数字は勢いの確認に、出ていない数字は偏りの確認に向いています。両方を混ぜて見ると、極端な寄せ方を避けやすくなります。</p>
+                        </div>
+                        <div class="trend-reading-item">
+                            <h3 class="trend-reading-title">数字ペアで組み合わせを見る</h3>
+                            <p class="trend-reading-text">単体の頻度だけでなく、一緒に出やすい数字も見ると組み合わせの傾向が見やすくなります。予想を広げる時に便利です。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- 数字ヒートマップ -->
             <section class="heatmap-section">
                 <div class="card">
@@ -129,6 +219,22 @@
                     </div>
                 </div>
             </section>
+
+            <!-- 行動導線 -->
+            <section class="analysis-cta-section">
+                <div class="card analysis-cta-card">
+                    <div class="analysis-cta-content">
+                        <div>
+                            <h2 class="section-title">分析を見たあとにやること</h2>
+                            <p class="analysis-cta-text">出やすい数字・出ていない数字・組み合わせ傾向を見たら、そのまま当選チェッカーで候補を試せます。</p>
+                        </div>
+                        <div class="analysis-cta-actions">
+                            <a href="checker.html" class="analysis-cta-button">当選チェッカーを開く</a>
+                            <a href="../index.html" class="analysis-cta-link">ホームへ戻る</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 
@@ -150,6 +256,272 @@
 
     <style>
         /* 分析ページ専用スタイル */
+        .analysis-summary-section,
+        .insights-section,
+        .trend-reading-section,
+        .analysis-cta-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .summary-card {
+            padding: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .summary-card-wide {
+            grid-column: span 2;
+        }
+
+        .summary-card-header,
+        .trend-reading-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .summary-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            background: rgba(25, 118, 210, 0.12);
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .summary-lead {
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .summary-bullets {
+            display: grid;
+            gap: var(--spacing-sm);
+        }
+
+        .summary-bullet {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            border-left: 4px solid var(--accent);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .summary-label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+
+        .summary-note {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .insight-card {
+            padding: var(--spacing-lg);
+        }
+
+        .insight-list {
+            display: grid;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .insight-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            background: linear-gradient(90deg, var(--bg-primary), white);
+            border: 1px solid var(--border-color);
+        }
+
+        .insight-rank {
+            width: 30px;
+            height: 30px;
+            border-radius: var(--radius-full);
+            background: var(--primary);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .insight-main {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .insight-number {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .insight-meta {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .insight-empty {
+            color: var(--text-secondary);
+            padding: var(--spacing-md);
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+        }
+
+        .balance-metrics {
+            display: grid;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .balance-metric {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+        }
+
+        .balance-label {
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .balance-value {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .trend-reading-card {
+            padding: var(--spacing-lg);
+        }
+
+        .trend-reading-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .trend-reading-item {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            background: linear-gradient(180deg, white, var(--bg-primary));
+            border: 1px solid var(--border-color);
+        }
+
+        .trend-reading-title {
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.05rem;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .trend-reading-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .analysis-cta-card {
+            padding: var(--spacing-xl);
+            background: linear-gradient(135deg, var(--primary), #3949ab);
+            color: white;
+        }
+
+        .analysis-cta-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-lg);
+        }
+
+        .analysis-cta-card .section-title,
+        .analysis-cta-card .analysis-cta-text {
+            color: white;
+        }
+
+        .analysis-cta-text {
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+
+        .analysis-cta-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .analysis-cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 22px;
+            border-radius: var(--radius-lg);
+            background: white;
+            color: var(--primary);
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .analysis-cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .analysis-cta-link {
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            opacity: 0.95;
+        }
+
+        .analysis-cta-link:hover {
+            text-decoration: underline;
+        }
         .page-header {
             text-align: center;
             margin-bottom: var(--spacing-xl);
@@ -462,6 +834,31 @@
 
             .correlation-pair {
                 font-size: 1.1rem;
+            }
+
+            .summary-grid,
+            .insights-grid,
+            .trend-reading-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card-wide {
+                grid-column: span 1;
+            }
+
+            .analysis-cta-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .analysis-cta-actions {
+                width: 100%;
+            }
+
+            .analysis-cta-button,
+            .analysis-cta-link {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
