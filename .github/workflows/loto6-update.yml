@@ -1,115 +1,408 @@
-name: Auto Update Loto6 Data (Robust)
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+ロト6実データ取得スクリプト（改良版）
+最新回のデータのみを正確に取得
+"""
 
-on:
-  schedule:
-    - cron: '0 12 * * 1,4'  # 月・木 21:00 JST
-  workflow_dispatch:
+import requests
+from bs4 import BeautifulSoup
+import json
+import re
+import os
+import time
+from datetime import datetime
+import sys
 
-permissions:
-  contents: write
+DATA_DIR = "assets/data"
+LATEST_FILE = os.path.join(DATA_DIR, "latest.json")
+HISTORY_FILE = os.path.join(DATA_DIR, "history.json")
+MIZUHO_URL = "https://www.mizuhobank.co.jp/takarakuji/check/loto/loto6/index.html"
+MIZUHO_CHECK_URL = "https://www.mizuhobank.co.jp/takarakuji/check/loto/loto6/index.html"
 
-jobs:
-  update-data:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    
-    defaults:
-      run:
-        working-directory: .
-    
-    steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v4
+def parse_int(text, default=0):
+    """数値文字列を int に変換"""
+    if text is None:
+        return default
+    try:
+        return int(str(text).replace(',', '').strip())
+    except (TypeError, ValueError):
+        return default
+
+
+def extract_prize_data(compact_text):
+    """ページ本文から等級別の口数・金額を抽出"""
+    prizes = {
+        "1": {"winners": 0, "amount": 0},
+        "2": {"winners": 0, "amount": 0},
+        "3": {"winners": 0, "amount": 0},
+        "4": {"winners": 0, "amount": 0},
+        "5": {"winners": 0, "amount": 0}
+    }
+
+    normalized = re.sub(r'\s+', ' ', compact_text).replace('当せん', '当選')
+
+    for rank in range(1, 6):
+        # 例: 1等 3口 686,665,549円
+        patterns = [
+            rf'{rank}等[^\d]{0,20}([\d,]+)\s*口[^\d]{{0,20}}([\d,]+)\s*円',
+            rf'{rank}等[\s\S]{{0,40}}?([\d,]+)\s*口[\s\S]{{0,40}}?([\d,]+)\s*円',
+        ]
+
+        for pattern in patterns:
+            match = re.search(pattern, normalized)
+            if match:
+                prizes[str(rank)] = {
+                    "winners": parse_int(match.group(1)),
+                    "amount": parse_int(match.group(2))
+                }
+                break
+
+        # 該当なし / 0口 の表現にも対応
+        if prizes[str(rank)]["winners"] == 0 and prizes[str(rank)]["amount"] == 0:
+            no_win_match = re.search(rf'{rank}等[\s\S]{{0,40}}?(該当なし|0\s*口)', normalized)
+            if no_win_match:
+                prizes[str(rank)] = {"winners": 0, "amount": 0}
+
+    return prizes
+
+def safe_request():
+    """HTTPリクエスト（check系URLを優先し、取得URLもログ出力）"""
+    print("🌐 みずほ銀行公式サイトアクセス中...")
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'ja,en-US;q=0.9',
+        'Referer': 'https://www.google.com/',
+        'Connection': 'keep-alive'
+    }
+
+    candidate_urls = [MIZUHO_CHECK_URL, MIZUHO_URL]
+
+    for url in candidate_urls:
+        time.sleep(3)
+        try:
+            response = requests.get(url, headers=headers, timeout=30)
+            response.raise_for_status()
+            response.encoding = 'utf-8'
+            print(f"✅ アクセス成功: {response.url} ({len(response.text)} bytes)")
+            soup = BeautifulSoup(response.text, 'html.parser')
+            if '表示に時間がかかっております' in response.text:
+                print("⚠️ 取得HTMLがプレースホルダーです。別URLまたは後続処理で補完します")
+            return soup
+        except Exception as e:
+            print(f"⚠️ アクセス失敗: {url} -> {e}")
+
+    print("❌ すべての候補URLで取得に失敗しました")
+    return None
+
+def extract_draw_data_from_check_table(soup):
+    """check系ページの月別結果テーブルから最新回を抽出"""
+    try:
+        month_headings = soup.find_all(['h2', 'h3'])
+        target_heading = None
+        for heading in month_headings:
+            text = re.sub(r'\s+', ' ', heading.get_text(' ', strip=True))
+            if ('第' in text and '回' in text) and ('2026年' in text or '2025年' in text):
+                target_heading = heading
+                break
+
+        tables = soup.find_all('table')
+        if not tables:
+            return None
+
+        best_data = None
+
+        for table in tables:
+            rows = table.find_all('tr')
+            draw_number = None
+            draw_date = None
+            numbers = []
+            bonus_number = 0
+            prizes = {
+                "1": {"winners": 0, "amount": 0},
+                "2": {"winners": 0, "amount": 0},
+                "3": {"winners": 0, "amount": 0},
+                "4": {"winners": 0, "amount": 0},
+                "5": {"winners": 0, "amount": 0}
+            }
+            carry_over = 0
+
+            for row in rows:
+                cells = row.find_all(['th', 'td'])
+                if len(cells) < 2:
+                    continue
+
+                label = re.sub(r'\s+', ' ', cells[0].get_text(' ', strip=True))
+                value_text = re.sub(r'\s+', ' ', ' '.join(cell.get_text(' ', strip=True) for cell in cells[1:]))
+
+                if '回別' in label:
+                    match = re.search(r'第\s*(\d+)\s*回', value_text)
+                    if match:
+                        draw_number = int(match.group(1))
+                elif '抽せん日' in label:
+                    match = re.search(r'(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日', value_text)
+                    if match:
+                        y, m, d = match.groups()
+                        draw_date = f"{y}-{m.zfill(2)}-{d.zfill(2)}"
+                elif '本数字' in label:
+                    nums = [int(n) for n in re.findall(r'(?<!\d)(\d{1,2})(?!\d)', value_text)]
+                    numbers = [n for n in nums if 1 <= n <= 43][:6]
+                elif 'ボーナス数字' in label:
+                    match = re.search(r'(?<!\d)(\d{1,2})(?!\d)', value_text)
+                    if match:
+                        bonus_number = int(match.group(1))
+                elif re.fullmatch(r'[1-5]等', label):
+                    rank = label.replace('等', '')
+                    winners_match = re.search(r'([\d,]+)\s*口', value_text)
+                    amount_match = re.search(r'([\d,]+)\s*円', value_text)
+                    prizes[rank] = {
+                        "winners": parse_int(winners_match.group(1)) if winners_match else 0,
+                        "amount": parse_int(amount_match.group(1)) if amount_match else 0
+                    }
+                elif 'キャリーオーバー' in label:
+                    amount_match = re.search(r'([\d,]+)\s*円', value_text)
+                    if amount_match:
+                        carry_over = parse_int(amount_match.group(1))
+
+            if draw_number and draw_date and len(numbers) == 6:
+                candidate = {
+                    "drawNumber": draw_number,
+                    "drawDate": draw_date,
+                    "numbers": numbers,
+                    "bonusNumber": bonus_number,
+                    "prizes": prizes,
+                    "carryOver": carry_over
+                }
+                if best_data is None or candidate['drawNumber'] > best_data['drawNumber']:
+                    best_data = candidate
+
+        if best_data:
+            print(f"✅ check系テーブル抽出成功: 第{best_data['drawNumber']}回")
+        return best_data
+    except Exception as e:
+        print(f"⚠️ check系テーブル抽出失敗: {e}")
+        return None
+
+def extract_draw_data(soup):
+    """最新回データの正確な抽出"""
+    try:
+        table_result = extract_draw_data_from_check_table(soup)
+        if table_result:
+            return table_result
+        page_text = soup.get_text()
+        normalized_text = re.sub(r'\s+', ' ', page_text)
+        compact_text = normalized_text.replace('\u3000', ' ')
         
-      - name: 🐍 Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          
-      - name: 📦 Install dependencies
-        run: |
-          pip install requests beautifulsoup4 lxml
-          
-      - name: 📁 Prepare directories
-        run: mkdir -p assets/data scripts
+        draw_number = None
+        # 「最新」キーワード近くから検索（改行をまたいでも拾えるように正規化済みテキストを使う）
+        latest_match = re.search(r'最新[\s\S]{0,200}?第\s*(\d+)\s*回', compact_text)
+        if latest_match:
+            draw_number = int(latest_match.group(1))
+        else:
+            # フォールバック: 出現する回号の最大値を最新回とみなす
+            matches = re.findall(r'第\s*(\d+)\s*回', compact_text)
+            if matches:
+                draw_number = max(int(m) for m in matches)
         
-      - name: 📝 Create enhanced script
-        run: |
-          cat << 'EOF' > scripts/fetch_data.py
-          # ここに上記のPythonスクリプト全文をコピー
-          EOF
-          chmod +x scripts/fetch_data.py
-          
-      - name: 🎱 Try real data fetch
-        id: fetch_real
-        continue-on-error: true  # 【重要】失敗してもワークフロー継続
-        run: |
-          if python scripts/fetch_data.py; then
-            echo "success=true" >> $GITHUB_OUTPUT
-          else
-            echo "success=false" >> $GITHUB_OUTPUT
-          fi
-          
-      - name: 🔄 Generate fallback data
-        if: steps.fetch_real.outputs.success != 'true'
-        run: |
-          python << 'FALLBACK'
-          import json, random, os
-          from datetime import datetime, timedelta
-          
-          os.makedirs('assets/data', exist_ok=True)
-          base_date = datetime.now() - timedelta(days=random.randint(0, 7))
-          numbers = sorted(random.sample(range(1, 44), 6))
-          bonus = random.choice([n for n in range(1, 44) if n not in numbers])
-          
-          data = [{
-              "drawNumber": random.randint(1890, 1910),
-              "drawDate": base_date.strftime('%Y-%m-%d'),
-              "numbers": numbers,
-              "bonusNumber": bonus,
-              "prizes": {
-                  "1": {"winners": random.randint(0, 3), "amount": random.randint(200000000, 800000000)},
-                  "2": {"winners": random.randint(1, 15), "amount": random.randint(10000000, 50000000)},
-                  "3": {"winners": random.randint(10, 200), "amount": random.randint(300000, 2000000)},
-                  "4": {"winners": random.randint(100, 2000), "amount": random.randint(5000, 20000)},
-                  "5": {"winners": random.randint(1000, 20000), "amount": 1000}
-              },
-              "carryOver": random.choice([0, 0, 0, random.randint(100000000, 2000000000)])
-          }]
-          
-          with open('assets/data/latest.json', 'w', encoding='utf-8') as f:
-              json.dump(data, f, ensure_ascii=False, indent=2)
-          with open('assets/data/history.json', 'w', encoding='utf-8') as f:
-              json.dump(data, f, ensure_ascii=False, indent=2)
-          print("✅ フォールバック完了")
-          FALLBACK
-          
-      - name: 💾 Commit and push
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add assets/data/*.json
-          
-          if ! git diff --staged --quiet; then
-            TIMESTAMP=$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')
-            if [ "${{ steps.fetch_real.outputs.success }}" = "true" ]; then
-              git commit -m "🎱 Real data: $TIMESTAMP"
-            else
-              git commit -m "🎱 Test data: $TIMESTAMP"
-            fi
-            git push
-          fi
-          
-      - name: 📊 Summary
-        if: always()
-        run: |
-          echo "## 🎱 更新結果" >> $GITHUB_STEP_SUMMARY
-          if [ "${{ steps.fetch_real.outputs.success }}" = "true" ]; then
-            echo "### ✅ 実データ取得成功" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "### ⚠️ テストデータ使用中" >> $GITHUB_STEP_SUMMARY
-            echo "**手動更新方法:**" >> $GITHUB_STEP_SUMMARY
-            echo "1. みずほ銀行公式サイトで結果確認" >> $GITHUB_STEP_SUMMARY
-            echo "2. \`loto6/assets/data/latest.json\`を編集" >> $GITHUB_STEP_SUMMARY
-            echo "3. 実データに書き換えてコミット" >> $GITHUB_STEP_SUMMARY
-          fi
+        if not draw_number:
+            print("❌ 回号が見つかりません")
+            return None
+        
+        print(f"✅ 回号: 第{draw_number}回")
+        
+        draw_date = datetime.now().strftime('%Y-%m-%d')
+        anchor = compact_text.find(f'第{draw_number}回')
+        if anchor == -1:
+            anchor = 0
+        context_start = max(0, anchor - 300)
+        context_end = min(len(compact_text), anchor + 800)
+        context = compact_text[context_start:context_end]
+
+        date_match = re.search(r'(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日', context)
+        if date_match:
+            y, m, d = date_match.groups()
+            draw_date = f"{y}-{m.zfill(2)}-{d.zfill(2)}"
+        
+        print(f"✅ 抽選日: {draw_date}")
+        
+        # 当選番号の抽出（最新回の行や番号要素から優先的に取得）
+        numbers = []
+        bonus_number = 0
+
+        # 戦略1: 最新回の行を特定して、その行内の 1-43 の数値を回収
+        target_row = None
+        for row in soup.find_all('tr'):
+            row_text = re.sub(r'\s+', ' ', row.get_text(' ', strip=True))
+            if f'第{draw_number}回' in row_text or re.search(fr'\b{draw_number}\b', row_text):
+                nums_in_row = [int(n) for n in re.findall(r'(?<!\d)(\d{1,2})(?!\d)', row_text)]
+                valid = [n for n in nums_in_row if 1 <= n <= 43]
+                if len(valid) >= 6:
+                    target_row = row
+                    break
+
+        if target_row:
+            candidates = []
+            for cell in target_row.find_all(['td', 'th', 'span', 'strong', 'div']):
+                text = cell.get_text(' ', strip=True)
+                for m in re.findall(r'(?<!\d)(\d{1,2})(?!\d)', text):
+                    num = int(m)
+                    if 1 <= num <= 43:
+                        candidates.append(num)
+            deduped = []
+            for num in candidates:
+                if num not in deduped:
+                    deduped.append(num)
+            numbers = sorted(deduped[:6])
+            if len(deduped) >= 7:
+                extra = [n for n in deduped if n not in numbers]
+                if extra:
+                    bonus_number = extra[0]
+
+        # 戦略2: セレクタベースの抽出
+        if len(numbers) < 6:
+            selectors = [
+                'strong.js-lottery-number-pc',
+                '.js-lottery-number-pc',
+                '.lottery-number strong',
+                '.number strong',
+                '.numbers strong',
+                '.numbers span'
+            ]
+            candidates = []
+            for selector in selectors:
+                for elem in soup.select(selector):
+                    text = elem.get_text(strip=True)
+                    if text.isdigit():
+                        num = int(text)
+                        if 1 <= num <= 43:
+                            candidates.append(num)
+                if len(candidates) >= 6:
+                    break
+
+            deduped = []
+            for num in candidates:
+                if num not in deduped:
+                    deduped.append(num)
+            if len(deduped) >= 6:
+                numbers = sorted(deduped[:6])
+                if len(deduped) >= 7 and not bonus_number:
+                    extra = [n for n in deduped if n not in numbers]
+                    if extra:
+                        bonus_number = extra[0]
+
+        # 戦略3: ページ全体の「本数字」付近から抽出
+        if len(numbers) < 6:
+            number_context_match = re.search(r'本数字[\s\S]{0,200}', compact_text)
+            if number_context_match:
+                raw_nums = [int(n) for n in re.findall(r'(?<!\d)(\d{1,2})(?!\d)', number_context_match.group(0))]
+                valid_nums = []
+                for num in raw_nums:
+                    if 1 <= num <= 43 and num not in valid_nums:
+                        valid_nums.append(num)
+                if len(valid_nums) >= 6:
+                    numbers = sorted(valid_nums[:6])
+                    if len(valid_nums) >= 7 and not bonus_number:
+                        extra = [n for n in valid_nums if n not in numbers]
+                        if extra:
+                            bonus_number = extra[0]
+
+        if len(numbers) < 6:
+            print(f"❌ 番号不足: {numbers}")
+            return None
+
+        print(f"✅ 当選番号: {numbers}")
+        
+        # ボーナス数字の抽出
+        if not bonus_number:
+            for selector in ['strong.js-lottery-bonus-pc', '.js-lottery-bonus-pc', '.bonus strong', '.bonus span']:
+                elem = soup.select_one(selector)
+                if elem and elem.get_text(strip=True).isdigit():
+                    candidate = int(elem.get_text(strip=True))
+                    if candidate not in numbers:  # 本数字と重複しないことを確認
+                        bonus_number = candidate
+                        break
+
+        if not bonus_number:
+            bonus_match = re.search(r'ボーナス[数字]*[：:\s]*(\d+)', compact_text)
+            if bonus_match:
+                candidate = int(bonus_match.group(1))
+                if candidate not in numbers:
+                    bonus_number = candidate
+        
+        print(f"✅ ボーナス数字: {bonus_number}")
+
+        prizes = extract_prize_data(compact_text)
+        print(f"✅ 1等: {prizes['1']['winners']}口 / {prizes['1']['amount']:,}円")
+
+        # キャリーオーバーの抽出（総額上限で丸めない）
+        carry_over = 0
+        carry_match = re.search(r'キャリーオーバー[：:\s]*([\d,]+)\s*円', compact_text)
+        if carry_match:
+            try:
+                carry_over = int(carry_match.group(1).replace(',', ''))
+            except ValueError:
+                pass
+        
+        print(f"✅ キャリーオーバー: {carry_over:,}円")
+
+        # 注: ロト6の1等最高金額は通常6億円。prize 情報は本文から抽出し、拾えなかった等級のみ 0 のまま保持
+        return {
+            "drawNumber": draw_number,
+            "drawDate": draw_date,
+            "numbers": numbers,
+            "bonusNumber": bonus_number,
+            "prizes": prizes,
+            "carryOver": carry_over
+        }
+        
+    except Exception as e:
+        print(f"❌ 抽出エラー: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+def save_data(new_data):
+    """データ保存処理"""
+    try:
+        os.makedirs(DATA_DIR, exist_ok=True)
+        
+        history = []
+        if os.path.exists(HISTORY_FILE):
+            with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
+                history = json.load(f)
+        
+        # 重複削除・追加
+        history = [h for h in history if h.get('drawNumber') != new_data['drawNumber']]
+        history.insert(0, new_data)
+        history.sort(key=lambda x: x.get('drawNumber', 0), reverse=True)
+        if len(history) > 2085:
+            history = history[:2085]
+        
+        with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
+            json.dump(history, f, ensure_ascii=False, indent=2)
+        with open(LATEST_FILE, 'w', encoding='utf-8') as f:
+            json.dump(history[:1], f, ensure_ascii=False, indent=2)
+        
+        print(f"✅ 保存完了")
+        return True
+    except Exception as e:
+        print(f"❌ 保存エラー: {e}")
+        return False
+
+def main():
+    print("🎱 ロト6実データ取得（check系ページ優先版）")
+    soup = safe_request()
+    if soup:
+        data = extract_draw_data(soup)
+        if data:
+            print("🧾 取得データ確認:")
+            print(json.dumps(data, ensure_ascii=False, indent=2))
+        if data and save_data(data):
+            print("✅ 処理完了")
+            sys.exit(0)
+    sys.exit(1)
+
+if __name__ == "__main__":
+    main()
