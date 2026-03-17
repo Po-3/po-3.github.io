@@ -35,7 +35,7 @@ jobs:
 
       - name: Run fetch script
         run: |
-          python fetch_data.py
+          python scripts/fetch_data.py
 
       - name: Show updated files
         run: |
