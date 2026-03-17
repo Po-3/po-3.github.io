@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 ロト6実データ取得スクリプト（改良版）
-最新回のデータのみを正確に取得、キャリーオーバー上限チェック付き
+最新回のデータのみを正確に取得
 """
 
 import requests
@@ -18,6 +18,52 @@ DATA_DIR = "assets/data"
 LATEST_FILE = os.path.join(DATA_DIR, "latest.json")
 HISTORY_FILE = os.path.join(DATA_DIR, "history.json")
 MIZUHO_URL = "https://www.mizuhobank.co.jp/retail/takarakuji/loto/loto6/index.html"
+
+def parse_int(text, default=0):
+    """数値文字列を int に変換"""
+    if text is None:
+        return default
+    try:
+        return int(str(text).replace(',', '').strip())
+    except (TypeError, ValueError):
+        return default
+
+
+def extract_prize_data(compact_text):
+    """ページ本文から等級別の口数・金額を抽出"""
+    prizes = {
+        "1": {"winners": 0, "amount": 0},
+        "2": {"winners": 0, "amount": 0},
+        "3": {"winners": 0, "amount": 0},
+        "4": {"winners": 0, "amount": 0},
+        "5": {"winners": 0, "amount": 0}
+    }
+
+    normalized = re.sub(r'\s+', ' ', compact_text).replace('当せん', '当選')
+
+    for rank in range(1, 6):
+        # 例: 1等 3口 686,665,549円
+        patterns = [
+            rf'{rank}等[^\d]{0,20}([\d,]+)\s*口[^\d]{{0,20}}([\d,]+)\s*円',
+            rf'{rank}等[\s\S]{{0,40}}?([\d,]+)\s*口[\s\S]{{0,40}}?([\d,]+)\s*円',
+        ]
+
+        for pattern in patterns:
+            match = re.search(pattern, normalized)
+            if match:
+                prizes[str(rank)] = {
+                    "winners": parse_int(match.group(1)),
+                    "amount": parse_int(match.group(2))
+                }
+                break
+
+        # 該当なし / 0口 の表現にも対応
+        if prizes[str(rank)]["winners"] == 0 and prizes[str(rank)]["amount"] == 0:
+            no_win_match = re.search(rf'{rank}等[\s\S]{{0,40}}?(該当なし|0\s*口)', normalized)
+            if no_win_match:
+                prizes[str(rank)] = {"winners": 0, "amount": 0}
+
+    return prizes
 
 def safe_request():
     """改良されたHTTPリクエスト"""
@@ -48,18 +94,19 @@ def extract_draw_data(soup):
     """最新回データの正確な抽出"""
     try:
         page_text = soup.get_text()
+        normalized_text = re.sub(r'\s+', ' ', page_text)
+        compact_text = normalized_text.replace('\u3000', ' ')
         
-        # 回号の抽出（最新回を優先）
         draw_number = None
-        # 「最新」キーワード近くから検索
-        latest_match = re.search(r'最新.*?第\s*(\d+)\s*回', page_text)
+        # 「最新」キーワード近くから検索（改行をまたいでも拾えるように正規化済みテキストを使う）
+        latest_match = re.search(r'最新[\s\S]{0,200}?第\s*(\d+)\s*回', compact_text)
         if latest_match:
             draw_number = int(latest_match.group(1))
         else:
-            # フォールバック
-            match = re.search(r'第\s*(\d+)\s*回', page_text)
-            if match:
-                draw_number = int(match.group(1))
+            # フォールバック: 出現する回号の最大値を最新回とみなす
+            matches = re.findall(r'第\s*(\d+)\s*回', compact_text)
+            if matches:
+                draw_number = max(int(m) for m in matches)
         
         if not draw_number:
             print("❌ 回号が見つかりません")
@@ -67,12 +114,14 @@ def extract_draw_data(soup):
         
         print(f"✅ 回号: 第{draw_number}回")
         
-        # 抽選日の抽出（回号近くから検索）
         draw_date = datetime.now().strftime('%Y-%m-%d')
-        context_start = max(0, page_text.find(f'第{draw_number}回') - 200)
-        context_end = min(len(page_text), page_text.find(f'第{draw_number}回') + 500)
-        context = page_text[context_start:context_end]
-        
+        anchor = compact_text.find(f'第{draw_number}回')
+        if anchor == -1:
+            anchor = 0
+        context_start = max(0, anchor - 300)
+        context_end = min(len(compact_text), anchor + 800)
+        context = compact_text[context_start:context_end]
+
         date_match = re.search(r'(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日', context)
         if date_match:
             y, m, d = date_match.groups()
@@ -80,96 +129,133 @@ def extract_draw_data(soup):
         
         print(f"✅ 抽選日: {draw_date}")
         
-        # 当選番号の抽出（最新回のテーブル行から）
+        # 当選番号の抽出（最新回の行や番号要素から優先的に取得）
         numbers = []
-        
-        # 戦略1: 最新回のテーブル行から抽出
-        table_rows = soup.find_all('tr')
-        for row in table_rows[:10]:  # 上位10行のみ検索
-            row_text = row.get_text()
-            if str(draw_number) in row_text or '本数字' in row_text:
-                for cell in row.find_all(['td', 'th']):
-                    text = cell.get_text(strip=True)
-                    if text.isdigit():
-                        num = int(text)
-                        if 1 <= num <= 43 and num not in numbers:
-                            numbers.append(num)
-                if len(numbers) >= 6:
+        bonus_number = 0
+
+        # 戦略1: 最新回の行を特定して、その行内の 1-43 の数値を回収
+        target_row = None
+        for row in soup.find_all('tr'):
+            row_text = re.sub(r'\s+', ' ', row.get_text(' ', strip=True))
+            if f'第{draw_number}回' in row_text or re.search(fr'\b{draw_number}\b', row_text):
+                nums_in_row = [int(n) for n in re.findall(r'(?<!\d)(\d{1,2})(?!\d)', row_text)]
+                valid = [n for n in nums_in_row if 1 <= n <= 43]
+                if len(valid) >= 6:
+                    target_row = row
                     break
-        
+
+        if target_row:
+            candidates = []
+            for cell in target_row.find_all(['td', 'th', 'span', 'strong', 'div']):
+                text = cell.get_text(' ', strip=True)
+                for m in re.findall(r'(?<!\d)(\d{1,2})(?!\d)', text):
+                    num = int(m)
+                    if 1 <= num <= 43:
+                        candidates.append(num)
+            deduped = []
+            for num in candidates:
+                if num not in deduped:
+                    deduped.append(num)
+            numbers = sorted(deduped[:6])
+            if len(deduped) >= 7:
+                extra = [n for n in deduped if n not in numbers]
+                if extra:
+                    bonus_number = extra[0]
+
         # 戦略2: セレクタベースの抽出
         if len(numbers) < 6:
             selectors = [
                 'strong.js-lottery-number-pc',
+                '.js-lottery-number-pc',
                 '.lottery-number strong',
-                '.number strong'
+                '.number strong',
+                '.numbers strong',
+                '.numbers span'
             ]
+            candidates = []
             for selector in selectors:
-                for elem in soup.select(selector)[:6]:
+                for elem in soup.select(selector):
                     text = elem.get_text(strip=True)
                     if text.isdigit():
                         num = int(text)
-                        if 1 <= num <= 43 and num not in numbers:
-                            numbers.append(num)
-                if len(numbers) >= 6:
+                        if 1 <= num <= 43:
+                            candidates.append(num)
+                if len(candidates) >= 6:
                     break
-        
-        numbers = sorted(numbers[:6])
-        
+
+            deduped = []
+            for num in candidates:
+                if num not in deduped:
+                    deduped.append(num)
+            if len(deduped) >= 6:
+                numbers = sorted(deduped[:6])
+                if len(deduped) >= 7 and not bonus_number:
+                    extra = [n for n in deduped if n not in numbers]
+                    if extra:
+                        bonus_number = extra[0]
+
+        # 戦略3: ページ全体の「本数字」付近から抽出
+        if len(numbers) < 6:
+            number_context_match = re.search(r'本数字[\s\S]{0,200}', compact_text)
+            if number_context_match:
+                raw_nums = [int(n) for n in re.findall(r'(?<!\d)(\d{1,2})(?!\d)', number_context_match.group(0))]
+                valid_nums = []
+                for num in raw_nums:
+                    if 1 <= num <= 43 and num not in valid_nums:
+                        valid_nums.append(num)
+                if len(valid_nums) >= 6:
+                    numbers = sorted(valid_nums[:6])
+                    if len(valid_nums) >= 7 and not bonus_number:
+                        extra = [n for n in valid_nums if n not in numbers]
+                        if extra:
+                            bonus_number = extra[0]
+
         if len(numbers) < 6:
             print(f"❌ 番号不足: {numbers}")
             return None
-        
+
         print(f"✅ 当選番号: {numbers}")
         
         # ボーナス数字の抽出
-        bonus_number = 0
-        for selector in ['strong.js-lottery-bonus-pc', '.bonus strong']:
-            elem = soup.select_one(selector)
-            if elem and elem.get_text(strip=True).isdigit():
-                candidate = int(elem.get_text(strip=True))
-                if candidate not in numbers:  # 本数字と重複しないことを確認
-                    bonus_number = candidate
-                    break
-        
         if not bonus_number:
-            bonus_match = re.search(r'ボーナス[数字]*[：:\s]*(\d+)', page_text)
+            for selector in ['strong.js-lottery-bonus-pc', '.js-lottery-bonus-pc', '.bonus strong', '.bonus span']:
+                elem = soup.select_one(selector)
+                if elem and elem.get_text(strip=True).isdigit():
+                    candidate = int(elem.get_text(strip=True))
+                    if candidate not in numbers:  # 本数字と重複しないことを確認
+                        bonus_number = candidate
+                        break
+
+        if not bonus_number:
+            bonus_match = re.search(r'ボーナス[数字]*[：:\s]*(\d+)', compact_text)
             if bonus_match:
                 candidate = int(bonus_match.group(1))
                 if candidate not in numbers:
                     bonus_number = candidate
         
         print(f"✅ ボーナス数字: {bonus_number}")
-        
-        # キャリーオーバーの抽出（10億円上限チェック）
+
+        prizes = extract_prize_data(compact_text)
+        print(f"✅ 1等: {prizes['1']['winners']}口 / {prizes['1']['amount']:,}円")
+
+        # キャリーオーバーの抽出（総額上限で丸めない）
         carry_over = 0
-        carry_match = re.search(r'キャリーオーバー[：:\s]*([\d,]+)\s*円', page_text)
+        carry_match = re.search(r'キャリーオーバー[：:\s]*([\d,]+)\s*円', compact_text)
         if carry_match:
             try:
-                amount = int(carry_match.group(1).replace(',', ''))
-                # ロト6の上限は10億円
-                if amount <= 1000000000:
-                    carry_over = amount
-                else:
-                    print(f"⚠️ キャリーオーバー額が上限超過: {amount:,}円 → 上限適用")
-                    carry_over = 1000000000
+                carry_over = int(carry_match.group(1).replace(',', ''))
             except ValueError:
                 pass
         
         print(f"✅ キャリーオーバー: {carry_over:,}円")
-        
+
+        # 注: ロト6の1等最高金額は通常6億円。prize 情報は本文から抽出し、拾えなかった等級のみ 0 のまま保持
         return {
             "drawNumber": draw_number,
             "drawDate": draw_date,
             "numbers": numbers,
             "bonusNumber": bonus_number,
-            "prizes": {
-                "1": {"winners": 0, "amount": 0},
-                "2": {"winners": 0, "amount": 0},
-                "3": {"winners": 0, "amount": 0},
-                "4": {"winners": 0, "amount": 0},
-                "5": {"winners": 0, "amount": 0}
-            },
+            "prizes": prizes,
             "carryOver": carry_over
         }
         
@@ -193,11 +279,13 @@ def save_data(new_data):
         history = [h for h in history if h.get('drawNumber') != new_data['drawNumber']]
         history.insert(0, new_data)
         history.sort(key=lambda x: x.get('drawNumber', 0), reverse=True)
+        if len(history) > 2085:
+            history = history[:2085]
         
         with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
             json.dump(history, f, ensure_ascii=False, indent=2)
         with open(LATEST_FILE, 'w', encoding='utf-8') as f:
-            json.dump(history[:10], f, ensure_ascii=False, indent=2)
+            json.dump(history[:1], f, ensure_ascii=False, indent=2)
         
         print(f"✅ 保存完了")
         return True
@@ -210,6 +298,9 @@ def main():
     soup = safe_request()
     if soup:
         data = extract_draw_data(soup)
+        if data:
+            print("🧾 取得データ確認:")
+            print(json.dumps(data, ensure_ascii=False, indent=2))
         if data and save_data(data):
             print("✅ 処理完了")
             sys.exit(0)
