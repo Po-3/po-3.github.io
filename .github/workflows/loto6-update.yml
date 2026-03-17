@@ -15,7 +15,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: ./loto6
+        working-directory: .
     
     steps:
       - name: 📥 Checkout
