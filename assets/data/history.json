@@ -1,5 +1,41 @@
 [
   {
+    "drawNumber": 2086,
+    "drawDate": "2026-03-19",
+    "numbers": [
+      4,
+      11,
+      19,
+      28,
+      39,
+      40
+    ],
+    "bonusNumber": 6,
+    "prizes": {
+      "1": {
+        "winners": 0,
+        "amount": 0
+      },
+      "2": {
+        "winners": 15,
+        "amount": 4915400
+      },
+      "3": {
+        "winners": 296,
+        "amount": 269000
+      },
+      "4": {
+        "winners": 12723,
+        "amount": 6600
+      },
+      "5": {
+        "winners": 188055,
+        "amount": 1000
+      }
+    },
+    "carryOver": 377168743
+  },
+  {
     "drawNumber": 2085,
     "drawDate": "2026-03-16",
     "numbers": [
