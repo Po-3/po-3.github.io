@@ -1,5 +1,3 @@
-<div id="tnr-fixed-amazon-links"></div>
-
 <style>
   .tnr-fal-wrap{
     margin:32px 0;
@@ -87,9 +85,12 @@
 </style>
 
 <script>
-(function(){
-  var mount = document.getElementById('tnr-fixed-amazon-links');
-  if (!mount) return;
+(function () {
+  'use strict';
+
+  var WIDGET_ID = 'tnr-fixed-amazon-links';
+  var STYLE_ID = 'tnr-fal-style';
+  var RENDERED_FLAG = 'data-tnr-fal-rendered';
 
   var items = [
     {
@@ -105,32 +106,183 @@
       url: 'https://www.amazon.co.jp/stores/page/F4AAC411-D8F4-43D4-92BC-FCF95AEE7914?ingress=2&lp_context_asin=B0FQG9JJ2G&lp_context_query=apple&visitId=fbc46802-1f4a-4cf0-880a-391fc54329d4&linkCode=ll2&tag=k09cf-22&linkId=cb260fa883e9d0826cfd32e7fe3c7993&ref_=as_li_ss_tl'
     },
     {
-      label: '価格を抑えたい方向け',
+      label: '新着商品',
       name: 'Apple新着商品',
       desc: '新しく追加された製品をざっと見たいときの入口として置きやすい枠です。',
       url: 'https://www.amazon.co.jp/stores/page/4E2B3D23-7AFF-410E-A05F-A11A86063BFC?ingress=2&lp_context_asin=B0FQG9JJ2G&lp_context_query=apple&visitId=fbc46802-1f4a-4cf0-880a-391fc54329d4&linkCode=ll2&tag=k09cf-22&linkId=48769df92b9410c4402442371c7f2a0f&ref_=as_li_ss_tl'
     }
   ];
 
-  function renderCard(item){
-    return ''
-      + '<div class="tnr-fal-card">'
-      +   '<div class="tnr-fal-badge">' + item.label + '</div>'
-      +   '<p class="tnr-fal-name">' + item.name + '</p>'
-      +   '<p class="tnr-fal-desc">' + item.desc + '</p>'
-      +   '<a class="tnr-fal-btn" href="' + item.url + '" target="_blank" rel="sponsored nofollow noopener noreferrer">Amazonで見る</a>'
-      + '</div>';
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
-  mount.innerHTML = ''
-    + '<div class="tnr-fal-wrap">'
-    +   '<div class="tnr-fal-head">'
-    +     '<p class="tnr-fal-title">この記事とあわせて見たいアイテム</p>'
-    +     '<p class="tnr-fal-sub">記事の内容に関わらず、Apple製品や周辺機器を見やすい3つの入口をまとめています。</p>'
-    +   '</div>'
-    +   '<div class="tnr-fal-grid">'
-    +     items.map(renderCard).join('')
-    +   '</div>'
-    + '</div>';
+  function injectStyle() {
+    if (document.getElementById(STYLE_ID)) return;
+
+    var css = [
+      '#' + WIDGET_ID + '{',
+      '  min-height: 380px;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-wrap{',
+      '  margin:32px 0;',
+      '  padding:20px;',
+      '  border:1px solid #e5e7eb;',
+      '  border-radius:16px;',
+      '  background:#fff;',
+      '  box-sizing:border-box;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-head{',
+      '  margin-bottom:16px;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-title{',
+      '  margin:0 0 6px;',
+      '  font-size:1.04em;',
+      '  font-weight:700;',
+      '  line-height:1.6;',
+      '  color:#111827;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-sub{',
+      '  margin:0;',
+      '  font-size:.92em;',
+      '  line-height:1.8;',
+      '  color:#6b7280;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-grid{',
+      '  display:grid;',
+      '  grid-template-columns:repeat(3,minmax(0,1fr));',
+      '  gap:14px;',
+      '  align-items:stretch;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-card{',
+      '  display:flex;',
+      '  flex-direction:column;',
+      '  min-height:220px;',
+      '  padding:14px;',
+      '  border:1px solid #e5e7eb;',
+      '  border-radius:14px;',
+      '  background:#fafafa;',
+      '  box-sizing:border-box;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-badge{',
+      '  display:inline-block;',
+      '  align-self:flex-start;',
+      '  margin-bottom:10px;',
+      '  padding:6px 10px;',
+      '  border-radius:999px;',
+      '  background:#eff6ff;',
+      '  color:#2563eb;',
+      '  font-size:.78em;',
+      '  font-weight:700;',
+      '  line-height:1.2;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-name{',
+      '  margin:0 0 10px;',
+      '  font-size:1em;',
+      '  font-weight:700;',
+      '  line-height:1.6;',
+      '  color:#111827;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-desc{',
+      '  margin:0 0 14px;',
+      '  font-size:.92em;',
+      '  line-height:1.8;',
+      '  color:#4b5563;',
+      '  flex:1;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-btn{',
+      '  display:inline-block;',
+      '  text-decoration:none;',
+      '  text-align:center;',
+      '  padding:12px 14px;',
+      '  border-radius:10px;',
+      '  background:#111827;',
+      '  color:#fff !important;',
+      '  font-size:.92em;',
+      '  font-weight:700;',
+      '  line-height:1.2;',
+      '  box-sizing:border-box;',
+      '}',
+
+      '#' + WIDGET_ID + ' .tnr-fal-btn:hover{',
+      '  opacity:.92;',
+      '}',
+
+      '@media (max-width:768px){',
+      '  #' + WIDGET_ID + '{',
+      '    min-height: auto;',
+      '  }',
+      '  #' + WIDGET_ID + ' .tnr-fal-grid{',
+      '    grid-template-columns:1fr;',
+      '  }',
+      '  #' + WIDGET_ID + ' .tnr-fal-card{',
+      '    min-height:auto;',
+      '  }',
+      '}'
+    ].join('');
+
+    var style = document.createElement('style');
+    style.id = STYLE_ID;
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  function renderCard(item) {
+    return (
+      '<div class="tnr-fal-card">' +
+        '<div class="tnr-fal-badge">' + escapeHtml(item.label) + '</div>' +
+        '<p class="tnr-fal-name">' + escapeHtml(item.name) + '</p>' +
+        '<p class="tnr-fal-desc">' + escapeHtml(item.desc) + '</p>' +
+        '<a class="tnr-fal-btn" href="' + escapeHtml(item.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer">Amazonで見る</a>' +
+      '</div>'
+    );
+  }
+
+  function render() {
+    var mount = document.getElementById(WIDGET_ID);
+    if (!mount) return;
+
+    if (mount.getAttribute(RENDERED_FLAG) === '1') return;
+    if (mount.querySelector('.tnr-fal-wrap')) {
+      mount.setAttribute(RENDERED_FLAG, '1');
+      return;
+    }
+
+    injectStyle();
+
+    mount.innerHTML =
+      '<div class="tnr-fal-wrap">' +
+        '<div class="tnr-fal-head">' +
+          '<p class="tnr-fal-title">この記事とあわせて見たいアイテム</p>' +
+          '<p class="tnr-fal-sub">Apple製品や周辺機器を見やすい3つの入口をまとめています。</p>' +
+        '</div>' +
+        '<div class="tnr-fal-grid">' +
+          items.map(renderCard).join('') +
+        '</div>' +
+      '</div>';
+
+    mount.setAttribute(RENDERED_FLAG, '1');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', render, { once: true });
+  } else {
+    render();
+  }
 })();
 </script>
