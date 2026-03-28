@@ -8,28 +8,24 @@
   var items = [
     {
       label: 'おすすめ商品',
-      name: 'Appleストアを見る',
       desc: 'iPhoneやMac、AirPodsまで、いま選ばれているApple製品をまとめてチェックできます。',
       url: 'https://www.amazon.co.jp/stores/page/E2802B6E-C80B-49EB-8240-1032DA9DC503?ingress=2&lp_context_asin=B0FQG9JJ2G&lp_context_query=apple&visitId=fbc46802-1f4a-4cf0-880a-391fc54329d4&linkCode=ll2&tag=k09cf-22&linkId=02715097e39cd51d55d915871388e047&ref_=as_li_ss_tl',
       image: 'https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20260326/20260326211220.jpg'
     },
     {
-      label: '売れやすい周辺機器',
-      name: '相性のいい周辺機器',
+      label: '相性のいい周辺機器',
       desc: '充電器やケーブルなど、あとから揃えたくなる定番アクセサリをまとめて見られます。',
       url: 'https://www.amazon.co.jp/stores/page/F4AAC411-D8F4-43D4-92BC-FCF95AEE7914?ingress=2&lp_context_asin=B0FQG9JJ2G&lp_context_query=apple&visitId=fbc46802-1f4a-4cf0-880a-391fc54329d4&linkCode=ll2&tag=k09cf-22&linkId=cb260fa883e9d0826cfd32e7fe3c7993&ref_=as_li_ss_tl',
       image: 'https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20260326/20260326210346.jpg'
     },
     {
       label: '新着商品',
-      name: 'Apple新着商品',
       desc: '最近追加されたApple関連アイテムを中心に、新しい選択肢をまとめてチェックできます。',
       url: 'https://www.amazon.co.jp/stores/page/4E2B3D23-7AFF-410E-A05F-A11A86063BFC?ingress=2&lp_context_asin=B0FQG9JJ2G&lp_context_query=apple&visitId=fbc46802-1f4a-4cf0-880a-391fc54329d4&linkCode=ll2&tag=k09cf-22&linkId=48769df92b9410c4402442371c7f2a0f&ref_=as_li_ss_tl',
       image: 'https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20260326/20260326210138.jpg'
     },
     {
       label: 'セール',
-      name: 'Appleセール商品',
       desc: '価格が動いているApple関連アイテムをまとめて確認できます。タイミング次第で掘り出し物もあります。',
       url: 'https://www.amazon.co.jp/stores/page/FBA45248-AB65-4A13-B20F-915E14541501?ingress=2&lp_context_asin=B0FQG9JJ2G&lp_context_query=apple&visitId=21076776-cebf-435c-b6ec-f7079c7a14e2&linkCode=ll2&tag=k09cf-22&linkId=fdc87e0bb8a94e26ff597f18b31800f7&ref_=as_li_ss_tl',
       image: 'https://cdn-ak.f.st-hatena.com/images/fotolife/n/numberhunter/20260326/20260326210756.jpg'
