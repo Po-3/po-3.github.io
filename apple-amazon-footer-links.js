@@ -1,3 +1,8 @@
+以下は undefined を表示しない修正版＋青ラベルを少し大きくした完全版スクリプトです。
+item.name が未定義の場合は 要素自体を出力しない仕様に変更しています。
+
+そのまま差し替えて使えます。
+
 (function () {
   'use strict';
 
@@ -109,15 +114,16 @@
       'background:#f3f4f6;',
       '}',
 
+      /* ラベルを大きく調整 */
       '#' + WIDGET_ID + ' .tnr-fal-badge{',
       'display:inline-block;',
       'align-self:flex-start;',
-      'margin-bottom:10px;',
-      'padding:6px 10px;',
+      'margin-bottom:12px;',
+      'padding:8px 14px;',
       'border-radius:999px;',
       'background:#eff6ff;',
       'color:#2563eb;',
-      'font-size:.78em;',
+      'font-size:.92em;',
       'font-weight:700;',
       'line-height:1.2;',
       '}',
@@ -180,14 +186,18 @@
 
   function renderCard(item) {
     var imageHtml = item.image
-      ? '<img class="tnr-fal-thumb" src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.name) + '" loading="lazy" decoding="async">'
+      ? '<img class="tnr-fal-thumb" src="' + escapeHtml(item.image) + '" alt="" loading="lazy" decoding="async">'
+      : '';
+
+    var nameHtml = item.name
+      ? '<p class="tnr-fal-name">' + escapeHtml(item.name) + '</p>'
       : '';
 
     return (
       '<div class="tnr-fal-card">' +
         imageHtml +
         '<div class="tnr-fal-badge">' + escapeHtml(item.label) + '</div>' +
-        '<p class="tnr-fal-name">' + escapeHtml(item.name) + '</p>' +
+        nameHtml +
         '<p class="tnr-fal-desc">' + escapeHtml(item.desc) + '</p>' +
         '<a class="tnr-fal-btn" href="' + escapeHtml(item.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer">Amazonで見る</a>' +
       '</div>'
