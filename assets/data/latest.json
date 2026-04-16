@@ -1,38 +1,38 @@
 [
   {
-    "drawNumber": 2093,
-    "drawDate": "2026-04-13",
+    "drawNumber": 2094,
+    "drawDate": "2026-04-16",
     "numbers": [
-      2,
-      10,
-      21,
-      26,
-      29,
-      38
+      3,
+      4,
+      7,
+      11,
+      24,
+      30
     ],
-    "bonusNumber": 12,
+    "bonusNumber": 16,
     "prizes": {
       "1": {
-        "winners": 0,
-        "amount": 0
+        "winners": 5,
+        "amount": 200321600
       },
       "2": {
-        "winners": 16,
-        "amount": 5077800
+        "winners": 18,
+        "amount": 4168200
       },
       "3": {
-        "winners": 329,
-        "amount": 266600
+        "winners": 710,
+        "amount": 114100
       },
       "4": {
-        "winners": 14455,
-        "amount": 6400
+        "winners": 25626,
+        "amount": 3300
       },
       "5": {
-        "winners": 224282,
+        "winners": 316889,
         "amount": 1000
       }
     },
-    "carryOver": 751519994
+    "carryOver": 0
   }
 ]
