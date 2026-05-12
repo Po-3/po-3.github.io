@@ -1,17 +1,10 @@
 /* ==========================================================
-   Apple OS Widget - Compact (Common version first)
-   v5: 正式版公開後に同系統Betaを非表示化
-      - 共通Beta表示で、正式版と同系統（またはそれ以前）のBetaを消す
-      - 例外欄でも、正式版公開済みの同系統Betaは表示しない
-      - 次トレインのBeta（例: stable 26.4 / beta 26.5 Beta 1）は表示する
-   既存Fix:
-      - 日本時間リリース日を表示
-      - macOS コードネームスキップ
-      - updated JST化
-      - isHot 簡略化
-      - 例外を縦並び表示
-      - "v.2" など再リリースも反映
-      - 例外を「正式版」「Beta」でグルーピング表示
+   Apple OS Widget - Compact
+   v6: 旧OSの安全更新欄を追加
+      - 最新世代・正式版
+      - 最新世代・ベータ
+      - 旧OSの安全更新（iOS / iPadOS / macOS の旧メジャー）
+      - 例外（正式版 / Beta）
    ========================================================== */
 (function(){
   "use strict";
@@ -30,27 +23,36 @@
     { key: "audioOS",  id: "audioos",  label: "audioOS"  }
   ];
 
-  var DOM = {
-    stableVer:  "os-stable-ver",
-    stableDate: "os-stable-date",
-    betaVer:    "os-beta-ver",
-    betaDate:   "os-beta-date",
-    exceptions: "os-exceptions",
-    updated:    "os-updated",
-    auto:       "os-auto"
+  var LEGACY_OS_IDS = {
+    ios: true,
+    ipados: true,
+    macos: true
   };
 
-  var CACHE_KEY         = "tnr_os_widget_cache_compact_v5";
+  var DOM = {
+    stableVer:       "os-stable-ver",
+    stableDate:      "os-stable-date",
+    betaVer:         "os-beta-ver",
+    betaDate:        "os-beta-date",
+    legacyTitle:     "os-legacy-title",
+    legacy:          "os-legacy-security",
+    exceptionsTitle: "os-exceptions-title",
+    exceptions:      "os-exceptions",
+    updated:         "os-updated",
+    auto:            "os-auto"
+  };
+
+  var CACHE_KEY         = "tnr_os_widget_cache_compact_v6";
   var CACHE_TTL_MS      = 6 * 60 * 60 * 1000;
   var FETCH_TIMEOUT_MS  = 3500;
   var EVENT_WINDOW_DAYS = 14;
+  var LEGACY_MAX_ITEMS  = 8;
 
   function $(id){ return document.getElementById(id); }
   function safeText(el, v){ if(el) el.textContent = v; }
   function now(){ return Date.now ? Date.now() : new Date().getTime(); }
   function z2(n){ return (n < 10 ? "0" : "") + n; }
 
-  /* UTC の Date → JST 日付文字列 "YYYY/MM/DD" */
   function toJSTDateStr(date){
     if(!date || isNaN(date.getTime())) return null;
     var jst = new Date(date.getTime() + 9 * 60 * 60 * 1000);
@@ -59,7 +61,6 @@
            z2(jst.getUTCDate());
   }
 
-  /* 例外行用：バージョン + 日付を "(YYYY/MM/DD)" 付きテキストに結合 */
   function joinVerDate(ver, dateStr){
     if(!ver || ver === "--" || ver === "-") return ver;
     if(!dateStr) return ver;
@@ -118,6 +119,12 @@
     return { nums: nums, stage: stage, stageNum: stageNum, rev: rev };
   }
 
+  function getMajorVersion(raw){
+    var p = parseVersionForCompare(raw);
+    if(!p) return null;
+    return p.nums[0];
+  }
+
   function compareVersionRaw(a, b){
     if(!a && !b) return 0;
     if(!a) return -1;
@@ -147,7 +154,6 @@
     return 0;
   }
 
-  /* ベース数値部分だけ比較（26.4 / 26.5 / 17.4.1 など） */
   function parseBaseVersion(raw){
     var p = parseVersionForCompare(raw);
     if(!p) return null;
@@ -169,13 +175,11 @@
     return 0;
   }
 
-  /* 正式版公開後、同系統Beta（またはそれ以前）は隠す */
   function shouldHideBetaAfterStable(stableVer, betaVer){
     if(!stableVer || !betaVer) return false;
     return compareBaseVersion(betaVer, stableVer) <= 0;
   }
 
-  /* 最大バージョンと対応する最古の日付を返す（フォールバック用） */
   function maxVersionWithDate(pairs){
     var maxVer = null, maxDate = null;
     for(var i = 0; i < pairs.length; i++){
@@ -193,7 +197,6 @@
     return { ver: maxVer, date: maxDate };
   }
 
-  /* 多数派（mode）バージョンと対応する最古の日付を返す */
   function modeVersionWithDate(pairs){
     var map = Object.create(null);
     var order = [];
@@ -239,7 +242,6 @@
     };
   }
 
-  /* ── キャッシュ ── */
   function readCache(){
     try{
       var raw = localStorage.getItem(CACHE_KEY);
@@ -264,7 +266,6 @@
     }catch(e){}
   }
 
-  /* ── RSS パース ── */
   function parseRSS(xmlText){
     var parser = new DOMParser();
     var xml = parser.parseFromString(xmlText, "application/xml");
@@ -300,7 +301,6 @@
     });
   }
 
-  /* ── バージョン抽出 ── */
   function extractVersionPart(title, osKey){
     var re = new RegExp(
       osKey +
@@ -335,18 +335,31 @@
     return v;
   }
 
-  /* ── OS ごとに最新バージョンを収集 ── */
+  function makeEmptyOSData(){
+    return {
+      stable: null,
+      stableDate: null,
+      beta: null,
+      betaDate: null
+    };
+  }
+
   function pickLatestPerOS(items){
     var res = {
-      ios:      { stable:null, stableDate:null, beta:null, betaDate:null },
-      ipados:   { stable:null, stableDate:null, beta:null, betaDate:null },
-      macos:    { stable:null, stableDate:null, beta:null, betaDate:null },
-      watchos:  { stable:null, stableDate:null, beta:null, betaDate:null },
-      tvos:     { stable:null, stableDate:null, beta:null, betaDate:null },
-      audioos:  { stable:null, stableDate:null, beta:null, betaDate:null },
-      visionos: { stable:null, stableDate:null, beta:null, betaDate:null },
+      ios:      makeEmptyOSData(),
+      ipados:   makeEmptyOSData(),
+      macos:    makeEmptyOSData(),
+      watchos:  makeEmptyOSData(),
+      tvos:     makeEmptyOSData(),
+      audioos:  makeEmptyOSData(),
+      visionos: makeEmptyOSData(),
+      legacy:   {},
       updated:  null
     };
+
+    for(var a = 0; a < OS_KEYS.length; a++){
+      res.legacy[OS_KEYS[a].id] = {};
+    }
 
     if(items[0] && items[0].pubDate && !isNaN(items[0].pubDate.getTime())){
       res.updated = items[0].pubDate.toISOString();
@@ -386,6 +399,20 @@
               res[osId].stableDate = pubDate;
             }
           }
+
+          var major = getMajorVersion(ver);
+          if(major !== null){
+            var mKey = String(major);
+            var old = res.legacy[osId][mKey];
+
+            if(!old || compareVersionRaw(ver, old.ver) > 0){
+              res.legacy[osId][mKey] = { ver: ver, date: pubDate };
+            } else if(old && sameVersion(ver, old.ver)){
+              if(pubDate && (!old.date || pubDate < old.date)){
+                old.date = pubDate;
+              }
+            }
+          }
         }
       }
     }
@@ -393,7 +420,36 @@
     return res;
   }
 
-  /* ── コンパクトデータを生成 ── */
+  function buildLegacyItems(data, commonStable){
+    var commonMajor = getMajorVersion(commonStable);
+    if(commonMajor === null) return [];
+
+    var items = [];
+
+    for(var i = 0; i < OS_KEYS.length; i++){
+      var os = OS_KEYS[i];
+      if(!LEGACY_OS_IDS[os.id]) continue;
+
+      var majorsMap = data.legacy && data.legacy[os.id] ? data.legacy[os.id] : {};
+      var majors = Object.keys(majorsMap).sort(function(a, b){
+        return parseInt(b, 10) - parseInt(a, 10);
+      });
+
+      for(var j = 0; j < majors.length; j++){
+        var major = parseInt(majors[j], 10);
+        if(isNaN(major)) continue;
+        if(major >= commonMajor) continue;
+
+        var entry = majorsMap[majors[j]];
+        if(!entry || !entry.ver) continue;
+
+        items.push(os.label + " " + major + "系: " + joinVerDate(entry.ver, toJSTDateStr(entry.date)));
+      }
+    }
+
+    return items.slice(0, LEGACY_MAX_ITEMS);
+  }
+
   function buildCompact(data){
     var stPairs = [];
     var btPairs = [];
@@ -438,6 +494,8 @@
       commonBetaDateStr = null;
     }
 
+    var legacyItems = buildLegacyItems(data, commonStable);
+
     var exStable = [];
     var exBeta   = [];
 
@@ -450,7 +508,6 @@
         betaDate: null
       };
 
-      /* 正式版 */
       if(commonStable){
         if(!od.stable){
           exStable.push(os.label + ": --");
@@ -463,10 +520,6 @@
         }
       }
 
-      /* Beta
-         - 正式版公開済みで同系統Betaなら例外にも出さない
-         - 次トレインBetaだけ残す
-      */
       var stableRefForThisOS = od.stable || commonStable || null;
       var hideThisBeta = shouldHideBetaAfterStable(stableRefForThisOS, od.beta);
 
@@ -499,20 +552,49 @@
       }
     }
 
-    var isHot = isEvent;
-
     return {
       commonStable:     commonStableOut,
       commonStableDate: commonStableDateStr,
       commonBeta:       commonBetaOut,
       commonBetaDate:   commonBetaDateStr,
+      legacy:           legacyItems,
       exceptions:       { stable: exStable, beta: exBeta },
       updated:          updated,
-      isHot:            isHot
+      isHot:            isEvent
     };
   }
 
-  /* ── DOM に反映 ── */
+  function appendDecoratedLine(el, line){
+    var target = "macOS: 26.3.2";
+    var idx = line.indexOf(target);
+
+    if(idx === -1){
+      el.textContent = line;
+      return;
+    }
+
+    el.appendChild(document.createTextNode(line.slice(0, idx + target.length)));
+
+    var note = document.createElement("span");
+    note.style.fontSize = "0.8em";
+    note.style.color = "#888";
+    note.textContent = " (MacBook Neo Only)";
+    el.appendChild(note);
+
+    el.appendChild(document.createTextNode(line.slice(idx + target.length)));
+  }
+
+  function addSimpleItems(parent, items){
+    if(!items || !items.length) return;
+
+    items.forEach(function(line){
+      var div = document.createElement("div");
+      div.className = "tnr-osw-ex-item";
+      appendDecoratedLine(div, line);
+      parent.appendChild(div);
+    });
+  }
+
   function applyToDOM(compact, state){
     requestAnimationFrame(function(){
       safeText($(DOM.stableVer), compact.commonStable || "--");
@@ -521,7 +603,26 @@
       safeText($(DOM.betaVer), compact.commonBeta || "-");
       safeText($(DOM.betaDate), compact.commonBetaDate ? "(" + compact.commonBetaDate + ")" : "");
 
+      var legacyTitleEl = $(DOM.legacyTitle);
+      var legacyEl = $(DOM.legacy);
+      var legacy = compact.legacy || [];
+
+      if(legacyEl){
+        legacyEl.textContent = "";
+
+        if(legacy.length){
+          addSimpleItems(legacyEl, legacy);
+          legacyEl.style.display = "";
+          if(legacyTitleEl) legacyTitleEl.style.display = "";
+        } else {
+          legacyEl.style.display = "none";
+          if(legacyTitleEl) legacyTitleEl.style.display = "none";
+        }
+      }
+
+      var exTitleEl = $(DOM.exceptionsTitle);
       var exEl = $(DOM.exceptions);
+
       if(exEl){
         exEl.textContent = "";
 
@@ -542,7 +643,7 @@
           items.slice(0, 5).forEach(function(line){
             var div = document.createElement("div");
             div.className = "tnr-osw-ex-item";
-            div.textContent = line;
+            appendDecoratedLine(div, line);
             g.appendChild(div);
           });
 
@@ -555,9 +656,11 @@
         if((st && st.length) || (bt && bt.length)){
           exEl.style.display = "";
           exEl.classList.toggle("is-hot", !!compact.isHot);
+          if(exTitleEl) exTitleEl.style.display = "";
         } else {
           exEl.style.display = "none";
           exEl.classList.remove("is-hot");
+          if(exTitleEl) exTitleEl.style.display = "none";
         }
       }
 
@@ -631,7 +734,7 @@
         applyToDOM(compact, "fresh");
       })
       .catch(function(){
-        /* フェッチ失敗 → キャッシュ表示を維持 */
+        /* フェッチ失敗時はキャッシュ表示を維持 */
       });
   }
 
