@@ -1,5 +1,41 @@
 [
   {
+    "drawNumber": 2106,
+    "drawDate": "2026-05-28",
+    "numbers": [
+      1,
+      6,
+      17,
+      27,
+      34,
+      43
+    ],
+    "bonusNumber": 24,
+    "prizes": {
+      "1": {
+        "winners": 2,
+        "amount": 261492400
+      },
+      "2": {
+        "winners": 12,
+        "amount": 6397500
+      },
+      "3": {
+        "winners": 269,
+        "amount": 308200
+      },
+      "4": {
+        "winners": 12294,
+        "amount": 7100
+      },
+      "5": {
+        "winners": 193814,
+        "amount": 1000
+      }
+    },
+    "carryOver": 0
+  },
+  {
     "drawNumber": 2105,
     "drawDate": "2026-05-25",
     "numbers": [
