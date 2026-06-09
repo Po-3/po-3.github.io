@@ -1,10 +1,11 @@
 /* ==========================================================
    Apple OS Widget - Compact
-   v6: 旧OSの安全更新欄を追加
+   v7: WWDC後のBeta並走表示に対応
       - 最新世代・正式版
-      - 最新世代・ベータ
-      - 旧OSの安全更新（iOS / iPadOS / macOS の旧メジャー）
-      - 例外（正式版 / Beta）
+      - 現行世代・ベータ
+      - 次世代・ベータ
+      - 旧OSの安全更新
+      - 例外（正式版 / 現行Beta / 次世代Beta）
    ========================================================== */
 (function(){
   "use strict";
@@ -30,19 +31,24 @@
   };
 
   var DOM = {
-    stableVer:       "os-stable-ver",
-    stableDate:      "os-stable-date",
-    betaVer:         "os-beta-ver",
-    betaDate:        "os-beta-date",
-    legacyTitle:     "os-legacy-title",
-    legacy:          "os-legacy-security",
-    exceptionsTitle: "os-exceptions-title",
-    exceptions:      "os-exceptions",
-    updated:         "os-updated",
-    auto:            "os-auto"
+    stableVer:        "os-stable-ver",
+    stableDate:       "os-stable-date",
+    currentBetaRow:   "os-current-beta-row",
+    currentBetaVer:   "os-current-beta-ver",
+    currentBetaDate:  "os-current-beta-date",
+    nextBetaRow:      "os-next-beta-row",
+    nextBetaVer:      "os-next-beta-ver",
+    nextBetaDate:     "os-next-beta-date",
+    betaNote:         "os-beta-note",
+    legacyTitle:      "os-legacy-title",
+    legacy:           "os-legacy-security",
+    exceptionsTitle:  "os-exceptions-title",
+    exceptions:       "os-exceptions",
+    updated:          "os-updated",
+    auto:             "os-auto"
   };
 
-  var CACHE_KEY         = "tnr_os_widget_cache_compact_v6";
+  var CACHE_KEY         = "tnr_os_widget_cache_compact_v7";
   var CACHE_TTL_MS      = 6 * 60 * 60 * 1000;
   var FETCH_TIMEOUT_MS  = 3500;
   var EVENT_WINDOW_DAYS = 14;
@@ -95,6 +101,7 @@
 
     var numMatch = norm.match(/^(\d+)(?:\.(\d+))?(?:\.(\d+))?/);
     var nums = [0, 0, 0];
+
     if(numMatch){
       nums[0] = parseInt(numMatch[1], 10);
       nums[1] = numMatch[2] !== undefined ? parseInt(numMatch[2], 10) : 0;
@@ -102,6 +109,7 @@
     }
 
     var stage = 2, stageNum = 0;
+
     if(/\brc\b/.test(norm)){
       stage = 1;
       var rcMatch = norm.match(/\brc\s*(\d+)/);
@@ -172,6 +180,7 @@
       if(pa[i] > pb[i]) return  1;
       if(pa[i] < pb[i]) return -1;
     }
+
     return 0;
   }
 
@@ -182,6 +191,7 @@
 
   function maxVersionWithDate(pairs){
     var maxVer = null, maxDate = null;
+
     for(var i = 0; i < pairs.length; i++){
       var v = pairs[i].ver;
       var d = pairs[i].date;
@@ -194,6 +204,7 @@
         if(d && (!maxDate || d < maxDate)) maxDate = d;
       }
     }
+
     return { ver: maxVer, date: maxDate };
   }
 
@@ -223,8 +234,10 @@
     if(!order.length) return { ver: null, date: null, count: 0, total: 0 };
 
     var bestKey = order[0];
+
     for(var j = 1; j < order.length; j++){
       var k = order[j];
+
       if(map[k].count > map[bestKey].count){
         bestKey = k;
       } else if(map[k].count === map[bestKey].count){
@@ -240,6 +253,20 @@
       count: map[bestKey].count,
       total: order.length
     };
+  }
+
+  function chooseCommonVersion(pairs){
+    var mode = modeVersionWithDate(pairs);
+    var ver = mode.ver;
+    var date = mode.date;
+
+    if(mode.count <= 1){
+      var max = maxVersionWithDate(pairs);
+      ver = max.ver;
+      date = max.date;
+    }
+
+    return { ver: ver, date: date };
   }
 
   function readCache(){
@@ -269,9 +296,11 @@
   function parseRSS(xmlText){
     var parser = new DOMParser();
     var xml = parser.parseFromString(xmlText, "application/xml");
+
     if(xml.getElementsByTagName("parsererror").length){
       throw new Error("parse error");
     }
+
     return xml;
   }
 
@@ -340,7 +369,8 @@
       stable: null,
       stableDate: null,
       beta: null,
-      betaDate: null
+      betaDate: null,
+      betaByMajor: {}
     };
   }
 
@@ -390,6 +420,20 @@
               res[osId].betaDate = pubDate;
             }
           }
+
+          var betaMajor = getMajorVersion(ver);
+          if(betaMajor !== null){
+            var betaMajorKey = String(betaMajor);
+            var oldBeta = res[osId].betaByMajor[betaMajorKey];
+
+            if(!oldBeta || compareVersionRaw(ver, oldBeta.ver) > 0){
+              res[osId].betaByMajor[betaMajorKey] = { ver: ver, date: pubDate };
+            } else if(oldBeta && sameVersion(ver, oldBeta.ver)){
+              if(pubDate && (!oldBeta.date || pubDate < oldBeta.date)){
+                oldBeta.date = pubDate;
+              }
+            }
+          }
         } else {
           if(!res[osId].stable || compareVersionRaw(ver, res[osId].stable) > 0){
             res[osId].stable     = ver;
@@ -418,6 +462,63 @@
     }
 
     return res;
+  }
+
+  function getBetaEntryForMajor(osData, major){
+    if(!osData || major === null || major === undefined || !osData.betaByMajor){
+      return { ver: null, date: null };
+    }
+
+    var entry = osData.betaByMajor[String(major)];
+    if(!entry) return { ver: null, date: null };
+
+    return {
+      ver: entry.ver || null,
+      date: entry.date || null
+    };
+  }
+
+  function pickNextBetaMajor(data, currentMajor){
+    var map = Object.create(null);
+    var order = [];
+
+    for(var i = 0; i < OS_KEYS.length; i++){
+      var od = data[OS_KEYS[i].id] || {};
+      var majorsMap = od.betaByMajor || {};
+      var majors = Object.keys(majorsMap);
+
+      for(var j = 0; j < majors.length; j++){
+        var major = parseInt(majors[j], 10);
+        if(isNaN(major)) continue;
+        if(currentMajor !== null && currentMajor !== undefined && major <= currentMajor) continue;
+
+        var key = String(major);
+        if(!map[key]){
+          map[key] = { major: major, count: 0 };
+          order.push(key);
+        }
+
+        map[key].count++;
+      }
+    }
+
+    if(!order.length) return null;
+
+    var bestKey = order[0];
+
+    for(var k = 1; k < order.length; k++){
+      var candKey = order[k];
+
+      if(map[candKey].count > map[bestKey].count){
+        bestKey = candKey;
+      } else if(map[candKey].count === map[bestKey].count){
+        if(map[candKey].major > map[bestKey].major){
+          bestKey = candKey;
+        }
+      }
+    }
+
+    return map[bestKey].major;
   }
 
   function buildLegacyItems(data, commonStable){
@@ -452,52 +553,59 @@
 
   function buildCompact(data){
     var stPairs = [];
-    var btPairs = [];
 
     for(var i = 0; i < OS_KEYS.length; i++){
       var id = OS_KEYS[i].id;
       var d  = data[id] || {};
-
       stPairs.push({ ver: d.stable || null, date: d.stableDate || null });
-      btPairs.push({ ver: d.beta   || null, date: d.betaDate   || null });
     }
 
-    var stMode = modeVersionWithDate(stPairs);
-    var btMode = modeVersionWithDate(btPairs);
+    var stCommon = chooseCommonVersion(stPairs);
+    var commonStable = stCommon.ver;
+    var commonStableDate = stCommon.date;
+    var commonStableMajor = getMajorVersion(commonStable);
 
-    var commonStable     = stMode.ver;
-    var commonStableDate = stMode.date;
-    var commonBeta       = btMode.ver;
-    var commonBetaDate   = btMode.date;
+    var currentBetaPairs = [];
+    var nextBetaPairs = [];
+    var nextBetaMajor = pickNextBetaMajor(data, commonStableMajor);
 
-    if(stMode.count <= 1){
-      var stMax = maxVersionWithDate(stPairs);
-      commonStable     = stMax.ver;
-      commonStableDate = stMax.date;
+    for(var b = 0; b < OS_KEYS.length; b++){
+      var bd = data[OS_KEYS[b].id] || {};
+      var cur = getBetaEntryForMajor(bd, commonStableMajor);
+      var nxt = getBetaEntryForMajor(bd, nextBetaMajor);
+
+      currentBetaPairs.push({ ver: cur.ver, date: cur.date });
+      nextBetaPairs.push({ ver: nxt.ver, date: nxt.date });
     }
 
-    if(btMode.count <= 1){
-      var btMax = maxVersionWithDate(btPairs);
-      commonBeta     = btMax.ver;
-      commonBetaDate = btMax.date;
-    }
+    var currentCommon = chooseCommonVersion(currentBetaPairs);
+    var nextCommon = chooseCommonVersion(nextBetaPairs);
 
-    var betaHiddenByStable = shouldHideBetaAfterStable(commonStable, commonBeta);
+    var commonCurrentBeta = currentCommon.ver;
+    var commonCurrentBetaDate = currentCommon.date;
+    var commonNextBeta = nextCommon.ver;
+    var commonNextBetaDate = nextCommon.date;
 
-    var commonStableOut     = commonStable ? commonStable : "--";
-    var commonBetaOut       = commonBeta ? commonBeta : "-";
+    var currentBetaHiddenByStable = shouldHideBetaAfterStable(commonStable, commonCurrentBeta);
+
+    var commonStableOut = commonStable ? commonStable : "--";
+    var commonCurrentBetaOut = commonCurrentBeta ? commonCurrentBeta : "-";
+    var commonNextBetaOut = commonNextBeta ? commonNextBeta : "-";
+
     var commonStableDateStr = toJSTDateStr(commonStableDate);
-    var commonBetaDateStr   = toJSTDateStr(commonBetaDate);
+    var commonCurrentBetaDateStr = toJSTDateStr(commonCurrentBetaDate);
+    var commonNextBetaDateStr = toJSTDateStr(commonNextBetaDate);
 
-    if(betaHiddenByStable){
-      commonBetaOut = "-";
-      commonBetaDateStr = null;
+    if(currentBetaHiddenByStable){
+      commonCurrentBetaOut = "-";
+      commonCurrentBetaDateStr = null;
     }
 
     var legacyItems = buildLegacyItems(data, commonStable);
 
     var exStable = [];
-    var exBeta   = [];
+    var exCurrentBeta = [];
+    var exNextBeta = [];
 
     for(var j = 0; j < OS_KEYS.length; j++){
       var os = OS_KEYS[j];
@@ -505,7 +613,8 @@
         stable: null,
         stableDate: null,
         beta: null,
-        betaDate: null
+        betaDate: null,
+        betaByMajor: {}
       };
 
       if(commonStable){
@@ -521,15 +630,28 @@
       }
 
       var stableRefForThisOS = od.stable || commonStable || null;
-      var hideThisBeta = shouldHideBetaAfterStable(stableRefForThisOS, od.beta);
+      var currentEntry = getBetaEntryForMajor(od, commonStableMajor);
+      var hideThisCurrentBeta = shouldHideBetaAfterStable(stableRefForThisOS, currentEntry.ver);
 
-      if(commonBetaOut && commonBetaOut !== "-"){
-        if(od.beta && !hideThisBeta && !sameVersion(od.beta, commonBetaOut)){
-          exBeta.push(os.label + ": " + joinVerDate(od.beta, toJSTDateStr(od.betaDate)));
+      if(commonCurrentBetaOut && commonCurrentBetaOut !== "-"){
+        if(currentEntry.ver && !hideThisCurrentBeta && !sameVersion(currentEntry.ver, commonCurrentBetaOut)){
+          exCurrentBeta.push(os.label + ": " + joinVerDate(currentEntry.ver, toJSTDateStr(currentEntry.date)));
         }
       } else {
-        if(od.beta && !hideThisBeta){
-          exBeta.push(os.label + ": " + joinVerDate(od.beta, toJSTDateStr(od.betaDate)));
+        if(currentEntry.ver && !hideThisCurrentBeta){
+          exCurrentBeta.push(os.label + ": " + joinVerDate(currentEntry.ver, toJSTDateStr(currentEntry.date)));
+        }
+      }
+
+      var nextEntry = getBetaEntryForMajor(od, nextBetaMajor);
+
+      if(commonNextBetaOut && commonNextBetaOut !== "-"){
+        if(nextEntry.ver && !sameVersion(nextEntry.ver, commonNextBetaOut)){
+          exNextBeta.push(os.label + ": " + joinVerDate(nextEntry.ver, toJSTDateStr(nextEntry.date)));
+        }
+      } else {
+        if(nextEntry.ver){
+          exNextBeta.push(os.label + ": " + joinVerDate(nextEntry.ver, toJSTDateStr(nextEntry.date)));
         }
       }
     }
@@ -553,14 +675,20 @@
     }
 
     return {
-      commonStable:     commonStableOut,
-      commonStableDate: commonStableDateStr,
-      commonBeta:       commonBetaOut,
-      commonBetaDate:   commonBetaDateStr,
-      legacy:           legacyItems,
-      exceptions:       { stable: exStable, beta: exBeta },
-      updated:          updated,
-      isHot:            isEvent
+      commonStable:          commonStableOut,
+      commonStableDate:      commonStableDateStr,
+      commonCurrentBeta:     commonCurrentBetaOut,
+      commonCurrentBetaDate: commonCurrentBetaDateStr,
+      commonNextBeta:        commonNextBetaOut,
+      commonNextBetaDate:    commonNextBetaDateStr,
+      legacy:                legacyItems,
+      exceptions: {
+        stable: exStable,
+        currentBeta: exCurrentBeta,
+        nextBeta: exNextBeta
+      },
+      updated: updated,
+      isHot: isEvent
     };
   }
 
@@ -597,11 +725,32 @@
 
   function applyToDOM(compact, state){
     requestAnimationFrame(function(){
+      var hasCurrentBeta = !!(compact.commonCurrentBeta && compact.commonCurrentBeta !== "-");
+      var hasNextBeta = !!(compact.commonNextBeta && compact.commonNextBeta !== "-");
+
       safeText($(DOM.stableVer), compact.commonStable || "--");
       safeText($(DOM.stableDate), compact.commonStableDate ? "(" + compact.commonStableDate + ")" : "");
 
-      safeText($(DOM.betaVer), compact.commonBeta || "-");
-      safeText($(DOM.betaDate), compact.commonBetaDate ? "(" + compact.commonBetaDate + ")" : "");
+      safeText($(DOM.currentBetaVer), compact.commonCurrentBeta || "-");
+      safeText($(DOM.currentBetaDate), compact.commonCurrentBetaDate ? "(" + compact.commonCurrentBetaDate + ")" : "");
+
+      safeText($(DOM.nextBetaVer), compact.commonNextBeta || "-");
+      safeText($(DOM.nextBetaDate), compact.commonNextBetaDate ? "(" + compact.commonNextBetaDate + ")" : "");
+
+      var currentBetaRowEl = $(DOM.currentBetaRow);
+      if(currentBetaRowEl){
+        currentBetaRowEl.style.display = "";
+      }
+
+      var nextBetaRowEl = $(DOM.nextBetaRow);
+      if(nextBetaRowEl){
+        nextBetaRowEl.style.display = hasNextBeta ? "" : "none";
+      }
+
+      var betaNoteEl = $(DOM.betaNote);
+      if(betaNoteEl){
+        betaNoteEl.style.display = hasNextBeta ? "" : "none";
+      }
 
       var legacyTitleEl = $(DOM.legacyTitle);
       var legacyEl = $(DOM.legacy);
@@ -627,7 +776,8 @@
         exEl.textContent = "";
 
         var st = (compact.exceptions && compact.exceptions.stable) ? compact.exceptions.stable : [];
-        var bt = (compact.exceptions && compact.exceptions.beta)   ? compact.exceptions.beta   : [];
+        var cb = (compact.exceptions && compact.exceptions.currentBeta) ? compact.exceptions.currentBeta : [];
+        var nb = (compact.exceptions && compact.exceptions.nextBeta) ? compact.exceptions.nextBeta : [];
 
         function addGroup(title, items, kindClass){
           if(!items || !items.length) return;
@@ -651,9 +801,10 @@
         }
 
         addGroup("正式版", st, "is-stable");
-        addGroup("Beta", bt, "is-beta");
+        addGroup("現行Beta", cb, "is-beta-current");
+        addGroup("次世代Beta", nb, "is-beta-next");
 
-        if((st && st.length) || (bt && bt.length)){
+        if((st && st.length) || (cb && cb.length) || (nb && nb.length)){
           exEl.style.display = "";
           exEl.classList.toggle("is-hot", !!compact.isHot);
           if(exTitleEl) exTitleEl.style.display = "";
@@ -689,6 +840,7 @@
       : null;
 
     var timer = null;
+
     if(controller){
       timer = setTimeout(function(){
         try{
@@ -712,6 +864,7 @@
       var id = OS_KEYS[i].id;
       if(data[id] && (data[id].stable || data[id].beta)) return true;
     }
+
     return false;
   }
 
