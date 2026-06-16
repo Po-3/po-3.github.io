@@ -6,6 +6,7 @@
       - 次世代・ベータ
       - 旧OSの安全更新
       - 例外（正式版 / 現行Beta / 次世代Beta）
+   v8: 旧OSをOSごとの上限つきで表示（iOS/iPadOS/macOSの枠を確保）
    ========================================================== */
 (function(){
   "use strict";
@@ -48,11 +49,12 @@
     auto:             "os-auto"
   };
 
-  var CACHE_KEY         = "tnr_os_widget_cache_compact_v7";
+  var CACHE_KEY         = "tnr_os_widget_cache_compact_v8";
   var CACHE_TTL_MS      = 6 * 60 * 60 * 1000;
   var FETCH_TIMEOUT_MS  = 3500;
   var EVENT_WINDOW_DAYS = 14;
-  var LEGACY_MAX_ITEMS  = 8;
+  var LEGACY_MAX_PER_OS = 4;   // 各OSで並べる旧メジャーの最大数（iOS/iPadOS/macOSそれぞれ）
+  var LEGACY_MAX_ITEMS  = 16;  // 旧OS全体の最大件数
 
   function $(id){ return document.getElementById(id); }
   function safeText(el, v){ if(el) el.textContent = v; }
@@ -536,7 +538,11 @@
         return parseInt(b, 10) - parseInt(a, 10);
       });
 
+      var addedForOS = 0;
+
       for(var j = 0; j < majors.length; j++){
+        if(addedForOS >= LEGACY_MAX_PER_OS) break;
+
         var major = parseInt(majors[j], 10);
         if(isNaN(major)) continue;
         if(major >= commonMajor) continue;
@@ -545,6 +551,7 @@
         if(!entry || !entry.ver) continue;
 
         items.push(os.label + " " + major + "系: " + joinVerDate(entry.ver, toJSTDateStr(entry.date)));
+        addedForOS++;
       }
     }
 
