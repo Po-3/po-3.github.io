@@ -1,38 +1,38 @@
 [
   {
-    "drawNumber": 2111,
-    "drawDate": "2026-06-15",
+    "drawNumber": 2112,
+    "drawDate": "2026-06-18",
     "numbers": [
-      1,
-      5,
+      3,
+      7,
       8,
-      12,
-      37,
-      43
+      27,
+      31,
+      40
     ],
-    "bonusNumber": 36,
+    "bonusNumber": 18,
     "prizes": {
       "1": {
         "winners": 0,
         "amount": 0
       },
       "2": {
-        "winners": 5,
-        "amount": 12451400
+        "winners": 4,
+        "amount": 18589200
       },
       "3": {
-        "winners": 259,
-        "amount": 259500
+        "winners": 293,
+        "amount": 274000
       },
       "4": {
-        "winners": 13929,
-        "amount": 5100
+        "winners": 14317,
+        "amount": 5900
       },
       "5": {
-        "winners": 216748,
+        "winners": 218891,
         "amount": 1000
       }
     },
-    "carryOver": 207517626
+    "carryOver": 455366461
   }
 ]
