@@ -317,6 +317,23 @@
   .toast-act{flex:none;background:none;border:none;color:#ffb02e;font-weight:800;font-size:13px;cursor:pointer;padding:0;}
 
   /* ===== ダークモード ===== */
+  /* ===== 未反映（保留）まわり ===== */
+  .cbsub2{font-size:10.5px;color:#ffd9a6;font-weight:800;margin-top:3px;line-height:1.3;}
+  .pend-badge{display:inline-block;background:#fde68a;color:#92400e;font-size:10px;font-weight:800;padding:1px 7px;border-radius:7px;flex:none;}
+  .memo-hint{font-size:11px;color:#9aa6b5;line-height:1.5;margin:6px 2px 0;}
+  .pending-panel{background:#fff7e6;border:1px solid #f3d9a4;border-radius:14px;padding:10px 12px 8px;margin:0 2px 14px;}
+  .pending-head{font-size:13px;font-weight:800;color:#9a6a00;margin-bottom:4px;}
+  .pending-head b{color:#b45309;font-size:15px;}
+  .pending-item{display:flex;align-items:center;gap:11px;padding:9px 2px;border-top:1px solid #f1e3c4;cursor:pointer;}
+  .pending-cb{width:21px;height:21px;flex:none;accent-color:#16a34a;cursor:pointer;}
+  .pending-body{flex:1;display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;font-size:13px;}
+  .pending-l{display:flex;flex-direction:column;min-width:0;}
+  .pending-l b{color:var(--text);font-weight:700;}
+  .pending-sub{font-size:11px;color:#a98b53;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pending-r{flex:none;color:#5b6b80;font-weight:700;}
+  .pending-r b{color:#b45309;}
+  .pending-note{font-size:11px;color:#a98b53;margin-top:7px;}
+
   @media (prefers-color-scheme: dark){
     :root{
       --bg:#10171f; --card:#1a232e; --text:#e7ecf3; --muted:#94a1b3; --muted-2:#7e8ba0;
@@ -344,6 +361,13 @@
     .tabbar{background:rgba(18,25,34,.96);border-top-color:#26303d;}
     .onboard{background:#16202e;border-color:#26323f;color:#8fb6f5;} .onboard-x{background:rgba(255,255,255,.1);color:#8fb6f5;}
     .pill.r20{background:#3a2e15;color:#f0b659;} .pill.r10{background:#1e2c44;color:#7aa8f0;}
+    .cbsub2{color:#ffd9a6;}
+    .pend-badge{background:#5a4420;color:#ffd9a6;}
+    .memo-hint{color:#93a0b2;}
+    .pending-panel{background:#2a2114;border-color:#5a4420;}
+    .pending-head{color:#e6c79a;} .pending-head b{color:#ffce85;}
+    .pending-item{border-top-color:#3d3320;}
+    .pending-sub,.pending-note{color:#c0a878;} .pending-r{color:#c2ccd9;} .pending-r b{color:#ffce85;}
   }
 </style>
 </head>
@@ -378,6 +402,7 @@
             <div class="lbl">もらえる還元額</div>
             <div class="val" id="heroCb">¥0</div>
             <div class="cbsub" id="heroTogo"></div>
+            <div class="cbsub2" id="heroPending" hidden></div>
           </div>
         </div>
         <div class="hero-prog">
@@ -421,7 +446,8 @@
         <input type="date" id="dateInput" class="date-input" />
 
         <div class="field-label" style="margin-top:18px;">メモ・店名（任意）</div>
-        <input type="text" id="memoInput" class="memo-input" placeholder="例：スーパー○○、ランチ" maxlength="40" autocomplete="off" />
+        <input type="text" id="memoInput" class="memo-input" placeholder="例：店名／未反映 など" maxlength="40" autocomplete="off" />
+        <div class="memo-hint">「未反映」と入れると、見込みから外して履歴で別管理できます（反映されたらチェックで戻せます）。</div>
 
         <div class="preview" id="preview">
           <div class="pl">この支払いの還元額<small id="previewSub">金額を入力してください</small></div>
@@ -436,6 +462,7 @@
     <!-- ===== 履歴 ===== -->
     <section id="view-history" class="view">
       <div class="section-title" style="margin-top:6px;">記録の履歴</div>
+      <div id="pendingPanel" class="pending-panel" hidden></div>
       <div class="hist-toolbar">
         <div class="seg" id="histSeg">
           <button class="seg-btn active" data-mode="list"><svg class="seg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 6.5h11M8.5 12h11M8.5 17.5h11"/><circle cx="4.4" cy="6.5" r="1.15" fill="currentColor" stroke="none"/><circle cx="4.4" cy="12" r="1.15" fill="currentColor" stroke="none"/><circle cx="4.4" cy="17.5" r="1.15" fill="currentColor" stroke="none"/></svg>一覧</button>
@@ -507,10 +534,18 @@ function todayISO(){ const d=new Date(),z=x=>String(x).padStart(2,"0"); return `
 function cashbackOf(amount, rate){ return Math.min(Math.floor(amount*rate), CAP_TX); }
 
 /* ===== 集計 ===== */
+// メモに「未反映」を含み、未解決の記録＝保留（獲得見込みから除外し別集計）
+function isPending(r){ return !r.resolved && !!r.memo && r.memo.indexOf("未反映") >= 0; }
 function summary(){
   const byM = {};
   METHODS.forEach(m => byM[m.id] = { list:[], sum:0 });
-  records.forEach(r => { if(byM[r.method]){ byM[r.method].list.push(r); byM[r.method].sum += r.cashback; } });
+  let pendingCb = 0;
+  records.forEach(r => {
+    if(!byM[r.method]) return;
+    byM[r.method].list.push(r);
+    if(isPending(r)) pendingCb += r.cashback;        // 未反映は見込みに含めない
+    else byM[r.method].sum += r.cashback;
+  });
   let totalCb = 0, totalSpent = 0;
   METHODS.forEach(m => {
     const b = byM[m.id];
@@ -520,7 +555,7 @@ function summary(){
     totalCb += b.capped;
   });
   records.forEach(r => totalSpent += r.amount);
-  return { byM, totalCb, totalSpent };
+  return { byM, totalCb, totalSpent, pendingCb };
 }
 
 /* ===== 描画：還元状況 ===== */
@@ -543,6 +578,10 @@ function render(){
   document.getElementById("heroProgLabel").textContent = allDone ? "おめでとうございます！" : "満額 ¥15,000 まで";
   document.querySelector(".hero").classList.toggle("celebrate", allDone);
   document.getElementById("onboard").hidden = !!localStorage.getItem("kanatoku_onboard_done") || records.length > 0;
+  // 未反映分をホームの獲得見込みに併記
+  const pendEl = document.getElementById("heroPending");
+  if(s.pendingCb > 0){ pendEl.textContent = "⏳ 未反映分 " + yen(s.pendingCb); pendEl.hidden = false; }
+  else pendEl.hidden = true;
 
   const list = document.getElementById("methodList");
   list.innerHTML = METHODS.map(m => {
@@ -553,6 +592,7 @@ function render(){
         <span class="pill ${r.rate>=0.2?"r20":"r10"}">${Math.round(r.rate*100)}%</span>
         <span class="amt">${yen(r.amount)}</span>
         <span class="arr">→${yen(r.cashback)}</span>
+        ${isPending(r) ? `<span class="pend-badge">未反映</span>` : ""}
         <span class="date">${r.date}</span>
         <button class="del" data-del="${r.id}" aria-label="削除">×</button>
         ${r.memo ? `<span class="rec-memo">📝 ${escHtml(r.memo)}</span>` : ""}
@@ -588,6 +628,7 @@ function histRowHtml(r){
   return `<div class="hist-row">
         <span class="ico">${payIcon(m)}</span>
         <span class="nm">${m.name}</span>
+        ${isPending(r) ? `<span class="pend-badge">未反映</span>` : ""}
         <span class="date">${r.date}</span>
         <button class="del" data-del="${r.id}" aria-label="削除">×</button>
         <div class="money">
@@ -603,6 +644,24 @@ function renderHistory(){
   document.querySelectorAll("#histSeg .seg-btn").forEach(b=>b.classList.toggle("active", b.dataset.mode===histMode));
   const fsel = document.getElementById("histFilter");
   if(fsel && fsel.value !== histFilter) fsel.value = histFilter;
+
+  // 未反映パネル（メモに「未反映」を含む未解決の記録）
+  const pend = records.filter(isPending).sort((a,b)=> (a.date<b.date?1:a.date>b.date?-1:0) || (b.ts-a.ts));
+  const pp = document.getElementById("pendingPanel");
+  if(pend.length){
+    const total = pend.reduce((s,r)=>s+r.cashback,0);
+    pp.innerHTML = `<div class="pending-head">⏳ 未反映の還元 <b>${yen(total)}</b></div>`
+      + pend.map(r => { const m = M[r.method] || {name:r.method};
+          return `<label class="pending-item">
+            <input type="checkbox" class="pending-cb" data-resolve="${r.id}" />
+            <span class="pending-body">
+              <span class="pending-l"><b>${m.name}</b><span class="pending-sub">${r.date}${r.memo?` ・ ${escHtml(r.memo)}`:""}</span></span>
+              <span class="pending-r">${yen(r.amount)} →<b>${yen(r.cashback)}</b></span>
+            </span></label>`;
+        }).join("")
+      + `<div class="pending-note">解決したらチェック → 「獲得見込み」に反映されます</div>`;
+    pp.hidden = false;
+  } else { pp.hidden = true; pp.innerHTML = ""; }
 
   const area = document.getElementById("historyArea");
   const data = histFiltered();
@@ -746,6 +805,14 @@ function showToast(msg, actLabel, actFn){
   toastTimer = setTimeout(hideToast, actLabel ? 5000 : 2400);
 }
 function hideToast(){ document.getElementById("toast").hidden = true; }
+
+function resolveRecord(id){
+  const r = records.find(x => x.id === id);
+  if(!r) return;
+  r.resolved = true;          // 未反映 → 解決（以後は獲得見込みに計上）
+  save(); render();
+  showToast("「獲得見込み」に反映しました");
+}
 
 function deleteRecord(id){
   const idx = records.findIndex(r => r.id === id);
@@ -940,6 +1007,11 @@ function init(){
   });
   document.getElementById("checkBtn").addEventListener("click", liveCheck);
   document.getElementById("onboardClose").addEventListener("click", ()=>{ localStorage.setItem("kanatoku_onboard_done","1"); document.getElementById("onboard").hidden = true; });
+  // 未反映のチェック → 解決して獲得見込みに反映
+  document.getElementById("pendingPanel").addEventListener("change", e => {
+    const cb = e.target.closest("[data-resolve]");
+    if(cb && cb.checked) resolveRecord(cb.dataset.resolve);
+  });
 
   // クリック委任（削除・全削除・履歴モード切替・カレンダー操作）
   document.body.addEventListener("click", e=>{

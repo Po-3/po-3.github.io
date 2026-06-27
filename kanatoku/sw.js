@@ -1,5 +1,5 @@
 /* かなトク！ Service Worker — オフライン対応 */
-const CACHE = "kanatoku-v17";
+const CACHE = "kanatoku-v18";
 const ASSETS = [
   "./",
   "./index.html",
