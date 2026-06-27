@@ -880,7 +880,7 @@ function setPending(id, val){
 }
 function resolveRecord(id){ setPending(id, false); }
 
-/* ===== 長押しメニュー（記録：未反映↔反映・削除 ／ 決済：対象店舗を探す） ===== */
+/* ===== 長押しメニュー（記録：編集・未反映↔反映・削除） ===== */
 let sheetMode = null, sheetOpenedAt = 0;
 function openSheetHtml(html){ sheetOpenedAt = Date.now(); document.getElementById("sheetCard").innerHTML = html; document.getElementById("actionSheet").hidden = false; }
 function openRecordSheet(id){
@@ -888,9 +888,9 @@ function openRecordSheet(id){
   sheetMode = { type:"record", id };
   const m = M[r.method] || { name:r.method };
   openSheetHtml(`<div class="sheet-title">${m.name}　${yen(r.amount)}（${r.date}）</div>
-    <button class="sheet-btn" data-act="edit">✏️ 編集する</button>
-    <button class="sheet-btn" data-act="toggle">${isPending(r) ? "↩︎ 未反映を解除（反映する）" : "⏳ 未反映にする"}</button>
-    <button class="sheet-btn danger" data-act="delete">🗑 削除する</button>
+    <button class="sheet-btn" data-act="edit">編集する</button>
+    <button class="sheet-btn" data-act="toggle">${isPending(r) ? "未反映を解除（反映する）" : "未反映にする"}</button>
+    <button class="sheet-btn danger" data-act="delete">削除する</button>
     <button class="sheet-btn cancel" data-act="close">キャンセル</button>`);
 }
 function closeSheet(){ document.getElementById("actionSheet").hidden = true; sheetMode = null; }
@@ -1120,7 +1120,7 @@ function init(){
     if(act === "edit" && sheetMode && sheetMode.type === "record"){ const id = sheetMode.id; closeSheet(); startEdit(id); }
     else if(act === "toggle" && sheetMode && sheetMode.type === "record"){ const r = records.find(x => x.id === sheetMode.id); if(r) setPending(sheetMode.id, !isPending(r)); closeSheet(); }
     else if(act === "delete" && sheetMode && sheetMode.type === "record"){ const id = sheetMode.id; closeSheet(); deleteRecord(id); }
-    else { closeSheet(); }   // 「対象店舗を探す」リンク（別タブで開く）やキャンセルは閉じるだけ
+    else { closeSheet(); }   // キャンセルなどは閉じるだけ
   });
   attachLongPress();
 
