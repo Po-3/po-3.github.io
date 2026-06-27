@@ -61,6 +61,8 @@
   }
   .brand{display:flex;align-items:center;justify-content:center;width:100%;}
   .brand-logo{height:60px;width:auto;max-width:88vw;object-fit:contain;display:block;}
+  .brand-link{display:inline-flex;max-width:100%;}
+  .brand-link:active{opacity:.7;}
   .brand .kana{
     background:var(--orange);color:#12243f;
     border-radius:10px;padding:2px 10px;margin-right:6px;font-weight:900;
@@ -293,7 +295,7 @@
 <div class="app">
 
   <header class="app-header">
-    <div class="brand"><img src="./header.png" alt="かなトク！" class="brand-logo" /></div>
+    <div class="brand"><a class="brand-link" href="https://www.kanatokucpn.pref.kanagawa.jp/index.html" target="_blank" rel="noopener" aria-label="かなトク！公式サイトを開く"><img src="./header.png" alt="かなトク！" class="brand-logo" /></a></div>
   </header>
 
   <div class="notice-bar" id="noticeBar" hidden>
@@ -326,7 +328,6 @@
       <div id="methodList"></div>
       <p class="legal">還元率20%＝中小・小規模店／10%＝大手チェーン店。<br>1回あたり上限¥1,500・1サービスあたり期間中上限¥2,500。<br>予算上限（180億円）到達で早期終了の可能性があります。</p>
       <div class="official">
-        <a class="official-link" href="https://www.kanatokucpn.pref.kanagawa.jp/index.html" target="_blank" rel="noopener">🔗 かなトク！公式サイトを開く ↗</a>
         <button class="check-btn" id="checkBtn">最新の告知をオンラインで確認</button>
         <div class="check-fb" id="checkFeedback"></div>
       </div>
@@ -660,7 +661,12 @@ function deleteRecord(id){
 /* ===== 公式サイトの新着情報の取得・表示 ===== */
 const OFFICIAL_URL = "https://www.kanatokucpn.pref.kanagawa.jp/index.html";
 const NOTICE_KW = ["予算", "見込み", "上限", "到達", "終了", "受付終了"];   // 重要告知の判定語
-const PROXY = "https://api.allorigins.win/raw?url=";
+const NEWS_LIMIT = 3;   // バナーに表示する新着情報の最大件数（変更可）
+const PROXIES = [
+  u => "https://api.allorigins.win/raw?url=" + encodeURIComponent(u),
+  u => "https://corsproxy.io/?url=" + encodeURIComponent(u),
+  u => "https://api.codetabs.com/v1/proxy/?quest=" + encodeURIComponent(u),
+];
 const escHtml = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
 
 function newsSig(news){ return (news || []).map(n => (n.date||"") + "|" + (n.title||"")).join("§"); }
@@ -673,7 +679,7 @@ function showNews(news, alert){
   if(localStorage.getItem("kanatoku_notice_dismissed") === sig) return; // 既読（×で閉じた同一内容）は出さない
   document.getElementById("noticeIc").textContent = alert ? "📢" : "📰";
   document.getElementById("noticeTitle").textContent = alert ? "⚠️ キャンペーンに関する重要なお知らせ" : "公式サイトの新着情報";
-  document.getElementById("noticeDetail").innerHTML = news.slice(0,3)
+  document.getElementById("noticeDetail").innerHTML = news.slice(0, NEWS_LIMIT)
     .map(n => "・" + (n.date ? escHtml(n.date) + " " : "") + escHtml(n.title)).join("<br>");
   document.getElementById("noticeDate").textContent = "";
   document.getElementById("noticeLink").href = OFFICIAL_URL;
@@ -693,7 +699,7 @@ function parseNews(html){
     if(m){
       const title = m[2].trim().replace(/([「『（])\s+/g, "$1").replace(/\s+([」』）])/g, "$1");
       items.push({ date: m[1].replace(/\./g, "/"), title });
-      if(items.length >= 3) break;
+      if(items.length >= NEWS_LIMIT) break;
     }
   }
   return items;
@@ -714,12 +720,18 @@ async function loadNoticeJson(){
 
 // CORSプロキシ経由で公式サイトを取得して新着情報を返す（ベストエフォート）
 async function fetchNewsLive(){
-  const ctrl = new AbortController();
-  const to = setTimeout(() => ctrl.abort(), 9000);
-  try{
-    const res = await fetch(PROXY + encodeURIComponent(OFFICIAL_URL), { signal: ctrl.signal });
-    return parseNews(await res.text());
-  } finally { clearTimeout(to); }
+  for(const make of PROXIES){
+    const ctrl = new AbortController();
+    const to = setTimeout(() => ctrl.abort(), 8000);
+    try{
+      const res = await fetch(make(OFFICIAL_URL), { signal: ctrl.signal });
+      clearTimeout(to);
+      if(!res.ok) continue;
+      const news = parseNews(await res.text());
+      if(news.length) return news;        // 取得＆解析できたら採用
+    }catch(e){ clearTimeout(to); /* 次のプロキシへ */ }
+  }
+  return [];
 }
 
 // 起動時の自動取得（1時間に1回まで・結果はキャッシュ。notice.json で出せた場合は呼ばない）
@@ -753,10 +765,10 @@ async function liveCheck(){
       showNews(news, alert);
       fb.textContent = (alert ? "⚠️ 重要な告知の可能性があります。" : "最新の新着情報を表示しました。") + "（" + new Date().toLocaleString("ja-JP") + "）";
     }else{
-      fb.textContent = "新着情報を取得できませんでした。公式サイトをご確認ください。";
+      fb.textContent = "取得できませんでした。自動更新（GitHub Actions）が有効なら数時間ごとに反映されます。";
     }
   }catch(e){
-    fb.textContent = "オンライン確認に失敗しました。公式サイトを直接ご確認ください。";
+    fb.textContent = "オンライン確認に失敗しました。自動更新が有効なら数時間ごとに反映されます。";
   }
 }
 

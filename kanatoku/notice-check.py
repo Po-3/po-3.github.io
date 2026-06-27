@@ -7,6 +7,7 @@ import urllib.request, json, re, os, datetime
 HERE = os.path.dirname(os.path.abspath(__file__))
 URL = "https://www.kanatokucpn.pref.kanagawa.jp/index.html"
 KW = ["予算", "見込み", "上限", "到達", "終了", "受付終了"]
+LIMIT = 3  # 取得する新着情報の最大件数（変更可）
 
 
 def parse_news(html):
@@ -21,7 +22,7 @@ def parse_news(html):
             title = re.sub(r"([「『（])\s+", r"\1", title)   # 括弧内の余分な空白を除去
             title = re.sub(r"\s+([」』）])", r"\1", title)
             items.append({"date": dm.group(1).replace(".", "/"), "title": title})
-            if len(items) >= 3:
+            if len(items) >= LIMIT:
                 break
     return items
 
