@@ -78,19 +78,21 @@
   @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
 
   /* ヒーローカード（還元状況） */
+  .hero-wrap{position:sticky;top:var(--header-h,82px);z-index:20;background:var(--bg);margin:-16px -14px 0;padding:16px 14px 0;}
   .hero{
     background:linear-gradient(140deg,#1b3a63,#0f2238);
     border-radius:22px;padding:20px 20px 22px;color:#fff;
     box-shadow:0 10px 26px rgba(15,34,56,.28);
     display:flex;align-items:flex-end;justify-content:space-between;gap:14px;
   }
+  .hero .left{min-width:0;flex:1;}
   .hero .left .lbl{font-size:13px;color:#aebfd6;font-weight:600;margin-bottom:6px;}
-  .hero .left .amount{font-size:42px;font-weight:900;letter-spacing:-1px;}
+  .hero .left .amount{font-size:40px;font-weight:900;letter-spacing:-1px;white-space:nowrap;}
   .hero .left .amount .yen{font-size:20px;font-weight:700;color:#cdd9ea;margin-left:2px;}
   .hero .cb{
     background:rgba(255,255,255,.06);
     border:1px solid rgba(245,166,35,.45);
-    border-radius:16px;padding:12px 16px;text-align:right;min-width:130px;
+    border-radius:16px;padding:12px 16px;text-align:right;min-width:130px;flex:none;
     box-shadow:inset 0 0 18px rgba(245,166,35,.12);
   }
   .hero .cb .lbl{font-size:11px;color:var(--orange);font-weight:700;margin-bottom:2px;}
@@ -241,7 +243,7 @@
   .cal-cell.sel{outline:2px solid var(--blue);outline-offset:-2px;background:#e9f2ff;}
   .cal-detail{margin-top:16px;}
   .cal-detail-h{font-size:13px;font-weight:800;color:var(--navy);margin:0 4px 8px;}
-  .date-input{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:13px 16px;font-size:17px;font-weight:700;color:var(--text);background:#fff;outline:none;font-family:inherit;}
+  .date-input{-webkit-appearance:none;appearance:none;display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;border:1.5px solid var(--line);border-radius:14px;padding:13px 16px;font-size:17px;font-weight:700;color:var(--text);background:#fff;outline:none;font-family:inherit;}
   .date-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,127,240,.12);}
 
   /* ===== ボトムナビ ===== */
@@ -258,11 +260,27 @@
     padding:9px 0 8px;display:flex;flex-direction:column;align-items:center;gap:3px;
     color:var(--muted);font-size:11px;font-weight:700;
   }
-  .tab .ti{font-size:22px;line-height:1;}
+  .tab .ti{width:25px;height:25px;display:block;}
   .tab.active{color:var(--navy);}
   .tab .ti.plus{font-weight:900;}
 
   .legal{font-size:11px;color:#9aa6b5;text-align:center;line-height:1.6;margin:18px 8px 4px;}
+
+  /* 告知バナー */
+  .notice-bar{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:#fff4e5;border-bottom:1px solid #f4d9a8;}
+  .notice-ic{font-size:20px;line-height:1.3;flex:none;}
+  .notice-body{flex:1;min-width:0;}
+  .notice-title{font-weight:800;font-size:14px;color:#9a3412;}
+  .notice-detail{font-size:12.5px;color:#7a4f00;margin-top:2px;line-height:1.5;word-break:break-word;}
+  .notice-meta{margin-top:6px;display:flex;gap:14px;align-items:center;font-size:12px;color:#9a7b3a;flex-wrap:wrap;}
+  .notice-meta a{color:#1f6feb;font-weight:800;text-decoration:none;}
+  .notice-x{flex:none;border:none;background:rgba(122,79,0,.12);color:#7a4f00;width:26px;height:26px;border-radius:50%;font-size:15px;line-height:1;cursor:pointer;}
+  /* 公式リンク・告知確認 */
+  .official{text-align:center;margin:16px 8px 4px;}
+  .official-link{display:inline-block;background:var(--navy);color:#fff;font-weight:700;font-size:13px;text-decoration:none;padding:11px 18px;border-radius:13px;box-shadow:0 3px 10px rgba(20,40,80,.18);}
+  .official-link:active{transform:scale(.98);}
+  .check-btn{display:block;margin:11px auto 0;background:#fff;border:1.5px solid var(--line);color:#46546a;font-weight:700;font-size:12px;padding:8px 14px;border-radius:10px;cursor:pointer;}
+  .check-fb{font-size:11px;color:var(--muted);margin-top:9px;min-height:14px;line-height:1.5;}
 </style>
 </head>
 <body>
@@ -272,9 +290,20 @@
     <div class="brand"><img src="./header.png" alt="かなトク！" class="brand-logo" /></div>
   </header>
 
+  <div class="notice-bar" id="noticeBar" hidden>
+    <span class="notice-ic">📢</span>
+    <div class="notice-body">
+      <div class="notice-title" id="noticeTitle"></div>
+      <div class="notice-detail" id="noticeDetail"></div>
+      <div class="notice-meta"><span id="noticeDate"></span><a id="noticeLink" href="#" target="_blank" rel="noopener">公式サイトで確認 ↗</a></div>
+    </div>
+    <button class="notice-x" id="noticeClose" aria-label="閉じる">×</button>
+  </div>
+
   <main>
     <!-- ===== 還元状況 ===== -->
     <section id="view-status" class="view active">
+      <div class="hero-wrap">
       <div class="hero">
         <div class="left">
           <div class="lbl">期間中 累計お支払い</div>
@@ -286,9 +315,15 @@
           <div class="cbsub" id="heroTogo"></div>
         </div>
       </div>
+      </div>
       <div class="section-title">決済手段ごとの還元状況</div>
       <div id="methodList"></div>
-      <p class="legal">還元率20%＝中小・小規模店／10%＝大手チェーン店。<br>1回あたり上限¥1,500・1サービスあたり期間中上限¥2,500。</p>
+      <p class="legal">還元率20%＝中小・小規模店／10%＝大手チェーン店。<br>1回あたり上限¥1,500・1サービスあたり期間中上限¥2,500。<br>予算上限（180億円）到達で早期終了の可能性があります。</p>
+      <div class="official">
+        <a class="official-link" href="https://www.kanatokucpn.pref.kanagawa.jp/index.html" target="_blank" rel="noopener">🔗 かなトク！公式サイトを開く ↗</a>
+        <button class="check-btn" id="checkBtn">最新の告知をオンラインで確認</button>
+        <div class="check-fb" id="checkFeedback"></div>
+      </div>
     </section>
 
     <!-- ===== 記録する ===== -->
@@ -340,9 +375,9 @@
   </main>
 
   <nav class="tabbar">
-    <button class="tab active" data-view="status"><span class="ti">🏠</span>還元状況</button>
-    <button class="tab" data-view="record"><span class="ti plus">＋</span>記録する</button>
-    <button class="tab" data-view="history"><span class="ti">📋</span>履歴</button>
+    <button class="tab active" data-view="status"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.2 12 4l9 7.2"/><path d="M5.2 9.6V20h13.6V9.6"/><path d="M9.5 20v-5.3h5V20"/></svg>還元状況</button>
+    <button class="tab" data-view="record"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>記録する</button>
+    <button class="tab" data-view="history"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.3"/><path d="M12 7.3V12l3.2 1.9"/></svg>履歴</button>
   </nav>
 </div>
 
@@ -416,10 +451,14 @@ function summary(){
 /* ===== 描画：還元状況 ===== */
 function render(){
   const s = summary();
-  document.getElementById("heroSpent").textContent = num(s.totalSpent);
+  const spentStr = num(s.totalSpent);
+  document.getElementById("heroSpent").textContent = spentStr;
+  // 桁数に応じて累計額のフォントを自動縮小（右の還元額を圧迫しない）
+  const amtEl = document.querySelector(".hero .amount");
+  if(amtEl){ const L = spentStr.length; amtEl.style.fontSize = (L<=6 ? 40 : L<=8 ? 33 : L<=10 ? 27 : 22) + "px"; }
   document.getElementById("heroCb").textContent = yen(s.totalCb);
   const togoTotal = Math.max(0, CAP_METHOD * METHODS.length - s.totalCb);
-  document.getElementById("heroTogo").textContent = togoTotal > 0 ? `満額¥15,000まで あと ${yen(togoTotal)}` : "満額達成 🎉";
+  document.getElementById("heroTogo").textContent = togoTotal > 0 ? `満額まで あと ${yen(togoTotal)}` : "満額達成 🎉";
 
   const list = document.getElementById("methodList");
   list.innerHTML = METHODS.map(m => {
@@ -612,6 +651,70 @@ function deleteRecord(id){
   updatePreview();
 }
 
+/* ===== 告知（キャンペーン終了など）の取得・表示 ===== */
+const OFFICIAL_URL = "https://www.kanatokucpn.pref.kanagawa.jp/index.html";
+const NOTICE_KW = ["予算", "見込み", "上限", "到達", "終了", "受付終了"];
+
+function noticeSig(j){ return (j.date||"") + "|" + (j.title||"") + "|" + (j.detail||"").slice(0,50); }
+
+function showNotice(j){
+  const sig = noticeSig(j);
+  if(localStorage.getItem("kanatoku_notice_dismissed") === sig) return; // 既に閉じた同一告知は出さない
+  document.getElementById("noticeTitle").textContent = j.title || "キャンペーンに関する重要なお知らせ";
+  document.getElementById("noticeDetail").textContent = j.detail || "";
+  document.getElementById("noticeDate").textContent = j.date || "";
+  document.getElementById("noticeLink").href = j.url || OFFICIAL_URL;
+  const bar = document.getElementById("noticeBar");
+  bar.dataset.sig = sig;
+  bar.hidden = false;
+}
+
+// 同一オリジンの notice.json（GitHub Actions または手動更新）を読む＝堅牢な本命ルート
+async function loadNoticeJson(){
+  try{
+    const r = await fetch("./notice.json?t=" + Date.now(), { cache: "no-store" });
+    if(r.ok){ const j = await r.json(); if(j && j.active){ showNotice(j); return true; } }
+  }catch(e){}
+  return false;
+}
+
+// 「新着情報」見出し直後の最初の <ul> 内 <li> だけをキーワード判定（期間説明文での誤検知を防ぐ）
+function scanNews(html){
+  const i = html.indexOf("新着情報"); if(i < 0) return null;
+  const after = html.slice(i);
+  const ul = after.match(/<ul[\s\S]*?<\/ul>/);
+  const seg = ul ? ul[0] : after.slice(0, 4000);
+  for(const li of (seg.match(/<li[\s\S]*?<\/li>/g) || [])){
+    const t = li.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    if(NOTICE_KW.some(k => t.includes(k))) return t.slice(0, 140);
+  }
+  return null;
+}
+
+// ボタンからの即時確認（CORSプロキシ経由のベストエフォート。設定不要だが補助的）
+async function liveCheck(){
+  const fb = document.getElementById("checkFeedback");
+  fb.textContent = "確認中…";
+  try{
+    const ctrl = new AbortController();
+    const to = setTimeout(()=>ctrl.abort(), 9000);
+    const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(OFFICIAL_URL);
+    const res = await fetch(proxy, { signal: ctrl.signal });
+    clearTimeout(to);
+    const html = await res.text();
+    const hit = scanNews(html);
+    if(hit){
+      localStorage.removeItem("kanatoku_notice_dismissed"); // 新たに見つかったら再表示
+      showNotice({ active:true, title:"公式サイトに関連するお知らせがあります", detail:hit, url:OFFICIAL_URL, date:"" });
+      fb.textContent = "⚠️ 告知の可能性あり（上部に表示しました）";
+    }else{
+      fb.textContent = "現時点で終了等の告知は見つかりませんでした（" + new Date().toLocaleString("ja-JP") + " 時点）";
+    }
+  }catch(e){
+    fb.textContent = "オンライン確認に失敗しました。公式サイトを直接ご確認ください。";
+  }
+}
+
 /* ===== ビュー切替 ===== */
 function switchView(v){
   document.querySelectorAll(".view").forEach(s=>s.classList.remove("active"));
@@ -629,6 +732,12 @@ function init(){
   // 記録フォームの日付＝今日
   document.getElementById("dateInput").value = todayISO();
   render();
+
+  // ヒーロー固定用：ヘッダー高さを測って CSS 変数に反映（固定位置をヘッダー直下にそろえる）
+  const setHeaderH = () => document.documentElement.style.setProperty("--header-h", document.querySelector(".app-header").offsetHeight + "px");
+  setHeaderH();
+  window.addEventListener("resize", setHeaderH);
+  window.addEventListener("orientationchange", setHeaderH);
 
   // タブ
   document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>switchView(t.dataset.view)));
@@ -663,6 +772,15 @@ function init(){
 
   // 履歴：決済フィルタ
   document.getElementById("histFilter").addEventListener("change", e=>{ histFilter = e.target.value; selDay = null; renderHistory(); });
+
+  // 告知バナー：notice.json を読み込み、閉じる/即時確認を配線
+  loadNoticeJson();
+  document.getElementById("noticeClose").addEventListener("click", ()=>{
+    const bar = document.getElementById("noticeBar");
+    if(bar.dataset.sig) localStorage.setItem("kanatoku_notice_dismissed", bar.dataset.sig);
+    bar.hidden = true;
+  });
+  document.getElementById("checkBtn").addEventListener("click", liveCheck);
 
   // クリック委任（削除・全削除・履歴モード切替・カレンダー操作）
   document.body.addEventListener("click", e=>{

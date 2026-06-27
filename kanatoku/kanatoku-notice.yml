@@ -1,0 +1,47 @@
+# =============================================================================
+# かなトク！告知 自動監視 GitHub Actions
+#
+# 【使い方】このファイルを、リポジトリの「ルート」の  .github/workflows/  に
+#   置いてください（フォルダが無ければ作成）。例: .github/workflows/kanatoku-notice.yml
+#   ※ kanatoku フォルダの中ではなく、リポジトリ直下の .github/workflows/ です。
+#
+# これで2時間ごとに公式サイトの新着情報を巡回し、予算/上限/終了などの告知を検出すると
+# notice.json を自動更新します（アプリ側がそれを読んで告知バナーを表示）。
+# 手動実行も可能（Actionsタブ → このワークフロー → Run workflow）。
+# =============================================================================
+name: kanatoku-notice
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"   # 2時間ごと（UTC基準。頻度は変更可）
+  workflow_dispatch: {}      # 手動実行も可
+
+permissions:
+  contents: write            # notice.json をコミットするために必要
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run notice check
+        run: |
+          SCRIPT="$(find . -name notice-check.py | head -1)"
+          if [ -z "$SCRIPT" ]; then
+            echo "notice-check.py が見つかりません（kanatoku 一式をアップロードしてください）"; exit 0
+          fi
+          echo "using: $SCRIPT"
+          python3 "$SCRIPT"
+
+      - name: Commit notice.json if changed
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions"
+            git config user.email "actions@github.com"
+            git add -A
+            git commit -m "chore: update kanatoku notice.json [skip ci]"
+            git push
+          else
+            echo "nothing to commit"
+          fi

@@ -1,5 +1,5 @@
 /* かなトク！ Service Worker — オフライン対応 */
-const CACHE = "kanatoku-v8";
+const CACHE = "kanatoku-v11";
 const ASSETS = [
   "./",
   "./index.html",
@@ -30,6 +30,15 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
+  // notice.json は常に最新を取りに行く（キャッシュしない／失敗時は告知なし扱い）
+  if (new URL(e.request.url).pathname.endsWith("/notice.json")) {
+    e.respondWith(
+      fetch(e.request).catch(() =>
+        new Response('{"active":false}', { headers: { "Content-Type": "application/json" } })
+      )
+    );
+    return;
+  }
   e.respondWith(
     caches.match(e.request).then((hit) =>
       hit || fetch(e.request).then((res) => {
