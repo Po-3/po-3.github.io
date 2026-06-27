@@ -121,7 +121,9 @@
   .m-name{display:flex;align-items:center;gap:11px;font-size:18px;font-weight:800;}
   .m-name .ico{width:30px;height:30px;flex:none;}
   .ico{background:#fff;border:1px solid #e9edf3;border-radius:24%;box-shadow:0 1px 3px rgba(20,40,80,.13);overflow:hidden;}
-  .ico .payimg,.ico .paysvg{width:100%;height:100%;object-fit:contain;display:block;}
+  .ico .payimg,.ico .paysvg{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;}
+  img{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;}
+  .m-card,.pay-btn,.m-name{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;}
   .togo{margin:0 16px 12px;padding:9px 12px;background:#f2f7fd;border-radius:12px;font-size:12px;color:#64748b;line-height:1.6;}
   .togo .togo-top{font-size:12.5px;}
   .togo .togo-top b{color:#e08600;font-weight:800;font-size:15px;}
@@ -438,7 +440,7 @@
       </div>
       <div id="onboard" class="onboard" hidden><span>👋 はじめての方へ：下の「＋ 記録する」でお買い物を登録すると、還元額と「満額までの目安」が自動で計算されます。</span><button class="onboard-x" id="onboardClose" aria-label="閉じる">×</button></div>
       <div class="section-title">決済手段ごとの還元状況</div>
-      <div class="tap-hint">💡 決済アイコンを長押し → 対象店舗を探す ／ 記録を長押し → 未反映の切替・削除</div>
+      <div class="tap-hint">💡 記録を長押しすると、編集・未反映の切替・削除ができます</div>
       <div id="methodList"></div>
       <p class="legal">還元率20%＝中小・小規模店／10%＝大手チェーン店。<br>1回あたり上限¥1,500・1サービスあたり期間中上限¥2,500。<br>予算上限（180億円）到達で早期終了の可能性があります。</p>
       <div class="official">
@@ -637,7 +639,7 @@ function render(){
       <div class="m-card${maxed ? " maxed" : ""}">
         <span class="corner" style="border-top-color:${m.color}"></span>
         <div class="m-head">
-          <div class="m-name" data-store="${m.id}"><span class="ico">${payIcon(m)}</span>${m.name}${maxed ? `<span class="badge-max">満額達成</span>` : ""}</div>
+          <div class="m-name"><span class="ico">${payIcon(m)}</span>${m.name}${maxed ? `<span class="badge-max">満額達成</span>` : ""}</div>
           <div class="m-earn"><div class="v">${yen(b.capped)}</div><div class="s">${maxed ? "満額 🎉" : "獲得見込み"}</div></div>
         </div>
         <div class="bar-wrap">
@@ -755,7 +757,7 @@ function calendarHtml(data){
 /* ===== 記録フォーム ===== */
 function buildPayGrid(){
   document.getElementById("payGrid").innerHTML = METHODS.map(m =>
-    `<button class="pay-btn" data-method="${m.id}" data-store="${m.id}"><span class="ico">${payIcon(m)}</span><span class="nm">${m.name}</span></button>`
+    `<button class="pay-btn" data-method="${m.id}"><span class="ico">${payIcon(m)}</span><span class="nm">${m.name}</span></button>`
   ).join("");
 }
 
@@ -879,8 +881,6 @@ function setPending(id, val){
 function resolveRecord(id){ setPending(id, false); }
 
 /* ===== 長押しメニュー（記録：未反映↔反映・削除 ／ 決済：対象店舗を探す） ===== */
-// 各決済の対象店舗は各社サイト/アプリで確認する方式のため、決済名で検索して該当ページへ
-const STORE_URL = m => "https://www.google.com/search?q=" + encodeURIComponent("かなトク 対象店舗 " + (m.name || ""));
 let sheetMode = null, sheetOpenedAt = 0;
 function openSheetHtml(html){ sheetOpenedAt = Date.now(); document.getElementById("sheetCard").innerHTML = html; document.getElementById("actionSheet").hidden = false; }
 function openRecordSheet(id){
@@ -890,30 +890,19 @@ function openRecordSheet(id){
   openSheetHtml(`<div class="sheet-title">${m.name}　${yen(r.amount)}（${r.date}）</div>
     <button class="sheet-btn" data-act="edit">✏️ 編集する</button>
     <button class="sheet-btn" data-act="toggle">${isPending(r) ? "↩︎ 未反映を解除（反映する）" : "⏳ 未反映にする"}</button>
-    <a class="sheet-btn" href="${STORE_URL(m)}" target="_blank" rel="noopener" data-act="close">🔍 ${m.name}の対象店舗を探す ↗</a>
     <button class="sheet-btn danger" data-act="delete">🗑 削除する</button>
-    <button class="sheet-btn cancel" data-act="close">キャンセル</button>`);
-}
-function openStoreSheet(payId){
-  const m = M[payId]; if(!m) return;
-  sheetMode = { type:"store", payId };
-  openSheetHtml(`<div class="sheet-title">${m.name} の対象店舗</div>
-    <a class="sheet-btn" href="${STORE_URL(m)}" target="_blank" rel="noopener" data-act="close">🔍 対象店舗を探す ↗</a>
-    <div class="sheet-note">各社のサイト／アプリで対象店舗を確認できます</div>
     <button class="sheet-btn cancel" data-act="close">キャンセル</button>`);
 }
 function closeSheet(){ document.getElementById("actionSheet").hidden = true; sheetMode = null; }
 function attachLongPress(){
   let timer = null;
   const fire = (target) => {
-    const storeEl = target.closest("[data-store]");
     const rowEl = target.closest("[data-id]");
-    if(storeEl) openStoreSheet(storeEl.dataset.store);
-    else if(rowEl) openRecordSheet(rowEl.dataset.id);
-    return !!(storeEl || rowEl);
+    if(rowEl) openRecordSheet(rowEl.dataset.id);
+    return !!rowEl;
   };
   const start = (e) => {
-    if(!(e.target.closest("[data-store]") || e.target.closest("[data-id]"))) return;
+    if(!e.target.closest("[data-id]")) return;
     const t = e.target;
     timer = setTimeout(() => { timer = null; if(navigator.vibrate) navigator.vibrate(12); fire(t); }, 480);
   };
