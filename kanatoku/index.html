@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>かなトク！還元計算</title>
+<meta name="description" content="かながわトクトクキャンペーン『かなトク！』の還元額を記録・計算するアプリ" />
+
+<!-- PWA -->
+<link rel="manifest" href="./manifest.webmanifest" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="icon" href="./icon-192.png" />
+<link rel="apple-touch-icon" href="./icon-180.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="かなトク！" />
+
+<style>
+  :root{
+    --bg:#e9eef5;
+    --navy:#13294b;
+    --navy-grad-a:#1b3a63;
+    --navy-grad-b:#0f2238;
+    --orange:#f5a623;
+    --orange-strong:#ff9a00;
+    --blue:#2d7ff0;
+    --blue-deep:#1f6feb;
+    --blue-soft:#e9f2ff;
+    --card:#ffffff;
+    --text:#13294b;
+    --muted:#8b98aa;
+    --muted-2:#aab4c2;
+    --line:#eaeef4;
+    --track:#e4e9f0;
+    --radius:18px;
+    --shadow:0 8px 22px rgba(20,40,80,.08);
+    --shadow-soft:0 2px 8px rgba(20,40,80,.05);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+    overscroll-behavior-y:none;
+  }
+  .app{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
+
+  /* ===== ヘッダー ===== */
+  .app-header{
+    position:sticky;top:0;z-index:30;
+    background:#ffffff;
+    color:var(--navy);
+    padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    border-bottom:1px solid #e7ecf3;
+    box-shadow:0 2px 12px rgba(20,40,80,.07);
+  }
+  .brand{display:flex;align-items:center;min-width:0;}
+  .brand-logo{height:56px;width:auto;max-width:64vw;object-fit:contain;display:block;}
+  .brand .kana{
+    background:var(--orange);color:#12243f;
+    border-radius:10px;padding:2px 10px;margin-right:6px;font-weight:900;
+    box-shadow:0 2px 6px rgba(0,0,0,.18);
+  }
+  .brand .excl{color:var(--orange);}
+  .header-total{flex:none;text-align:right;line-height:1.1;background:var(--navy);border-radius:13px;padding:7px 13px;box-shadow:0 3px 10px rgba(20,40,80,.22);}
+  .header-total .lbl{font-size:10px;color:#aebfd6;font-weight:700;}
+  .header-total .val{font-size:21px;font-weight:900;color:#ffb02e;}
+
+  /* ===== 本体 ===== */
+  main{flex:1;padding:16px 14px 96px;}
+  .view{display:none;animation:fade .25s ease;}
+  .view.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  /* ヒーローカード（還元状況） */
+  .hero{
+    background:linear-gradient(140deg,#1b3a63,#0f2238);
+    border-radius:22px;padding:20px 20px 22px;color:#fff;
+    box-shadow:0 10px 26px rgba(15,34,56,.28);
+    display:flex;align-items:flex-end;justify-content:space-between;gap:14px;
+  }
+  .hero .left .lbl{font-size:13px;color:#aebfd6;font-weight:600;margin-bottom:6px;}
+  .hero .left .amount{font-size:42px;font-weight:900;letter-spacing:-1px;}
+  .hero .left .amount .yen{font-size:20px;font-weight:700;color:#cdd9ea;margin-left:2px;}
+  .hero .cb{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(245,166,35,.45);
+    border-radius:16px;padding:12px 16px;text-align:right;min-width:130px;
+    box-shadow:inset 0 0 18px rgba(245,166,35,.12);
+  }
+  .hero .cb .lbl{font-size:11px;color:var(--orange);font-weight:700;margin-bottom:2px;}
+  .hero .cb .val{font-size:30px;font-weight:900;color:var(--orange);letter-spacing:-.5px;}
+
+  .section-title{font-size:15px;font-weight:800;color:var(--navy);margin:22px 4px 12px;}
+
+  /* 決済手段カード */
+  .m-card{
+    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+    margin-bottom:14px;overflow:hidden;position:relative;
+  }
+  .m-card.has::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--blue),var(--blue-deep));}
+  .m-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px;}
+  .m-name{display:flex;align-items:center;gap:11px;font-size:18px;font-weight:800;}
+  .m-name .ico{width:30px;height:30px;flex:none;}
+  .ico{background:#fff;border:1px solid #e9edf3;border-radius:24%;box-shadow:0 1px 3px rgba(20,40,80,.13);overflow:hidden;}
+  .ico .payimg,.ico .paysvg{width:100%;height:100%;object-fit:contain;display:block;}
+  .togo{margin:0 16px 12px;padding:9px 12px;background:#f2f7fd;border-radius:12px;font-size:12px;color:#64748b;line-height:1.6;}
+  .togo .togo-top{font-size:12.5px;}
+  .togo .togo-top b{color:#e08600;font-weight:800;font-size:15px;}
+  .togo .b20{color:#e08600;font-weight:800;}
+  .togo .b10{color:#2d7ff0;font-weight:800;}
+  .togo .u{font-size:10.5px;color:#94a3b8;}
+  .togo .need{display:block;margin-top:2px;}
+  .togo .togo-bot{margin-top:3px;}
+  .togo.done{text-align:center;color:#1f9d57;background:#eafaf0;font-weight:800;font-size:13.5px;}
+  .cbsub{font-size:10px;color:#f3c98b;font-weight:700;margin-top:4px;line-height:1.3;}
+  .m-earn{text-align:right;line-height:1.1;}
+  .m-earn .v{font-size:24px;font-weight:900;}
+  .m-earn .s{font-size:11px;color:var(--muted);font-weight:600;}
+  .bar-wrap{padding:0 16px 12px;}
+  .bar{height:7px;border-radius:6px;background:var(--track);overflow:hidden;}
+  .bar > i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5aa6ff,#2d7ff0);transition:width .4s ease;}
+  .bar-sub{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:7px;}
+  .bar-sub .rem{color:#7a879a;}
+  .rec-list{border-top:1px solid var(--line);}
+  .rec{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line);font-size:14px;}
+  .rec:last-child{border-bottom:none;}
+  .pill{font-size:12px;font-weight:800;padding:2px 8px;border-radius:8px;flex:none;}
+  .pill.r20{background:#fff1da;color:#e08600;}
+  .pill.r10{background:#e6f0ff;color:#1f6feb;}
+  .rec .amt{color:#46546a;font-weight:600;}
+  .rec .arr{color:var(--orange-strong);font-weight:800;}
+  .rec .date{margin-left:auto;color:var(--muted-2);font-size:12px;}
+  .rec .del{flex:none;width:26px;height:26px;border-radius:50%;border:none;background:#f1f4f8;color:#9aa6b5;font-size:15px;line-height:1;cursor:pointer;}
+  .rec .del:active{background:#e2e7ee;}
+  .empty{color:var(--muted);font-size:13px;text-align:center;padding:6px 0 2px;}
+
+  /* ===== 記録する ===== */
+  .panel{background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:20px 18px 22px;}
+  .panel-title{display:flex;align-items:center;gap:9px;font-size:18px;font-weight:800;margin-bottom:18px;}
+  .panel-title::before{content:"";width:5px;height:20px;border-radius:3px;background:var(--blue);}
+  .field-label{font-size:13px;font-weight:700;color:#6b7686;margin:0 2px 9px;}
+  .pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+  .pay-btn{
+    background:#fff;border:1.5px solid var(--line);border-radius:14px;
+    padding:14px 4px 11px;text-align:center;cursor:pointer;transition:.15s;
+  }
+  .pay-btn .ico{display:block;width:42px;height:42px;margin:0 auto 8px;}
+  .pay-btn .nm{font-size:13px;font-weight:700;color:#46546a;}
+  .pay-btn.sel{border-color:var(--blue);background:var(--blue-soft);box-shadow:0 0 0 3px rgba(45,127,240,.12);}
+  .pay-btn.sel .nm{color:var(--blue-deep);}
+  .pay-btn:active{transform:scale(.97);}
+
+  .rate-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+  .rate-btn{
+    border:1.5px solid var(--line);border-radius:16px;background:#fff;
+    padding:16px 8px;text-align:center;cursor:pointer;transition:.15s;
+  }
+  .rate-btn .pct{font-size:32px;font-weight:900;line-height:1;}
+  .rate-btn .sub{font-size:12px;font-weight:700;color:var(--muted);margin-top:6px;}
+  .rate-btn.r10 .pct{color:var(--blue-deep);}
+  .rate-btn.r20 .pct{color:var(--orange-strong);}
+  .rate-btn.r10.sel{border-color:var(--blue);background:var(--blue-soft);}
+  .rate-btn.r20.sel{border-color:var(--orange);background:#fff6e7;}
+  .rate-btn.sel .sub{color:#46546a;}
+  .rate-btn:active{transform:scale(.98);}
+
+  .amount-input{
+    width:100%;border:1.5px solid var(--line);border-radius:14px;
+    padding:15px 16px;font-size:26px;font-weight:800;color:var(--text);
+    background:#fff;outline:none;transition:.15s;
+  }
+  .amount-input::placeholder{color:#c2cad6;font-weight:600;}
+  .amount-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,127,240,.12);}
+
+  .preview{
+    background:var(--blue-soft);border-radius:14px;padding:14px 16px;margin:18px 0 6px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .preview .pl{font-size:15px;font-weight:800;color:var(--blue-deep);}
+  .preview .pl small{display:block;font-size:11px;font-weight:600;color:#7d93b5;margin-top:1px;}
+  .preview .pv{font-size:30px;font-weight:900;color:var(--blue-deep);letter-spacing:-.5px;}
+  .preview.warn{background:#fff6e7;}
+  .preview.warn .pl,.preview.warn .pv{color:var(--orange-strong);}
+  .note{font-size:12px;color:#a06600;background:#fff6e7;border-radius:10px;padding:8px 12px;margin-top:10px;display:none;}
+  .note.show{display:block;}
+
+  .submit{
+    width:100%;margin-top:16px;border:none;border-radius:15px;
+    padding:17px;font-size:17px;font-weight:800;color:#fff;cursor:pointer;
+    background:#aeb8c6;transition:.15s;
+  }
+  .submit.on{background:linear-gradient(135deg,#2d7ff0,#1f6feb);box-shadow:0 6px 16px rgba(45,127,240,.35);}
+  .submit.on:active{transform:scale(.99);}
+
+  /* ===== 履歴 ===== */
+  .hist-card{background:#fff;border-radius:18px;box-shadow:var(--shadow);overflow:hidden;}
+  .hist-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:13px 16px;border-bottom:1px solid var(--line);font-size:14px;}
+  .hist-row:last-child{border-bottom:none;}
+  .hist-row .ico{width:26px;height:26px;flex:none;}
+  .hist-row .nm{font-weight:700;}
+  .hist-row .date{margin-left:auto;color:var(--muted-2);font-size:12px;}
+  .hist-row .del{flex:none;width:26px;height:26px;border-radius:50%;border:none;background:#f1f4f8;color:#9aa6b5;font-size:15px;cursor:pointer;}
+  .hist-row .money{flex-basis:100%;display:flex;align-items:center;gap:10px;padding-left:34px;}
+  .hist-row .amt{color:#46546a;font-weight:600;}
+  .hist-row .arr{color:#ff9a00;font-weight:800;}
+  .reset-btn{display:block;margin:18px auto 0;background:none;border:none;color:#c05b5b;font-size:13px;font-weight:700;cursor:pointer;padding:8px 14px;}
+  .hist-empty{text-align:center;color:var(--muted);padding:48px 20px;font-size:14px;}
+  .hist-empty .big{font-size:40px;margin-bottom:10px;}
+
+  /* ===== ボトムナビ ===== */
+  .tabbar{
+    position:fixed;left:0;right:0;bottom:0;z-index:30;
+    max-width:520px;margin:0 auto;
+    background:rgba(255,255,255,.96);backdrop-filter:saturate(180%) blur(12px);
+    border-top:1px solid #e2e8f0;
+    display:flex;justify-content:space-around;align-items:stretch;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .tab{
+    flex:1;background:none;border:none;cursor:pointer;
+    padding:9px 0 8px;display:flex;flex-direction:column;align-items:center;gap:3px;
+    color:var(--muted);font-size:11px;font-weight:700;
+  }
+  .tab .ti{font-size:22px;line-height:1;}
+  .tab.active{color:var(--navy);}
+  .tab .ti.plus{font-weight:900;}
+
+  .legal{font-size:11px;color:#9aa6b5;text-align:center;line-height:1.6;margin:18px 8px 4px;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="app-header">
+    <div class="brand"><img src="./header.png" alt="かなトク！" class="brand-logo" /></div>
+    <div class="header-total">
+      <div class="lbl">還元合計</div>
+      <div class="val" id="headTotal">¥0</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== 還元状況 ===== -->
+    <section id="view-status" class="view active">
+      <div class="hero">
+        <div class="left">
+          <div class="lbl">期間中 累計お支払い</div>
+          <div class="amount"><span id="heroSpent">0</span><span class="yen">円</span></div>
+        </div>
+        <div class="cb">
+          <div class="lbl">もらえる還元額</div>
+          <div class="val" id="heroCb">¥0</div>
+          <div class="cbsub" id="heroTogo"></div>
+        </div>
+      </div>
+      <div class="section-title">決済手段ごとの還元状況</div>
+      <div id="methodList"></div>
+      <p class="legal">還元率20%＝中小・小規模店／10%＝大手チェーン店。<br>1回あたり上限¥1,500・1サービスあたり期間中上限¥2,500。</p>
+    </section>
+
+    <!-- ===== 記録する ===== -->
+    <section id="view-record" class="view">
+      <div class="panel">
+        <div class="panel-title">お買い物を記録する</div>
+
+        <div class="field-label">決済手段を選ぶ</div>
+        <div class="pay-grid" id="payGrid"></div>
+
+        <div class="field-label">お店の種類（還元率）</div>
+        <div class="rate-grid">
+          <button class="rate-btn r10 sel" data-rate="0.1">
+            <div class="pct">10%</div><div class="sub">大手チェーン店</div>
+          </button>
+          <button class="rate-btn r20" data-rate="0.2">
+            <div class="pct">20%</div><div class="sub">中小・個人店</div>
+          </button>
+        </div>
+
+        <div class="field-label">お支払い金額（円）</div>
+        <input class="amount-input" id="amountInput" type="text" inputmode="numeric" placeholder="例：3,280" autocomplete="off" />
+
+        <div class="preview" id="preview">
+          <div class="pl">この支払いの還元額<small id="previewSub">金額を入力してください</small></div>
+          <div class="pv" id="previewVal">¥—</div>
+        </div>
+        <div class="note" id="recNote"></div>
+
+        <button class="submit" id="submitBtn">記録する</button>
+      </div>
+    </section>
+
+    <!-- ===== 履歴 ===== -->
+    <section id="view-history" class="view">
+      <div class="section-title" style="margin-top:6px;">記録の履歴</div>
+      <div id="historyArea"></div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab active" data-view="status"><span class="ti">🏠</span>還元状況</button>
+    <button class="tab" data-view="record"><span class="ti plus">＋</span>記録する</button>
+    <button class="tab" data-view="history"><span class="ti">📋</span>履歴</button>
+  </nav>
+</div>
+
+<script>
+/* ===== 設定 ===== */
+const METHODS = [
+  { id:"paypay",  name:"PayPay",   color:"#ff0033", img:"iconpay-paypay.png"  },
+  { id:"rakuten", name:"楽天Pay",  color:"#bf0000", img:"iconpay-rakuten.png" },
+  { id:"d",       name:"d払い",    color:"#e4007f", lines:["d払い"], fs:33     },
+  { id:"au",      name:"au PAY",   color:"#eb5505", img:"iconpay-au.png"      },
+  { id:"merpay",  name:"メルペイ",  color:"#ff0211", img:"iconpay-merpay.png"  },
+  { id:"aeon",    name:"AEON Pay", color:"#a0006e", img:"iconpay-aeon.png"    },
+];
+const M = Object.fromEntries(METHODS.map(m=>[m.id,m]));
+// 決済ブランド風アイコン（角丸の正方形タイル＋サービス名）を SVG で生成
+function payIcon(m){
+  if(!m) return "💳";
+  if(m.img) return `<img src="./${m.img}" alt="${m.name}" class="payimg" />`;
+  // 画像が無い決済（d払い）は白タイル上にブランド色の文字で表現
+  const lines = m.lines || [m.name];
+  const fs = m.fs || 34;
+  const n = lines.length;
+  const lh = fs * 1.04;
+  const startY = 51 - (n - 1) * lh / 2;
+  const col = m.color || "#333";
+  const texts = lines.map((s, i) =>
+    `<text x="50" y="${(startY + i*lh).toFixed(1)}" text-anchor="middle" dominant-baseline="central" `
+    + `font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-weight="800" `
+    + `font-size="${fs}" letter-spacing="-1" fill="${col}">${s}</text>`).join("");
+  return `<svg viewBox="0 0 100 100" class="paysvg" style="display:block;width:100%;height:100%" aria-hidden="true">${texts}</svg>`;
+}
+const CAP_TX = 1500;      // 1回あたり還元上限
+const CAP_METHOD = 2500;  // 1サービスあたり期間中上限
+const STORE_KEY = "kanatoku_records_v1";
+
+/* ===== 状態 ===== */
+let records = load();
+let sel = { method:null, rate:0.1 };
+
+/* ===== ユーティリティ ===== */
+function load(){ try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }catch(e){ return []; } }
+function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(records)); }
+const yen = n => "¥" + Math.round(n).toLocaleString("ja-JP");
+const num = n => Math.round(n).toLocaleString("ja-JP");
+function todayStr(){ const d=new Date(),z=x=>String(x).padStart(2,"0"); return `${d.getFullYear()}/${z(d.getMonth()+1)}/${z(d.getDate())}`; }
+// 1件分の還元額（1回上限を適用）
+function cashbackOf(amount, rate){ return Math.min(Math.floor(amount*rate), CAP_TX); }
+
+/* ===== 集計 ===== */
+function summary(){
+  const byM = {};
+  METHODS.forEach(m => byM[m.id] = { list:[], sum:0 });
+  records.forEach(r => { if(byM[r.method]){ byM[r.method].list.push(r); byM[r.method].sum += r.cashback; } });
+  let totalCb = 0, totalSpent = 0;
+  METHODS.forEach(m => {
+    const b = byM[m.id];
+    b.list.sort((a,c)=> c.ts - a.ts);
+    b.capped = Math.min(b.sum, CAP_METHOD);
+    b.remaining = CAP_METHOD - b.capped;
+    totalCb += b.capped;
+  });
+  records.forEach(r => totalSpent += r.amount);
+  return { byM, totalCb, totalSpent };
+}
+
+/* ===== 描画：還元状況 ===== */
+function render(){
+  const s = summary();
+  document.getElementById("headTotal").textContent = yen(s.totalCb);
+  document.getElementById("heroSpent").textContent = num(s.totalSpent);
+  document.getElementById("heroCb").textContent = yen(s.totalCb);
+  const togoTotal = Math.max(0, CAP_METHOD * METHODS.length - s.totalCb);
+  document.getElementById("heroTogo").textContent = togoTotal > 0 ? `満額¥15,000まで あと ${yen(togoTotal)}` : "満額達成 🎉";
+
+  const list = document.getElementById("methodList");
+  list.innerHTML = METHODS.map(m => {
+    const b = s.byM[m.id];
+    const pct = Math.min(100, b.capped / CAP_METHOD * 100);
+    const recs = b.list.map(r => `
+      <div class="rec">
+        <span class="pill ${r.rate>=0.2?"r20":"r10"}">${Math.round(r.rate*100)}%</span>
+        <span class="amt">${yen(r.amount)}</span>
+        <span class="arr">→${yen(r.cashback)}</span>
+        <span class="date">${r.date}</span>
+        <button class="del" data-del="${r.id}" aria-label="削除">×</button>
+      </div>`).join("");
+    return `
+      <div class="m-card ${b.capped>0?"has":""}">
+        <div class="m-head">
+          <div class="m-name"><span class="ico">${payIcon(m)}</span>${m.name}</div>
+          <div class="m-earn"><div class="v">${yen(b.capped)}</div><div class="s">還元済み</div></div>
+        </div>
+        <div class="bar-wrap">
+          <div class="bar"><i style="width:${pct}%"></i></div>
+          <div class="bar-sub"><span>¥0</span><span class="rem">残り ${yen(b.remaining)} / 上限 ${yen(CAP_METHOD)}</span></div>
+        </div>
+        ${b.remaining > 0
+          ? `<div class="togo"><div class="togo-top">満額まで あと <b>${yen(b.remaining)}</b></div><div class="togo-bot">必要なお買い物：<span class="need"><b class="b20">${yen(b.remaining*5)}</b><span class="u">（20%店）</span></span><span class="need"><b class="b10">${yen(b.remaining*10)}</b><span class="u">（10%店）</span></span></div></div>`
+          : `<div class="togo done">🎉 上限 ¥2,500 達成！満額ゲット</div>`}
+        ${recs ? `<div class="rec-list">${recs}</div>` : ""}
+      </div>`;
+  }).join("");
+
+  renderHistory(s);
+}
+
+/* ===== 描画：履歴 ===== */
+function renderHistory(s){
+  s = s || summary();
+  const area = document.getElementById("historyArea");
+  const all = [...records].sort((a,b)=> b.ts - a.ts);
+  if(!all.length){
+    area.innerHTML = `<div class="hist-empty"><div class="big">🧾</div>まだ記録がありません。<br>「＋ 記録する」から最初のお買い物を登録しましょう。</div>`;
+    return;
+  }
+  const rows = all.map(r => {
+    const m = M[r.method] || {name:r.method};
+    return `
+      <div class="hist-row">
+        <span class="ico">${payIcon(m)}</span>
+        <span class="nm">${m.name}</span>
+        <span class="date">${r.date}</span>
+        <button class="del" data-del="${r.id}" aria-label="削除">×</button>
+        <div class="money">
+          <span class="pill ${r.rate>=0.2?"r20":"r10"}">${Math.round(r.rate*100)}%</span>
+          <span class="amt">${yen(r.amount)}</span>
+          <span class="arr">→${yen(r.cashback)}</span>
+        </div>
+      </div>`;
+  }).join("");
+  area.innerHTML = `<div class="hist-card">${rows}</div>
+    <button class="reset-btn" id="resetBtn">すべての記録を削除</button>`;
+}
+
+/* ===== 記録フォーム ===== */
+function buildPayGrid(){
+  document.getElementById("payGrid").innerHTML = METHODS.map(m =>
+    `<button class="pay-btn" data-method="${m.id}"><span class="ico">${payIcon(m)}</span><span class="nm">${m.name}</span></button>`
+  ).join("");
+}
+
+function rawAmount(){
+  const v = document.getElementById("amountInput").value.replace(/[^\d]/g,"");
+  return v ? parseInt(v,10) : 0;
+}
+
+function updatePreview(){
+  const amount = rawAmount();
+  const prev = document.getElementById("preview");
+  const sub  = document.getElementById("previewSub");
+  const val  = document.getElementById("previewVal");
+  const note = document.getElementById("recNote");
+  const btn  = document.getElementById("submitBtn");
+
+  const ready = sel.method && amount > 0;
+  btn.classList.toggle("on", !!ready);
+
+  if(amount <= 0){
+    val.textContent = "¥—";
+    sub.textContent = sel.method ? "金額を入力してください" : "決済手段と金額を選んでください";
+    prev.classList.remove("warn");
+    note.classList.remove("show");
+    return;
+  }
+  const cb = cashbackOf(amount, sel.rate);
+  val.textContent = yen(cb);
+  sub.textContent = `${Math.round(sel.rate*100)}% 還元`;
+
+  // 注意書き（1回上限・サービス上限）
+  const msgs = [];
+  if(Math.floor(amount*sel.rate) > CAP_TX) msgs.push("1回の還元上限 ¥1,500 を適用しました。");
+  if(sel.method){
+    const b = summary().byM[sel.method];
+    if(cb > b.remaining){
+      msgs.push(`${M[sel.method].name} の期間上限まで残り ${yen(b.remaining)}。超過分は還元対象外です。`);
+    }
+  }
+  if(msgs.length){ note.textContent = "※ " + msgs.join(" "); note.classList.add("show"); prev.classList.add("warn"); }
+  else { note.classList.remove("show"); prev.classList.remove("warn"); }
+}
+
+function addRecord(){
+  const amount = rawAmount();
+  if(!sel.method || amount <= 0) return;
+  const cb = cashbackOf(amount, sel.rate);
+  records.push({
+    id: "r" + Date.now() + Math.floor(Math.random()*1000),
+    ts: Date.now(),
+    method: sel.method,
+    rate: sel.rate,
+    amount,
+    cashback: cb,
+    date: todayStr(),
+  });
+  save();
+  // フォームをリセット
+  document.getElementById("amountInput").value = "";
+  document.querySelectorAll(".pay-btn").forEach(b=>b.classList.remove("sel"));
+  sel.method = null;
+  updatePreview();
+  render();
+  switchView("status");
+}
+
+function deleteRecord(id){
+  records = records.filter(r => r.id !== id);
+  save();
+  render();
+  updatePreview();
+}
+
+/* ===== ビュー切替 ===== */
+function switchView(v){
+  document.querySelectorAll(".view").forEach(s=>s.classList.remove("active"));
+  document.getElementById("view-" + v).classList.add("active");
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active", t.dataset.view===v));
+  window.scrollTo({top:0});
+}
+
+/* ===== イベント ===== */
+function init(){
+  buildPayGrid();
+  render();
+
+  // タブ
+  document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>switchView(t.dataset.view)));
+
+  // 決済手段選択
+  document.getElementById("payGrid").addEventListener("click", e=>{
+    const btn = e.target.closest(".pay-btn"); if(!btn) return;
+    document.querySelectorAll(".pay-btn").forEach(b=>b.classList.remove("sel"));
+    btn.classList.add("sel");
+    sel.method = btn.dataset.method;
+    updatePreview();
+  });
+
+  // 還元率選択
+  document.querySelectorAll(".rate-btn").forEach(b=>b.addEventListener("click",()=>{
+    document.querySelectorAll(".rate-btn").forEach(x=>x.classList.remove("sel"));
+    b.classList.add("sel");
+    sel.rate = parseFloat(b.dataset.rate);
+    updatePreview();
+  }));
+
+  // 金額入力（カンマ整形）
+  const inp = document.getElementById("amountInput");
+  inp.addEventListener("input", ()=>{
+    const v = inp.value.replace(/[^\d]/g,"");
+    inp.value = v ? parseInt(v,10).toLocaleString("ja-JP") : "";
+    updatePreview();
+  });
+
+  // 記録ボタン
+  document.getElementById("submitBtn").addEventListener("click", addRecord);
+
+  // 削除（イベント委任：状況・履歴の両方）
+  document.body.addEventListener("click", e=>{
+    const del = e.target.closest("[data-del]");
+    if(del){ if(confirm("この記録を削除しますか？")) deleteRecord(del.dataset.del); return; }
+    if(e.target.id === "resetBtn"){ if(confirm("すべての記録を削除します。よろしいですか？")){ records=[]; save(); render(); } }
+  });
+}
+init();
+
+/* ===== Service Worker 登録 ===== */
+if("serviceWorker" in navigator){
+  window.addEventListener("load", ()=> navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+}
+</script>
+</body>
+</html>
