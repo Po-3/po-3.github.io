@@ -1,0 +1,29 @@
+name: kanatoku-notice
+on:
+  schedule:
+    - cron: "0 */2 * * *"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run notice check
+        run: |
+          SCRIPT="$(find . -name notice-check.py | head -1)"
+          if [ -z "$SCRIPT" ]; then echo "notice-check.py not found"; exit 0; fi
+          echo "using: $SCRIPT"
+          python3 "$SCRIPT"
+      - name: Commit notice.json if changed
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions"
+            git config user.email "actions@github.com"
+            git add -A
+            git commit -m "chore: update kanatoku notice.json [skip ci]"
+            git push
+          else
+            echo "nothing to commit"
+          fi
