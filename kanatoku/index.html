@@ -346,6 +346,9 @@
   .sheet-btn:active{opacity:.8;}
   .sheet-btn.danger{color:#c0392b;}
   .sheet-btn.cancel{background:none;color:var(--muted);}
+  a.sheet-btn{text-decoration:none;text-align:center;}
+  .sheet-note{font-size:11px;color:var(--muted);text-align:center;padding:6px 4px 2px;}
+  .tap-hint{font-size:11px;color:var(--muted);margin:-4px 4px 12px;line-height:1.5;}
 
   @media (prefers-color-scheme: dark){
     :root{
@@ -427,6 +430,7 @@
       </div>
       <div id="onboard" class="onboard" hidden><span>👋 はじめての方へ：下の「＋ 記録する」でお買い物を登録すると、還元額と「満額までの目安」が自動で計算されます。</span><button class="onboard-x" id="onboardClose" aria-label="閉じる">×</button></div>
       <div class="section-title">決済手段ごとの還元状況</div>
+      <div class="tap-hint">💡 決済アイコンを長押しすると、その決済の対象店舗を探せます</div>
       <div id="methodList"></div>
       <p class="legal">還元率20%＝中小・小規模店／10%＝大手チェーン店。<br>1回あたり上限¥1,500・1サービスあたり期間中上限¥2,500。<br>予算上限（180億円）到達で早期終了の可能性があります。</p>
       <div class="official">
@@ -498,12 +502,7 @@
 
   <div class="sheet" id="actionSheet" hidden>
     <div class="sheet-backdrop" id="sheetBackdrop"></div>
-    <div class="sheet-card">
-      <div class="sheet-title" id="sheetTitle"></div>
-      <button class="sheet-btn" id="sheetTogglePending"></button>
-      <button class="sheet-btn danger" id="sheetDelete">🗑 削除する</button>
-      <button class="sheet-btn cancel" id="sheetCancel">キャンセル</button>
-    </div>
+    <div class="sheet-card" id="sheetCard"></div>
   </div>
 </div>
 
@@ -629,7 +628,7 @@ function render(){
       <div class="m-card${maxed ? " maxed" : ""}">
         <span class="corner" style="border-top-color:${m.color}"></span>
         <div class="m-head">
-          <div class="m-name"><span class="ico">${payIcon(m)}</span>${m.name}${maxed ? `<span class="badge-max">満額達成</span>` : ""}</div>
+          <div class="m-name" data-store="${m.id}"><span class="ico">${payIcon(m)}</span>${m.name}${maxed ? `<span class="badge-max">満額達成</span>` : ""}</div>
           <div class="m-earn"><div class="v">${yen(b.capped)}</div><div class="s">${maxed ? "満額 🎉" : "獲得見込み"}</div></div>
         </div>
         <div class="bar-wrap">
@@ -747,7 +746,7 @@ function calendarHtml(data){
 /* ===== 記録フォーム ===== */
 function buildPayGrid(){
   document.getElementById("payGrid").innerHTML = METHODS.map(m =>
-    `<button class="pay-btn" data-method="${m.id}"><span class="ico">${payIcon(m)}</span><span class="nm">${m.name}</span></button>`
+    `<button class="pay-btn" data-method="${m.id}" data-store="${m.id}"><span class="ico">${payIcon(m)}</span><span class="nm">${m.name}</span></button>`
   ).join("");
 }
 
@@ -843,30 +842,49 @@ function setPending(id, val){
 }
 function resolveRecord(id){ setPending(id, false); }
 
-/* ===== 記録の長押しメニュー（未反映↔反映の切替・削除） ===== */
-let sheetId = null, sheetOpenedAt = 0;
-function openSheet(id){
-  const r = records.find(x => x.id === id);
-  if(!r) return;
-  sheetId = id; sheetOpenedAt = Date.now();
+/* ===== 長押しメニュー（記録：未反映↔反映・削除 ／ 決済：対象店舗を探す） ===== */
+// 各決済の対象店舗は各社サイト/アプリで確認する方式のため、決済名で検索して該当ページへ
+const STORE_URL = m => "https://www.google.com/search?q=" + encodeURIComponent("かなトク 対象店舗 " + (m.name || ""));
+let sheetMode = null, sheetOpenedAt = 0;
+function openSheetHtml(html){ sheetOpenedAt = Date.now(); document.getElementById("sheetCard").innerHTML = html; document.getElementById("actionSheet").hidden = false; }
+function openRecordSheet(id){
+  const r = records.find(x => x.id === id); if(!r) return;
+  sheetMode = { type:"record", id };
   const m = M[r.method] || { name:r.method };
-  document.getElementById("sheetTitle").textContent = `${m.name}　${yen(r.amount)}（${r.date}）`;
-  document.getElementById("sheetTogglePending").textContent = isPending(r) ? "↩︎ 未反映を解除（反映する）" : "⏳ 未反映にする";
-  document.getElementById("actionSheet").hidden = false;
+  openSheetHtml(`<div class="sheet-title">${m.name}　${yen(r.amount)}（${r.date}）</div>
+    <button class="sheet-btn" data-act="toggle">${isPending(r) ? "↩︎ 未反映を解除（反映する）" : "⏳ 未反映にする"}</button>
+    <a class="sheet-btn" href="${STORE_URL(m)}" target="_blank" rel="noopener" data-act="close">🔍 ${m.name}の対象店舗を探す ↗</a>
+    <button class="sheet-btn danger" data-act="delete">🗑 削除する</button>
+    <button class="sheet-btn cancel" data-act="close">キャンセル</button>`);
 }
-function closeSheet(){ document.getElementById("actionSheet").hidden = true; sheetId = null; }
+function openStoreSheet(payId){
+  const m = M[payId]; if(!m) return;
+  sheetMode = { type:"store", payId };
+  openSheetHtml(`<div class="sheet-title">${m.name} の対象店舗</div>
+    <a class="sheet-btn" href="${STORE_URL(m)}" target="_blank" rel="noopener" data-act="close">🔍 対象店舗を探す ↗</a>
+    <div class="sheet-note">各社のサイト／アプリで対象店舗を確認できます</div>
+    <button class="sheet-btn cancel" data-act="close">キャンセル</button>`);
+}
+function closeSheet(){ document.getElementById("actionSheet").hidden = true; sheetMode = null; }
 function attachLongPress(){
   let timer = null;
+  const fire = (target) => {
+    const storeEl = target.closest("[data-store]");
+    const rowEl = target.closest("[data-id]");
+    if(storeEl) openStoreSheet(storeEl.dataset.store);
+    else if(rowEl) openRecordSheet(rowEl.dataset.id);
+    return !!(storeEl || rowEl);
+  };
   const start = (e) => {
-    const row = e.target.closest("[data-id]"); if(!row) return;
-    const id = row.dataset.id;
-    timer = setTimeout(() => { timer = null; if(navigator.vibrate) navigator.vibrate(12); openSheet(id); }, 480);
+    if(!(e.target.closest("[data-store]") || e.target.closest("[data-id]"))) return;
+    const t = e.target;
+    timer = setTimeout(() => { timer = null; if(navigator.vibrate) navigator.vibrate(12); fire(t); }, 480);
   };
   const cancel = () => { if(timer){ clearTimeout(timer); timer = null; } };
   document.body.addEventListener("touchstart", start, { passive:true });
   document.body.addEventListener("touchend", cancel);
   document.body.addEventListener("touchmove", cancel);
-  document.body.addEventListener("contextmenu", (e) => { const row = e.target.closest("[data-id]"); if(row){ e.preventDefault(); openSheet(row.dataset.id); } });
+  document.body.addEventListener("contextmenu", (e) => { if(fire(e.target)) e.preventDefault(); });
 }
 
 function deleteRecord(id){
@@ -1068,10 +1086,14 @@ function init(){
     if(cb && cb.checked) resolveRecord(cb.dataset.resolve);
   });
   // 長押しメニュー（記録の未反映↔反映 切替・削除）
-  document.getElementById("sheetCancel").addEventListener("click", closeSheet);
   document.getElementById("sheetBackdrop").addEventListener("click", () => { if(Date.now() - sheetOpenedAt > 350) closeSheet(); });
-  document.getElementById("sheetTogglePending").addEventListener("click", () => { const r = records.find(x => x.id === sheetId); if(r) setPending(sheetId, !isPending(r)); closeSheet(); });
-  document.getElementById("sheetDelete").addEventListener("click", () => { const id = sheetId; closeSheet(); deleteRecord(id); });
+  document.getElementById("sheetCard").addEventListener("click", (e) => {
+    const el = e.target.closest("[data-act]"); if(!el) return;
+    const act = el.dataset.act;
+    if(act === "toggle" && sheetMode && sheetMode.type === "record"){ const r = records.find(x => x.id === sheetMode.id); if(r) setPending(sheetMode.id, !isPending(r)); closeSheet(); }
+    else if(act === "delete" && sheetMode && sheetMode.type === "record"){ const id = sheetMode.id; closeSheet(); deleteRecord(id); }
+    else { closeSheet(); }   // 「対象店舗を探す」リンク（別タブで開く）やキャンセルは閉じるだけ
+  });
   attachLongPress();
 
   // クリック委任（削除・全削除・履歴モード切替・カレンダー操作）
