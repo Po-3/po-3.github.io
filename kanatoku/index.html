@@ -334,6 +334,19 @@
   .pending-r b{color:#b45309;}
   .pending-note{font-size:11px;color:#a98b53;margin-top:7px;}
 
+  /* ===== 長押しメニュー（アクションシート） ===== */
+  .rec, .hist-row{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;}
+  .sheet{display:none;position:fixed;inset:0;z-index:80;}
+  .sheet:not([hidden]){display:block;}
+  .sheet-backdrop{position:absolute;inset:0;background:rgba(10,20,40,.45);}
+  .sheet-card{position:absolute;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;background:var(--card);border-radius:20px 20px 0 0;padding:8px 14px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.28);animation:sheetUp .2s ease;}
+  @keyframes sheetUp{from{transform:translateY(100%);}to{transform:none;}}
+  .sheet-title{font-size:13px;font-weight:700;color:var(--muted);text-align:center;padding:12px 4px 10px;}
+  .sheet-btn{display:block;width:100%;border:none;background:#f1f4f8;color:var(--navy);font-size:16px;font-weight:700;padding:15px;border-radius:14px;margin-top:8px;cursor:pointer;font-family:inherit;}
+  .sheet-btn:active{opacity:.8;}
+  .sheet-btn.danger{color:#c0392b;}
+  .sheet-btn.cancel{background:none;color:var(--muted);}
+
   @media (prefers-color-scheme: dark){
     :root{
       --bg:#10171f; --card:#1a232e; --text:#e7ecf3; --muted:#94a1b3; --muted-2:#7e8ba0;
@@ -368,6 +381,7 @@
     .pending-head{color:#e6c79a;} .pending-head b{color:#ffce85;}
     .pending-item{border-top-color:#3d3320;}
     .pending-sub,.pending-note{color:#c0a878;} .pending-r{color:#c2ccd9;} .pending-r b{color:#ffce85;}
+    .sheet-btn{background:#222d3a;color:var(--text);} .sheet-btn.danger{color:#ff7a6e;} .sheet-btn.cancel{background:none;color:#93a0b2;}
   }
 </style>
 </head>
@@ -481,6 +495,16 @@
   </nav>
 
   <div class="toast" id="toast" hidden></div>
+
+  <div class="sheet" id="actionSheet" hidden>
+    <div class="sheet-backdrop" id="sheetBackdrop"></div>
+    <div class="sheet-card">
+      <div class="sheet-title" id="sheetTitle"></div>
+      <button class="sheet-btn" id="sheetTogglePending"></button>
+      <button class="sheet-btn danger" id="sheetDelete">🗑 削除する</button>
+      <button class="sheet-btn cancel" id="sheetCancel">キャンセル</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -535,7 +559,10 @@ function cashbackOf(amount, rate){ return Math.min(Math.floor(amount*rate), CAP_
 
 /* ===== 集計 ===== */
 // メモに「未反映」を含み、未解決の記録＝保留（獲得見込みから除外し別集計）
-function isPending(r){ return !r.resolved && !!r.memo && r.memo.indexOf("未反映") >= 0; }
+function isPending(r){
+  if(typeof r.pending === "boolean") return r.pending;             // 明示フラグを優先
+  return !r.resolved && !!r.memo && r.memo.indexOf("未反映") >= 0;  // 旧データの後方互換
+}
 function summary(){
   const byM = {};
   METHODS.forEach(m => byM[m.id] = { list:[], sum:0 });
@@ -588,7 +615,7 @@ function render(){
     const b = s.byM[m.id];
     const pct = Math.min(100, b.capped / CAP_METHOD * 100);
     const recs = b.list.map(r => `
-      <div class="rec">
+      <div class="rec" data-id="${r.id}">
         <span class="pill ${r.rate>=0.2?"r20":"r10"}">${Math.round(r.rate*100)}%</span>
         <span class="amt">${yen(r.amount)}</span>
         <span class="arr">→${yen(r.cashback)}</span>
@@ -625,7 +652,7 @@ function histFiltered(){
 }
 function histRowHtml(r){
   const m = M[r.method] || {name:r.method};
-  return `<div class="hist-row">
+  return `<div class="hist-row" data-id="${r.id}">
         <span class="ico">${payIcon(m)}</span>
         <span class="nm">${m.name}</span>
         ${isPending(r) ? `<span class="pend-badge">未反映</span>` : ""}
@@ -779,6 +806,7 @@ function addRecord(){
     cashback: cb,
     date: iso.replace(/-/g, "/"),
     memo,
+    pending: memo.indexOf("未反映") >= 0,
   });
   save();
   // フォームをリセット
@@ -806,12 +834,39 @@ function showToast(msg, actLabel, actFn){
 }
 function hideToast(){ document.getElementById("toast").hidden = true; }
 
-function resolveRecord(id){
+function setPending(id, val){
   const r = records.find(x => x.id === id);
   if(!r) return;
-  r.resolved = true;          // 未反映 → 解決（以後は獲得見込みに計上）
+  r.pending = val;
   save(); render();
-  showToast("「獲得見込み」に反映しました");
+  showToast(val ? "「未反映」に戻しました" : "「獲得見込み」に反映しました");
+}
+function resolveRecord(id){ setPending(id, false); }
+
+/* ===== 記録の長押しメニュー（未反映↔反映の切替・削除） ===== */
+let sheetId = null, sheetOpenedAt = 0;
+function openSheet(id){
+  const r = records.find(x => x.id === id);
+  if(!r) return;
+  sheetId = id; sheetOpenedAt = Date.now();
+  const m = M[r.method] || { name:r.method };
+  document.getElementById("sheetTitle").textContent = `${m.name}　${yen(r.amount)}（${r.date}）`;
+  document.getElementById("sheetTogglePending").textContent = isPending(r) ? "↩︎ 未反映を解除（反映する）" : "⏳ 未反映にする";
+  document.getElementById("actionSheet").hidden = false;
+}
+function closeSheet(){ document.getElementById("actionSheet").hidden = true; sheetId = null; }
+function attachLongPress(){
+  let timer = null;
+  const start = (e) => {
+    const row = e.target.closest("[data-id]"); if(!row) return;
+    const id = row.dataset.id;
+    timer = setTimeout(() => { timer = null; if(navigator.vibrate) navigator.vibrate(12); openSheet(id); }, 480);
+  };
+  const cancel = () => { if(timer){ clearTimeout(timer); timer = null; } };
+  document.body.addEventListener("touchstart", start, { passive:true });
+  document.body.addEventListener("touchend", cancel);
+  document.body.addEventListener("touchmove", cancel);
+  document.body.addEventListener("contextmenu", (e) => { const row = e.target.closest("[data-id]"); if(row){ e.preventDefault(); openSheet(row.dataset.id); } });
 }
 
 function deleteRecord(id){
@@ -1012,6 +1067,12 @@ function init(){
     const cb = e.target.closest("[data-resolve]");
     if(cb && cb.checked) resolveRecord(cb.dataset.resolve);
   });
+  // 長押しメニュー（記録の未反映↔反映 切替・削除）
+  document.getElementById("sheetCancel").addEventListener("click", closeSheet);
+  document.getElementById("sheetBackdrop").addEventListener("click", () => { if(Date.now() - sheetOpenedAt > 350) closeSheet(); });
+  document.getElementById("sheetTogglePending").addEventListener("click", () => { const r = records.find(x => x.id === sheetId); if(r) setPending(sheetId, !isPending(r)); closeSheet(); });
+  document.getElementById("sheetDelete").addEventListener("click", () => { const id = sheetId; closeSheet(); deleteRecord(id); });
+  attachLongPress();
 
   // クリック委任（削除・全削除・履歴モード切替・カレンダー操作）
   document.body.addEventListener("click", e=>{
