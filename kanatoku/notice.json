@@ -1,8 +1,19 @@
 {
-  "active": false,
-  "title": "",
-  "detail": "",
-  "date": "",
+  "news": [
+    {
+      "date": "2026/06/24",
+      "title": "「事業者様へ」ページ チラシデータを更新しました"
+    },
+    {
+      "date": "2026/06/20",
+      "title": "「よくある質問」専用ページを公開しました。"
+    },
+    {
+      "date": "2026/06/16",
+      "title": "「事業者様へ」ページ チラシデータを更新しました。"
+    }
+  ],
+  "alert": false,
   "url": "https://www.kanatokucpn.pref.kanagawa.jp/index.html",
-  "checkedAt": ""
+  "checkedAt": "2026-06-27 08:41 UTC"
 }

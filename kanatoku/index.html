@@ -223,7 +223,8 @@
   /* 履歴ツールバー・カレンダー・日付入力 */
   .hist-toolbar{display:flex;gap:8px;align-items:center;margin:0 2px 14px;}
   .seg{display:inline-flex;background:#e6ecf4;border-radius:11px;padding:3px;gap:2px;}
-  .seg-btn{border:none;background:none;font-size:13px;font-weight:700;color:#6b7686;padding:6px 11px;border-radius:9px;cursor:pointer;font-family:inherit;}
+  .seg-btn{display:inline-flex;align-items:center;gap:5px;border:none;background:none;font-size:13px;font-weight:700;color:#6b7686;padding:6px 11px;border-radius:9px;cursor:pointer;font-family:inherit;}
+  .seg-ic{width:16px;height:16px;flex:none;}
   .seg-btn.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(20,40,80,.14);}
   .hist-filter{margin-left:auto;border:1.5px solid var(--line);border-radius:10px;padding:7px 10px;font-size:13px;font-weight:700;color:var(--navy);background:#fff;font-family:inherit;}
   .cal-nav{display:flex;align-items:center;justify-content:space-between;margin:2px 4px 10px;}
@@ -267,15 +268,19 @@
   .legal{font-size:11px;color:#9aa6b5;text-align:center;line-height:1.6;margin:18px 8px 4px;}
 
   /* 告知バナー */
-  .notice-bar{display:none;gap:10px;align-items:flex-start;padding:12px 14px;background:#fff4e5;border-bottom:1px solid #f4d9a8;}
+  .notice-bar{display:none;gap:10px;align-items:flex-start;padding:12px 14px;background:#eef4fd;border-bottom:1px solid #d4e3fb;}
   .notice-bar:not([hidden]){display:flex;}
+  .notice-bar.alert{background:#fff4e5;border-bottom-color:#f4d9a8;}
   .notice-ic{font-size:20px;line-height:1.3;flex:none;}
   .notice-body{flex:1;min-width:0;}
-  .notice-title{font-weight:800;font-size:14px;color:#9a3412;}
-  .notice-detail{font-size:12.5px;color:#7a4f00;margin-top:2px;line-height:1.5;word-break:break-word;}
-  .notice-meta{margin-top:6px;display:flex;gap:14px;align-items:center;font-size:12px;color:#9a7b3a;flex-wrap:wrap;}
+  .notice-title{font-weight:800;font-size:14px;color:#1e3a8a;}
+  .notice-bar.alert .notice-title{color:#b91c1c;}
+  .notice-detail{font-size:12.5px;color:#39465c;margin-top:3px;line-height:1.6;word-break:break-word;}
+  .notice-bar.alert .notice-detail{color:#7a4f00;}
+  .notice-meta{margin-top:7px;display:flex;gap:14px;align-items:center;font-size:12px;color:#7d8aa3;flex-wrap:wrap;}
   .notice-meta a{color:#1f6feb;font-weight:800;text-decoration:none;}
-  .notice-x{flex:none;border:none;background:rgba(122,79,0,.12);color:#7a4f00;width:26px;height:26px;border-radius:50%;font-size:15px;line-height:1;cursor:pointer;}
+  .notice-x{flex:none;border:none;background:rgba(30,58,138,.10);color:#39465c;width:26px;height:26px;border-radius:50%;font-size:15px;line-height:1;cursor:pointer;}
+  .notice-bar.alert .notice-x{background:rgba(122,79,0,.14);color:#7a4f00;}
   /* 公式リンク・告知確認 */
   .official{text-align:center;margin:16px 8px 4px;}
   .official-link{display:inline-block;background:var(--navy);color:#fff;font-weight:700;font-size:13px;text-decoration:none;padding:11px 18px;border-radius:13px;box-shadow:0 3px 10px rgba(20,40,80,.18);}
@@ -292,7 +297,7 @@
   </header>
 
   <div class="notice-bar" id="noticeBar" hidden>
-    <span class="notice-ic">📢</span>
+    <span class="notice-ic" id="noticeIc">📢</span>
     <div class="notice-body">
       <div class="notice-title" id="noticeTitle"></div>
       <div class="notice-detail" id="noticeDetail"></div>
@@ -366,8 +371,8 @@
       <div class="section-title" style="margin-top:6px;">記録の履歴</div>
       <div class="hist-toolbar">
         <div class="seg" id="histSeg">
-          <button class="seg-btn active" data-mode="list">📋 一覧</button>
-          <button class="seg-btn" data-mode="calendar">🗓 カレンダー</button>
+          <button class="seg-btn active" data-mode="list"><svg class="seg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 6.5h11M8.5 12h11M8.5 17.5h11"/><circle cx="4.4" cy="6.5" r="1.15" fill="currentColor" stroke="none"/><circle cx="4.4" cy="12" r="1.15" fill="currentColor" stroke="none"/><circle cx="4.4" cy="17.5" r="1.15" fill="currentColor" stroke="none"/></svg>一覧</button>
+          <button class="seg-btn" data-mode="calendar"><svg class="seg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 9.5h17M8 3.3v3.2M16 3.3v3.2"/></svg>カレンダー</button>
         </div>
         <select class="hist-filter" id="histFilter"></select>
       </div>
@@ -652,64 +657,103 @@ function deleteRecord(id){
   updatePreview();
 }
 
-/* ===== 告知（キャンペーン終了など）の取得・表示 ===== */
+/* ===== 公式サイトの新着情報の取得・表示 ===== */
 const OFFICIAL_URL = "https://www.kanatokucpn.pref.kanagawa.jp/index.html";
-const NOTICE_KW = ["予算", "見込み", "上限", "到達", "終了", "受付終了"];
+const NOTICE_KW = ["予算", "見込み", "上限", "到達", "終了", "受付終了"];   // 重要告知の判定語
+const PROXY = "https://api.allorigins.win/raw?url=";
+const escHtml = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
 
-function noticeSig(j){ return (j.date||"") + "|" + (j.title||"") + "|" + (j.detail||"").slice(0,50); }
+function newsSig(news){ return (news || []).map(n => (n.date||"") + "|" + (n.title||"")).join("§"); }
+function newsHasAlert(news){ return (news || []).some(n => NOTICE_KW.some(k => (n.title||"").includes(k))); }
 
-function showNotice(j){
-  const sig = noticeSig(j);
-  if(localStorage.getItem("kanatoku_notice_dismissed") === sig) return; // 既に閉じた同一告知は出さない
-  document.getElementById("noticeTitle").textContent = j.title || "キャンペーンに関する重要なお知らせ";
-  document.getElementById("noticeDetail").textContent = j.detail || "";
-  document.getElementById("noticeDate").textContent = j.date || "";
-  document.getElementById("noticeLink").href = j.url || OFFICIAL_URL;
+// 新着情報をバナーに表示（news=[{date,title},...]、alert=予算/終了など重要か）
+function showNews(news, alert){
+  if(!news || !news.length) return;
+  const sig = newsSig(news);
+  if(localStorage.getItem("kanatoku_notice_dismissed") === sig) return; // 既読（×で閉じた同一内容）は出さない
+  document.getElementById("noticeIc").textContent = alert ? "📢" : "📰";
+  document.getElementById("noticeTitle").textContent = alert ? "⚠️ キャンペーンに関する重要なお知らせ" : "公式サイトの新着情報";
+  document.getElementById("noticeDetail").innerHTML = news.slice(0,3)
+    .map(n => "・" + (n.date ? escHtml(n.date) + " " : "") + escHtml(n.title)).join("<br>");
+  document.getElementById("noticeDate").textContent = "";
+  document.getElementById("noticeLink").href = OFFICIAL_URL;
   const bar = document.getElementById("noticeBar");
+  bar.classList.toggle("alert", !!alert);
   bar.dataset.sig = sig;
   bar.hidden = false;
 }
 
-// 同一オリジンの notice.json（GitHub Actions または手動更新）を読む＝堅牢な本命ルート
+// ページ内の <li> のうち先頭が日付(YYYY/MM/DD)の項目＝新着情報を最大3件抽出
+// （日付の無いナビメニュー等は自動的に除外される）
+function parseNews(html){
+  const items = [];
+  for(const li of (html.match(/<li[\s\S]*?<\/li>/g) || [])){
+    const t = li.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    const m = t.match(/(\d{4}[.\/]\d{1,2}[.\/]\d{1,2})\s*(.+)/);
+    if(m){
+      const title = m[2].trim().replace(/([「『（])\s+/g, "$1").replace(/\s+([」』）])/g, "$1");
+      items.push({ date: m[1].replace(/\./g, "/"), title });
+      if(items.length >= 3) break;
+    }
+  }
+  return items;
+}
+
+// 同一オリジンの notice.json（GitHub Actions/手動更新）を読む＝確実な本命ルート
 async function loadNoticeJson(){
   try{
     const r = await fetch("./notice.json?t=" + Date.now(), { cache: "no-store" });
-    if(r.ok){ const j = await r.json(); if(j && j.active){ showNotice(j); return true; } }
+    if(r.ok){
+      const j = await r.json();
+      if(j && Array.isArray(j.news) && j.news.length){ showNews(j.news, j.alert != null ? j.alert : newsHasAlert(j.news)); return true; }
+      if(j && j.active){ showNews([{ date:j.date||"", title:j.detail||j.title||"" }], true); return true; } // 旧スキーマ後方互換
+    }
   }catch(e){}
   return false;
 }
 
-// 「新着情報」見出し直後の最初の <ul> 内 <li> だけをキーワード判定（期間説明文での誤検知を防ぐ）
-function scanNews(html){
-  const i = html.indexOf("新着情報"); if(i < 0) return null;
-  const after = html.slice(i);
-  const ul = after.match(/<ul[\s\S]*?<\/ul>/);
-  const seg = ul ? ul[0] : after.slice(0, 4000);
-  for(const li of (seg.match(/<li[\s\S]*?<\/li>/g) || [])){
-    const t = li.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-    if(NOTICE_KW.some(k => t.includes(k))) return t.slice(0, 140);
-  }
-  return null;
+// CORSプロキシ経由で公式サイトを取得して新着情報を返す（ベストエフォート）
+async function fetchNewsLive(){
+  const ctrl = new AbortController();
+  const to = setTimeout(() => ctrl.abort(), 9000);
+  try{
+    const res = await fetch(PROXY + encodeURIComponent(OFFICIAL_URL), { signal: ctrl.signal });
+    return parseNews(await res.text());
+  } finally { clearTimeout(to); }
 }
 
-// ボタンからの即時確認（CORSプロキシ経由のベストエフォート。設定不要だが補助的）
+// 起動時の自動取得（1時間に1回まで・結果はキャッシュ。notice.json で出せた場合は呼ばない）
+async function autoNewsCheck(){
+  const last = +(localStorage.getItem("kanatoku_news_at") || 0);
+  let cached = null;
+  try{ cached = JSON.parse(localStorage.getItem("kanatoku_news_cache") || "null"); }catch(e){}
+  if(cached && cached.news && (Date.now() - last < 3600000)){ showNews(cached.news, cached.alert); return; }
+  try{
+    const news = await fetchNewsLive();
+    if(news.length){
+      const alert = newsHasAlert(news);
+      localStorage.setItem("kanatoku_news_cache", JSON.stringify({ news, alert }));
+      localStorage.setItem("kanatoku_news_at", String(Date.now()));
+      showNews(news, alert);
+    }
+  }catch(e){}
+}
+
+// 手動ボタン：今すぐ取得して表示（既読でも一度再表示）
 async function liveCheck(){
   const fb = document.getElementById("checkFeedback");
   fb.textContent = "確認中…";
   try{
-    const ctrl = new AbortController();
-    const to = setTimeout(()=>ctrl.abort(), 9000);
-    const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(OFFICIAL_URL);
-    const res = await fetch(proxy, { signal: ctrl.signal });
-    clearTimeout(to);
-    const html = await res.text();
-    const hit = scanNews(html);
-    if(hit){
-      localStorage.removeItem("kanatoku_notice_dismissed"); // 新たに見つかったら再表示
-      showNotice({ active:true, title:"公式サイトに関連するお知らせがあります", detail:hit, url:OFFICIAL_URL, date:"" });
-      fb.textContent = "⚠️ 告知の可能性あり（上部に表示しました）";
+    const news = await fetchNewsLive();
+    if(news.length){
+      const alert = newsHasAlert(news);
+      localStorage.setItem("kanatoku_news_cache", JSON.stringify({ news, alert }));
+      localStorage.setItem("kanatoku_news_at", String(Date.now()));
+      localStorage.removeItem("kanatoku_notice_dismissed"); // 手動確認時は再表示
+      showNews(news, alert);
+      fb.textContent = (alert ? "⚠️ 重要な告知の可能性があります。" : "最新の新着情報を表示しました。") + "（" + new Date().toLocaleString("ja-JP") + "）";
     }else{
-      fb.textContent = "現時点で終了等の告知は見つかりませんでした（" + new Date().toLocaleString("ja-JP") + " 時点）";
+      fb.textContent = "新着情報を取得できませんでした。公式サイトをご確認ください。";
     }
   }catch(e){
     fb.textContent = "オンライン確認に失敗しました。公式サイトを直接ご確認ください。";
@@ -775,7 +819,7 @@ function init(){
   document.getElementById("histFilter").addEventListener("change", e=>{ histFilter = e.target.value; selDay = null; renderHistory(); });
 
   // 告知バナー：notice.json を読み込み、閉じる/即時確認を配線
-  loadNoticeJson();
+  loadNoticeJson().then(shown => { if(!shown) autoNewsCheck(); });
   document.getElementById("noticeClose").addEventListener("click", ()=>{
     const bar = document.getElementById("noticeBar");
     if(bar.dataset.sig) localStorage.setItem("kanatoku_notice_dismissed", bar.dataset.sig);
