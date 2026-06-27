@@ -289,6 +289,62 @@
   .official-link:active{transform:scale(.98);}
   .check-btn{display:block;margin:11px auto 0;background:#fff;border:1.5px solid var(--line);color:#46546a;font-weight:700;font-size:12px;padding:8px 14px;border-radius:10px;cursor:pointer;}
   .check-fb{font-size:11px;color:var(--muted);margin-top:9px;min-height:14px;line-height:1.5;}
+  /* ===== 追加UI：満額進捗バー・メモ・空状態・トースト ===== */
+  .hero{flex-direction:column;align-items:stretch;gap:16px;}
+  .hero-top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;}
+  .hero-prog-track{height:8px;border-radius:6px;background:rgba(255,255,255,.16);overflow:hidden;}
+  .hero-prog-track > i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,#ffcf6b,#ff9a00);transition:width .5s ease;}
+  .hero-prog-cap{display:flex;justify-content:space-between;margin-top:6px;font-size:11px;font-weight:700;color:#c2cfe2;}
+  #heroProgPct{color:var(--orange);}
+  .hero.celebrate .hero-prog-track > i{background:linear-gradient(90deg,#3ddc84,#16a34a);}
+  .hero.celebrate{box-shadow:0 0 0 2px rgba(52,210,122,.55),0 10px 26px rgba(15,34,56,.3);}
+
+  .memo-input{-webkit-appearance:none;appearance:none;display:block;width:100%;box-sizing:border-box;border:1.5px solid var(--line);border-radius:14px;padding:12px 16px;font-size:15px;font-weight:600;color:var(--text);background:#fff;outline:none;font-family:inherit;}
+  .memo-input::placeholder{color:#c2cad6;font-weight:500;}
+  .memo-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,127,240,.12);}
+
+  .rec{flex-wrap:wrap;}
+  .rec-memo{flex-basis:100%;font-size:12px;color:#7a879a;padding-left:2px;margin-top:1px;}
+  .hist-memo{flex-basis:100%;font-size:12px;color:#7a879a;padding-left:34px;margin-top:1px;}
+
+  .onboard{display:none;align-items:flex-start;gap:10px;background:#eaf3ff;border:1px solid #cfe3ff;color:#2c5a9e;font-size:12.5px;font-weight:600;line-height:1.6;border-radius:14px;padding:12px 14px;margin:0 2px 14px;}
+  .onboard:not([hidden]){display:flex;}
+  .onboard > span{flex:1;}
+  .onboard-x{flex:none;border:none;background:rgba(44,90,158,.14);color:#2c5a9e;width:24px;height:24px;border-radius:50%;font-size:14px;line-height:1;cursor:pointer;}
+
+  .toast{display:none;position:fixed;left:50%;bottom:calc(78px + env(safe-area-inset-bottom));transform:translateX(-50%);max-width:90vw;background:#13294b;color:#fff;font-size:13px;font-weight:700;padding:11px 16px;border-radius:13px;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:60;align-items:center;gap:16px;}
+  .toast:not([hidden]){display:flex;}
+  .toast-act{flex:none;background:none;border:none;color:#ffb02e;font-weight:800;font-size:13px;cursor:pointer;padding:0;}
+
+  /* ===== ダークモード ===== */
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#10171f; --card:#1a232e; --text:#e7ecf3; --muted:#94a1b3; --muted-2:#7e8ba0;
+      --line:#2b3744; --track:#2b3744; --blue-soft:#1e2c3e;
+      --shadow:0 8px 22px rgba(0,0,0,.5); --shadow-soft:0 2px 8px rgba(0,0,0,.35);
+    }
+    .app-header{background:#161f2a;border-bottom-color:#26303d;}
+    .section-title,.cal-title,.tab.active{color:var(--text);}
+    .field-label{color:#93a0b2;}
+    .pay-btn,.rate-btn,.amount-input,.date-input,.memo-input,.hist-filter,.cal-arrow,.check-btn{background:#222d3a;border-color:#2b3744;color:var(--text);}
+    .pay-btn .nm{color:#c2ccd9;} .rate-btn .sub{color:#94a1b3;}
+    .rate-btn.r10 .pct{color:#7aa8f0;}
+    .rate-btn.r10.sel{background:#1e2c3e;} .rate-btn.r20.sel{background:#2e2618;}
+    .preview{background:#1e2c3e;} .preview .pl,.preview .pv{color:#8fb6f5;}
+    .togo{background:#1c2735;color:#aab6c6;} .togo.done{background:#16241c;}
+    .seg{background:#222d3a;} .seg-btn{color:#93a0b2;} .seg-btn.active{background:#374556;color:#e7ecf3;}
+    .hist-card,.cal-grid{background:var(--card);}
+    .cal-cell{background:#222d3a;} .cal-cell.has{background:#33291a;} .cal-cell.sel{background:#21344a;} .cal-d{color:#c2ccd9;}
+    .rec .amt,.hist-row .amt{color:#c2ccd9;}
+    .rec .del,.hist-row .del{background:#2b3744;color:#9aa6b5;}
+    .notice-bar{background:#16202e;border-bottom-color:#26323f;} .notice-title{color:#8fb6f5;} .notice-detail{color:#aeb8c6;}
+    .notice-bar.alert{background:#2a2114;border-bottom-color:#5a4420;} .notice-bar.alert .notice-title{color:#ffb4a8;} .notice-bar.alert .notice-detail{color:#e6c79a;}
+    .notice-x{background:rgba(255,255,255,.10);color:#aeb8c6;}
+    .m-card.maxed{background:#15251b;}
+    .tabbar{background:rgba(18,25,34,.96);border-top-color:#26303d;}
+    .onboard{background:#16202e;border-color:#26323f;color:#8fb6f5;} .onboard-x{background:rgba(255,255,255,.1);color:#8fb6f5;}
+    .pill.r20{background:#3a2e15;color:#f0b659;} .pill.r10{background:#1e2c44;color:#7aa8f0;}
+  }
 </style>
 </head>
 <body>
@@ -313,17 +369,24 @@
     <section id="view-status" class="view active">
       <div class="hero-wrap">
       <div class="hero">
-        <div class="left">
-          <div class="lbl">期間中 累計お支払い</div>
-          <div class="amount"><span id="heroSpent">0</span><span class="yen">円</span></div>
+        <div class="hero-top">
+          <div class="left">
+            <div class="lbl">期間中 累計お支払い</div>
+            <div class="amount"><span id="heroSpent">0</span><span class="yen">円</span></div>
+          </div>
+          <div class="cb">
+            <div class="lbl">もらえる還元額</div>
+            <div class="val" id="heroCb">¥0</div>
+            <div class="cbsub" id="heroTogo"></div>
+          </div>
         </div>
-        <div class="cb">
-          <div class="lbl">もらえる還元額</div>
-          <div class="val" id="heroCb">¥0</div>
-          <div class="cbsub" id="heroTogo"></div>
+        <div class="hero-prog">
+          <div class="hero-prog-track"><i id="heroProgFill"></i></div>
+          <div class="hero-prog-cap"><span id="heroProgLabel">満額 ¥15,000 まで</span><span id="heroProgPct">0%</span></div>
         </div>
       </div>
       </div>
+      <div id="onboard" class="onboard" hidden><span>👋 はじめての方へ：下の「＋ 記録する」でお買い物を登録すると、還元額と「満額までの目安」が自動で計算されます。</span><button class="onboard-x" id="onboardClose" aria-label="閉じる">×</button></div>
       <div class="section-title">決済手段ごとの還元状況</div>
       <div id="methodList"></div>
       <p class="legal">還元率20%＝中小・小規模店／10%＝大手チェーン店。<br>1回あたり上限¥1,500・1サービスあたり期間中上限¥2,500。<br>予算上限（180億円）到達で早期終了の可能性があります。</p>
@@ -357,6 +420,9 @@
         <div class="field-label" style="margin-top:18px;">日付</div>
         <input type="date" id="dateInput" class="date-input" />
 
+        <div class="field-label" style="margin-top:18px;">メモ・店名（任意）</div>
+        <input type="text" id="memoInput" class="memo-input" placeholder="例：スーパー○○、ランチ" maxlength="40" autocomplete="off" />
+
         <div class="preview" id="preview">
           <div class="pl">この支払いの還元額<small id="previewSub">金額を入力してください</small></div>
           <div class="pv" id="previewVal">¥—</div>
@@ -386,6 +452,8 @@
     <button class="tab" data-view="record"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>記録する</button>
     <button class="tab" data-view="history"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.3"/><path d="M12 7.3V12l3.2 1.9"/></svg>履歴</button>
   </nav>
+
+  <div class="toast" id="toast" hidden></div>
 </div>
 
 <script>
@@ -464,8 +532,17 @@ function render(){
   const amtEl = document.querySelector(".hero .amount");
   if(amtEl){ const L = spentStr.length; amtEl.style.fontSize = (L<=6 ? 40 : L<=8 ? 33 : L<=10 ? 27 : 22) + "px"; }
   document.getElementById("heroCb").textContent = yen(s.totalCb);
-  const togoTotal = Math.max(0, CAP_METHOD * METHODS.length - s.totalCb);
+  const MAX_TOTAL = CAP_METHOD * METHODS.length;
+  const togoTotal = Math.max(0, MAX_TOTAL - s.totalCb);
   document.getElementById("heroTogo").textContent = togoTotal > 0 ? `満額まで あと ${yen(togoTotal)}` : "満額達成 🎉";
+  // 満額¥15,000までの進捗バー＋達成演出
+  const pctTotal = Math.min(100, Math.round(s.totalCb / MAX_TOTAL * 100));
+  const allDone = s.totalCb >= MAX_TOTAL;
+  document.getElementById("heroProgFill").style.width = pctTotal + "%";
+  document.getElementById("heroProgPct").textContent = allDone ? "🎉 満額達成！" : pctTotal + "%";
+  document.getElementById("heroProgLabel").textContent = allDone ? "おめでとうございます！" : "満額 ¥15,000 まで";
+  document.querySelector(".hero").classList.toggle("celebrate", allDone);
+  document.getElementById("onboard").hidden = !!localStorage.getItem("kanatoku_onboard_done") || records.length > 0;
 
   const list = document.getElementById("methodList");
   list.innerHTML = METHODS.map(m => {
@@ -478,6 +555,7 @@ function render(){
         <span class="arr">→${yen(r.cashback)}</span>
         <span class="date">${r.date}</span>
         <button class="del" data-del="${r.id}" aria-label="削除">×</button>
+        ${r.memo ? `<span class="rec-memo">📝 ${escHtml(r.memo)}</span>` : ""}
       </div>`).join("");
     const maxed = b.remaining <= 0 && b.capped > 0;
     return `
@@ -485,7 +563,7 @@ function render(){
         <span class="corner" style="border-top-color:${m.color}"></span>
         <div class="m-head">
           <div class="m-name"><span class="ico">${payIcon(m)}</span>${m.name}${maxed ? `<span class="badge-max">満額達成</span>` : ""}</div>
-          <div class="m-earn"><div class="v">${yen(b.capped)}</div><div class="s">${maxed ? "満額 🎉" : "還元済み"}</div></div>
+          <div class="m-earn"><div class="v">${yen(b.capped)}</div><div class="s">${maxed ? "満額 🎉" : "獲得見込み"}</div></div>
         </div>
         <div class="bar-wrap">
           <div class="bar"><i style="width:${pct}%"></i></div>
@@ -517,6 +595,7 @@ function histRowHtml(r){
           <span class="amt">${yen(r.amount)}</span>
           <span class="arr">→${yen(r.cashback)}</span>
         </div>
+        ${r.memo ? `<div class="hist-memo">📝 ${escHtml(r.memo)}</div>` : ""}
       </div>`;
 }
 function renderHistory(){
@@ -631,6 +710,7 @@ function addRecord(){
   if(!sel.method || amount <= 0) return;
   const cb = cashbackOf(amount, sel.rate);
   const iso = document.getElementById("dateInput").value || todayISO();
+  const memo = document.getElementById("memoInput").value.trim();
   records.push({
     id: "r" + Date.now() + Math.floor(Math.random()*1000),
     ts: Date.now(),
@@ -639,23 +719,44 @@ function addRecord(){
     amount,
     cashback: cb,
     date: iso.replace(/-/g, "/"),
+    memo,
   });
   save();
   // フォームをリセット
+  localStorage.setItem("kanatoku_onboard_done", "1");   // 一度記録したら以後オンボーディングは出さない
   document.getElementById("amountInput").value = "";
+  document.getElementById("memoInput").value = "";
   document.getElementById("dateInput").value = todayISO();
   document.querySelectorAll(".pay-btn").forEach(b=>b.classList.remove("sel"));
   sel.method = null;
   updatePreview();
   render();
   switchView("status");
+  showToast(`記録しました（+${yen(cb)}）`);
 }
 
+/* ===== トースト（記録・削除Undoの通知） ===== */
+let toastTimer = null;
+function showToast(msg, actLabel, actFn){
+  const t = document.getElementById("toast");
+  t.innerHTML = `<span class="toast-msg">${msg}</span>` + (actLabel ? `<button class="toast-act" id="toastAct"></button>` : "");
+  if(actLabel){ const a = document.getElementById("toastAct"); a.textContent = actLabel; a.onclick = () => { if(actFn) actFn(); hideToast(); }; }
+  t.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(hideToast, actLabel ? 5000 : 2400);
+}
+function hideToast(){ document.getElementById("toast").hidden = true; }
+
 function deleteRecord(id){
-  records = records.filter(r => r.id !== id);
-  save();
-  render();
-  updatePreview();
+  const idx = records.findIndex(r => r.id === id);
+  if(idx < 0) return;
+  const removed = records[idx];
+  records.splice(idx, 1);
+  save(); render(); updatePreview();
+  showToast("削除しました", "取り消す", () => {
+    records.splice(Math.min(idx, records.length), 0, removed);
+    save(); render(); updatePreview();
+  });
 }
 
 /* ===== 公式サイトの新着情報の取得・表示 ===== */
@@ -838,11 +939,12 @@ function init(){
     bar.hidden = true;
   });
   document.getElementById("checkBtn").addEventListener("click", liveCheck);
+  document.getElementById("onboardClose").addEventListener("click", ()=>{ localStorage.setItem("kanatoku_onboard_done","1"); document.getElementById("onboard").hidden = true; });
 
   // クリック委任（削除・全削除・履歴モード切替・カレンダー操作）
   document.body.addEventListener("click", e=>{
     const del = e.target.closest("[data-del]");
-    if(del){ if(confirm("この記録を削除しますか？")) deleteRecord(del.dataset.del); return; }
+    if(del){ deleteRecord(del.dataset.del); return; }
     if(e.target.id === "resetBtn"){ if(confirm("すべての記録を削除します。よろしいですか？")){ records=[]; save(); render(); } return; }
     const seg = e.target.closest("#histSeg .seg-btn");
     if(seg){ histMode = seg.dataset.mode; renderHistory(); return; }
