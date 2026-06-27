@@ -54,13 +54,13 @@
     position:sticky;top:0;z-index:30;
     background:#ffffff;
     color:var(--navy);
-    padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;
-    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:calc(env(safe-area-inset-top) + 10px) 14px 12px;
+    display:flex;align-items:center;justify-content:center;
     border-bottom:1px solid #e7ecf3;
     box-shadow:0 2px 12px rgba(20,40,80,.07);
   }
-  .brand{display:flex;align-items:center;min-width:0;}
-  .brand-logo{height:56px;width:auto;max-width:64vw;object-fit:contain;display:block;}
+  .brand{display:flex;align-items:center;justify-content:center;width:100%;}
+  .brand-logo{height:60px;width:auto;max-width:88vw;object-fit:contain;display:block;}
   .brand .kana{
     background:var(--orange);color:#12243f;
     border-radius:10px;padding:2px 10px;margin-right:6px;font-weight:900;
@@ -103,7 +103,12 @@
     background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
     margin-bottom:14px;overflow:hidden;position:relative;
   }
-  .m-card.has::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--blue),var(--blue-deep));}
+  .corner{position:absolute;top:0;left:0;width:0;height:0;border-style:solid;border-width:24px 24px 0 0;border-color:#ccc transparent transparent transparent;z-index:0;}
+  .m-card .m-head{position:relative;z-index:1;}
+  .badge-max{display:inline-block;margin-left:8px;background:#16a34a;color:#fff;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;vertical-align:middle;letter-spacing:.3px;box-shadow:0 1px 3px rgba(22,163,74,.35);}
+  .m-card.maxed{background:#eefaf2;}
+  .m-card.maxed .m-earn .v{color:#16a34a;}
+  .m-card.maxed .bar > i{background:linear-gradient(90deg,#3ddc84,#16a34a);}
   .m-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px;}
   .m-name{display:flex;align-items:center;gap:11px;font-size:18px;font-weight:800;}
   .m-name .ico{width:30px;height:30px;flex:none;}
@@ -213,6 +218,32 @@
   .hist-empty{text-align:center;color:var(--muted);padding:48px 20px;font-size:14px;}
   .hist-empty .big{font-size:40px;margin-bottom:10px;}
 
+  /* 履歴ツールバー・カレンダー・日付入力 */
+  .hist-toolbar{display:flex;gap:8px;align-items:center;margin:0 2px 14px;}
+  .seg{display:inline-flex;background:#e6ecf4;border-radius:11px;padding:3px;gap:2px;}
+  .seg-btn{border:none;background:none;font-size:13px;font-weight:700;color:#6b7686;padding:6px 11px;border-radius:9px;cursor:pointer;font-family:inherit;}
+  .seg-btn.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(20,40,80,.14);}
+  .hist-filter{margin-left:auto;border:1.5px solid var(--line);border-radius:10px;padding:7px 10px;font-size:13px;font-weight:700;color:var(--navy);background:#fff;font-family:inherit;}
+  .cal-nav{display:flex;align-items:center;justify-content:space-between;margin:2px 4px 10px;}
+  .cal-arrow{border:none;background:#fff;width:36px;height:36px;border-radius:50%;font-size:20px;color:var(--navy);box-shadow:var(--shadow-soft);cursor:pointer;}
+  .cal-arrow:active{background:#eef2f7;}
+  .cal-title{font-size:16px;font-weight:800;color:var(--navy);display:flex;flex-direction:column;align-items:center;line-height:1.25;}
+  .cal-mtotal{font-size:11px;font-weight:700;color:#e08600;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:#fff;border-radius:16px;padding:10px;box-shadow:var(--shadow);}
+  .cal-wd{text-align:center;font-size:11px;font-weight:700;color:var(--muted);padding:2px 0;}
+  .cal-wd.sun{color:#e15b5b;} .cal-wd.sat{color:#4a86e8;}
+  .cal-cell{border:none;background:#f5f8fb;border-radius:9px;min-height:48px;padding:5px 2px 3px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;font-family:inherit;}
+  .cal-cell.empty{background:transparent;}
+  .cal-d{font-size:12px;font-weight:700;color:var(--navy);}
+  .cal-cell.sun .cal-d{color:#e15b5b;} .cal-cell.sat .cal-d{color:#4a86e8;}
+  .cal-cell.has{background:#fff3e0;}
+  .cal-cb{font-size:9px;font-weight:800;color:#e08600;line-height:1;}
+  .cal-cell.sel{outline:2px solid var(--blue);outline-offset:-2px;background:#e9f2ff;}
+  .cal-detail{margin-top:16px;}
+  .cal-detail-h{font-size:13px;font-weight:800;color:var(--navy);margin:0 4px 8px;}
+  .date-input{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:13px 16px;font-size:17px;font-weight:700;color:var(--text);background:#fff;outline:none;font-family:inherit;}
+  .date-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,127,240,.12);}
+
   /* ===== ボトムナビ ===== */
   .tabbar{
     position:fixed;left:0;right:0;bottom:0;z-index:30;
@@ -239,10 +270,6 @@
 
   <header class="app-header">
     <div class="brand"><img src="./header.png" alt="かなトク！" class="brand-logo" /></div>
-    <div class="header-total">
-      <div class="lbl">還元合計</div>
-      <div class="val" id="headTotal">¥0</div>
-    </div>
   </header>
 
   <main>
@@ -285,6 +312,9 @@
         <div class="field-label">お支払い金額（円）</div>
         <input class="amount-input" id="amountInput" type="text" inputmode="numeric" placeholder="例：3,280" autocomplete="off" />
 
+        <div class="field-label" style="margin-top:18px;">日付</div>
+        <input type="date" id="dateInput" class="date-input" />
+
         <div class="preview" id="preview">
           <div class="pl">この支払いの還元額<small id="previewSub">金額を入力してください</small></div>
           <div class="pv" id="previewVal">¥—</div>
@@ -298,6 +328,13 @@
     <!-- ===== 履歴 ===== -->
     <section id="view-history" class="view">
       <div class="section-title" style="margin-top:6px;">記録の履歴</div>
+      <div class="hist-toolbar">
+        <div class="seg" id="histSeg">
+          <button class="seg-btn active" data-mode="list">📋 一覧</button>
+          <button class="seg-btn" data-mode="calendar">🗓 カレンダー</button>
+        </div>
+        <select class="hist-filter" id="histFilter"></select>
+      </div>
       <div id="historyArea"></div>
     </section>
   </main>
@@ -314,7 +351,7 @@
 const METHODS = [
   { id:"paypay",  name:"PayPay",   color:"#ff0033", img:"iconpay-paypay.png"  },
   { id:"rakuten", name:"楽天Pay",  color:"#bf0000", img:"iconpay-rakuten.png" },
-  { id:"d",       name:"d払い",    color:"#e4007f", lines:["d払い"], fs:33     },
+  { id:"d",       name:"d払い",    color:"#e60012", img:"iconpay-d.png"       },
   { id:"au",      name:"au PAY",   color:"#eb5505", img:"iconpay-au.png"      },
   { id:"merpay",  name:"メルペイ",  color:"#ff0211", img:"iconpay-merpay.png"  },
   { id:"aeon",    name:"AEON Pay", color:"#a0006e", img:"iconpay-aeon.png"    },
@@ -344,6 +381,10 @@ const STORE_KEY = "kanatoku_records_v1";
 /* ===== 状態 ===== */
 let records = load();
 let sel = { method:null, rate:0.1 };
+let histMode = "list";    // 履歴の表示：list / calendar
+let histFilter = "all";   // 決済フィルタ：all / 各method
+let calView = null;       // カレンダー表示中の {y, m(0-11)}
+let selDay = null;        // カレンダーで選択中の日付 "YYYY/MM/DD"
 
 /* ===== ユーティリティ ===== */
 function load(){ try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }catch(e){ return []; } }
@@ -351,6 +392,7 @@ function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(records)); }
 const yen = n => "¥" + Math.round(n).toLocaleString("ja-JP");
 const num = n => Math.round(n).toLocaleString("ja-JP");
 function todayStr(){ const d=new Date(),z=x=>String(x).padStart(2,"0"); return `${d.getFullYear()}/${z(d.getMonth()+1)}/${z(d.getDate())}`; }
+function todayISO(){ const d=new Date(),z=x=>String(x).padStart(2,"0"); return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`; }
 // 1件分の還元額（1回上限を適用）
 function cashbackOf(amount, rate){ return Math.min(Math.floor(amount*rate), CAP_TX); }
 
@@ -374,7 +416,6 @@ function summary(){
 /* ===== 描画：還元状況 ===== */
 function render(){
   const s = summary();
-  document.getElementById("headTotal").textContent = yen(s.totalCb);
   document.getElementById("heroSpent").textContent = num(s.totalSpent);
   document.getElementById("heroCb").textContent = yen(s.totalCb);
   const togoTotal = Math.max(0, CAP_METHOD * METHODS.length - s.totalCb);
@@ -392,11 +433,13 @@ function render(){
         <span class="date">${r.date}</span>
         <button class="del" data-del="${r.id}" aria-label="削除">×</button>
       </div>`).join("");
+    const maxed = b.remaining <= 0 && b.capped > 0;
     return `
-      <div class="m-card ${b.capped>0?"has":""}">
+      <div class="m-card${maxed ? " maxed" : ""}">
+        <span class="corner" style="border-top-color:${m.color}"></span>
         <div class="m-head">
-          <div class="m-name"><span class="ico">${payIcon(m)}</span>${m.name}</div>
-          <div class="m-earn"><div class="v">${yen(b.capped)}</div><div class="s">還元済み</div></div>
+          <div class="m-name"><span class="ico">${payIcon(m)}</span>${m.name}${maxed ? `<span class="badge-max">満額達成</span>` : ""}</div>
+          <div class="m-earn"><div class="v">${yen(b.capped)}</div><div class="s">${maxed ? "満額 🎉" : "還元済み"}</div></div>
         </div>
         <div class="bar-wrap">
           <div class="bar"><i style="width:${pct}%"></i></div>
@@ -409,22 +452,16 @@ function render(){
       </div>`;
   }).join("");
 
-  renderHistory(s);
+  renderHistory();
 }
 
-/* ===== 描画：履歴 ===== */
-function renderHistory(s){
-  s = s || summary();
-  const area = document.getElementById("historyArea");
-  const all = [...records].sort((a,b)=> b.ts - a.ts);
-  if(!all.length){
-    area.innerHTML = `<div class="hist-empty"><div class="big">🧾</div>まだ記録がありません。<br>「＋ 記録する」から最初のお買い物を登録しましょう。</div>`;
-    return;
-  }
-  const rows = all.map(r => {
-    const m = M[r.method] || {name:r.method};
-    return `
-      <div class="hist-row">
+/* ===== 描画：履歴（一覧 / カレンダー） ===== */
+function histFiltered(){
+  return records.filter(r => histFilter === "all" || r.method === histFilter);
+}
+function histRowHtml(r){
+  const m = M[r.method] || {name:r.method};
+  return `<div class="hist-row">
         <span class="ico">${payIcon(m)}</span>
         <span class="nm">${m.name}</span>
         <span class="date">${r.date}</span>
@@ -435,9 +472,65 @@ function renderHistory(s){
           <span class="arr">→${yen(r.cashback)}</span>
         </div>
       </div>`;
-  }).join("");
-  area.innerHTML = `<div class="hist-card">${rows}</div>
+}
+function renderHistory(){
+  // ツールバーの状態を反映
+  document.querySelectorAll("#histSeg .seg-btn").forEach(b=>b.classList.toggle("active", b.dataset.mode===histMode));
+  const fsel = document.getElementById("histFilter");
+  if(fsel && fsel.value !== histFilter) fsel.value = histFilter;
+
+  const area = document.getElementById("historyArea");
+  const data = histFiltered();
+  if(histMode === "calendar"){ area.innerHTML = calendarHtml(data); return; }
+
+  if(!data.length){
+    area.innerHTML = `<div class="hist-empty"><div class="big">🧾</div>${histFilter==="all" ? "まだ記録がありません。<br>「＋ 記録する」から登録しましょう。" : "この決済の記録はありません。"}</div>`;
+    return;
+  }
+  const all = [...data].sort((a,b)=> (a.date<b.date?1:a.date>b.date?-1:0) || (b.ts-a.ts));
+  area.innerHTML = `<div class="hist-card">${all.map(histRowHtml).join("")}</div>
     <button class="reset-btn" id="resetBtn">すべての記録を削除</button>`;
+}
+function calendarHtml(data){
+  const z = x => String(x).padStart(2,"0");
+  if(!calView){
+    let d = new Date();
+    if(records.length){
+      const recent = [...records].sort((a,b)=> a.date<b.date?1:-1)[0];
+      const p = recent.date.split("/"); d = new Date(+p[0], +p[1]-1, 1);
+    }
+    calView = { y:d.getFullYear(), m:d.getMonth() };
+  }
+  const { y, m } = calView;
+  const days = new Date(y, m+1, 0).getDate();
+  const startWd = new Date(y, m, 1).getDay();
+  const byDay = {};
+  data.forEach(r => { const o = (byDay[r.date] = byDay[r.date] || {cb:0,cnt:0}); o.cb += r.cashback; o.cnt++; });
+  const wd = ["日","月","火","水","木","金","土"];
+  let cells = wd.map((w,i)=>`<div class="cal-wd ${i===0?"sun":""} ${i===6?"sat":""}">${w}</div>`).join("");
+  for(let i=0;i<startWd;i++) cells += `<div class="cal-cell empty"></div>`;
+  for(let d=1; d<=days; d++){
+    const ds = `${y}/${z(m+1)}/${z(d)}`;
+    const info = byDay[ds];
+    const wdi = (startWd + d - 1) % 7;
+    const tint = wdi===0?"sun":wdi===6?"sat":"";
+    cells += `<button class="cal-cell ${info?"has":""} ${selDay===ds?"sel":""} ${tint}" data-day="${ds}"><span class="cal-d">${d}</span>${info?`<span class="cal-cb">¥${info.cb.toLocaleString("ja-JP")}</span>`:""}</button>`;
+  }
+  const monthPrefix = `${y}/${z(m+1)}/`;
+  const monthTotal = data.filter(r=>r.date.startsWith(monthPrefix)).reduce((s,r)=>s+r.cashback,0);
+  let detail = "";
+  if(selDay){
+    const dr = data.filter(r=>r.date===selDay).sort((a,b)=>b.ts-a.ts);
+    detail = `<div class="cal-detail"><div class="cal-detail-h">${selDay} の記録（還元 ${yen(dr.reduce((s,r)=>s+r.cashback,0))}）</div>`
+      + (dr.length ? `<div class="hist-card">${dr.map(histRowHtml).join("")}</div>` : `<div class="empty">この日の記録はありません</div>`)
+      + `</div>`;
+  }
+  return `<div class="cal-nav">
+      <button class="cal-arrow" data-cal="-1" aria-label="前の月">‹</button>
+      <div class="cal-title">${y}年${m+1}月<span class="cal-mtotal">この月の還元 ${yen(monthTotal)}</span></div>
+      <button class="cal-arrow" data-cal="1" aria-label="次の月">›</button>
+    </div>
+    <div class="cal-grid">${cells}</div>${detail}`;
 }
 
 /* ===== 記録フォーム ===== */
@@ -491,6 +584,7 @@ function addRecord(){
   const amount = rawAmount();
   if(!sel.method || amount <= 0) return;
   const cb = cashbackOf(amount, sel.rate);
+  const iso = document.getElementById("dateInput").value || todayISO();
   records.push({
     id: "r" + Date.now() + Math.floor(Math.random()*1000),
     ts: Date.now(),
@@ -498,11 +592,12 @@ function addRecord(){
     rate: sel.rate,
     amount,
     cashback: cb,
-    date: todayStr(),
+    date: iso.replace(/-/g, "/"),
   });
   save();
   // フォームをリセット
   document.getElementById("amountInput").value = "";
+  document.getElementById("dateInput").value = todayISO();
   document.querySelectorAll(".pay-btn").forEach(b=>b.classList.remove("sel"));
   sel.method = null;
   updatePreview();
@@ -528,6 +623,11 @@ function switchView(v){
 /* ===== イベント ===== */
 function init(){
   buildPayGrid();
+  // 履歴の決済フィルタ選択肢
+  document.getElementById("histFilter").innerHTML =
+    `<option value="all">すべての決済</option>` + METHODS.map(m=>`<option value="${m.id}">${m.name}</option>`).join("");
+  // 記録フォームの日付＝今日
+  document.getElementById("dateInput").value = todayISO();
   render();
 
   // タブ
@@ -561,11 +661,20 @@ function init(){
   // 記録ボタン
   document.getElementById("submitBtn").addEventListener("click", addRecord);
 
-  // 削除（イベント委任：状況・履歴の両方）
+  // 履歴：決済フィルタ
+  document.getElementById("histFilter").addEventListener("change", e=>{ histFilter = e.target.value; selDay = null; renderHistory(); });
+
+  // クリック委任（削除・全削除・履歴モード切替・カレンダー操作）
   document.body.addEventListener("click", e=>{
     const del = e.target.closest("[data-del]");
     if(del){ if(confirm("この記録を削除しますか？")) deleteRecord(del.dataset.del); return; }
-    if(e.target.id === "resetBtn"){ if(confirm("すべての記録を削除します。よろしいですか？")){ records=[]; save(); render(); } }
+    if(e.target.id === "resetBtn"){ if(confirm("すべての記録を削除します。よろしいですか？")){ records=[]; save(); render(); } return; }
+    const seg = e.target.closest("#histSeg .seg-btn");
+    if(seg){ histMode = seg.dataset.mode; renderHistory(); return; }
+    const arrow = e.target.closest("[data-cal]");
+    if(arrow){ if(calView){ let mm = calView.m + (+arrow.dataset.cal), yy = calView.y; if(mm<0){mm=11;yy--;} if(mm>11){mm=0;yy++;} calView = {y:yy, m:mm}; selDay = null; renderHistory(); } return; }
+    const cell = e.target.closest(".cal-cell[data-day]");
+    if(cell){ selDay = selDay===cell.dataset.day ? null : cell.dataset.day; renderHistory(); return; }
   });
 }
 init();

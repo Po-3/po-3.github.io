@@ -1,5 +1,5 @@
 /* かなトク！ Service Worker — オフライン対応 */
-const CACHE = "kanatoku-v5";
+const CACHE = "kanatoku-v8";
 const ASSETS = [
   "./",
   "./index.html",
@@ -10,6 +10,7 @@ const ASSETS = [
   "./header.png",
   "./iconpay-paypay.png",
   "./iconpay-rakuten.png",
+  "./iconpay-d.png",
   "./iconpay-au.png",
   "./iconpay-merpay.png",
   "./iconpay-aeon.png",
