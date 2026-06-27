@@ -353,6 +353,9 @@
   a.sheet-btn{text-decoration:none;text-align:center;}
   .sheet-note{font-size:11px;color:var(--muted);text-align:center;padding:6px 4px 2px;}
   .tap-hint{font-size:11px;color:var(--muted);margin:-4px 4px 12px;line-height:1.5;}
+  .edit-banner{display:none;align-items:center;justify-content:space-between;gap:10px;background:#fff6e7;border:1px solid #f3d9a4;color:#9a6a00;font-size:12.5px;font-weight:700;border-radius:12px;padding:9px 12px;margin:-6px 0 16px;}
+  .edit-banner:not([hidden]){display:flex;}
+  .edit-cancel{flex:none;border:none;background:rgba(154,106,0,.16);color:#9a6a00;font-size:12px;font-weight:800;padding:6px 13px;border-radius:9px;cursor:pointer;}
 
   @media (prefers-color-scheme: dark){
     :root{
@@ -389,6 +392,7 @@
     .pending-item{border-top-color:#3d3320;}
     .pending-sub,.pending-note{color:#c0a878;} .pending-r{color:#c2ccd9;} .pending-r b{color:#ffce85;}
     .sheet-btn{background:#222d3a;color:var(--text);} .sheet-btn.danger{color:#ff7a6e;} .sheet-btn.cancel{background:none;color:#93a0b2;}
+    .edit-banner{background:#2a2114;border-color:#5a4420;color:#e6c79a;} .edit-cancel{background:rgba(255,255,255,.1);color:#e6c79a;}
   }
 </style>
 </head>
@@ -447,6 +451,7 @@
     <section id="view-record" class="view">
       <div class="panel">
         <div class="panel-title">お買い物を記録する</div>
+        <div class="edit-banner" id="editBanner" hidden><span>✏️ 記録を編集中（更新すると上書きされます）</span><button id="editCancel" class="edit-cancel">やめる</button></div>
 
         <div class="field-label">決済手段を選ぶ</div>
         <div class="pay-grid" id="payGrid"></div>
@@ -545,6 +550,7 @@ const STORE_KEY = "kanatoku_records_v1";
 /* ===== 状態 ===== */
 let records = load();
 let sel = { method:null, rate:0.1 };
+let editId = null;          // 編集中の記録ID（null＝新規追加）
 let histMode = "list";    // 履歴の表示：list / calendar
 let histFilter = "all";   // 決済フィルタ：all / 各method
 let calView = null;       // カレンダー表示中の {y, m(0-11)}
@@ -793,12 +799,49 @@ function updatePreview(){
   else { note.classList.remove("show"); prev.classList.remove("warn"); }
 }
 
+function resetForm(){
+  editId = null;
+  sel.method = null;
+  document.getElementById("amountInput").value = "";
+  document.getElementById("memoInput").value = "";
+  document.getElementById("dateInput").value = todayISO();
+  document.querySelectorAll(".pay-btn").forEach(b=>b.classList.remove("sel"));
+  document.getElementById("submitBtn").textContent = "記録する";
+  document.getElementById("editBanner").hidden = true;
+  updatePreview();
+}
+// 既存記録の編集を開始（記録フォームを編集モードで再利用）
+function startEdit(id){
+  const r = records.find(x => x.id === id); if(!r) return;
+  editId = id;
+  sel.method = r.method; sel.rate = r.rate;
+  document.querySelectorAll(".pay-btn").forEach(b => b.classList.toggle("sel", b.dataset.method === r.method));
+  document.querySelectorAll(".rate-btn").forEach(b => b.classList.toggle("sel", parseFloat(b.dataset.rate) === r.rate));
+  document.getElementById("amountInput").value = (r.amount || 0).toLocaleString("ja-JP");
+  document.getElementById("dateInput").value = (r.date || todayISO()).replace(/\//g, "-");
+  document.getElementById("memoInput").value = r.memo || "";
+  document.getElementById("submitBtn").textContent = "更新する";
+  document.getElementById("editBanner").hidden = false;
+  updatePreview();
+  switchView("record");
+  window.scrollTo(0, 0);
+}
 function addRecord(){
   const amount = rawAmount();
   if(!sel.method || amount <= 0) return;
   const cb = cashbackOf(amount, sel.rate);
   const iso = document.getElementById("dateInput").value || todayISO();
   const memo = document.getElementById("memoInput").value.trim();
+  if(editId){
+    // ===== 更新（編集） =====
+    const r = records.find(x => x.id === editId);
+    if(r){ r.method = sel.method; r.rate = sel.rate; r.amount = amount; r.cashback = cb; r.date = iso.replace(/-/g, "/"); r.memo = memo; }
+    save(); resetForm(); render(); switchView("status");
+    showToast("更新しました");
+    return;
+  }
+  // ===== 新規追加 =====
+  localStorage.setItem("kanatoku_onboard_done", "1");   // 一度記録したら以後オンボーディングは出さない
   records.push({
     id: "r" + Date.now() + Math.floor(Math.random()*1000),
     ts: Date.now(),
@@ -810,17 +853,7 @@ function addRecord(){
     memo,
     pending: memo.indexOf("未反映") >= 0,
   });
-  save();
-  // フォームをリセット
-  localStorage.setItem("kanatoku_onboard_done", "1");   // 一度記録したら以後オンボーディングは出さない
-  document.getElementById("amountInput").value = "";
-  document.getElementById("memoInput").value = "";
-  document.getElementById("dateInput").value = todayISO();
-  document.querySelectorAll(".pay-btn").forEach(b=>b.classList.remove("sel"));
-  sel.method = null;
-  updatePreview();
-  render();
-  switchView("status");
+  save(); resetForm(); render(); switchView("status");
   showToast(`記録しました（+${yen(cb)}）`);
 }
 
@@ -855,6 +888,7 @@ function openRecordSheet(id){
   sheetMode = { type:"record", id };
   const m = M[r.method] || { name:r.method };
   openSheetHtml(`<div class="sheet-title">${m.name}　${yen(r.amount)}（${r.date}）</div>
+    <button class="sheet-btn" data-act="edit">✏️ 編集する</button>
     <button class="sheet-btn" data-act="toggle">${isPending(r) ? "↩︎ 未反映を解除（反映する）" : "⏳ 未反映にする"}</button>
     <a class="sheet-btn" href="${STORE_URL(m)}" target="_blank" rel="noopener" data-act="close">🔍 ${m.name}の対象店舗を探す ↗</a>
     <button class="sheet-btn danger" data-act="delete">🗑 削除する</button>
@@ -1070,6 +1104,7 @@ function init(){
 
   // 記録ボタン
   document.getElementById("submitBtn").addEventListener("click", addRecord);
+  document.getElementById("editCancel").addEventListener("click", resetForm);
 
   // 履歴：決済フィルタ
   document.getElementById("histFilter").addEventListener("change", e=>{ histFilter = e.target.value; selDay = null; renderHistory(); });
@@ -1093,7 +1128,8 @@ function init(){
   document.getElementById("sheetCard").addEventListener("click", (e) => {
     const el = e.target.closest("[data-act]"); if(!el) return;
     const act = el.dataset.act;
-    if(act === "toggle" && sheetMode && sheetMode.type === "record"){ const r = records.find(x => x.id === sheetMode.id); if(r) setPending(sheetMode.id, !isPending(r)); closeSheet(); }
+    if(act === "edit" && sheetMode && sheetMode.type === "record"){ const id = sheetMode.id; closeSheet(); startEdit(id); }
+    else if(act === "toggle" && sheetMode && sheetMode.type === "record"){ const r = records.find(x => x.id === sheetMode.id); if(r) setPending(sheetMode.id, !isPending(r)); closeSheet(); }
     else if(act === "delete" && sheetMode && sheetMode.type === "record"){ const id = sheetMode.id; closeSheet(); deleteRecord(id); }
     else { closeSheet(); }   // 「対象店舗を探す」リンク（別タブで開く）やキャンセルは閉じるだけ
   });
