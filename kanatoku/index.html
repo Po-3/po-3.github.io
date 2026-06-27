@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 <title>かなトク！還元計算</title>
 <meta name="description" content="かながわトクトクキャンペーン『かなトク！』の還元額を記録・計算するアプリ" />
 
@@ -40,7 +43,8 @@
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;}
   body{
-    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"Inter","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;
+    font-variant-numeric:tabular-nums;
     background:var(--bg);
     color:var(--text);
     -webkit-font-smoothing:antialiased;
@@ -430,7 +434,7 @@
       </div>
       <div id="onboard" class="onboard" hidden><span>👋 はじめての方へ：下の「＋ 記録する」でお買い物を登録すると、還元額と「満額までの目安」が自動で計算されます。</span><button class="onboard-x" id="onboardClose" aria-label="閉じる">×</button></div>
       <div class="section-title">決済手段ごとの還元状況</div>
-      <div class="tap-hint">💡 決済アイコンを長押しすると、その決済の対象店舗を探せます</div>
+      <div class="tap-hint">💡 決済アイコンを長押し → 対象店舗を探す ／ 記録を長押し → 未反映の切替・削除</div>
       <div id="methodList"></div>
       <p class="legal">還元率20%＝中小・小規模店／10%＝大手チェーン店。<br>1回あたり上限¥1,500・1サービスあたり期間中上限¥2,500。<br>予算上限（180億円）到達で早期終了の可能性があります。</p>
       <div class="official">
@@ -575,7 +579,7 @@ function summary(){
   let totalCb = 0, totalSpent = 0;
   METHODS.forEach(m => {
     const b = byM[m.id];
-    b.list.sort((a,c)=> c.ts - a.ts);
+    b.list.sort((a,c)=> (a.date < c.date ? 1 : a.date > c.date ? -1 : c.ts - a.ts));
     b.capped = Math.min(b.sum, CAP_METHOD);
     b.remaining = CAP_METHOD - b.capped;
     totalCb += b.capped;
@@ -620,7 +624,6 @@ function render(){
         <span class="arr">→${yen(r.cashback)}</span>
         ${isPending(r) ? `<span class="pend-badge">未反映</span>` : ""}
         <span class="date">${r.date}</span>
-        <button class="del" data-del="${r.id}" aria-label="削除">×</button>
         ${r.memo ? `<span class="rec-memo">📝 ${escHtml(r.memo)}</span>` : ""}
       </div>`).join("");
     const maxed = b.remaining <= 0 && b.capped > 0;
@@ -656,7 +659,6 @@ function histRowHtml(r){
         <span class="nm">${m.name}</span>
         ${isPending(r) ? `<span class="pend-badge">未反映</span>` : ""}
         <span class="date">${r.date}</span>
-        <button class="del" data-del="${r.id}" aria-label="削除">×</button>
         <div class="money">
           <span class="pill ${r.rate>=0.2?"r20":"r10"}">${Math.round(r.rate*100)}%</span>
           <span class="amt">${yen(r.amount)}</span>
@@ -698,7 +700,8 @@ function renderHistory(){
     return;
   }
   const all = [...data].sort((a,b)=> (a.date<b.date?1:a.date>b.date?-1:0) || (b.ts-a.ts));
-  area.innerHTML = `<div class="hist-card">${all.map(histRowHtml).join("")}</div>
+  area.innerHTML = `<div class="tap-hint" style="margin:2px 4px 10px">💡 記録を長押し → 未反映の切替・削除ができます</div>
+    <div class="hist-card">${all.map(histRowHtml).join("")}</div>
     <button class="reset-btn" id="resetBtn">すべての記録を削除</button>`;
 }
 function calendarHtml(data){
