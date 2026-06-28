@@ -1,0 +1,145 @@
+{
+  "generatedAt": null,
+  "series": [
+    {
+      "series": 1,
+      "file": "data/series-01.json",
+      "count": 30
+    },
+    {
+      "series": 2,
+      "file": "data/series-02.json",
+      "count": 44
+    },
+    {
+      "series": 3,
+      "file": "data/series-03.json",
+      "count": 46
+    },
+    {
+      "series": 4,
+      "file": "data/series-04.json",
+      "count": 50
+    },
+    {
+      "series": 5,
+      "file": "data/series-05.json",
+      "count": 58
+    },
+    {
+      "series": 6,
+      "file": "data/series-06.json",
+      "count": 68
+    },
+    {
+      "series": 7,
+      "file": "data/series-07.json",
+      "count": 49
+    },
+    {
+      "series": 8,
+      "file": "data/series-08.json",
+      "count": 76
+    },
+    {
+      "series": 9,
+      "file": "data/series-09.json",
+      "count": 61
+    },
+    {
+      "series": 10,
+      "file": "data/series-10.json",
+      "count": 62
+    },
+    {
+      "series": 11,
+      "file": "data/series-11.json",
+      "count": 66
+    },
+    {
+      "series": 12,
+      "file": "data/series-12.json",
+      "count": 63
+    },
+    {
+      "series": 13,
+      "file": "data/series-13.json",
+      "count": 51
+    },
+    {
+      "series": 14,
+      "file": "data/series-14.json",
+      "count": 41
+    },
+    {
+      "series": 15,
+      "file": "data/series-15.json",
+      "count": 37
+    },
+    {
+      "series": 16,
+      "file": "data/series-16.json",
+      "count": 42
+    },
+    {
+      "series": 17,
+      "file": "data/series-17.json",
+      "count": 37
+    },
+    {
+      "series": 18,
+      "file": "data/series-18.json",
+      "count": 41
+    },
+    {
+      "series": 19,
+      "file": "data/series-19.json",
+      "count": 26
+    },
+    {
+      "series": 20,
+      "file": "data/series-20.json",
+      "count": 27
+    },
+    {
+      "series": 21,
+      "file": "data/series-21.json",
+      "count": 34
+    },
+    {
+      "series": 22,
+      "file": "data/series-22.json",
+      "count": 33
+    },
+    {
+      "series": 23,
+      "file": "data/series-23.json",
+      "count": 41
+    },
+    {
+      "series": 24,
+      "file": "data/series-24.json",
+      "count": 38
+    },
+    {
+      "series": 25,
+      "file": "data/series-25.json",
+      "count": 38
+    },
+    {
+      "series": 26,
+      "file": "data/series-26.json",
+      "count": 40
+    },
+    {
+      "series": 27,
+      "file": "data/series-27.json",
+      "count": 30
+    },
+    {
+      "series": 28,
+      "file": "data/series-28.json",
+      "count": 44
+    }
+  ]
+}

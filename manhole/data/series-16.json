@@ -1,0 +1,2317 @@
+[
+  {
+    "id": "01-228-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "01",
+    "prefecture": "北海道",
+    "municipality": "深川市",
+    "title": "北海道 深川市 A0",
+    "coordsDMS": "43°43'24.0\"N 142°03'15.0\"E",
+    "numbering": {
+      "overall": 798,
+      "region": 52,
+      "prefecture": 52,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "007",
+        "label": "果物"
+      },
+      {
+        "code": "008",
+        "label": "野菜"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/01-228-A001.jpg",
+      "thumbnail": "assets/thumbnails/01-228-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/01-228-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/01-228-A001.png"
+    },
+    "cover": {
+      "lat": 43.7233333333333,
+      "lng": 142.054166666667
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "道の駅ライスランドふかがわ 1階総合案内所",
+        "address": "北海道深川市音江町字広里59番7",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 43.6995531,
+        "lng": 142.0705943
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "04-361-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "04",
+    "prefecture": "宮城県",
+    "municipality": "亘理町",
+    "title": "宮城県 亘理町 A0",
+    "coordsDMS": "38°02'21.8\"N 140°54'54.8\"E",
+    "numbering": {
+      "overall": 799,
+      "region": 74,
+      "prefecture": 18,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "004",
+        "label": "魚"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/04-361-A001.jpg",
+      "thumbnail": "assets/thumbnails/04-361-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/04-361-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/04-361-A001.png"
+    },
+    "cover": {
+      "lat": 38.0393888888889,
+      "lng": 140.915222222222
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "【平日】亘理町上下水道課",
+        "address": "宮城県亘理郡亘理町字悠里1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 38.0441875,
+        "lng": 140.8674375
+      },
+      {
+        "name": "【土日】亘理町立郷土資料館",
+        "address": "宮城県亘理郡亘理町字悠里1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 38.0401634,
+        "lng": 140.8617414
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "07-543-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "07",
+    "prefecture": "福島県",
+    "municipality": "富岡町",
+    "title": "福島県 富岡町 A0",
+    "coordsDMS": "37°20'52.5\"N 141°00'33.0\"E",
+    "numbering": {
+      "overall": 800,
+      "region": 75,
+      "prefecture": 22,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/07-543-A001.jpg",
+      "thumbnail": "assets/thumbnails/07-543-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/07-543-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/07-543-A001.png"
+    },
+    "cover": {
+      "lat": 37.3479166666667,
+      "lng": 141.009166666667
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "とみおかアーカイブ・ミュージアム",
+        "address": "福島県双葉郡富岡町大字本岡字王塚760-1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 37.3481502,
+        "lng": 141.0084509
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "10-203-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "10",
+    "prefecture": "群馬県",
+    "municipality": "桐生市",
+    "title": "群馬県 桐生市 B0",
+    "coordsDMS": "36°24'17.0\"N 139°19'45.0\"E",
+    "numbering": {
+      "overall": 801,
+      "region": 207,
+      "prefecture": 17,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "009",
+        "label": "名物品"
+      },
+      {
+        "code": "018",
+        "label": "おとぎ話"
+      },
+      {
+        "code": "024",
+        "label": "歴史的建造物"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/10-203-B001.jpg",
+      "thumbnail": "assets/thumbnails/10-203-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/10-203-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/10-203-B001.png"
+    },
+    "cover": {
+      "lat": 36.4047222222222,
+      "lng": 139.329166666667
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "【土日祝】桐生市役所本庁舎1階警備・宿日直室",
+        "address": "群馬県桐生市美原町2番5号",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 36.4058037,
+        "lng": 139.3308314
+      },
+      {
+        "name": "【平日】桐生市役所水道局下水道課",
+        "address": "群馬県桐生市美原町2番5号",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 36.4073279,
+        "lng": 139.3292735
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "11-208-C001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "11",
+    "prefecture": "埼玉県",
+    "municipality": "所沢市",
+    "title": "埼玉県 所沢市 C0",
+    "coordsDMS": "35°47'11.5\"N 139°28'27.5\"E",
+    "numbering": {
+      "overall": 796,
+      "region": 205,
+      "prefecture": 45,
+      "municipality": 3
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/11-208-C001.jpg",
+      "thumbnail": "assets/thumbnails/11-208-C001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/11-208-C001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/11-208-C001.png"
+    },
+    "cover": {
+      "lat": 35.7865277777778,
+      "lng": 139.474305555556
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "野老澤町造商店",
+        "address": "埼玉県所沢市元町21-18 （問い合わせ先） 下水道維持課",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.7914191,
+        "lng": 139.4651368
+      }
+    ],
+    "notes": "延期となったマンホールサミットin所沢で先行配布の予定だった。 英語版のカードも配布している。"
+  },
+  {
+    "id": "11-208-D001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "11",
+    "prefecture": "埼玉県",
+    "municipality": "所沢市",
+    "title": "埼玉県 所沢市 D0",
+    "coordsDMS": "35°47'53.8\"N 139°30'35.7\"E",
+    "numbering": {
+      "overall": 797,
+      "region": 206,
+      "prefecture": 46,
+      "municipality": 4
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/11-208-D001.jpg",
+      "thumbnail": "assets/thumbnails/11-208-D001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/11-208-D001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/11-208-D001.png"
+    },
+    "cover": {
+      "lat": 35.7982777777778,
+      "lng": 139.509916666667
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "所沢市観光情報・物産館YOT－TOKO",
+        "address": "埼玉県所沢市松郷143-3 （問い合わせ先） 下水道維持課",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.7975145,
+        "lng": 139.5052698
+      }
+    ],
+    "notes": "延期となったマンホールサミットin所沢で先行配布の予定だった。 英語版のカードも配布している。"
+  },
+  {
+    "id": "11-232-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "11",
+    "prefecture": "埼玉県",
+    "municipality": "久喜市",
+    "title": "埼玉県 久喜市 B0",
+    "coordsDMS": "36°06'46.6\"N 139°42'42.6\"E",
+    "numbering": {
+      "overall": 802,
+      "region": 208,
+      "prefecture": 47,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/11-232-B001.jpg",
+      "thumbnail": "assets/thumbnails/11-232-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/11-232-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/11-232-B001.png"
+    },
+    "cover": {
+      "lat": 36.1129444444444,
+      "lng": 139.711833333333
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "久喜市栗橋行政センター 1階 総務・人権係",
+        "address": "埼玉県久喜市間鎌251番地1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 36.1262349,
+        "lng": 139.6968377
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "12-205-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "12",
+    "prefecture": "千葉県",
+    "municipality": "館山市",
+    "title": "千葉県 館山市 B0",
+    "coordsDMS": "34°59'21.9\"N 139°51'18.6\"E",
+    "numbering": {
+      "overall": 803,
+      "region": 209,
+      "prefecture": 20,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "004",
+        "label": "魚"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "021",
+        "label": "富士山"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/12-205-B001.jpg",
+      "thumbnail": "assets/thumbnails/12-205-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/12-205-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/12-205-B001.png"
+    },
+    "cover": {
+      "lat": 34.9894166666667,
+      "lng": 139.855166666667
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "“渚の駅”たてやま",
+        "address": "千葉県館山市館山1564-1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 34.9897332,
+        "lng": 139.8548423
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "12-212-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "12",
+    "prefecture": "千葉県",
+    "municipality": "佐倉市",
+    "title": "千葉県 佐倉市 A0",
+    "coordsDMS": "35°43'15.0\"N 140°13'11.1\"E",
+    "numbering": {
+      "overall": 804,
+      "region": 210,
+      "prefecture": 21,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "002",
+        "label": "木"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/12-212-A001.jpg",
+      "thumbnail": "assets/thumbnails/12-212-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/12-212-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/12-212-A001.png"
+    },
+    "cover": {
+      "lat": 35.7208333333333,
+      "lng": 140.21975
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "佐倉市立美術館",
+        "address": "千葉県佐倉市新町210",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.719151,
+        "lng": 140.229608
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "13-100-C101",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "東京23区",
+    "title": "東京都 東京23区 C1",
+    "coordsDMS": "35°44'58.9\"N 139°35'12.9\"E",
+    "numbering": {
+      "overall": 805,
+      "region": 211,
+      "prefecture": 63,
+      "municipality": 28
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-100-C101.jpg",
+      "thumbnail": "assets/thumbnails/13-100-C101.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/13-100-C101.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-100-C101.png"
+    },
+    "cover": {
+      "lat": 35.7496944444444,
+      "lng": 139.586916666667
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "練馬区立大泉図書館",
+        "address": "練馬区大泉学園町2-21-17 (問合せ先) 練馬区商工観光課観光係",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.7606818,
+        "lng": 139.5870217
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "13-202-C001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "立川市",
+    "title": "東京都 立川市 C0",
+    "coordsDMS": "35°43'35.1\"N 139°22'11.8\"E",
+    "numbering": {
+      "overall": 806,
+      "region": 212,
+      "prefecture": 64,
+      "municipality": 3
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "025",
+        "label": "幾何学模様"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-202-C001.jpg",
+      "thumbnail": "assets/thumbnails/13-202-C001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/13-202-C001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-202-C001.png"
+    },
+    "cover": {
+      "lat": 35.7264166666667,
+      "lng": 139.369944444444
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "立川市女性総合センター5階",
+        "address": "東京都立川市曙町2-36-2 ファーレ立川センタースクエア",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.70219,
+        "lng": 139.4139782
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "13-206-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "府中市",
+    "title": "東京都 府中市 B0",
+    "coordsDMS": "35°40'15.6\"N 139°28'44.9\"E",
+    "numbering": {
+      "overall": 807,
+      "region": 213,
+      "prefecture": 65,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-206-B001.jpg",
+      "thumbnail": "assets/thumbnails/13-206-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/13-206-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-206-B001.png"
+    },
+    "cover": {
+      "lat": 35.671,
+      "lng": 139.479138888889
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "府中市観光情報センター",
+        "address": "東京都府中市宮町3丁目1番地",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.6698328,
+        "lng": 139.4795558
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "13-228-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "あきる野市",
+    "title": "東京都 あきる野市 B0",
+    "coordsDMS": "35°43'57.1\"N 139°13'42.5\"E",
+    "numbering": {
+      "overall": 808,
+      "region": 214,
+      "prefecture": 66,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "023",
+        "label": "橋梁"
+      },
+      {
+        "code": "028",
+        "label": "山"
+      },
+      {
+        "code": "029",
+        "label": "川"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-228-B001.jpg",
+      "thumbnail": "assets/thumbnails/13-228-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/13-228-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-228-B001.png"
+    },
+    "cover": {
+      "lat": 35.7325277777778,
+      "lng": 139.228472222222
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "秋川渓谷瀬音の湯",
+        "address": "東京都あきる野市乙津565番地",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.7271246,
+        "lng": 139.187861
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "14-130-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "14",
+    "prefecture": "神奈川県",
+    "municipality": "川崎市",
+    "title": "神奈川県 川崎市 B0",
+    "coordsDMS": "35°35'09.9\"N 139°39'03.9\"E",
+    "numbering": {
+      "overall": 809,
+      "region": 215,
+      "prefecture": 26,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "015",
+        "label": "スポーツ"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/14-130-B001.jpg",
+      "thumbnail": "assets/thumbnails/14-130-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/14-130-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/14-130-B001.png"
+    },
+    "cover": {
+      "lat": 35.5860833333333,
+      "lng": 139.651083333333
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "【平日】川崎市入江崎水処理センター ワクワクアクア",
+        "address": "神奈川県川崎市川崎区塩浜3-17-1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.519469,
+        "lng": 139.740246
+      },
+      {
+        "name": "【土日・祝日】かわさききたテラス",
+        "address": "神奈川県川崎市川崎区塩浜3-17-1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.5311414,
+        "lng": 139.6978074
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "14-206-C001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "14",
+    "prefecture": "神奈川県",
+    "municipality": "小田原市",
+    "title": "神奈川県 小田原市 C0",
+    "coordsDMS": "35°14'59.7\"N 139°09'18.7\"E",
+    "numbering": {
+      "overall": 810,
+      "region": 216,
+      "prefecture": 27,
+      "municipality": 3
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      },
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "013",
+        "label": "祭"
+      },
+      {
+        "code": "022",
+        "label": "お城"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/14-206-C001.jpg",
+      "thumbnail": "assets/thumbnails/14-206-C001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/14-206-C001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/14-206-C001.png"
+    },
+    "cover": {
+      "lat": 35.2499166666667,
+      "lng": 139.155194444444
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "小田原宿なりわい交流館",
+        "address": "神奈川県小田原市本町3-6-23",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.2483203,
+        "lng": 139.1600547
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "14-208-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "14",
+    "prefecture": "神奈川県",
+    "municipality": "逗子市",
+    "title": "神奈川県 逗子市 A0",
+    "coordsDMS": "35°17'48.8\"N 139°34'46.4\"E",
+    "numbering": {
+      "overall": 811,
+      "region": 217,
+      "prefecture": 28,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "015",
+        "label": "スポーツ"
+      },
+      {
+        "code": "017",
+        "label": "文学史"
+      },
+      {
+        "code": "021",
+        "label": "富士山"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/14-208-A001.jpg",
+      "thumbnail": "assets/thumbnails/14-208-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/14-208-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/14-208-A001.png"
+    },
+    "cover": {
+      "lat": 35.2968888888889,
+      "lng": 139.579555555556
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "逗子市役所2階 下水道課窓口",
+        "address": "神奈川県逗子市逗子5-2-16",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.2956443,
+        "lng": 139.5804443
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "14-215-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "14",
+    "prefecture": "神奈川県",
+    "municipality": "海老名市",
+    "title": "神奈川県 海老名市 A0",
+    "coordsDMS": "35°27'08.6\"N 139°23'39.0\"E",
+    "numbering": {
+      "overall": 812,
+      "region": 218,
+      "prefecture": 29,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "024",
+        "label": "歴史的建造物"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/14-215-A001.jpg",
+      "thumbnail": "assets/thumbnails/14-215-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/14-215-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/14-215-A001.png"
+    },
+    "cover": {
+      "lat": 35.4523888888889,
+      "lng": 139.394166666667
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "海老名市立郷土資料館「海老名市温故館」",
+        "address": "海老名市国分南1-6-36 (問合せ先) 海老名市役所まちづくり部下水道課",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.4540787,
+        "lng": 139.3973846
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "15-206-C001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "15",
+    "prefecture": "新潟県",
+    "municipality": "新発田市",
+    "title": "新潟県 新発田市 C0",
+    "coordsDMS": "37°52'53.0\"N 139°18'31.8\"E",
+    "numbering": {
+      "overall": 813,
+      "region": 50,
+      "prefecture": 26,
+      "municipality": 3
+    },
+    "pictograms": [
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/15-206-C001.jpg",
+      "thumbnail": "assets/thumbnails/15-206-C001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/15-206-C001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/15-206-C001.png"
+    },
+    "cover": {
+      "lat": 37.8813888888889,
+      "lng": 139.308833333333
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "月岡温泉旅館協同組合",
+        "address": "新潟県新発田市月岡温泉546番地1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 37.8807641,
+        "lng": 139.3075212
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "15-208-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "15",
+    "prefecture": "新潟県",
+    "municipality": "小千谷市",
+    "title": "新潟県 小千谷市 B0",
+    "coordsDMS": "37°22'12.8\"N 138°46'47.3\"E",
+    "numbering": {
+      "overall": 814,
+      "region": 51,
+      "prefecture": 27,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "013",
+        "label": "祭"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/15-208-B001.jpg",
+      "thumbnail": "assets/thumbnails/15-208-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/15-208-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/15-208-B001.png"
+    },
+    "cover": {
+      "lat": 37.3702222222222,
+      "lng": 138.779805555556
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "小千谷市総合産業会館「サンプラザ」",
+        "address": "新潟県小千谷市城内1丁目8番25号",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 37.3108344,
+        "lng": 138.7963389
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "15-213-C001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "15",
+    "prefecture": "新潟県",
+    "municipality": "燕市",
+    "title": "新潟県 燕市 C0",
+    "coordsDMS": "37°41'13.8\"N 138°52'39.8\"E",
+    "numbering": {
+      "overall": 815,
+      "region": 52,
+      "prefecture": 28,
+      "municipality": 3
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/15-213-C001.jpg",
+      "thumbnail": "assets/thumbnails/15-213-C001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/15-213-C001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/15-213-C001.png"
+    },
+    "cover": {
+      "lat": 37.6871666666667,
+      "lng": 138.877722222222
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "燕市長善館史料館",
+        "address": "新潟県燕市粟生津97番地",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 37.6518712,
+        "lng": 138.8692626
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "15-405-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "15",
+    "prefecture": "新潟県",
+    "municipality": "出雲崎町",
+    "title": "新潟県 出雲崎町 A0",
+    "coordsDMS": "37°32'20.6\"N 138°40'45.5\"E",
+    "numbering": {
+      "overall": 816,
+      "region": 53,
+      "prefecture": 29,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "014",
+        "label": "イベント"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/15-405-A001.jpg",
+      "thumbnail": "assets/thumbnails/15-405-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/15-405-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/15-405-A001.png"
+    },
+    "cover": {
+      "lat": 37.5390555555556,
+      "lng": 138.679305555556
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "【通常】道の駅 越後出雲崎天領の里",
+        "address": "新潟県三島郡出雲崎町大字尼瀬6番地57",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 37.5388237,
+        "lng": 138.6787033
+      },
+      {
+        "name": "【休館日】出雲崎町役場 建設課",
+        "address": "新潟県三島郡出雲崎町大字尼瀬6番地57",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 37.530718,
+        "lng": 138.709361
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "16-201-F001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "16",
+    "prefecture": "富山県",
+    "municipality": "富山市",
+    "title": "富山県 富山市 F0",
+    "coordsDMS": "36°42'32.0\"N 137°12'41.9\"E",
+    "numbering": {
+      "overall": 817,
+      "region": 54,
+      "prefecture": 13,
+      "municipality": 6
+    },
+    "pictograms": [
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "022",
+        "label": "お城"
+      },
+      {
+        "code": "028",
+        "label": "山"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/16-201-F001.jpg",
+      "thumbnail": "assets/thumbnails/16-201-F001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/16-201-F001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/16-201-F001.png"
+    },
+    "cover": {
+      "lat": 36.7088888888889,
+      "lng": 137.211638888889
+    },
+    "currentlyDistributed": false,
+    "distribution": [],
+    "notes": null
+  },
+  {
+    "id": "17-463-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "17",
+    "prefecture": "石川県",
+    "municipality": "能登町",
+    "title": "石川県 能登町 A0",
+    "coordsDMS": "37°18'44.0\"N 137°13'46.9\"E",
+    "numbering": {
+      "overall": 818,
+      "region": 55,
+      "prefecture": 6,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "004",
+        "label": "魚"
+      },
+      {
+        "code": "005",
+        "label": "動物"
+      },
+      {
+        "code": "007",
+        "label": "果物"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/17-463-A001.jpg",
+      "thumbnail": "assets/thumbnails/17-463-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/17-463-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/17-463-A001.png"
+    },
+    "cover": {
+      "lat": 37.3122222222222,
+      "lng": 137.229694444444
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "のと九十九湾観光交流センター イカの駅 つくモール",
+        "address": "石川県鳳珠郡能登町字越坂18字18番1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 37.3122158,
+        "lng": 137.2305348
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "19-430-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "19",
+    "prefecture": "山梨県",
+    "municipality": "富士河口湖町",
+    "title": "山梨県 富士河口湖町 A0",
+    "coordsDMS": "35°31'24.4\"N 138°46'05.6\"E",
+    "numbering": {
+      "overall": 819,
+      "region": 132,
+      "prefecture": 8,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "021",
+        "label": "富士山"
+      },
+      {
+        "code": "023",
+        "label": "橋梁"
+      },
+      {
+        "code": "030",
+        "label": "湖・沼"
+      },
+      {
+        "code": "031",
+        "label": "世界遺産"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/19-430-A001.jpg",
+      "thumbnail": "assets/thumbnails/19-430-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/19-430-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/19-430-A001.png"
+    },
+    "cover": {
+      "lat": 35.5234444444444,
+      "lng": 138.768222222222
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "【土日】富士河口湖町生涯学習館",
+        "address": "山梨県南都留郡富士河口湖町船津1700",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.4972919,
+        "lng": 138.7548663
+      },
+      {
+        "name": "【平日】富士河口湖町役場水道課",
+        "address": "山梨県南都留郡富士河口湖町船津1700",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.4973221,
+        "lng": 138.7549972
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "20-210-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "20",
+    "prefecture": "長野県",
+    "municipality": "駒ヶ根市",
+    "title": "長野県 駒ヶ根市 A0",
+    "coordsDMS": "35°44'10.3\"N 137°56'10.4\"E",
+    "numbering": {
+      "overall": 820,
+      "region": 133,
+      "prefecture": 28,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "002",
+        "label": "木"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/20-210-A001.jpg",
+      "thumbnail": "assets/thumbnails/20-210-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/20-210-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/20-210-A001.png"
+    },
+    "cover": {
+      "lat": 35.7361944444444,
+      "lng": 137.936222222222
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "駒ヶ根市駅市民サービスコーナー",
+        "address": "長野県駒ヶ根市東町1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.7363934,
+        "lng": 137.9367601
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "20-403-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "20",
+    "prefecture": "長野県",
+    "municipality": "高森町",
+    "title": "長野県 高森町 A0",
+    "coordsDMS": "35°32'04.4\"N 137°52'25.5\"E",
+    "numbering": {
+      "overall": 821,
+      "region": 134,
+      "prefecture": 29,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "007",
+        "label": "果物"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/20-403-A001.jpg",
+      "thumbnail": "assets/thumbnails/20-403-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/20-403-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/20-403-A001.png"
+    },
+    "cover": {
+      "lat": 35.5345555555556,
+      "lng": 137.87375
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "高森町役場環境水道課",
+        "address": "長野県下伊那郡高森町下市田2183番地1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.5515469,
+        "lng": 137.8785918
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "23-205-C001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "23",
+    "prefecture": "愛知県",
+    "municipality": "半田市",
+    "title": "愛知県 半田市 C0",
+    "coordsDMS": "34°53'38.2\"N 136°55'35.2\"E",
+    "numbering": {
+      "overall": 822,
+      "region": 135,
+      "prefecture": 43,
+      "municipality": 3
+    },
+    "pictograms": [
+      {
+        "code": "006",
+        "label": "昆虫"
+      },
+      {
+        "code": "025",
+        "label": "幾何学模様"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/23-205-C001.jpg",
+      "thumbnail": "assets/thumbnails/23-205-C001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/23-205-C001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/23-205-C001.png"
+    },
+    "cover": {
+      "lat": 34.8939444444444,
+      "lng": 136.926444444444
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "クラシティ",
+        "address": "愛知県半田市広小路町155番地の3",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 34.8937784,
+        "lng": 136.9271564
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "24-205-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "24",
+    "prefecture": "三重県",
+    "municipality": "桑名市",
+    "title": "三重県 桑名市 B0",
+    "coordsDMS": "35°03'57.4\"N 136°41'45.9\"E",
+    "numbering": {
+      "overall": 823,
+      "region": 136,
+      "prefecture": 14,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "012",
+        "label": "乗物"
+      },
+      {
+        "code": "023",
+        "label": "橋梁"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      },
+      {
+        "code": "029",
+        "label": "川"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/24-205-B001.jpg",
+      "thumbnail": "assets/thumbnails/24-205-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/24-205-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/24-205-B001.png"
+    },
+    "cover": {
+      "lat": 35.0659444444444,
+      "lng": 136.696083333333
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "桑名市住吉浦休憩施設",
+        "address": "三重県桑名市太一丸地先",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.0700692,
+        "lng": 136.694701
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "27-140-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "27",
+    "prefecture": "大阪府",
+    "municipality": "堺市",
+    "title": "大阪府 堺市 B0",
+    "coordsDMS": "34°34'31.8\"N 135°28'52.0\"E",
+    "numbering": {
+      "overall": 824,
+      "region": 118,
+      "prefecture": 50,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "026",
+        "label": "その他"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/27-140-B001.jpg",
+      "thumbnail": "assets/thumbnails/27-140-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/27-140-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/27-140-B001.png"
+    },
+    "cover": {
+      "lat": 34.5755,
+      "lng": 135.481111111111
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "堺東観光案内所",
+        "address": "大阪府堺市堺区三国ヶ丘御幸通39-1 (問合せ先) 堺市上下水道局経営企画室",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 34.5749032,
+        "lng": 135.484596
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "27-202-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "27",
+    "prefecture": "大阪府",
+    "municipality": "岸和田市",
+    "title": "大阪府 岸和田市 B0",
+    "coordsDMS": "34°26'05.0\"N 135°25'53.9\"E",
+    "numbering": {
+      "overall": 825,
+      "region": 119,
+      "prefecture": 51,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "003",
+        "label": "鳥"
+      },
+      {
+        "code": "008",
+        "label": "野菜"
+      },
+      {
+        "code": "028",
+        "label": "山"
+      },
+      {
+        "code": "029",
+        "label": "川"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/27-202-B001.jpg",
+      "thumbnail": "assets/thumbnails/27-202-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/27-202-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/27-202-B001.png"
+    },
+    "cover": {
+      "lat": 34.4347222222222,
+      "lng": 135.431638888889
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "道の駅「愛彩ランド」",
+        "address": "大阪府岸和田市岸の丘町3-6-18",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 34.4222548,
+        "lng": 135.4258945
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "27-230-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "27",
+    "prefecture": "大阪府",
+    "municipality": "交野市",
+    "title": "大阪府 交野市 B0",
+    "coordsDMS": "34°46'34.1\"N 135°41'03.6\"E",
+    "numbering": {
+      "overall": 826,
+      "region": 120,
+      "prefecture": 52,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "018",
+        "label": "おとぎ話"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/27-230-B001.jpg",
+      "thumbnail": "assets/thumbnails/27-230-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/27-230-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/27-230-B001.png"
+    },
+    "cover": {
+      "lat": 34.7761388888889,
+      "lng": 135.684333333333
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "交野市上下水道部",
+        "address": "大阪府交野市私市2丁目24-1",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 34.7739329,
+        "lng": 135.6832416
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "33-202-E001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "33",
+    "prefecture": "岡山県",
+    "municipality": "倉敷市",
+    "title": "岡山県 倉敷市 E0",
+    "coordsDMS": "34°35'57.6\"N 133°46'01.9\"E",
+    "numbering": {
+      "overall": 827,
+      "region": 65,
+      "prefecture": 19,
+      "municipality": 5
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "004",
+        "label": "魚"
+      },
+      {
+        "code": "007",
+        "label": "果物"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      },
+      {
+        "code": "012",
+        "label": "乗物"
+      },
+      {
+        "code": "018",
+        "label": "おとぎ話"
+      },
+      {
+        "code": "025",
+        "label": "幾何学模様"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/33-202-E001.jpg",
+      "thumbnail": "assets/thumbnails/33-202-E001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/33-202-E001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/33-202-E001.png"
+    },
+    "cover": {
+      "lat": 34.5993333333333,
+      "lng": 133.767194444444
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "ホテル グラン・ココエ倉敷 3階フロント",
+        "address": "岡山県倉敷市阿知3丁目9番1号",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 34.5994715,
+        "lng": 133.7672046
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "33-623-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "33",
+    "prefecture": "岡山県",
+    "municipality": "奈義町",
+    "title": "岡山県 奈義町 A0",
+    "coordsDMS": "35°07'19.6\"N 134°10'30.4\"E",
+    "numbering": {
+      "overall": 828,
+      "region": 66,
+      "prefecture": 20,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "014",
+        "label": "イベント"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/33-623-A001.jpg",
+      "thumbnail": "assets/thumbnails/33-623-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/33-623-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/33-623-A001.png"
+    },
+    "cover": {
+      "lat": 35.1221111111111,
+      "lng": 134.175111111111
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "多世代交流広場ナギテラス",
+        "address": "岡山県勝田郡奈義町豊沢314番地",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.1219107,
+        "lng": 134.176708
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "35-202-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "35",
+    "prefecture": "山口県",
+    "municipality": "宇部市",
+    "title": "山口県 宇部市 B0",
+    "coordsDMS": "33°57'04.3\"N 131°14'50.6\"E",
+    "numbering": {
+      "overall": 829,
+      "region": 67,
+      "prefecture": 14,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "005",
+        "label": "動物"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/35-202-B001.jpg",
+      "thumbnail": "assets/thumbnails/35-202-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/35-202-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/35-202-B001.png"
+    },
+    "cover": {
+      "lat": 33.9511944444444,
+      "lng": 131.247388888889
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "宇部市新川ふれあいセンター",
+        "address": "山口県宇部市朝日町8-20",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 33.95865,
+        "lng": 131.2447
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "38-214-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "38",
+    "prefecture": "愛媛県",
+    "municipality": "西予市",
+    "title": "愛媛県 西予市 A0",
+    "coordsDMS": "33°21'47.1\"N 132°30'52.9\"E",
+    "numbering": {
+      "overall": 830,
+      "region": 40,
+      "prefecture": 13,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "024",
+        "label": "歴史的建造物"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/38-214-A001.jpg",
+      "thumbnail": "assets/thumbnails/38-214-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/38-214-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/38-214-A001.png"
+    },
+    "cover": {
+      "lat": 33.3630833333333,
+      "lng": 132.514694444444
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "宇和文化の里休憩所",
+        "address": "愛媛県西予市宇和町卯之町三丁目223番地",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 33.3630745,
+        "lng": 132.5146885
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "38-402-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "38",
+    "prefecture": "愛媛県",
+    "municipality": "砥部町",
+    "title": "愛媛県 砥部町 A0",
+    "coordsDMS": "33°47'14.0\"N 132°47'00.0\"E",
+    "numbering": {
+      "overall": 831,
+      "region": 41,
+      "prefecture": 14,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "007",
+        "label": "果物"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/38-402-A001.jpg",
+      "thumbnail": "assets/thumbnails/38-402-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/38-402-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/38-402-A001.png"
+    },
+    "cover": {
+      "lat": 33.7872222222222,
+      "lng": 132.783333333333
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "【通常】砥部焼伝統産業会館",
+        "address": "愛媛県伊予郡砥部町大南335番地",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 33.7390497,
+        "lng": 132.7919496
+      },
+      {
+        "name": "【休館日】砥部町役場上下水道課",
+        "address": "愛媛県伊予郡砥部町大南335番地",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 33.7489897,
+        "lng": 132.7919928
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "40-130-C001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "40",
+    "prefecture": "福岡県",
+    "municipality": "福岡市",
+    "title": "福岡県 福岡市 C0",
+    "coordsDMS": "33°35'36.8\"N 130°22'00.2\"E",
+    "numbering": {
+      "overall": 832,
+      "region": 68,
+      "prefecture": 21,
+      "municipality": 3
+    },
+    "pictograms": [
+      {
+        "code": "003",
+        "label": "鳥"
+      },
+      {
+        "code": "015",
+        "label": "スポーツ"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/40-130-C001.jpg",
+      "thumbnail": "assets/thumbnails/40-130-C001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/40-130-C001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/40-130-C001.png"
+    },
+    "cover": {
+      "lat": 33.5935555555556,
+      "lng": 130.366822222222
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "福岡市情報プラザ",
+        "address": "福岡県福岡市中央区天神1-8-1（福岡市役所1階）",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 33.5902769,
+        "lng": 130.4016544
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "42-201-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "42",
+    "prefecture": "長崎県",
+    "municipality": "長崎市",
+    "title": "長崎県 長崎市 B0",
+    "coordsDMS": "32°44'11.6\"N 129°52'07.3\"E",
+    "numbering": {
+      "overall": 833,
+      "region": 69,
+      "prefecture": 7,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "012",
+        "label": "乗物"
+      },
+      {
+        "code": "015",
+        "label": "スポーツ"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      },
+      {
+        "code": "028",
+        "label": "山"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/42-201-B001.jpg",
+      "thumbnail": "assets/thumbnails/42-201-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/42-201-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/42-201-B001.png"
+    },
+    "cover": {
+      "lat": 32.7365555555556,
+      "lng": 129.868694444444
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "長崎市旧香港上海銀行長崎支店記念館",
+        "address": "長崎県長崎市松が枝町4-27",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 32.7363972,
+        "lng": 129.8691778
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "42-214-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "42",
+    "prefecture": "長崎県",
+    "municipality": "南島原市",
+    "title": "長崎県 南島原市 A0",
+    "coordsDMS": "32°38'05.1\"N 130°15'12.6\"E",
+    "numbering": {
+      "overall": 834,
+      "region": 70,
+      "prefecture": 8,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "016",
+        "label": "偉人"
+      },
+      {
+        "code": "022",
+        "label": "お城"
+      },
+      {
+        "code": "031",
+        "label": "世界遺産"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/42-214-A001.jpg",
+      "thumbnail": "assets/thumbnails/42-214-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/42-214-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/42-214-A001.png"
+    },
+    "cover": {
+      "lat": 32.63475,
+      "lng": 130.2535
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "有馬キリシタン遺産記念館",
+        "address": "長崎県南島原市南有馬町乙1395番地",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 32.6361331,
+        "lng": 130.2435345
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "46-530-A001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "46",
+    "prefecture": "鹿児島県",
+    "municipality": "徳之島町",
+    "title": "鹿児島県 徳之島町 A0",
+    "coordsDMS": "27°43'51.7\"N 129°01'09.0\"E",
+    "numbering": {
+      "overall": 835,
+      "region": 71,
+      "prefecture": 11,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "005",
+        "label": "動物"
+      },
+      {
+        "code": "007",
+        "label": "果物"
+      },
+      {
+        "code": "008",
+        "label": "野菜"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "031",
+        "label": "世界遺産"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/46-530-A001.jpg",
+      "thumbnail": "assets/thumbnails/46-530-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/46-530-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/46-530-A001.png"
+    },
+    "cover": {
+      "lat": 27.7310277777778,
+      "lng": 129.019166666667
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "徳之島町役場建設課",
+        "address": "鹿児島県大島郡徳之島町亀津7203番地",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 27.7265985,
+        "lng": 129.0186802
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "47-000-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "47",
+    "prefecture": "沖縄県",
+    "municipality": "流域下水道",
+    "title": "沖縄県 流域下水道 B0",
+    "coordsDMS": "26°12'47.8\"N 127°40'44.0\"E",
+    "numbering": {
+      "overall": 836,
+      "region": 72,
+      "prefecture": 10,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      },
+      {
+        "code": "022",
+        "label": "お城"
+      },
+      {
+        "code": "031",
+        "label": "世界遺産"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/47-000-B001.jpg",
+      "thumbnail": "assets/thumbnails/47-000-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/47-000-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/47-000-B001.png"
+    },
+    "cover": {
+      "lat": 26.2132777777778,
+      "lng": 127.678888888889
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "首里城首里杜館総合案内所",
+        "address": "沖縄県那覇市首里金城町1－2",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 26.2180634,
+        "lng": 127.7161656
+      }
+    ],
+    "notes": null
+  },
+  {
+    "id": "47-326-B001",
+    "series": 16,
+    "issueDate": null,
+    "prefectureCode": "47",
+    "prefecture": "沖縄県",
+    "municipality": "北谷町",
+    "title": "沖縄県 北谷町 B0",
+    "coordsDMS": "26°19'11.7\"N 127°45'51.8\"E",
+    "numbering": {
+      "overall": 837,
+      "region": 73,
+      "prefecture": 11,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "025",
+        "label": "幾何学模様"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/47-326-B001.jpg",
+      "thumbnail": "assets/thumbnails/47-326-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/47-326-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/47-326-B001.png"
+    },
+    "cover": {
+      "lat": 26.3199166666667,
+      "lng": 127.764388888889
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "【平日】北谷町上下水道庁舎内下水道係カウンター",
+        "address": "沖縄県中頭郡北谷町桑江1-1-2",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 26.3205711,
+        "lng": 127.7626706
+      },
+      {
+        "name": "【土日】北谷町立博物館",
+        "address": "沖縄県中頭郡北谷町桑江1-1-2",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 26.323613,
+        "lng": 127.7590195
+      }
+    ],
+    "notes": null
+  }
+]
