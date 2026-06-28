@@ -1,0 +1,3341 @@
+[
+  {
+    "id": "01-221-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "01",
+    "prefecture": "北海道",
+    "municipality": "名寄市",
+    "title": "北海道 名寄市 B0",
+    "coordsDMS": "44°20'57.4\"N 142°27'50.5\"E",
+    "numbering": {
+      "overall": 618,
+      "region": 42,
+      "prefecture": 42,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "003",
+        "label": "鳥"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/01-221-B001.jpg",
+      "thumbnail": "assets/thumbnails/01-221-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/01-221-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/01-221-B001.png"
+    },
+    "cover": {
+      "lat": 44.3492777777778,
+      "lng": 142.464027777778
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "なよろ観光まちづくり協会（駅前交流プラザ「よろーな」内）",
+        "address": "北海道名寄市東1条南7丁目1番地10",
+        "phone": "01654-9-4607",
+        "hours": "【平日】9:00～17:00 【土日祝日】9:00～17:00 ただし、年末年始はお休みです また各種イベント・行事等により臨時休業する場合があります。",
+        "website": "https://yoro-na.com/",
+        "stockUrl": "http://www.city.nayoro.lg.jp/section/suidou/prkeql0000027w8z.html",
+        "lat": 44.348967,
+        "lng": 142.464343
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "01-462-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "01",
+    "prefecture": "北海道",
+    "municipality": "南富良野町",
+    "title": "北海道 南富良野町 A0",
+    "coordsDMS": "43°10'17.4\"N 142°34'10.1\"E",
+    "numbering": {
+      "overall": 619,
+      "region": 43,
+      "prefecture": 43,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "012",
+        "label": "乗物"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/01-462-A001.jpg",
+      "thumbnail": "assets/thumbnails/01-462-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/01-462-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/01-462-A001.png"
+    },
+    "cover": {
+      "lat": 43.1715,
+      "lng": 142.569472222222
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "南富良野浄化センター",
+        "address": "【平日】 南富良野浄化センター 南富良野町字幾寅505番地5",
+        "phone": "0167-52-2524",
+        "hours": "【平日】 8:30～17:15 【土曜】 9:00～17:00 【日曜】13:00～17:00",
+        "website": "https://www.town.minamifurano.hokkaido.jp/",
+        "stockUrl": "https://www.town.minamifurano.hokkaido.jp/%e5%a4%a7%e5%a5%bd%e8%a9%95%ef%bc%81%e5%8d%97%e5%af%8c%e8%89%af%e9%87%8e%e7%94%ba%e3%81%ae%e3%83%9e%e3%83%b3%e3%83%9b%e3%83%bc%e3%83%ab%e3%82%ab%e3%83%bc%e3%83%89%e9%85%8d%e5%b8%83%e3%81%ab%e3%81%a4/",
+        "lat": 43.1716847,
+        "lng": 142.5689377
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "01-516-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "01",
+    "prefecture": "北海道",
+    "municipality": "豊富町",
+    "title": "北海道 豊富町 B0",
+    "coordsDMS": "45°04'27.5\"N 141°50'18.3\"E",
+    "numbering": {
+      "overall": 620,
+      "region": 44,
+      "prefecture": 44,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      },
+      {
+        "code": "028",
+        "label": "山"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/01-516-B001.jpg",
+      "thumbnail": "assets/thumbnails/01-516-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/01-516-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/01-516-B001.png"
+    },
+    "cover": {
+      "lat": 45.0743055555556,
+      "lng": 141.838416666667
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "湯の杜ぽっけ",
+        "address": "北海道天塩郡豊富町字温泉",
+        "phone": "0162-73-6850",
+        "hours": "9:00～17:00 ※12時～13時のお昼休み、年末年始は配布致しません。 ※11月～3月の休館日（月曜日、月曜日が祝日の場合は翌日）は、豊富町役場建設課上下水道係にて配布します 年末年始はお休みです",
+        "website": null,
+        "stockUrl": "https://www.town.toyotomi.hokkaido.jp/section/kensetuka/lepd6s0000007wkm.html",
+        "lat": 45.074242,
+        "lng": 141.83846
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "01-518-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "01",
+    "prefecture": "北海道",
+    "municipality": "利尻町",
+    "title": "北海道 利尻町 A0",
+    "coordsDMS": "45°11'54.7\"N 141°08'20.7\"E",
+    "numbering": {
+      "overall": 621,
+      "region": 45,
+      "prefecture": 45,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "003",
+        "label": "鳥"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      },
+      {
+        "code": "028",
+        "label": "山"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/01-518-A001.jpg",
+      "thumbnail": "assets/thumbnails/01-518-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/01-518-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/01-518-A001.png"
+    },
+    "cover": {
+      "lat": 45.1985277777778,
+      "lng": 141.139083333333
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "利尻町役場",
+        "address": "北海道利尻郡利尻町沓形字緑町14番地1",
+        "phone": "0163-84-2345",
+        "hours": "【平日】9:00～17:00 【休日】9:00～12:00 ただし、年末年始（12/31～1/5）はお休みです",
+        "website": "http://www.town.rishiri.hokkaido.jp/rishiri/",
+        "stockUrl": "https://rishiri-town.jp/%e8%a6%b3%e5%85%89%e3%83%bb%e3%82%a4%e3%83%99%e3%83%b3%e3%83%88/%e3%83%9e%e3%83%b3%e3%83%9b%e3%83%bc%e3%83%ab%e3%82%ab%e3%83%bc%e3%83%89%e3%81%ae%e9%85%8d%e5%b8%83/",
+        "lat": 45.1870957,
+        "lng": 141.1395433
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "03-201-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "03",
+    "prefecture": "岩手県",
+    "municipality": "盛岡市",
+    "title": "岩手県 盛岡市 A0",
+    "coordsDMS": "39°42'04.5\"N 141°09'10.8\"E",
+    "numbering": {
+      "overall": 622,
+      "region": 62,
+      "prefecture": 10,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "013",
+        "label": "祭"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/03-201-A001.jpg",
+      "thumbnail": "assets/thumbnails/03-201-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/03-201-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/03-201-A001.png"
+    },
+    "cover": {
+      "lat": 39.70125,
+      "lng": 141.153
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "もりおか歴史文化館",
+        "address": "岩手県盛岡市内丸1-50 （問合せ先） 盛岡市上下水道局経営企画課",
+        "phone": "019-623-1443",
+        "hours": "【4月～10月】9:00～19:00 【11月～3月】9:00～18:00 ただし、休館日（毎月第3火曜日（祝・休日の場合は翌日）/年末年始（12/31～1/1）の配布は行いません 臨時休館する場合があるので、ホームページ等でご確認ください",
+        "website": "https://www.morireki.jp/",
+        "stockUrl": "https://www.morioka-water.jp/various/manhole.html",
+        "lat": 39.70102,
+        "lng": 141.152592
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "03-211-C001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "03",
+    "prefecture": "岩手県",
+    "municipality": "釜石市",
+    "title": "岩手県 釜石市 C0",
+    "coordsDMS": "39°19'39.3\"N 141°53'30.3\"E",
+    "numbering": {
+      "overall": 623,
+      "region": 63,
+      "prefecture": 11,
+      "municipality": 3
+    },
+    "pictograms": [
+      {
+        "code": "026",
+        "label": "その他"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/03-211-C001.jpg",
+      "thumbnail": "assets/thumbnails/03-211-C001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/03-211-C-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/03-211-C001.png"
+    },
+    "cover": {
+      "lat": 39.3275833333333,
+      "lng": 141.89175
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "いのちをつなぐ未来館",
+        "address": "岩手県釜石市鵜住居町4丁目901",
+        "phone": "0193-27-5666",
+        "hours": "9:30～17:30 ただし、冬季(11月～2月)は9:30～17:00 また、毎週水曜日及び年末年始はお休みです",
+        "website": "https://unosumai-tomosu.jp/tsunami-memorial-hall/",
+        "stockUrl": "https://www.city.kamaishi.iwate.jp/docs/2020030200278/",
+        "lat": 39.3272899,
+        "lng": 141.8874707
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "05-206-A001",
+    "series": 12,
+    "issueDate": null,
+    "prefectureCode": "05",
+    "prefecture": "秋田県",
+    "municipality": "男鹿市",
+    "title": "秋田県 男鹿市 A0",
+    "coordsDMS": "39°53'02.5\"N 139°50'49.9\"E",
+    "numbering": {
+      "overall": 624,
+      "region": 64,
+      "prefecture": 4,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/05-206-A001.jpg",
+      "thumbnail": "assets/thumbnails/05-206-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/05-206-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/05-206-A001.png"
+    },
+    "cover": {
+      "lat": 39.8840277777778,
+      "lng": 139.847194444444
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "「道の駅おが」男鹿市複合観光施設オガーレ",
+        "address": "秋田県男鹿市船川港船川字新浜町1-19",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 39.8819781,
+        "lng": 139.8482241
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "08-212-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "08",
+    "prefecture": "茨城県",
+    "municipality": "常陸太田市",
+    "title": "茨城県 常陸太田市 A0",
+    "coordsDMS": "36°31'53.5\"N 140°31'40.7\"E",
+    "numbering": {
+      "overall": 625,
+      "region": 155,
+      "prefecture": 19,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "007",
+        "label": "果物"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/08-212-A001.jpg",
+      "thumbnail": "assets/thumbnails/08-212-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/08-212-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/08-212-A001.png"
+    },
+    "cover": {
+      "lat": 36.5315277777778,
+      "lng": 140.527972222222
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "常陸太田市観光案内センター",
+        "address": "茨城県常陸太田市山下町1049-6",
+        "phone": "0294-73-1700",
+        "hours": "9：00～17：00 ただし、年末年始（12月29日～1月3日）はお休みです",
+        "website": "http://www.kanko-hitachiota.com/page/page000428.html",
+        "stockUrl": "http://www.city.hitachiota.ibaraki.jp/page/page006362.html",
+        "lat": 36.5310286,
+        "lng": 140.527941
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "09-213-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "09",
+    "prefecture": "栃木県",
+    "municipality": "那須塩原市",
+    "title": "栃木県 那須塩原市 B0",
+    "coordsDMS": "37°04'02.6\"N 139°55'25.6\"E",
+    "numbering": {
+      "overall": 626,
+      "region": 156,
+      "prefecture": 15,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/09-213-B001.jpg",
+      "thumbnail": "assets/thumbnails/09-213-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/09-213-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/09-213-B001.png"
+    },
+    "cover": {
+      "lat": 37.0673888888889,
+      "lng": 139.923777777778
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": null,
+        "address": null,
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": null,
+        "lng": null
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "10-208-C001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "10",
+    "prefecture": "群馬県",
+    "municipality": "渋川市",
+    "title": "群馬県 渋川市 C0",
+    "coordsDMS": "36°29'27.4\"N 139°00'29.7\"E",
+    "numbering": {
+      "overall": 627,
+      "region": 157,
+      "prefecture": 15,
+      "municipality": 3
+    },
+    "pictograms": [
+      {
+        "code": "012",
+        "label": "乗物"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/10-208-C001.jpg",
+      "thumbnail": "assets/thumbnails/10-208-C001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/10-208-C-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/10-208-C001.png"
+    },
+    "cover": {
+      "lat": 36.4909444444444,
+      "lng": 139.00825
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "渋川地区名産品センター（しぶさん）",
+        "address": "群馬県渋川市渋川1832番地27 渋川駅前プラザ",
+        "phone": "0279-26-2423",
+        "hours": "9:00～19:00 ただし、１月１日、臨時休館日はお休みです",
+        "website": "http://www.city.shibukawa.lg.jp/kankou/gift/omiyage/p003604.html",
+        "stockUrl": "http://www.city.shibukawa.lg.jp/kurashi/jyougesuidou/gesuidou/p007129.html",
+        "lat": 36.4910701,
+        "lng": 139.0082635
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "10-345-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "10",
+    "prefecture": "群馬県",
+    "municipality": "吉岡町",
+    "title": "群馬県 吉岡町 A0",
+    "coordsDMS": "36°26'49.6\"N 139°00'34.5\"E",
+    "numbering": {
+      "overall": 628,
+      "region": 158,
+      "prefecture": 16,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "007",
+        "label": "果物"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/10-345-A001.jpg",
+      "thumbnail": "assets/thumbnails/10-345-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/10-345-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/10-345-A001.png"
+    },
+    "cover": {
+      "lat": 36.4471111111111,
+      "lng": 139.009583333333
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "【平日】吉岡町役場上下水道課",
+        "address": "群馬県北群馬郡吉岡町大字下野田560",
+        "phone": "0279-26-2284（",
+        "hours": "【平日】8:30～17:15 【休日】9:00～18:00 ただし、年末年始はお休みです",
+        "website": null,
+        "stockUrl": "https://www.town.yoshioka.gunma.jp/kurashi/suido/gesuido/manhole_card.html",
+        "lat": 36.447321,
+        "lng": 139.0096785
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "11-219-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "11",
+    "prefecture": "埼玉県",
+    "municipality": "上尾市",
+    "title": "埼玉県 上尾市 B0",
+    "coordsDMS": "35°58'19.2\"N 139°35'03.9\"E",
+    "numbering": {
+      "overall": 629,
+      "region": 159,
+      "prefecture": 38,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "012",
+        "label": "乗物"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/11-219-B001.jpg",
+      "thumbnail": "assets/thumbnails/11-219-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/11-219-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/11-219-B001.png"
+    },
+    "cover": {
+      "lat": 35.972,
+      "lng": 139.584416666667
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "あげお お土産・観光センター",
+        "address": "埼玉県上尾市宮本町3-2-207（A-geoタウン2階）",
+        "phone": "048-780-2266",
+        "hours": "10：30〜18：30 ただし、月曜日、年末年始はお休みです。 ※月曜日が祝日の場合は、翌日以降の平日がお休みです。 ※大雪や台風等の悪天候等諸事情により臨時休館する場合があります",
+        "website": "https://www.ageo-kankou.com/",
+        "stockUrl": "https://www.city.ageo.lg.jp/site/suido/list218-1040.html",
+        "lat": 35.9745352,
+        "lng": 139.5898454
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "11-231-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "11",
+    "prefecture": "埼玉県",
+    "municipality": "桶川市",
+    "title": "埼玉県 桶川市 A0",
+    "coordsDMS": "35°59'53.5\"N 139°33'49.4\"E",
+    "numbering": {
+      "overall": 630,
+      "region": 160,
+      "prefecture": 39,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/11-231-A001.jpg",
+      "thumbnail": "assets/thumbnails/11-231-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/11-231-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/11-231-A001.png"
+    },
+    "cover": {
+      "lat": 35.9981944444444,
+      "lng": 139.563722222222
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "桶川市観光協会",
+        "address": "埼玉県桶川市寿1-11-19",
+        "phone": "048-778-3567",
+        "hours": "9:00～16:00 ただし、年末年始(12/29〜1/3)はお休みです",
+        "website": "http://www.okekan.com/",
+        "stockUrl": "https://www.city.okegawa.lg.jp/kurashi/sumai/jogesuido/7571.html",
+        "lat": 36.001991,
+        "lng": 139.564329
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "11-235-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "11",
+    "prefecture": "埼玉県",
+    "municipality": "富士見市",
+    "title": "埼玉県 富士見市 A0",
+    "coordsDMS": "35°50'47.5\"N 139°32'23.9\"E",
+    "numbering": {
+      "overall": 631,
+      "region": 161,
+      "prefecture": 40,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/11-235-A001.jpg",
+      "thumbnail": "assets/thumbnails/11-235-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/11-235-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/11-235-A001.png"
+    },
+    "cover": {
+      "lat": 35.8465277777778,
+      "lng": 139.539972222222
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "富士見市役所下水道課",
+        "address": "【平日】 富士見市役所下水道課 埼玉県富士見市大字鶴馬1800番地の1（分館3階）",
+        "phone": "049-251-2711（",
+        "hours": "【平日】8：30～17：15 【土日祝日】9：00～17：00 ただし、年末年始はお休みです",
+        "website": "https://www.city.fujimi.saitama.jp/",
+        "stockUrl": "https://www.city.fujimi.saitama.jp/kurashi_tetsuzuki/_suidou/gesui/manholecard.html",
+        "lat": 35.8567586,
+        "lng": 139.5490737
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "11-442-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "11",
+    "prefecture": "埼玉県",
+    "municipality": "宮代町",
+    "title": "埼玉県 宮代町 A0",
+    "coordsDMS": "36°01'27.5\"N 139°43'31.1\"E",
+    "numbering": {
+      "overall": 632,
+      "region": 162,
+      "prefecture": 41,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "007",
+        "label": "果物"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/11-442-A001.jpg",
+      "thumbnail": "assets/thumbnails/11-442-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/11-442-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/11-442-A001.png"
+    },
+    "cover": {
+      "lat": 36.0243055555556,
+      "lng": 139.725305555556
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "新しい村",
+        "address": "【月曜日以外(月曜日が祝日の場合は配布）】 新しい村 埼玉県南埼玉郡宮代町字山崎777-1",
+        "phone": "0480-36-3441",
+        "hours": "【新しい村】9：30～17：00 ただし、月曜日はお休みです 月曜日が祝日の場合は配布します 【上下水道事務所】8：30～17：15 月曜日（新しい村の休業日）に配布します ただし、年末年始はお休みです",
+        "website": "http://www.atarasiimura.com",
+        "stockUrl": "https://www.town.miyashiro.lg.jp/0000013667.html",
+        "lat": 36.0177908,
+        "lng": 139.7180432
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "12-227-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "12",
+    "prefecture": "千葉県",
+    "municipality": "浦安市",
+    "title": "千葉県 浦安市 A0",
+    "coordsDMS": "35°39'15.3\"N 139°54'07.9\"E",
+    "numbering": {
+      "overall": 633,
+      "region": 163,
+      "prefecture": 17,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "024",
+        "label": "歴史的建造物"
+      },
+      {
+        "code": "029",
+        "label": "川"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/12-227-A001.jpg",
+      "thumbnail": "assets/thumbnails/12-227-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/12-227-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/12-227-A001.png"
+    },
+    "cover": {
+      "lat": 35.65425,
+      "lng": 139.902194444444
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "【平日】浦安市役所道路整備課（市役所6階）",
+        "address": "千葉県浦安市猫実1-1-1",
+        "phone": "047-351-1111",
+        "hours": "9:00～17:00 ただし、年末年始はお休みです。",
+        "website": "http://www.city.urayasu.lg.jp/index.html",
+        "stockUrl": "https://www.city.urayasu.lg.jp/todokede/machi/douro/1046287/1030971.html",
+        "lat": 35.6530306,
+        "lng": 139.9020719
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "13-100-F001",
+    "series": 12,
+    "issueDate": "2020-03-09",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "東京都 千代田区",
+    "title": "東京都 千代田区 F0",
+    "coordsDMS": "35°41'50.5\"N 139°45'42.8\"E",
+    "numbering": {
+      "overall": 606,
+      "region": 143,
+      "prefecture": 23,
+      "municipality": 6
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-100-F001.jpg",
+      "thumbnail": "assets/thumbnails/13-100-F001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-100-F-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-100-F001.png"
+    },
+    "cover": {
+      "lat": 35.6973611111111,
+      "lng": 139.761888888889
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "アキバインフォ(秋葉原UDX2階)",
+        "address": "東京都千代田区外神田4-14-1 (問合せ先) 千代田区商工観光課",
+        "phone": "03-5211-3650",
+        "hours": "11:00～17:30 ただし、毎週月曜日はお休み､月曜日が祝日の時は翌平日がお休みです",
+        "website": null,
+        "stockUrl": "https://www.city.chiyoda.lg.jp/koho/shigoto/sangyo/sonota/manhole.html",
+        "lat": 35.7000862,
+        "lng": 139.7724511
+      }
+    ],
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
+  },
+  {
+    "id": "13-100-G001",
+    "series": 12,
+    "issueDate": "2020-03-09",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "東京都 世田谷区",
+    "title": null,
+    "coordsDMS": null,
+    "numbering": null,
+    "pictograms": [],
+    "images": {
+      "card": "assets/cards/13-100-G001.jpg",
+      "thumbnail": "assets/thumbnails/13-100-G001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-100-G-01.jpg",
+      "sourceThumbnail": null
+    },
+    "cover": {
+      "lat": null,
+      "lng": null
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "三軒茶屋観光案内所（SANCHA3「サンチャキューブ」）",
+        "address": "東京都世田谷区太子堂4-1-1（東急世田谷線三軒茶屋駅改札前） (問合せ先) 世田谷区経済産業部産業連携交流推進課",
+        "phone": "03-3411-6653",
+        "hours": "10:00～18:00 ただし、年末年始(12/29～1/3)はお休みです",
+        "website": "https://www.kanko-setagaya.jp/?p=we-page-entry&spot=265539&nav=none",
+        "stockUrl": "https://www.city.setagaya.lg.jp/mokuji/shigoto/005/d00184306.html",
+        "lat": null,
+        "lng": null
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "13-100-H001",
+    "series": 12,
+    "issueDate": "2020-03-09",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "東京都 渋谷区",
+    "title": "東京都 渋谷区 H0",
+    "coordsDMS": "35°40'46.3\"N 139°42'28.1\"E",
+    "numbering": {
+      "overall": 608,
+      "region": 145,
+      "prefecture": 25,
+      "municipality": 8
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-100-H001.jpg",
+      "thumbnail": "assets/thumbnails/13-100-H001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-100-H-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-100-H001.png"
+    },
+    "cover": {
+      "lat": 35.6795277777778,
+      "lng": 139.707805555556
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "渋谷区立千駄ヶ谷社会教育館",
+        "address": "東京都渋谷区千駄ヶ谷1-6-5 (問合せ先) 渋谷区産業観光課",
+        "phone": "03-3463-2376",
+        "hours": "10:00～17:00 ただし、毎週月曜と年末年始（12/29～1/3）はお休みです。 ※施設の開館時間と配布時間は異なります",
+        "website": null,
+        "stockUrl": "https://www.city.shibuya.tokyo.jp/bunka/bunkazai/midokoro/designmanhole.html",
+        "lat": 35.6781018,
+        "lng": 139.7099524
+      }
+    ],
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
+  },
+  {
+    "id": "13-100-I001",
+    "series": 12,
+    "issueDate": "2020-03-09",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "東京都 杉並区",
+    "title": "東京都 杉並区 I0",
+    "coordsDMS": "35°42'15.6\"N 139°38'09.4\"E",
+    "numbering": {
+      "overall": 609,
+      "region": 146,
+      "prefecture": 26,
+      "municipality": 9
+    },
+    "pictograms": [
+      {
+        "code": "013",
+        "label": "祭"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-100-I001.jpg",
+      "thumbnail": "assets/thumbnails/13-100-I001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-100-I-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-100-I001.png"
+    },
+    "cover": {
+      "lat": 35.7043333333333,
+      "lng": 139.635944444444
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "杉並区立産業商工会館",
+        "address": "東京都杉並区阿佐谷南3-2-19",
+        "phone": "03-3393-1501",
+        "hours": "9:00～21:00 ただし、毎月第3日曜日及び年末年始はお休みです",
+        "website": "https://www.city.suginami.tokyo.jp/shisetsu/sangyo/shoko/1007450.html",
+        "stockUrl": "https://www.city.suginami.tokyo.jp/suginamishoukai/shirumanabu/namisuke/1057047.html",
+        "lat": 35.7017767,
+        "lng": 139.6352867
+      }
+    ],
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
+  },
+  {
+    "id": "13-100-J001",
+    "series": 12,
+    "issueDate": "2020-03-09",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "東京都 豊島区",
+    "title": "東京都 豊島区 J0",
+    "coordsDMS": "35°43'50.3\"N 139°42'54.8\"E",
+    "numbering": {
+      "overall": 610,
+      "region": 147,
+      "prefecture": 27,
+      "municipality": 10
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-100-J001.jpg",
+      "thumbnail": "assets/thumbnails/13-100-J001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-100-J-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-100-J001.png"
+    },
+    "cover": {
+      "lat": 35.7306388888889,
+      "lng": 139.715222222222
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "としま区民センター 池袋東口観光案内所",
+        "address": "東京都豊島区東池袋1-20-10",
+        "phone": "03－6912－7900",
+        "hours": "9：00～19：00 ただし、年末年始はお休みです",
+        "website": "https://www.toshima-mirai.or.jp/center/a_kumin/",
+        "stockUrl": "https://www.city.toshima.lg.jp/424/2002212017.html",
+        "lat": 35.731501,
+        "lng": 139.7156917
+      }
+    ],
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
+  },
+  {
+    "id": "13-100-K001",
+    "series": 12,
+    "issueDate": "2020-03-09",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "東京都 北区",
+    "title": "東京都 北区 K0",
+    "coordsDMS": "35°46'43.9\"N 139°43'11.6\"E",
+    "numbering": {
+      "overall": 611,
+      "region": 148,
+      "prefecture": 28,
+      "municipality": 11
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-100-K001.jpg",
+      "thumbnail": "assets/thumbnails/13-100-K001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-100-K-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-100-K001.png"
+    },
+    "cover": {
+      "lat": 35.7788611111111,
+      "lng": 139.719888888889
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "赤羽文化センター",
+        "address": "東京都北区赤羽西1-6-1-301",
+        "phone": "03-3906-3911",
+        "hours": "9:00～21:00 ただし、年末年始（12月28日～1月4日）、定期清掃日及び保守点検の日（毎月第3火曜日）はお休みです",
+        "website": "https://www.kita-bunka.com/si/si02-akabane/si02-1.html",
+        "stockUrl": "https://www.city.kita.lg.jp/culture-tourism-sports/tourism/1018318/1020188/1020208.html",
+        "lat": 35.777953,
+        "lng": 139.719297
+      }
+    ],
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
+  },
+  {
+    "id": "13-100-L001",
+    "series": 12,
+    "issueDate": "2020-03-09",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "東京都 足立区",
+    "title": "東京都 足立区 L0",
+    "coordsDMS": "35°44'56.9\"N 139°48'22.6\"E",
+    "numbering": {
+      "overall": 612,
+      "region": 149,
+      "prefecture": 29,
+      "municipality": 12
+    },
+    "pictograms": [
+      {
+        "code": "014",
+        "label": "イベント"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-100-L001.jpg",
+      "thumbnail": "assets/thumbnails/13-100-L001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-100-L-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-100-L001.png"
+    },
+    "cover": {
+      "lat": 35.7491388888889,
+      "lng": 139.806277777778
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "あだち産業センター",
+        "address": "足立区千住1-5-7 （問合わせ先） 産業経済部産業振興課商業振興係",
+        "phone": "03-3880-5865",
+        "hours": "9：00～21：00 ただし、年末年始（12/29～1/3）はお休みです",
+        "website": null,
+        "stockUrl": "http://www.city.adachi.tokyo.jp/s-shinko/designmanhole.html",
+        "lat": 35.7473955,
+        "lng": 139.8003967
+      }
+    ],
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
+  },
+  {
+    "id": "13-100-M001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "東京23区",
+    "title": "東京都 東京23区 M0",
+    "coordsDMS": "35°37'12.7\"N 139°42'13.4\"E",
+    "numbering": {
+      "overall": 634,
+      "region": 164,
+      "prefecture": 35,
+      "municipality": 13
+    },
+    "pictograms": [
+      {
+        "code": "008",
+        "label": "野菜"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-100-M001.jpg",
+      "thumbnail": "assets/thumbnails/13-100-M001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-100-M-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-100-M001.png"
+    },
+    "cover": {
+      "lat": 35.6201944444444,
+      "lng": 139.703722222222
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "info & cafe SQUARE",
+        "address": "東京都品川区荏原4-5-28 スクエア荏原1F",
+        "phone": "03-3783-7200",
+        "hours": "11：00～18：00 ただし、水曜・年末年始はお休みです",
+        "website": "https://infoandcafesquare.jp/",
+        "stockUrl": "https://www.city.shinagawa.tokyo.jp/PC/kankyo/kankyo-doro/20181016161115.html",
+        "lat": 35.6153444,
+        "lng": 139.707492
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "13-202-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "立川市",
+    "title": "東京都 立川市 B0",
+    "coordsDMS": "35°42'48.3\"N 139°24'26.7\"E",
+    "numbering": {
+      "overall": 635,
+      "region": 165,
+      "prefecture": 36,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-202-B001.jpg",
+      "thumbnail": "assets/thumbnails/13-202-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-202-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-202-B001.png"
+    },
+    "cover": {
+      "lat": 35.7134166666667,
+      "lng": 139.407416666667
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "【平日】立川市役所下水道管理課",
+        "address": "【休日】立川市役所休日受付窓口 東京都立川市泉町1156-9",
+        "phone": "042-523-2111",
+        "hours": "8：30～17：00 ただし、年末年始はお休みです",
+        "website": "https://www.city.tachikawa.lg.jp/",
+        "stockUrl": "https://www.city.tachikawa.lg.jp/kurashi/suido/1002266/1020609/1025815.html",
+        "lat": 35.7139404,
+        "lng": 139.4076899
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "13-209-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "町田市",
+    "title": "東京都 町田市 B0",
+    "coordsDMS": "35°32'36.5\"N 139°26'49.9\"E",
+    "numbering": {
+      "overall": 636,
+      "region": 166,
+      "prefecture": 37,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "005",
+        "label": "動物"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-209-B001.jpg",
+      "thumbnail": "assets/thumbnails/13-209-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-209-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-209-B001.png"
+    },
+    "cover": {
+      "lat": 35.5434722222222,
+      "lng": 139.447194444444
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "まちの案内所 町田ツーリストギャラリー",
+        "address": "東京都町田市原町田4-10-20 ぽっぽ町田1階",
+        "phone": "042-850-9311",
+        "hours": "10：00～19：00 ただし、年末年始、棚卸期間などの臨時休業日はお休みです（臨時休業日は町田ツーリストギャラリーHPをご確認ください）",
+        "website": "https://machida-guide.or.jp/?p=we-page-top-2",
+        "stockUrl": "https://www.city.machida.tokyo.jp/kurashi/suido/grsui/gesuidoujigyou/manholehutadesign.html",
+        "lat": 35.5425117,
+        "lng": 139.4492219
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "13-210-B001",
+    "series": 12,
+    "issueDate": "2020-03-09",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "小金井市",
+    "title": "東京都 小金井市 B0",
+    "coordsDMS": "35°42'00.9\"N 139°30'25.3\"E",
+    "numbering": {
+      "overall": 613,
+      "region": 150,
+      "prefecture": 30,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "003",
+        "label": "鳥"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-210-B001.jpg",
+      "thumbnail": "assets/thumbnails/13-210-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-210-B-02.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-210-B001.png"
+    },
+    "cover": {
+      "lat": 35.70025,
+      "lng": 139.507027777778
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "【土曜日】小金井市観光まちおこし協会",
+        "address": "小金井市第二庁舎4階 下水道課窓口 小金井市前原町3-41-15 【土曜日】小金井市観光まちおこし協会 小金井市本町1-18-14松島ビル103 ※小金井市観光まちおこし協会に駐車場はありません (問合せ先) 小金井市環境部下水道課（平日のみ） 042-387-9828 ※小金井市観光まちおこし協会へのお問い合わせはご遠慮ください",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.7007649,
+        "lng": 139.5078401
+      },
+      {
+        "name": "【平日】小金井市第二庁舎4階 下水道課窓口",
+        "address": "小金井市第二庁舎4階 下水道課窓口 小金井市前原町3-41-15 【土曜日】小金井市観光まちおこし協会 小金井市本町1-18-14松島ビル103 ※小金井市観光まちおこし協会に駐車場はありません (問合せ先) 小金井市環境部下水道課（平日のみ） 042-387-9828 ※小金井市観光まちおこし協会へのお問い合わせはご遠慮ください",
+        "phone": null,
+        "hours": "9:00～12:00 13:00～16:00",
+        "website": "https://www.city.koganei.lg.jp/",
+        "stockUrl": "https://www.city.koganei.lg.jp/smph/kurashi/478/keihatuzigyou/mannho-ruka-dotokube.html",
+        "lat": 35.6986146,
+        "lng": 139.504952
+      }
+    ],
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
+  },
+  {
+    "id": "13-211-B001",
+    "series": 12,
+    "issueDate": "2020-03-09",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "小平市",
+    "title": "東京都 小平市 B0",
+    "coordsDMS": "35°43'35.4\"N 139°30'50.3\"E",
+    "numbering": {
+      "overall": 614,
+      "region": 151,
+      "prefecture": 31,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "015",
+        "label": "スポーツ"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-211-B001.jpg",
+      "thumbnail": "assets/thumbnails/13-211-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-211-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-211-B001.png"
+    },
+    "cover": {
+      "lat": 35.7265,
+      "lng": 139.513972222222
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "小平市ふれあい下水道館",
+        "address": "東京都小平市上水本町1-25-31",
+        "phone": "042-326-7411",
+        "hours": "10:00～16:00 ただし、毎週月曜日（休・祝日の場合その直近の平日）と年末年始（12/27から1/5）はお休みです",
+        "website": "https://www.city.kodaira.tokyo.jp/kurashi/070/070022.html",
+        "stockUrl": "https://www.city.kodaira.tokyo.jp/kurashi/080/080429.html",
+        "lat": 35.720139,
+        "lng": 139.464599
+      }
+    ],
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
+  },
+  {
+    "id": "13-222-A001",
+    "series": 12,
+    "issueDate": "2020-03-09",
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "東久留米市",
+    "title": "東京都 東久留米市 A0",
+    "coordsDMS": "35°45'37.7\"N 139°32'03.2\"E",
+    "numbering": {
+      "overall": 616,
+      "region": 153,
+      "prefecture": 33,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "004",
+        "label": "魚"
+      },
+      {
+        "code": "008",
+        "label": "野菜"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-222-A001.jpg",
+      "thumbnail": "assets/thumbnails/13-222-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-222-A-02.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-222-A001.png"
+    },
+    "cover": {
+      "lat": 35.7604722222222,
+      "lng": 139.534222222222
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "東久留米市市民プラザ事務室",
+        "address": "東京都東久留米市本町三丁目3番1号",
+        "phone": "042-470-7813",
+        "hours": "9:00～20:30 ただし、年末年始はお休みです",
+        "website": "https://www.s-seiun.co.jp/shisetsu/higashikurume/shisetsu/plaza.html",
+        "stockUrl": "https://www.city.higashikurume.lg.jp/1007337/1026011.html",
+        "lat": 35.7581654,
+        "lng": 139.5299779
+      }
+    ],
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
+  },
+  {
+    "id": "13-225-A001",
+    "series": 12,
+    "issueDate": null,
+    "prefectureCode": "13",
+    "prefecture": "東京都",
+    "municipality": "稲城市",
+    "title": "東京都 稲城市 A0",
+    "coordsDMS": "35°38'38.6\"N 139°30'09.6\"E",
+    "numbering": {
+      "overall": 617,
+      "region": 154,
+      "prefecture": 34,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/13-225-A001.jpg",
+      "thumbnail": "assets/thumbnails/13-225-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/13-225-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-225-A001.png"
+    },
+    "cover": {
+      "lat": 35.6440555555556,
+      "lng": 139.502666666667
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "いなぎ発信基地ペアテラス",
+        "address": "東京都稲城市東長沼516番地2",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 35.644127,
+        "lng": 139.5028506
+      }
+    ],
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
+  },
+  {
+    "id": "15-206-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "15",
+    "prefecture": "新潟県",
+    "municipality": "新発田市",
+    "title": "新潟県 新発田市 B0",
+    "coordsDMS": "37°56'44.6\"N 139°19'44.9\"E",
+    "numbering": {
+      "overall": 637,
+      "region": 38,
+      "prefecture": 21,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "022",
+        "label": "お城"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/15-206-B001.jpg",
+      "thumbnail": "assets/thumbnails/15-206-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/15-206-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/15-206-B001.png"
+    },
+    "cover": {
+      "lat": 37.9457222222222,
+      "lng": 139.329138888889
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "寺町たまり駅",
+        "address": "新潟県新発田市諏訪町2丁目3番28号",
+        "phone": "0254-22-1888",
+        "hours": "9：00～16：30 ただし、12/29～1/3はお休みです",
+        "website": "http://www.city.shibata.lg.jp/shisetsu/kanko/kanko/1005079.html",
+        "stockUrl": "http://www.city.shibata.lg.jp/kurashi/suido/gesuido/1012307/1012314.html",
+        "lat": 37.9458106,
+        "lng": 139.3293435
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "17-407-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "17",
+    "prefecture": "石川県",
+    "municipality": "中能登町",
+    "title": "石川県 中能登町 A0",
+    "coordsDMS": "36°58'12.2\"N 136°54'16.8\"E",
+    "numbering": {
+      "overall": 638,
+      "region": 39,
+      "prefecture": 4,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "018",
+        "label": "おとぎ話"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/17-407-A001.jpg",
+      "thumbnail": "assets/thumbnails/17-407-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/17-407-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/17-407-A001.png"
+    },
+    "cover": {
+      "lat": 36.9700555555556,
+      "lng": 136.904666666667
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "道の駅 織姫の里なかのと",
+        "address": "石川県鹿島郡中能登町井田ぬ部10番地1",
+        "phone": "0767-76-8000",
+        "hours": "9:00～17:00 ただし、年始及び定休日はお休みです 詳細はHPをご覧ください",
+        "website": "http://orihime-nakanoto.jp",
+        "stockUrl": "https://www.town.nakanoto.ishikawa.jp/soshiki/seikatsukankyou/1/1_2/5809.html ",
+        "lat": 36.9698154,
+        "lng": 136.9048405
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "18-481-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "18",
+    "prefecture": "福井県",
+    "municipality": "高浜町",
+    "title": "福井県 高浜町 A0",
+    "coordsDMS": "35°29'15.5\"N 135°32'49.8\"E",
+    "numbering": {
+      "overall": 639,
+      "region": 40,
+      "prefecture": 7,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      },
+      {
+        "code": "028",
+        "label": "山"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/18-481-A001.jpg",
+      "thumbnail": "assets/thumbnails/18-481-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/18-481-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/18-481-A001.png"
+    },
+    "cover": {
+      "lat": 35.4876388888889,
+      "lng": 135.547166666667
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "高浜町上水道センター（上下水道課）",
+        "address": "福井県大飯郡高浜町東三松34-3-1",
+        "phone": "0770-72-3611",
+        "hours": "9:00～17:00",
+        "website": "https://www.town.takahama.fukui.jp/page/jyousuidou/index.html",
+        "stockUrl": "https://www.town.takahama.fukui.jp/page/jyousuidou/p006274.html",
+        "lat": 35.4900233,
+        "lng": 135.5124402
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "19-201-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "19",
+    "prefecture": "山梨県",
+    "municipality": "甲府市",
+    "title": "山梨県 甲府市 B0",
+    "coordsDMS": "35°38'42.9\"N 138°33'11.6\"E",
+    "numbering": {
+      "overall": 640,
+      "region": 97,
+      "prefecture": 6,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/19-201-B001.jpg",
+      "thumbnail": "assets/thumbnails/19-201-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/19-201-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/19-201-B001.png"
+    },
+    "cover": {
+      "lat": 35.64525,
+      "lng": 138.553222222222
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "甲府市立図書館",
+        "address": "山梨県甲府市城東１丁目１２－３３ （問い合わせ先） 甲府市上下水道局 経営企画課",
+        "phone": "055-228-3319",
+        "hours": "10：00～17：00 必ず休館日をご確認ください。 配布場所の定休日・期間については、 こちら （リンク先の休館日情報）からご確認ください。",
+        "website": "https://libnet.city.kofu.yamanashi.jp/lib/accessmap/",
+        "stockUrl": "https://www.water.kofu.yamanashi.jp/general/manhole/20200713163129.html",
+        "lat": 35.659506,
+        "lng": 138.58157
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "20-204-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "20",
+    "prefecture": "長野県",
+    "municipality": "岡谷市",
+    "title": "長野県 岡谷市 A0",
+    "coordsDMS": "36°02'57.1\"N 138°01'42.5\"E",
+    "numbering": {
+      "overall": 641,
+      "region": 98,
+      "prefecture": 18,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/20-204-A001.jpg",
+      "thumbnail": "assets/thumbnails/20-204-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/20-204-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/20-204-A001.png"
+    },
+    "cover": {
+      "lat": 36.0491944444444,
+      "lng": 138.028472222222
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "岡谷蚕糸博物館",
+        "address": "【平日】 岡谷市役所 建設水道部水道課 ⻑野県岡谷市幸町8-1 市役所庁舎4階",
+        "phone": "0266-23-4811(",
+        "hours": "【平日】9:00〜17:00 ただし年末年始は配布しません 【土日祝日】9:00〜17:00 ただし休館日（水曜日、祝日の翌日、年末年始）は配布しません",
+        "website": "http://silkfact.jp/",
+        "stockUrl": "https://www.city.okaya.lg.jp/soshikikarasagasu/suidoka/483/15244.html",
+        "lat": 36.0699832,
+        "lng": 138.04948
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "20-209-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "20",
+    "prefecture": "長野県",
+    "municipality": "伊那市",
+    "title": "長野県 伊那市 B0",
+    "coordsDMS": "35°50'13.8\"N 138°03'19.1\"E",
+    "numbering": {
+      "overall": 642,
+      "region": 99,
+      "prefecture": 19,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/20-209-B001.jpg",
+      "thumbnail": "assets/thumbnails/20-209-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/20-209-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/20-209-B001.png"
+    },
+    "cover": {
+      "lat": 35.8371666666667,
+      "lng": 138.055305555556
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "高遠さくらホテル",
+        "address": "長野県伊那市高遠町勝間217",
+        "phone": "0265-94-2200",
+        "hours": "6:00～22:00(年中無休)",
+        "website": "https://www.ina-city-kankou.co.jp/sakurahotel/",
+        "stockUrl": "https://www.inacity.jp/kurashi/suidou_gesuidou_hoka/gesuidou/174susf20200318.html",
+        "lat": 35.8265178,
+        "lng": 138.065381
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "20-385-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "20",
+    "prefecture": "長野県",
+    "municipality": "南箕輪村",
+    "title": "長野県 南箕輪村 A0",
+    "coordsDMS": "35°53'06.2\"N 137°56'52.4\"E",
+    "numbering": {
+      "overall": 643,
+      "region": 100,
+      "prefecture": 20,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "004",
+        "label": "魚"
+      },
+      {
+        "code": "006",
+        "label": "昆虫"
+      },
+      {
+        "code": "029",
+        "label": "川"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/20-385-A001.jpg",
+      "thumbnail": "assets/thumbnails/20-385-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/20-385-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/20-385-A001.png"
+    },
+    "cover": {
+      "lat": 35.8850555555556,
+      "lng": 137.947888888889
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "道の駅大芝高原 味工房",
+        "address": "長野県上伊那郡南箕輪村2358番地5",
+        "phone": "0265-76-0054",
+        "hours": "9：30 ～ 18：00 (11月～3月は17：00まで) ただし、毎週水曜日と年末年始はお休みです",
+        "website": "https://kankou-minamiminowa.nagano.jp/ajikoubou/",
+        "stockUrl": "https://www.vill.minamiminowa.lg.jp/soshiki/kensetsu/manholecard.html",
+        "lat": 35.8881436,
+        "lng": 137.9436141
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "22-207-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "22",
+    "prefecture": "静岡県",
+    "municipality": "富士宮市",
+    "title": "静岡県 富士宮市 A0",
+    "coordsDMS": "35°13'27.1\"N 138°36'35.7\"E",
+    "numbering": {
+      "overall": 644,
+      "region": 101,
+      "prefecture": 20,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "021",
+        "label": "富士山"
+      },
+      {
+        "code": "030",
+        "label": "湖・沼"
+      },
+      {
+        "code": "031",
+        "label": "世界遺産"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/22-207-A001.jpg",
+      "thumbnail": "assets/thumbnails/22-207-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/22-207-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/22-207-A001.png"
+    },
+    "cover": {
+      "lat": 35.2241944444444,
+      "lng": 138.609916666667
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "【平日】富士宮市役所下水道課",
+        "address": "静岡県富士宮市弓沢町150",
+        "phone": "0544-22-1174",
+        "hours": "9:00～17:00 ただし、年末年始（12/27～1/4）はお休みです。",
+        "website": "http://www.city.fujinomiya.lg.jp/",
+        "stockUrl": "http://www.city.fujinomiya.lg.jp/citizen/copy_of_visuf8000000xs1w.html",
+        "lat": 35.2220721,
+        "lng": 138.6216279
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "23-217-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "23",
+    "prefecture": "愛知県",
+    "municipality": "江南市",
+    "title": "愛知県 江南市 A0",
+    "coordsDMS": "35°20'56.5\"N 136°51'28.9\"E",
+    "numbering": {
+      "overall": 645,
+      "region": 102,
+      "prefecture": 31,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "029",
+        "label": "川"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/23-217-A001.jpg",
+      "thumbnail": "assets/thumbnails/23-217-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/23-217-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/23-217-A001.png"
+    },
+    "cover": {
+      "lat": 35.3490277777778,
+      "lng": 136.858027777778
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "【平日】江南市下般若配水場２階下水道課",
+        "address": "【土日祝日】江南市下般若配水場1階 宿直室 愛知県江南市般若町中山146番地",
+        "phone": "0587-54-1111",
+        "hours": "【平日、土日祝日】9:00～16：00 ただし、年末年始はお休みです",
+        "website": "https://www.city.konan.lg.jp/",
+        "stockUrl": "https://www.city.konan.lg.jp/kurashi/suido/1003555/1007270/1007575.html",
+        "lat": 35.3653106,
+        "lng": 136.8860626
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "24-203-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "24",
+    "prefecture": "三重県",
+    "municipality": "伊勢市",
+    "title": "三重県 伊勢市 B0",
+    "coordsDMS": "34°30'28.6\"N 136°46'59.8\"E",
+    "numbering": {
+      "overall": 646,
+      "region": 103,
+      "prefecture": 12,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "024",
+        "label": "歴史的建造物"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/24-203-B001.jpg",
+      "thumbnail": "assets/thumbnails/24-203-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/24-203-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/24-203-B001.png"
+    },
+    "cover": {
+      "lat": 34.5079444444444,
+      "lng": 136.783277777778
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "二見浦観光案内所",
+        "address": "三重県伊勢市二見町茶屋111－1 二見生涯学習センター内",
+        "phone": "0596-43-2331",
+        "hours": "8:30～17:00(年中無休)",
+        "website": "https://www.city.ise.mie.jp//kankou/invitation/baggage/1002847.html",
+        "stockUrl": "https://www.city.ise.mie.jp/jougesuidou/notice/event/1003291.html",
+        "lat": 34.50633,
+        "lng": 136.777327
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "26-202-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "26",
+    "prefecture": "京都府",
+    "municipality": "舞鶴市",
+    "title": "京都府 舞鶴市 B0",
+    "coordsDMS": "35°26'45.3\"N 135°19'47.6\"E",
+    "numbering": {
+      "overall": 647,
+      "region": 96,
+      "prefecture": 13,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "003",
+        "label": "鳥"
+      },
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "022",
+        "label": "お城"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/26-202-B001.jpg",
+      "thumbnail": "assets/thumbnails/26-202-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/26-202-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/26-202-B001.png"
+    },
+    "cover": {
+      "lat": 35.4459166666667,
+      "lng": 135.329888888889
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "田辺城資料館",
+        "address": "京都府舞鶴市字南田辺15-22",
+        "phone": "0773-76-7211",
+        "hours": "9:00～17：00 ただし、毎週月曜日、祝日の翌日、年末年始（12月29日～1月3日）はお休みです",
+        "website": "https://www.city.maizuru.kyoto.jp/kyouiku/0000005026.html",
+        "stockUrl": "http://www.city.maizuru.kyoto.jp//",
+        "lat": 35.4461776,
+        "lng": 135.3301241
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "27-211-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "27",
+    "prefecture": "大阪府",
+    "municipality": "茨木市",
+    "title": "大阪府 茨木市 A0",
+    "coordsDMS": "34°48'55.4\"N 135°33'45.7\"E",
+    "numbering": {
+      "overall": 648,
+      "region": 97,
+      "prefecture": 41,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "002",
+        "label": "木"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/27-211-A001.jpg",
+      "thumbnail": "assets/thumbnails/27-211-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/27-211-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/27-211-A001.png"
+    },
+    "cover": {
+      "lat": 34.8153888888889,
+      "lng": 135.562694444444
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "茨木市文化・子育て複合施設 おにクル",
+        "address": "1階コンシェルジュ 大阪府茨木市駅前三丁目9番45号 (問合せ先) 茨木市建設部下水道総務課",
+        "phone": "072-620-1665",
+        "hours": "9:00〜21:00 ただし、第2・第4月曜日（祝日のときは翌日）、年末年始（12/29〜1/3）はお休みです ※その他、イベント等により臨時閉館等行う場合があります",
+        "website": "https://www.onikuru.jp/",
+        "stockUrl": "https://www.city.ibaraki.osaka.jp/kikou/kensetsu/gesuidosoumu/menu/46736.html",
+        "lat": 34.8156883,
+        "lng": 135.5693649
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "27-226-B001",
+    "series": 12,
+    "issueDate": null,
+    "prefectureCode": "27",
+    "prefecture": "大阪府",
+    "municipality": "藤井寺市",
+    "title": "大阪府 藤井寺市 B0",
+    "coordsDMS": "34°34'27.8\"N 135°35'51.1\"E",
+    "numbering": {
+      "overall": 649,
+      "region": 98,
+      "prefecture": 42,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "025",
+        "label": "幾何学模様"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/27-226-B001.jpg",
+      "thumbnail": "assets/thumbnails/27-226-B001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/27-226-B001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/27-226-B001.png"
+    },
+    "cover": {
+      "lat": 34.5743888888889,
+      "lng": 135.597527777778
+    },
+    "currentlyDistributed": false,
+    "distribution": [
+      {
+        "name": "パープルホール",
+        "address": "大阪府藤井寺市北岡1丁目2番3号",
+        "phone": null,
+        "hours": null,
+        "website": null,
+        "stockUrl": null,
+        "lat": 34.5758355,
+        "lng": 135.5965464
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "27-362-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "27",
+    "prefecture": "大阪府",
+    "municipality": "田尻町",
+    "title": "大阪府 田尻町 A0",
+    "coordsDMS": "34°23'52.1\"N 135°17'21.4\"E",
+    "numbering": {
+      "overall": 650,
+      "region": 99,
+      "prefecture": 43,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "012",
+        "label": "乗物"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "023",
+        "label": "橋梁"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/27-362-A001.jpg",
+      "thumbnail": "assets/thumbnails/27-362-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/27-362-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/27-362-A001.png"
+    },
+    "cover": {
+      "lat": 34.3978055555556,
+      "lng": 135.289277777778
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "【平日】田尻町役場別館",
+        "address": "大阪府泉南郡田尻町嘉祥寺375番地１",
+        "phone": "072-466-1000",
+        "hours": "9：00～17：00 ただし、祝日及び年末年始はお休みです",
+        "website": "http://www.town.tajiri.osaka.jp",
+        "stockUrl": null,
+        "lat": 34.3937426,
+        "lng": 135.2911829
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "28-206-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "28",
+    "prefecture": "兵庫県",
+    "municipality": "芦屋市",
+    "title": "兵庫県 芦屋市 B0",
+    "coordsDMS": "34°43'38.0\"N 135°18'17.2\"E",
+    "numbering": {
+      "overall": 651,
+      "region": 100,
+      "prefecture": 25,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "029",
+        "label": "川"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/28-206-B001.jpg",
+      "thumbnail": "assets/thumbnails/28-206-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/28-206-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/28-206-B001.png"
+    },
+    "cover": {
+      "lat": 34.7272222222222,
+      "lng": 135.304777777778
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "芦屋市立美術博物館",
+        "address": "兵庫県芦屋市伊勢町12-25",
+        "phone": "0797-38-5432",
+        "hours": "10:00～17:00（入館は16:30まで） ただし、月曜日（祝日の場合は開館，翌火曜日休館）、展示替え期間、年末年始 はお休みです",
+        "website": "https://ashiya-museum.jp/",
+        "stockUrl": "http://www.city.ashiya.lg.jp/gesuidou/mhc.html",
+        "lat": 34.7218682,
+        "lng": 135.310515
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "28-228-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "28",
+    "prefecture": "兵庫県",
+    "municipality": "加東市",
+    "title": "兵庫県 加東市 A0",
+    "coordsDMS": "34°56'43.1\"N 134°57'44.3\"E",
+    "numbering": {
+      "overall": 652,
+      "region": 101,
+      "prefecture": 26,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "004",
+        "label": "魚"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      },
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "029",
+        "label": "川"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/28-228-A001.jpg",
+      "thumbnail": "assets/thumbnails/28-228-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/28-228-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/28-228-A001.png"
+    },
+    "cover": {
+      "lat": 34.9453055555555,
+      "lng": 134.962305555556
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "（一社）加東市観光協会",
+        "address": "加東市河高4028",
+        "phone": "0795-48-0995",
+        "hours": "【加東市観光協会】8:30〜17:15 【加東市商工観光課】8:30〜17:15",
+        "website": "http://www.kato-kanko.jp/ ",
+        "stockUrl": "https://www.city.kato.lg.jp/kakukanogoannai/sangyoushinkoubu/shokokankoka/news/",
+        "lat": 34.9240235,
+        "lng": 134.9354959
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "29-343-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "29",
+    "prefecture": "奈良県",
+    "municipality": "三郷町",
+    "title": "奈良県 三郷町 A0",
+    "coordsDMS": "34°36'00.3\"N 135°41'37.3\"E",
+    "numbering": {
+      "overall": 653,
+      "region": 102,
+      "prefecture": 8,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/29-343-A001.jpg",
+      "thumbnail": "assets/thumbnails/29-343-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/29-343-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/29-343-A001.png"
+    },
+    "cover": {
+      "lat": 34.6000833333333,
+      "lng": 135.693694444444
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "日本遺産龍田古道ビジターセンター インフォメーションカウンター",
+        "address": "奈良県生駒郡三郷町立野南3-11-35",
+        "phone": "0745-60-9057",
+        "hours": "9:30～16:30 休館日は月曜日（月曜が祝日の場合は翌日火曜日）です 【休館日は下記の時間で配布】 8:30～17:15 ※年末年始の配布は行いません",
+        "website": null,
+        "stockUrl": "https://www.town.sango.nara.jp/soshiki/20/2478.html",
+        "lat": 34.585465,
+        "lng": 135.6812248
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "29-441-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "29",
+    "prefecture": "奈良県",
+    "municipality": "吉野町",
+    "title": "奈良県 吉野町 A0",
+    "coordsDMS": "34°22'35.8\"N 135°51'12.8\"E",
+    "numbering": {
+      "overall": 654,
+      "region": 103,
+      "prefecture": 9,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "004",
+        "label": "魚"
+      },
+      {
+        "code": "025",
+        "label": "幾何学模様"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/29-441-A001.jpg",
+      "thumbnail": "assets/thumbnails/29-441-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/29-441-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/29-441-A001.png"
+    },
+    "cover": {
+      "lat": 34.3766111111111,
+      "lng": 135.853555555556
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "吉野町観光案内所（近鉄吉野駅前）",
+        "address": "奈良県吉野郡吉野町吉野山41-3",
+        "phone": "0746-39-9237",
+        "hours": "9：00～16：00 ただし、年末年始はお休みです",
+        "website": "https://www.yoshino-kankou.jp/useful/office/",
+        "stockUrl": "https://www.town.yoshino.nara.jp/promotion/kankojoho/1679.html",
+        "lat": 34.3769488,
+        "lng": 135.8535629
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "32-207-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "32",
+    "prefecture": "島根県",
+    "municipality": "江津市",
+    "title": "島根県 江津市 A0",
+    "coordsDMS": "35°00'48.9\"N 132°13'25.0\"E",
+    "numbering": {
+      "overall": 655,
+      "region": 50,
+      "prefecture": 8,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "002",
+        "label": "木"
+      },
+      {
+        "code": "023",
+        "label": "橋梁"
+      },
+      {
+        "code": "028",
+        "label": "山"
+      },
+      {
+        "code": "029",
+        "label": "川"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/32-207-A001.jpg",
+      "thumbnail": "assets/thumbnails/32-207-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/32-207-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/32-207-A001.png"
+    },
+    "cover": {
+      "lat": 35.0135833333333,
+      "lng": 132.223611111111
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "江津市観光協会",
+        "address": "島根県江津市江津町1518-1",
+        "phone": "0855-52-0534",
+        "hours": "9：00～17：00 ただし、毎週火曜日と年末年始(12/29～1/3)はお休みです",
+        "website": "https://gotsu-kanko.jp/",
+        "stockUrl": "https://gotsu-kanko.jp/52/news/topics/2892",
+        "lat": 35.013351,
+        "lng": 132.2229289
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "32-209-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "32",
+    "prefecture": "島根県",
+    "municipality": "雲南市",
+    "title": "島根県 雲南市 A0",
+    "coordsDMS": "35°17'54.4\"N 132°53'50.6\"E",
+    "numbering": {
+      "overall": 656,
+      "region": 51,
+      "prefecture": 9,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "018",
+        "label": "おとぎ話"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/32-209-A001.jpg",
+      "thumbnail": "assets/thumbnails/32-209-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/32-209-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/32-209-A001.png"
+    },
+    "cover": {
+      "lat": 35.2984444444444,
+      "lng": 132.897388888889
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "うんなん観光案内所",
+        "address": "雲南市三刀屋町三刀屋73番地3（コトリエット内）",
+        "phone": "0854-47-7878",
+        "hours": "【平日】8:30～18:00 【土曜日、日曜日および祝日】10:00～15:00",
+        "website": null,
+        "stockUrl": "https://www.city.unnan.shimane.jp//unnan/kurashi/2026-0331-1327-70.html",
+        "lat": 35.3003498,
+        "lng": 132.8892016
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "33-202-D001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "33",
+    "prefecture": "岡山県",
+    "municipality": "倉敷市",
+    "title": "岡山県 倉敷市 D0",
+    "coordsDMS": "34°31'43.8\"N 133°44'28.9\"E",
+    "numbering": {
+      "overall": 657,
+      "region": 52,
+      "prefecture": 14,
+      "municipality": 4
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "011",
+        "label": "鉄道"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/33-202-D001.jpg",
+      "thumbnail": "assets/thumbnails/33-202-D001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/33-202-D-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/33-202-D001.png"
+    },
+    "cover": {
+      "lat": 34.5288333333333,
+      "lng": 133.741361111111
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "水島臨海鉄道株式会社本店",
+        "address": "【月～金】水島臨海鉄道水島駅 岡山県倉敷市水島東千鳥町 10-1 【土・日曜日、祝日】水島臨海鉄道倉敷市駅 岡山県倉敷市阿知 1-1-2 (問合せ先) 水島臨海鉄道株式会社本店 086-446-0931",
+        "phone": null,
+        "hours": "【月～金】10：30～13：00、14：00～ 19：00 ただし、土・日曜日・祝日と12月29日〜１月３日はお休みです 【土・日曜日、祝日】7：00～17：00 12月29日～1月3日と土・日曜日、祝日も配布します",
+        "website": "http://www.mizurin.co.jp ",
+        "stockUrl": null,
+        "lat": 34.6010532,
+        "lng": 133.7651167
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "34-214-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "34",
+    "prefecture": "広島県",
+    "municipality": "安芸高田市",
+    "title": "広島県 安芸高田市 A0",
+    "coordsDMS": "34°39'51.1\"N 132°40'00.1\"E",
+    "numbering": {
+      "overall": 658,
+      "region": 53,
+      "prefecture": 13,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "015",
+        "label": "スポーツ"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/34-214-A001.jpg",
+      "thumbnail": "assets/thumbnails/34-214-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/34-214-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/34-214-A001.png"
+    },
+    "cover": {
+      "lat": 34.6641944444444,
+      "lng": 132.666694444444
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "道の駅三矢の里あきたかた",
+        "address": "広島県安芸高田市吉田町山手1059-1",
+        "phone": "0826-47-2533",
+        "hours": "10：00～17：00 ただし、年末年始（12/31～1/4）はお休みです",
+        "website": "https://akitakata-kankou.jp/main/mitsuyanosato/",
+        "stockUrl": null,
+        "lat": 34.6478231,
+        "lng": 132.6738328
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "35-216-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "35",
+    "prefecture": "山口県",
+    "municipality": "山陽小野田市",
+    "title": "山口県 山陽小野田市 A0",
+    "coordsDMS": "33°59'25.2\"N 131°10'38.4\"E",
+    "numbering": {
+      "overall": 659,
+      "region": 54,
+      "prefecture": 12,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/35-216-A001.jpg",
+      "thumbnail": "assets/thumbnails/35-216-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/35-216-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/35-216-A001.png"
+    },
+    "cover": {
+      "lat": 33.9903333333333,
+      "lng": 131.177333333333
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "歴史民俗資料館",
+        "address": "山口県山陽小野田市栄町9-21",
+        "phone": "0836-83-5600",
+        "hours": "9:00～17:00 ただし、月曜日（祝日の場合は翌平日も休館）・祝日（土曜日の場合は開館、月曜日を除く翌平日が休館）、年末年始（12/27～1/5）はお休みです ※ただし、祝日で市役所もお休みの場合は配布しません ※歴史民俗資料館の開館日は こちら をご確認ください",
+        "website": "https://www.city.sanyo-onoda.lg.jp/site/rekimin/shisetu-annai.html",
+        "stockUrl": "https://www.city.sanyo-onoda.lg.jp/soshiki/27/manholecard.html",
+        "lat": 33.990959,
+        "lng": 131.176173
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "37-202-C001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "37",
+    "prefecture": "香川県",
+    "municipality": "丸亀市",
+    "title": "香川県 丸亀市 C0",
+    "coordsDMS": "34°13'57.8\"N 133°52'41.7\"E",
+    "numbering": {
+      "overall": 660,
+      "region": 33,
+      "prefecture": 14,
+      "municipality": 3
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "028",
+        "label": "山"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/37-202-C001.jpg",
+      "thumbnail": "assets/thumbnails/37-202-C001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/37-202-C-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/37-202-C001.png"
+    },
+    "cover": {
+      "lat": 34.2327222222222,
+      "lng": 133.87825
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "【平日】丸亀市綾歌市民総合センター業務担当窓口",
+        "address": "香川県丸亀市綾歌町栗熊西1638番地",
+        "phone": "0877-86-5516",
+        "hours": "【平日】8：30～17：15 【休日】8：30～17：15",
+        "website": null,
+        "stockUrl": "https://www.city.marugame.lg.jp/page/1402.html",
+        "lat": 34.2323825,
+        "lng": 133.8780726
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "40-341-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "40",
+    "prefecture": "福岡県",
+    "municipality": "宇美町",
+    "title": "福岡県 宇美町 A0",
+    "coordsDMS": "33°34'40.9\"N 130°29'55.9\"E",
+    "numbering": {
+      "overall": 661,
+      "region": 53,
+      "prefecture": 19,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "002",
+        "label": "木"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/40-341-A001.jpg",
+      "thumbnail": "assets/thumbnails/40-341-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/40-341-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/40-341-A001.png"
+    },
+    "cover": {
+      "lat": 33.5780277777778,
+      "lng": 130.498861111111
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "宇美町役場上下水道課",
+        "address": "【平日】 8：30～17：15 宇美町役場上下水道課 福岡県糟屋郡宇美町宇美5丁目1番1号",
+        "phone": "092-934-2224",
+        "hours": "【平日】8:30～17:00 【休日】8:30～20:00 休日：土日祝日、12月29日～1月3日",
+        "website": "http://www.town.umi.lg.jp/soshiki/10/",
+        "stockUrl": "http://www.town.umi.lg.jp/soshiki/10/14168.html",
+        "lat": 33.5678659,
+        "lng": 130.5111641
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "41-346-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "41",
+    "prefecture": "佐賀県",
+    "municipality": "みやき町",
+    "title": "佐賀県 みやき町 A0",
+    "coordsDMS": "33°19'30.2\"N 130°27'15.7\"E",
+    "numbering": {
+      "overall": 662,
+      "region": 54,
+      "prefecture": 6,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      },
+      {
+        "code": "028",
+        "label": "山"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/41-346-A001.jpg",
+      "thumbnail": "assets/thumbnails/41-346-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/41-346-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/41-346-A001.png"
+    },
+    "cover": {
+      "lat": 33.3250555555556,
+      "lng": 130.454361111111
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "みやき町庁舎 1F 北茂安総合窓口課",
+        "address": "【平日】 みやき町庁舎 1F 北茂安総合窓口課 佐賀県三養基郡みやき町大字東尾737-5 【土、日、祝日、年末年始】みやき町庁舎 1F 警備員室 (問合せ先) みやき町役場下水道課",
+        "phone": "0942-96-5535",
+        "hours": "8：30～17：15",
+        "website": "https://www.town.miyaki.lg.jp/index.html",
+        "stockUrl": "https://www.town.miyaki.lg.jp/kurashi/kankyo/_1221/_3900.html",
+        "lat": 33.324957,
+        "lng": 130.454518
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "44-210-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "44",
+    "prefecture": "大分県",
+    "municipality": "杵築市",
+    "title": "大分県 杵築市 A0",
+    "coordsDMS": "33°24'59.3\"N 131°37'09.3\"E",
+    "numbering": {
+      "overall": 663,
+      "region": 55,
+      "prefecture": 4,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "005",
+        "label": "動物"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/44-210-A001.jpg",
+      "thumbnail": "assets/thumbnails/44-210-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/44-210-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/44-210-A001.png"
+    },
+    "cover": {
+      "lat": 33.4164722222222,
+      "lng": 131.61925
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "杵築ふるさと産業館",
+        "address": "大分県杵築市大字杵築北浜665-172 0978-62-2000",
+        "phone": null,
+        "hours": "9：30～17：30 ただし、12月31日～1月2日はお休みです",
+        "website": null,
+        "stockUrl": "https://www.city.kitsuki.lg.jp/soshiki/1/suidou/gesui/ka-do/6439.html",
+        "lat": 33.4185609,
+        "lng": 131.6222703
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "46-201-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "46",
+    "prefecture": "鹿児島県",
+    "municipality": "鹿児島市",
+    "title": "鹿児島県 鹿児島市 B0",
+    "coordsDMS": "31°35'02.4\"N 130°32'28.3\"E",
+    "numbering": {
+      "overall": 664,
+      "region": 56,
+      "prefecture": 8,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "026",
+        "label": "その他"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/46-201-B001.jpg",
+      "thumbnail": "assets/thumbnails/46-201-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/46-201-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/46-201-B001.png"
+    },
+    "cover": {
+      "lat": 31.584,
+      "lng": 130.541194444444
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "観光交流センター",
+        "address": "鹿児島市上之園町１－１",
+        "phone": "099-298-5111",
+        "hours": "9:00～18:00(年中無休)",
+        "website": "https://www.city.kagoshima.lg.jp/kanshin/shisetsu/kanko/005.html",
+        "stockUrl": "https://www.city.kagoshima.lg.jp/suido/gesuido/geken/manholecard.html",
+        "lat": 31.5839033,
+        "lng": 130.5473814
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "46-204-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "46",
+    "prefecture": "鹿児島県",
+    "municipality": "枕崎市",
+    "title": "鹿児島県 枕崎市 A0",
+    "coordsDMS": "31°16'18.0\"N 130°17'55.1\"E",
+    "numbering": {
+      "overall": 665,
+      "region": 57,
+      "prefecture": 9,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "004",
+        "label": "魚"
+      },
+      {
+        "code": "009",
+        "label": "名物品"
+      },
+      {
+        "code": "010",
+        "label": "観光名所"
+      },
+      {
+        "code": "013",
+        "label": "祭"
+      },
+      {
+        "code": "027",
+        "label": "海"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/46-204-A001.jpg",
+      "thumbnail": "assets/thumbnails/46-204-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/46-204-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/46-204-A001.png"
+    },
+    "cover": {
+      "lat": 31.2716666666667,
+      "lng": 130.298638888889
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "枕崎駅前観光案内所",
+        "address": "鹿児島県枕崎市東本町200",
+        "phone": "0993-78-3500",
+        "hours": "8：30～17：15",
+        "website": "http://makutabi.jp/see/post-1198",
+        "stockUrl": "https://www.city.makurazaki.lg.jp/soshiki/suidou/13884.html",
+        "lat": 31.2726011,
+        "lng": 130.2986787
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "47-209-B001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "47",
+    "prefecture": "沖縄県",
+    "municipality": "名護市",
+    "title": "沖縄県 名護市 B0",
+    "coordsDMS": "26°35'37.1\"N 127°58'02.6\"E",
+    "numbering": {
+      "overall": 666,
+      "region": 58,
+      "prefecture": 6,
+      "municipality": 2
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "015",
+        "label": "スポーツ"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/47-209-B001.jpg",
+      "thumbnail": "assets/thumbnails/47-209-B001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/47-209-B-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/47-209-B001.png"
+    },
+    "cover": {
+      "lat": 26.5936388888889,
+      "lng": 127.967388888889
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "公益財団法人 名護市観光協会",
+        "address": "【平日】 公益財団法人 名護市観光協会 沖縄県名護市大中1-19-24 名護市産業支援センター1階",
+        "phone": "0980-53-7755",
+        "hours": "【平日】9:00～17:00 【土日・祝日】10:00～17:00 ただし、1/1～1/3はお休みです",
+        "website": "https://nagomun.or.jp/",
+        "stockUrl": "https://www.city.nago.okinawa.jp/soshiki/kankyousuidou-nav/2021060400010/",
+        "lat": 26.590535,
+        "lng": 127.9854498
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "47-211-A001",
+    "series": 12,
+    "issueDate": "2020-04-25",
+    "prefectureCode": "47",
+    "prefecture": "沖縄県",
+    "municipality": "沖縄市",
+    "title": "沖縄県 沖縄市 A0",
+    "coordsDMS": "26°20'09.3\"N 127°47'58.5\"E",
+    "numbering": {
+      "overall": 667,
+      "region": 59,
+      "prefecture": 7,
+      "municipality": 1
+    },
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      },
+      {
+        "code": "013",
+        "label": "祭"
+      },
+      {
+        "code": "019",
+        "label": "キャラクター"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/47-211-A001.jpg",
+      "thumbnail": "assets/thumbnails/47-211-A001.png",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/47-211-A-01.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/47-211-A001.png"
+    },
+    "cover": {
+      "lat": 26.3359166666667,
+      "lng": 127.799583333333
+    },
+    "currentlyDistributed": true,
+    "distribution": [
+      {
+        "name": "コザ・ミュージックタウン内 エイサー会館",
+        "address": "沖縄県沖縄市上地１丁目１番１号",
+        "phone": "098-989-5066",
+        "hours": "エイサー会館の営業時間内に配布します。 開館時間：10:00 終了時間：時期により異なりますので、エイサー会館HP、またはお電話にてご確認ください。 ただし、水曜日（休日の場合は翌平日）と年末年始(12/31-1/1）はお休みです",
+        "website": null,
+        "stockUrl": "https://www.city.okinawa.okinawa.jp/about/2749127673",
+        "lat": 26.3350308,
+        "lng": 127.7992879
+      }
+    ],
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  }
+]
