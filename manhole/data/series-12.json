@@ -51,7 +51,10 @@
         "lng": 142.464343
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-462-A001",
@@ -105,7 +108,10 @@
         "lng": 142.5689377
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-516-B001",
@@ -159,7 +165,10 @@
         "lng": 141.83846
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-518-A001",
@@ -217,7 +226,10 @@
         "lng": 141.1395433
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "03-201-A001",
@@ -267,7 +279,10 @@
         "lng": 141.152592
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "03-211-C001",
@@ -313,7 +328,10 @@
         "lng": 141.8874707
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "05-206-A001",
@@ -359,7 +377,10 @@
         "lng": 139.8482241
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "08-212-A001",
@@ -413,7 +434,10 @@
         "lng": 140.527941
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "09-213-B001",
@@ -463,7 +487,10 @@
         "lng": null
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "10-208-C001",
@@ -513,7 +540,10 @@
         "lng": 139.0082635
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "10-345-A001",
@@ -563,7 +593,10 @@
         "lng": 139.0096785
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-219-B001",
@@ -617,7 +650,10 @@
         "lng": 139.5898454
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-231-A001",
@@ -667,7 +703,10 @@
         "lng": 139.564329
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-235-A001",
@@ -717,7 +756,10 @@
         "lng": 139.5490737
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-442-A001",
@@ -763,7 +805,10 @@
         "lng": 139.7180432
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "12-227-A001",
@@ -817,7 +862,10 @@
         "lng": 139.9020719
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-100-F001",
@@ -867,7 +915,11 @@
         "lng": 139.7724511
       }
     ],
-    "notes": "2020年に発行されたカードはゴールドの特別色"
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
   },
   {
     "id": "13-100-G001",
@@ -903,7 +955,10 @@
         "lng": null
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-100-H001",
@@ -949,7 +1004,11 @@
         "lng": 139.7099524
       }
     ],
-    "notes": "2020年に発行されたカードはゴールドの特別色"
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
   },
   {
     "id": "13-100-I001",
@@ -999,7 +1058,11 @@
         "lng": 139.6352867
       }
     ],
-    "notes": "2020年に発行されたカードはゴールドの特別色"
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
   },
   {
     "id": "13-100-J001",
@@ -1045,7 +1108,11 @@
         "lng": 139.7156917
       }
     ],
-    "notes": "2020年に発行されたカードはゴールドの特別色"
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
   },
   {
     "id": "13-100-K001",
@@ -1091,7 +1158,11 @@
         "lng": 139.719297
       }
     ],
-    "notes": "2020年に発行されたカードはゴールドの特別色"
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
   },
   {
     "id": "13-100-L001",
@@ -1141,7 +1212,11 @@
         "lng": 139.8003967
       }
     ],
-    "notes": "2020年に発行されたカードはゴールドの特別色"
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
   },
   {
     "id": "13-100-M001",
@@ -1195,7 +1270,10 @@
         "lng": 139.707492
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-202-B001",
@@ -1241,7 +1319,10 @@
         "lng": 139.4076899
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-209-B001",
@@ -1287,7 +1368,10 @@
         "lng": 139.4492219
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-210-B001",
@@ -1355,7 +1439,11 @@
         "lng": 139.504952
       }
     ],
-    "notes": "2020年に発行されたカードはゴールドの特別色"
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
   },
   {
     "id": "13-210-B002",
@@ -1391,7 +1479,10 @@
         "lng": null
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-211-B001",
@@ -1441,7 +1532,11 @@
         "lng": 139.464599
       }
     ],
-    "notes": "2020年に発行されたカードはゴールドの特別色"
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
   },
   {
     "id": "13-222-A001",
@@ -1503,7 +1598,11 @@
         "lng": 139.5299779
       }
     ],
-    "notes": "2020年に発行されたカードはゴールドの特別色"
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
   },
   {
     "id": "13-222-A002",
@@ -1539,7 +1638,10 @@
         "lng": null
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-225-A001",
@@ -1585,7 +1687,11 @@
         "lng": 139.5028506
       }
     ],
-    "notes": "2020年に発行されたカードはゴールドの特別色"
+    "notes": "2020年に発行されたカードはゴールドの特別色",
+    "variants": [
+      "standard",
+      "special"
+    ]
   },
   {
     "id": "15-206-B001",
@@ -1635,7 +1741,10 @@
         "lng": 139.3293435
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "17-407-A001",
@@ -1685,7 +1794,10 @@
         "lng": 136.9048405
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "18-481-A001",
@@ -1747,7 +1859,10 @@
         "lng": 135.5124402
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "19-201-B001",
@@ -1793,7 +1908,10 @@
         "lng": 138.58157
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "20-204-A001",
@@ -1839,7 +1957,10 @@
         "lng": 138.04948
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "20-209-B001",
@@ -1885,7 +2006,10 @@
         "lng": 138.065381
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "20-385-A001",
@@ -1939,7 +2063,10 @@
         "lng": 137.9436141
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "22-207-A001",
@@ -1997,7 +2124,10 @@
         "lng": 138.6216279
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "23-217-A001",
@@ -2047,7 +2177,10 @@
         "lng": 136.8860626
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "24-203-B001",
@@ -2105,7 +2238,10 @@
         "lng": 136.777327
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "26-202-B001",
@@ -2159,7 +2295,10 @@
         "lng": 135.3301241
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-211-A001",
@@ -2209,7 +2348,10 @@
         "lng": 135.5693649
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-226-B001",
@@ -2259,7 +2401,10 @@
         "lng": 135.5965464
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-362-A001",
@@ -2317,7 +2462,10 @@
         "lng": 135.2911829
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-206-B001",
@@ -2367,7 +2515,10 @@
         "lng": 135.310515
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-228-A001",
@@ -2429,7 +2580,10 @@
         "lng": 134.9354959
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "29-343-A001",
@@ -2475,7 +2629,10 @@
         "lng": 135.6812248
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "29-441-A001",
@@ -2529,7 +2686,10 @@
         "lng": 135.8535629
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "32-207-A001",
@@ -2591,7 +2751,10 @@
         "lng": 132.2229289
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "32-209-A001",
@@ -2645,7 +2808,10 @@
         "lng": 132.8892016
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "33-202-D001",
@@ -2695,7 +2861,10 @@
         "lng": 133.7651167
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "34-214-A001",
@@ -2745,7 +2914,10 @@
         "lng": 132.6738328
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "35-216-A001",
@@ -2799,7 +2971,10 @@
         "lng": 131.176173
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "37-202-C001",
@@ -2849,7 +3024,10 @@
         "lng": 133.8780726
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "40-341-A001",
@@ -2899,7 +3077,10 @@
         "lng": 130.5111641
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "41-346-A001",
@@ -2953,7 +3134,10 @@
         "lng": 130.454518
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "44-210-A001",
@@ -2999,7 +3183,10 @@
         "lng": 131.6222703
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "46-201-B001",
@@ -3045,7 +3232,10 @@
         "lng": 130.5473814
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "46-204-A001",
@@ -3107,7 +3297,10 @@
         "lng": 130.2986787
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "47-209-B001",
@@ -3161,7 +3354,10 @@
         "lng": 127.9854498
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "47-211-A001",
@@ -3215,6 +3411,9 @@
         "lng": 127.7992879
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   }
 ]

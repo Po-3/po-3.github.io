@@ -43,7 +43,10 @@
         "lng": 139.640304
       }
     ],
-    "notes": "下水道展'22東京で先行配布"
+    "notes": "下水道展'22東京で先行配布",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-214-B001",
@@ -93,7 +96,10 @@
         "lng": 141.6764571
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-487-B001",
@@ -147,7 +153,10 @@
         "lng": 141.7452438
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-516-D001",
@@ -201,7 +210,10 @@
         "lng": 141.7724886
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-545-A001",
@@ -263,7 +275,10 @@
         "lng": 144.990695
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "02-441-A001",
@@ -323,7 +338,10 @@
         "lng": 141.258451
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "03-213-A001",
@@ -369,7 +387,10 @@
         "lng": 141.2859048
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "03-216-A001",
@@ -423,7 +444,10 @@
         "lng": 141.0785187
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "06-204-A001",
@@ -485,7 +509,10 @@
         "lng": 139.8452225
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "07-204-B001",
@@ -531,7 +558,10 @@
         "lng": 140.9054062
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "07-542-A001",
@@ -593,7 +623,10 @@
         "lng": 141.0141597
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "07-544-A001",
@@ -639,7 +672,10 @@
         "lng": 140.8215858
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-000-I001",
@@ -685,7 +721,10 @@
         "lng": 139.6520544
       }
     ],
-    "notes": "マンホールサミットのため第17弾に追加。2022年12月より配布開始。"
+    "notes": "マンホールサミットのため第17弾に追加。2022年12月より配布開始。",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-010-A001",
@@ -735,7 +774,10 @@
         "lng": 139.6416615909034
       }
     ],
-    "notes": "マンホールサミットのため第17弾に追加。2022年12月より配布開始。"
+    "notes": "マンホールサミットのため第17弾に追加。2022年12月より配布開始。",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-201-B001",
@@ -781,7 +823,10 @@
         "lng": 139.4831432
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "12-207-B001",
@@ -839,7 +884,10 @@
         "lng": 139.899171
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-100-D101",
@@ -889,7 +937,10 @@
         "lng": 139.7852657
       }
     ],
-    "notes": "下水道展'22東京で先行配布"
+    "notes": "下水道展'22東京で先行配布",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-222-D001",
@@ -935,7 +986,10 @@
         "lng": 139.522352
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "14-150-D001",
@@ -981,7 +1035,10 @@
         "lng": 139.435036
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "15-211-A001",
@@ -1035,7 +1092,10 @@
         "lng": 138.9148905
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "15-213-D001",
@@ -1093,7 +1153,10 @@
         "lng": 138.8251828
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "16-201-G001",
@@ -1143,7 +1206,11 @@
         "lng": 137.1306853
       }
     ],
-    "notes": "英語版のカードも配布している"
+    "notes": "英語版のカードも配布している",
+    "variants": [
+      "standard",
+      "english"
+    ]
   },
   {
     "id": "16-209-B001",
@@ -1193,7 +1260,10 @@
         "lng": 136.8655613
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "18-202-B001",
@@ -1247,7 +1317,10 @@
         "lng": 136.0724797
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "21-203-F001",
@@ -1293,7 +1366,10 @@
         "lng": 137.275223
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "23-202-F001",
@@ -1343,7 +1419,10 @@
         "lng": 137.1518622
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "23-208-A001",
@@ -1403,7 +1482,10 @@
         "lng": 136.7412876
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-232-A001",
@@ -1463,7 +1545,10 @@
         "lng": 135.239656
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-207-C001",
@@ -1517,7 +1602,10 @@
         "lng": 135.422162
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "33-215-A001",
@@ -1571,7 +1659,10 @@
         "lng": 134.1374084
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "34-207-A001",
@@ -1625,7 +1716,10 @@
         "lng": 133.3624399
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "37-201-B001",
@@ -1679,7 +1773,10 @@
         "lng": 133.9525853
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "38-210-A001",
@@ -1733,7 +1830,10 @@
         "lng": 132.7170038
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "40-221-A001",
@@ -1783,7 +1883,10 @@
         "lng": 130.516151
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "41-206-A001",
@@ -1833,7 +1936,10 @@
         "lng": 130.0215747
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "44-203-A001",
@@ -1891,7 +1997,10 @@
         "lng": 131.1911261
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "46-201-C001",
@@ -1941,6 +2050,9 @@
         "lng": 130.555232
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   }
 ]

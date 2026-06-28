@@ -59,7 +59,10 @@
         "lng": 141.3426091
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "05-201-A001",
@@ -105,7 +108,10 @@
         "lng": 140.097126
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "06-203-A001",
@@ -159,7 +165,10 @@
         "lng": 139.835822
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "08-201-A001",
@@ -209,7 +218,10 @@
         "lng": 140.476293
       }
     ],
-    "notes": "初期に配布されたカードに記載されている緯度「 36 ° 27'42.3\"N 」は、「36 ° 22'42.3\"N」の誤り"
+    "notes": "初期に配布されたカードに記載されている緯度「 36 ° 27'42.3\"N 」は、「36 ° 22'42.3\"N」の誤り",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-100-A001",
@@ -259,7 +271,10 @@
         "lng": 139.6573812
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-208-A001",
@@ -309,7 +324,10 @@
         "lng": 139.4604334
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-100-A001",
@@ -363,7 +381,10 @@
         "lng": 139.7693482
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-201-A001",
@@ -409,7 +430,10 @@
         "lng": null
       }
     ],
-    "notes": "カードに記載されている緯度「 35 ° 37'51.1\"N 」は、「35 ° 37'52.1\"N」の誤り"
+    "notes": "カードに記載されている緯度「 35 ° 37'51.1\"N 」は、「35 ° 37'52.1\"N」の誤り",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "14-150-A001",
@@ -455,7 +479,10 @@
         "lng": 139.373282
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "14-201-A001",
@@ -517,7 +544,10 @@
         "lng": 139.6704712
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "15-100-A001",
@@ -563,7 +593,10 @@
         "lng": 139.044981
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "20-000-A001",
@@ -613,7 +646,10 @@
         "lng": 138.089334
       }
     ],
-    "notes": "初期に配布されたカードに記載されている座標は「 36 ° 06'32.8\"N 138 ° 08'01.3\"E 」だが、これは「北緯36.06328度 東経138.08013度」を誤って度分秒表記に当てはめた可能性が高い。また、初期に配布されたカードには「諏訪湖流域下水道」と表記されている。"
+    "notes": "初期に配布されたカードに記載されている座標は「 36 ° 06'32.8\"N 138 ° 08'01.3\"E 」だが、これは「北緯36.06328度 東経138.08013度」を誤って度分秒表記に当てはめた可能性が高い。また、初期に配布されたカードには「諏訪湖流域下水道」と表記されている。",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "21-404-A001",
@@ -659,7 +695,10 @@
         "lng": 136.5729068
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "22-210-A001",
@@ -713,7 +752,10 @@
         "lng": 138.6618355
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "23-100-A001",
@@ -763,7 +805,10 @@
         "lng": 136.9030656
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "23-207-A001",
@@ -817,7 +862,10 @@
         "lng": 137.3944309
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-100-A001",
@@ -871,7 +919,10 @@
         "lng": 135.4107753
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-140-A001",
@@ -929,7 +980,10 @@
         "lng": 135.4702879
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-227-A001",
@@ -983,7 +1037,10 @@
         "lng": 135.600898
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-100-A001",
@@ -1037,7 +1094,10 @@
         "lng": 135.2802319
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "33-100-A001",
@@ -1091,7 +1151,10 @@
         "lng": 133.9182721
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "33-202-A001",
@@ -1145,7 +1208,10 @@
         "lng": 133.76567
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "34-100-A001",
@@ -1199,7 +1265,10 @@
         "lng": 132.4861258
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "39-201-A001",
@@ -1249,7 +1318,10 @@
         "lng": 133.5667757
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "39-206-A001",
@@ -1299,7 +1371,10 @@
         "lng": 133.2926695
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "39-211-A001",
@@ -1349,7 +1424,10 @@
         "lng": 133.7009513
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "39-211-B001",
@@ -1395,7 +1473,10 @@
         "lng": 133.7010513
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "39-211-C001",
@@ -1449,7 +1530,10 @@
         "lng": 133.7011513
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "40-100-A001",
@@ -1499,7 +1583,11 @@
         "lng": 130.8088533
       }
     ],
-    "notes": "英語版のカードも配布している"
+    "notes": "英語版のカードも配布している",
+    "variants": [
+      "standard",
+      "english"
+    ]
   },
   {
     "id": "40-130-A001",
@@ -1553,6 +1641,9 @@
         "lng": 130.4105973
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   }
 ]

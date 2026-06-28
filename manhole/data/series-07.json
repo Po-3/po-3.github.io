@@ -43,7 +43,10 @@
         "lng": 144.383197
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-648-A001",
@@ -89,7 +92,10 @@
         "lng": 143.7476501
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "04-209-A001",
@@ -143,7 +149,10 @@
         "lng": 141.0054845
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "04-321-A001",
@@ -197,7 +206,10 @@
         "lng": 140.730774
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "07-211-A001",
@@ -243,7 +255,10 @@
         "lng": 140.6737476
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "07-421-A001",
@@ -289,7 +304,10 @@
         "lng": 139.8215971
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "07-422-A001",
@@ -343,7 +361,10 @@
         "lng": 139.8868865
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "07-461-A001",
@@ -397,7 +418,10 @@
         "lng": 140.153976
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "08-203-A001",
@@ -455,7 +479,10 @@
         "lng": 140.200169
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "09-000-A001",
@@ -505,7 +532,10 @@
         "lng": 139.8644459
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "10-203-A001",
@@ -555,7 +585,10 @@
         "lng": 139.3387936
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "10-209-A001",
@@ -601,7 +634,10 @@
         "lng": 139.0720626
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-215-A001",
@@ -655,7 +691,10 @@
         "lng": 139.4122546
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-246-A001",
@@ -705,7 +744,10 @@
         "lng": 139.6785205
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-408-A001",
@@ -759,7 +801,10 @@
         "lng": 139.1949357
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "12-202-A001",
@@ -817,7 +862,10 @@
         "lng": 140.8272222
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "12-221-A001",
@@ -871,7 +919,10 @@
         "lng": 140.1012036
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-207-A001",
@@ -921,7 +972,10 @@
         "lng": 139.3608135
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "14-203-A001",
@@ -975,7 +1029,10 @@
         "lng": 139.362007
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "14-206-A001",
@@ -1033,7 +1090,10 @@
         "lng": 139.190884
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "14-362-A001",
@@ -1087,7 +1147,10 @@
         "lng": 139.1566312
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "14-401-A001",
@@ -1145,7 +1208,10 @@
         "lng": 139.321661
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "15-202-A001",
@@ -1199,7 +1265,10 @@
         "lng": 138.8508974
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "15-210-A001",
@@ -1249,7 +1318,10 @@
         "lng": 138.6138286
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "20-218-A001",
@@ -1307,7 +1379,10 @@
         "lng": 138.144549
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "22-211-A001",
@@ -1357,7 +1432,10 @@
         "lng": 137.8523273
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "24-203-A001",
@@ -1403,7 +1481,10 @@
         "lng": 136.7094355
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-202-A001",
@@ -1457,7 +1538,10 @@
         "lng": 135.3788071
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-205-A001",
@@ -1507,7 +1591,10 @@
         "lng": 135.5083678
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-221-A001",
@@ -1557,7 +1644,10 @@
         "lng": 135.6292301
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-223-A001",
@@ -1619,7 +1709,10 @@
         "lng": 135.58261
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-381-A001",
@@ -1673,7 +1766,10 @@
         "lng": 135.6584015
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-000-A001",
@@ -1719,7 +1815,10 @@
         "lng": 135.4449725
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-203-A001",
@@ -1765,7 +1864,10 @@
         "lng": 135.001478
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-220-A001",
@@ -1811,7 +1913,10 @@
         "lng": 134.8425667
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "29-363-A001",
@@ -1861,7 +1966,10 @@
         "lng": 135.7975019
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "31-371-A001",
@@ -1923,7 +2031,10 @@
         "lng": 133.6580151
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "34-213-A001",
@@ -1973,7 +2084,10 @@
         "lng": 132.3379016
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "34-309-A001",
@@ -2027,7 +2141,10 @@
         "lng": 132.5132697
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "35-321-A001",
@@ -2077,7 +2194,10 @@
         "lng": 132.2212335
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "36-401-A001",
@@ -2123,7 +2243,10 @@
         "lng": 134.5805295
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "37-206-A001",
@@ -2181,7 +2304,10 @@
         "lng": 134.171989
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "40-202-A001",
@@ -2239,7 +2365,10 @@
         "lng": 130.4460111
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "40-216-A001",
@@ -2285,7 +2414,10 @@
         "lng": 130.5555368
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "41-207-A001",
@@ -2335,7 +2467,10 @@
         "lng": 130.0980874
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "43-202-A001",
@@ -2385,7 +2520,10 @@
         "lng": 130.5550833
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "43-531-A001",
@@ -2431,7 +2569,10 @@
         "lng": 130.0349108
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "46-222-A001",
@@ -2485,7 +2626,10 @@
         "lng": 129.4959295
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "47-326-A001",
@@ -2547,6 +2691,9 @@
         "lng": 127.7576896
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   }
 ]

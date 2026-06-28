@@ -43,7 +43,10 @@
         "lng": 142.1893432
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-217-A001",
@@ -97,7 +100,10 @@
         "lng": 141.5351911
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-231-A001",
@@ -151,7 +157,10 @@
         "lng": 141.5850998
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-464-A001",
@@ -197,7 +206,10 @@
         "lng": 142.4132789
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-465-A001",
@@ -251,7 +263,10 @@
         "lng": 142.3588426
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "02-201-A001",
@@ -297,7 +312,10 @@
         "lng": 140.8613663
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "04-424-A001",
@@ -343,7 +361,10 @@
         "lng": 140.879999
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "06-206-A001",
@@ -397,7 +418,10 @@
         "lng": 140.271146
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "07-204-A001",
@@ -451,7 +475,10 @@
         "lng": 140.90562
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "07-210-A001",
@@ -505,7 +532,10 @@
         "lng": 140.4330453
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "07-301-A001",
@@ -559,7 +589,10 @@
         "lng": 140.5184969
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "08-222-A001",
@@ -605,7 +638,11 @@
         "lng": 140.6746896
       }
     ],
-    "notes": "英語版のカードも配布している"
+    "notes": "英語版のカードも配布している",
+    "variants": [
+      "standard",
+      "english"
+    ]
   },
   {
     "id": "10-000-A001",
@@ -671,7 +708,10 @@
         "lng": 139.110206
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-219-A001",
@@ -721,7 +761,10 @@
         "lng": 139.5965363
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-243-A001",
@@ -771,7 +814,10 @@
         "lng": 139.8438106
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-100-C001",
@@ -825,7 +871,10 @@
         "lng": 139.7738421
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-100-D001",
@@ -871,7 +920,10 @@
         "lng": 139.8575644
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-210-A001",
@@ -925,7 +977,10 @@
         "lng": 139.5049065
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "14-130-A001",
@@ -971,7 +1026,10 @@
         "lng": 139.6981374
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "15-204-A001",
@@ -1021,7 +1079,10 @@
         "lng": 138.9534761
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "15-212-B001",
@@ -1075,7 +1136,10 @@
         "lng": 139.4585462
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "16-211-A001",
@@ -1121,7 +1185,10 @@
         "lng": 137.0849421
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "20-213-A001",
@@ -1171,7 +1238,10 @@
         "lng": 138.3626721
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "21-206-A001",
@@ -1217,7 +1287,10 @@
         "lng": 137.503841
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "21-219-A001",
@@ -1267,7 +1340,10 @@
         "lng": 136.947405
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "22-203-A001",
@@ -1333,7 +1409,10 @@
         "lng": 138.863337
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "23-220-A001",
@@ -1391,7 +1470,43 @@
         "lng": 136.7778945
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
+  },
+  {
+    "id": "23-226-A001",
+    "series": 5,
+    "issueDate": "2017-08-07",
+    "prefectureCode": "23",
+    "prefecture": "愛知県",
+    "municipality": "尾張旭市",
+    "title": "愛知県 尾張旭市 A0",
+    "coordsDMS": "35°12'59.3\"N 137°02'09.6\"E",
+    "numbering": null,
+    "pictograms": [
+      {
+        "code": "001",
+        "label": "花"
+      }
+    ],
+    "images": {
+      "card": "assets/cards/23-226-A001.jpg",
+      "thumbnail": "assets/thumbnails/23-226-A001.png",
+      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/23-226-A001.jpg",
+      "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/23-226-A001.png"
+    },
+    "cover": {
+      "lat": 35.2164722222222,
+      "lng": 137.036
+    },
+    "currentlyDistributed": false,
+    "distribution": [],
+    "notes": "ノンカラー版（23-226-A002 の無彩色版。駅からマンホールはレコード化せず画像のみ提供のため注記から復元）",
+    "variants": [
+      "noncolor"
+    ]
   },
   {
     "id": "23-226-A002",
@@ -1437,7 +1552,10 @@
         "lng": 137.0369755
       }
     ],
-    "notes": "当初無彩色の蓋で A001 のカードを配布していた"
+    "notes": "当初無彩色の蓋で A001 のカードを配布していた",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "23-229-A001",
@@ -1487,7 +1605,10 @@
         "lng": 137.0130516
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "23-238-A001",
@@ -1537,7 +1658,10 @@
         "lng": 137.0381911
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "24-202-A001",
@@ -1583,7 +1707,10 @@
         "lng": 136.615565
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "24-216-A001",
@@ -1637,7 +1764,10 @@
         "lng": 136.129287
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "25-201-A001",
@@ -1711,7 +1841,10 @@
         "lng": 135.8903736
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "26-000-B001",
@@ -1757,7 +1890,10 @@
         "lng": 135.7078886
       }
     ],
-    "notes": "第5弾の追加カードとして2017年10月15日より配布"
+    "notes": "第5弾の追加カードとして2017年10月15日より配布",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "26-100-A002",
@@ -1803,7 +1939,10 @@
         "lng": 135.7181847
       }
     ],
-    "notes": "第5弾の追加カードとして2017年10月15日より配布"
+    "notes": "第5弾の追加カードとして2017年10月15日より配布",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "26-208-A001",
@@ -1849,7 +1988,10 @@
         "lng": 135.6994808
       }
     ],
-    "notes": "第5弾の追加カードとして2017年10月15日より配布"
+    "notes": "第5弾の追加カードとして2017年10月15日より配布",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "26-209-A001",
@@ -1899,7 +2041,10 @@
         "lng": 135.6953235
       }
     ],
-    "notes": "第5弾の追加カードとして2017年10月15日より配布"
+    "notes": "第5弾の追加カードとして2017年10月15日より配布",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "26-303-A001",
@@ -1953,7 +2098,10 @@
         "lng": 135.6883948
       }
     ],
-    "notes": "第5弾の追加カードとして2017年10月15日より配布"
+    "notes": "第5弾の追加カードとして2017年10月15日より配布",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-100-B001",
@@ -2007,7 +2155,10 @@
         "lng": 135.5072596
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-226-A001",
@@ -2057,7 +2208,10 @@
         "lng": 135.597476
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-228-A001",
@@ -2111,7 +2265,10 @@
         "lng": 135.2682801
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "27-229-A001",
@@ -2161,7 +2318,10 @@
         "lng": 135.6398017
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-207-A001",
@@ -2207,7 +2367,10 @@
         "lng": 135.396877
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-221-A001",
@@ -2261,7 +2424,10 @@
         "lng": 135.2184647
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-221-A002",
@@ -2297,7 +2463,10 @@
         "lng": null
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "33-212-A001",
@@ -2351,7 +2520,10 @@
         "lng": 134.1468625
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "33-461-A001",
@@ -2397,7 +2569,10 @@
         "lng": 133.5893079
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "34-202-A001",
@@ -2451,7 +2626,10 @@
         "lng": 132.5638666
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "34-202-B001",
@@ -2501,7 +2679,10 @@
         "lng": 132.5654231
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "34-203-A001",
@@ -2555,7 +2736,10 @@
         "lng": 132.916787
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "39-000-A001",
@@ -2601,7 +2785,10 @@
         "lng": 133.5728849
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "40-100-B001",
@@ -2655,7 +2842,11 @@
         "lng": 130.872508
       }
     ],
-    "notes": "英語版のカードも配布している"
+    "notes": "英語版のカードも配布している",
+    "variants": [
+      "standard",
+      "english"
+    ]
   },
   {
     "id": "40-343-A001",
@@ -2709,7 +2900,10 @@
         "lng": 130.4797299
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "41-424-A001",
@@ -2755,7 +2949,10 @@
         "lng": 130.1571329
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "43-100-A001",
@@ -2801,7 +2998,10 @@
         "lng": 130.7392591
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "43-206-A001",
@@ -2847,7 +3047,10 @@
         "lng": 130.5739301
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "44-205-A001",
@@ -2901,7 +3104,10 @@
         "lng": 131.8938452
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "47-328-A001",
@@ -2959,6 +3165,9 @@
         "lng": 127.803293
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   }
 ]

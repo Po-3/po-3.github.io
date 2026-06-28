@@ -47,7 +47,10 @@
         "lng": 143.9312986
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-487-C001",
@@ -109,7 +112,10 @@
         "lng": 141.7442786
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "01-560-A001",
@@ -163,7 +169,10 @@
         "lng": 143.0907502
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "03-206-A001",
@@ -217,7 +226,10 @@
         "lng": 141.126393
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "03-482-A001",
@@ -267,7 +279,10 @@
         "lng": 141.9532711
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "04-209-C001",
@@ -313,7 +328,10 @@
         "lng": 140.9891038
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "04-216-A001",
@@ -367,7 +385,10 @@
         "lng": 140.8874076
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "05-203-A001",
@@ -421,7 +442,10 @@
         "lng": 140.5662473
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "06-201-A001",
@@ -471,7 +495,10 @@
         "lng": 140.3120848
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "08-203-D001",
@@ -521,7 +548,10 @@
         "lng": 140.2057424
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "08-219-A001",
@@ -587,7 +617,10 @@
         "lng": 140.1494624
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-100-B001",
@@ -637,7 +670,10 @@
         "lng": 139.63343
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-238-A001",
@@ -691,7 +727,10 @@
         "lng": 139.652992
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "11-343-A001",
@@ -741,7 +780,10 @@
         "lng": 139.2612811
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "12-212-B001",
@@ -795,7 +837,10 @@
         "lng": 140.2025754
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-100-G101",
@@ -841,7 +886,10 @@
         "lng": 139.7448066
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-100-H101",
@@ -891,7 +939,10 @@
         "lng": 139.7092969
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-100-I101",
@@ -941,7 +992,10 @@
         "lng": 139.7122499
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "13-203-A001",
@@ -987,7 +1041,10 @@
         "lng": 139.579063
       }
     ],
-    "notes": "第32回武蔵野桜まつりで先行配布"
+    "notes": "第32回武蔵野桜まつりで先行配布",
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "14-206-E001",
@@ -1053,7 +1110,10 @@
         "lng": 139.1548114
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "15-202-F001",
@@ -1119,7 +1179,10 @@
         "lng": 138.8487799
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "15-224-B001",
@@ -1169,7 +1232,10 @@
         "lng": 138.3683831
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "18-206-B001",
@@ -1215,7 +1281,10 @@
         "lng": 136.4791375
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "20-361-B001",
@@ -1269,7 +1338,10 @@
         "lng": 138.089338
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "20-403-B001",
@@ -1327,7 +1399,10 @@
         "lng": 137.8789876
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "20-541-A001",
@@ -1373,7 +1448,10 @@
         "lng": 138.3118941
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "21-203-I001",
@@ -1423,7 +1501,10 @@
         "lng": 137.1868882
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "28-215-C001",
@@ -1473,7 +1554,10 @@
         "lng": 134.9771142708569
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "34-100-E001",
@@ -1523,7 +1607,10 @@
         "lng": 132.4747082
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "35-203-D001",
@@ -1573,7 +1660,10 @@
         "lng": 131.3617583
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "37-203-A001",
@@ -1635,7 +1725,10 @@
         "lng": 133.8567205
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "41-401-A001",
@@ -1685,7 +1778,10 @@
         "lng": 129.8981438
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   },
   {
     "id": "46-218-C001",
@@ -1731,6 +1827,9 @@
         "lng": 130.7370589
       }
     ],
-    "notes": null
+    "notes": null,
+    "variants": [
+      "standard"
+    ]
   }
 ]
