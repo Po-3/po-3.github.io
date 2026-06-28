@@ -1376,7 +1376,7 @@
   {
     "id": "13-210-B001",
     "series": 12,
-    "issueDate": null,
+    "issueDate": "2020-03-09",
     "prefectureCode": "13",
     "prefecture": "東京都",
     "municipality": "小金井市",
@@ -1409,14 +1409,14 @@
     "images": {
       "card": "assets/cards/13-210-B001.jpg",
       "thumbnail": "assets/thumbnails/13-210-B001.png",
-      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/13-210-B001.jpg",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-210-B-02.jpg",
       "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-210-B001.png"
     },
     "cover": {
       "lat": 35.70025,
       "lng": 139.507027777778
     },
-    "currentlyDistributed": false,
+    "currentlyDistributed": true,
     "distribution": [
       {
         "name": "【土曜日】小金井市観光まちおこし協会",
@@ -1432,9 +1432,9 @@
         "name": "【平日】小金井市第二庁舎4階 下水道課窓口",
         "address": "小金井市第二庁舎4階 下水道課窓口 小金井市前原町3-41-15 【土曜日】小金井市観光まちおこし協会 小金井市本町1-18-14松島ビル103 ※小金井市観光まちおこし協会に駐車場はありません (問合せ先) 小金井市環境部下水道課（平日のみ） 042-387-9828 ※小金井市観光まちおこし協会へのお問い合わせはご遠慮ください",
         "phone": null,
-        "hours": null,
-        "website": null,
-        "stockUrl": null,
+        "hours": "9:00～12:00 13:00～16:00",
+        "website": "https://www.city.koganei.lg.jp/",
+        "stockUrl": "https://www.city.koganei.lg.jp/smph/kurashi/478/keihatuzigyou/mannho-ruka-dotokube.html",
         "lat": 35.6986146,
         "lng": 139.504952
       }
@@ -1443,45 +1443,6 @@
     "variants": [
       "standard",
       "special"
-    ]
-  },
-  {
-    "id": "13-210-B002",
-    "series": 12,
-    "issueDate": "2020-03-09",
-    "prefectureCode": "13",
-    "prefecture": "東京都",
-    "municipality": "小金井市",
-    "title": null,
-    "coordsDMS": null,
-    "numbering": null,
-    "pictograms": [],
-    "images": {
-      "card": "assets/cards/13-210-B002.jpg",
-      "thumbnail": "assets/thumbnails/13-210-B002.png",
-      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-210-B-02.jpg",
-      "sourceThumbnail": null
-    },
-    "cover": {
-      "lat": null,
-      "lng": null
-    },
-    "currentlyDistributed": true,
-    "distribution": [
-      {
-        "name": "小金井市第二庁舎4階 下水道課窓口",
-        "address": "【平日】 小金井市第二庁舎4階 下水道課窓口 小金井市前原町3-41-15 【土曜日】小金井市観光まちおこし協会 小金井市本町1-18-14松島ビル103 ※小金井市観光まちおこし協会に駐車場はありません (問合せ先) 小金井市環境部下水道課（平日のみ） 042-387-9828 ※小金井市観光まちおこし協会へのお問い合わせはご遠慮ください",
-        "phone": null,
-        "hours": "9:00～12:00 13:00～16:00",
-        "website": "https://www.city.koganei.lg.jp/",
-        "stockUrl": "https://www.city.koganei.lg.jp/smph/kurashi/478/keihatuzigyou/mannho-ruka-dotokube.html",
-        "lat": null,
-        "lng": null
-      }
-    ],
-    "notes": null,
-    "variants": [
-      "standard"
     ]
   },
   {
@@ -1541,7 +1502,7 @@
   {
     "id": "13-222-A001",
     "series": 12,
-    "issueDate": null,
+    "issueDate": "2020-03-09",
     "prefectureCode": "13",
     "prefecture": "東京都",
     "municipality": "東久留米市",
@@ -1578,52 +1539,12 @@
     "images": {
       "card": "assets/cards/13-222-A001.jpg",
       "thumbnail": "assets/thumbnails/13-222-A001.png",
-      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/13-222-A001.jpg",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-222-A-02.jpg",
       "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/13-222-A001.png"
     },
     "cover": {
       "lat": 35.7604722222222,
       "lng": 139.534222222222
-    },
-    "currentlyDistributed": false,
-    "distribution": [
-      {
-        "name": "東久留米市市民プラザ事務室",
-        "address": "東京都東久留米市本町三丁目3番1号",
-        "phone": null,
-        "hours": null,
-        "website": null,
-        "stockUrl": null,
-        "lat": 35.7581654,
-        "lng": 139.5299779
-      }
-    ],
-    "notes": "2020年に発行されたカードはゴールドの特別色",
-    "variants": [
-      "standard",
-      "special"
-    ]
-  },
-  {
-    "id": "13-222-A002",
-    "series": 12,
-    "issueDate": "2020-03-09",
-    "prefectureCode": "13",
-    "prefecture": "東京都",
-    "municipality": "東久留米市",
-    "title": null,
-    "coordsDMS": null,
-    "numbering": null,
-    "pictograms": [],
-    "images": {
-      "card": "assets/cards/13-222-A002.jpg",
-      "thumbnail": "assets/thumbnails/13-222-A002.png",
-      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/13-222-A-02.jpg",
-      "sourceThumbnail": null
-    },
-    "cover": {
-      "lat": null,
-      "lng": null
     },
     "currentlyDistributed": true,
     "distribution": [
@@ -1634,13 +1555,14 @@
         "hours": "9:00～20:30 ただし、年末年始はお休みです",
         "website": "https://www.s-seiun.co.jp/shisetsu/higashikurume/shisetsu/plaza.html",
         "stockUrl": "https://www.city.higashikurume.lg.jp/1007337/1026011.html",
-        "lat": null,
-        "lng": null
+        "lat": 35.7581654,
+        "lng": 139.5299779
       }
     ],
-    "notes": null,
+    "notes": "2020年に発行されたカードはゴールドの特別色",
     "variants": [
-      "standard"
+      "standard",
+      "special"
     ]
   },
   {

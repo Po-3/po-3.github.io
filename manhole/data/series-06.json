@@ -1660,51 +1660,12 @@
     "images": {
       "card": "assets/cards/15-213-A001.jpg",
       "thumbnail": "assets/thumbnails/15-213-A001.png",
-      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/15-213-A001.jpg",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/15-213-A-02.jpg",
       "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/15-213-A001.png"
     },
     "cover": {
       "lat": 37.6628888888889,
       "lng": 138.825194444444
-    },
-    "currentlyDistributed": false,
-    "distribution": [
-      {
-        "name": "燕市分水良寛史料館",
-        "address": "新潟県燕市上諏訪9番9号",
-        "phone": null,
-        "hours": null,
-        "website": null,
-        "stockUrl": null,
-        "lat": 37.630846,
-        "lng": 138.843335
-      }
-    ],
-    "notes": null,
-    "variants": [
-      "standard"
-    ]
-  },
-  {
-    "id": "15-213-A002",
-    "series": 6,
-    "issueDate": "2017-12-09",
-    "prefectureCode": "15",
-    "prefecture": "新潟県",
-    "municipality": "燕市",
-    "title": null,
-    "coordsDMS": null,
-    "numbering": null,
-    "pictograms": [],
-    "images": {
-      "card": "assets/cards/15-213-A002.jpg",
-      "thumbnail": "assets/thumbnails/15-213-A002.png",
-      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/15-213-A-02.jpg",
-      "sourceThumbnail": null
-    },
-    "cover": {
-      "lat": null,
-      "lng": null
     },
     "currentlyDistributed": true,
     "distribution": [
@@ -1715,11 +1676,11 @@
         "hours": "9:00～16:30 ただし、月曜日（祝日の場合は翌日）、年末年始はお休みです",
         "website": "https://www.city.tsubame.niigata.jp/soshiki/kyoiku/3/12/10278/683.html",
         "stockUrl": "https://www.city.tsubame.niigata.jp/kurashi/joge/1/3772.html",
-        "lat": null,
-        "lng": null
+        "lat": 37.630846,
+        "lng": 138.843335
       }
     ],
-    "notes": null,
+    "notes": "採番替えによる重複を統合（GKP 15-213-A002 は同一カード。正規番号は 15-213-A001）。",
     "variants": [
       "standard"
     ]

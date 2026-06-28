@@ -2642,7 +2642,7 @@
   {
     "id": "28-481-A001",
     "series": 9,
-    "issueDate": null,
+    "issueDate": "2018-12-14",
     "prefectureCode": "28",
     "prefecture": "兵庫県",
     "municipality": "上郡町",
@@ -2663,21 +2663,21 @@
     "images": {
       "card": "assets/cards/28-481-A001.jpg",
       "thumbnail": "assets/thumbnails/28-481-A001.png",
-      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/28-481-A001.jpg",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/28-481-A-02.jpg",
       "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/28-481-A001.png"
     },
     "cover": {
       "lat": 34.8582777777778,
       "lng": 134.375472222222
     },
-    "currentlyDistributed": false,
+    "currentlyDistributed": true,
     "distribution": [
       {
         "name": "①上郡町観光案内所",
         "address": "兵庫県赤穂郡上郡町駅前222",
-        "phone": null,
-        "hours": null,
-        "website": null,
+        "phone": "0791-52-6959",
+        "hours": "①9:30〜16:30 ただし、毎週月曜日（祝日の場合は翌火曜日）及び年末年始はお休みです また、臨時休館についてはHP等をご確認ください ②上郡町観光案内所の休館日に配布します。 ※年末年始は、事前にお電話にてご連絡ください",
+        "website": "https://www.town.kamigori.hyogo.jp/soshiki/chiiki/shisetsuosagasu/1_1/2344.html",
         "stockUrl": null,
         "lat": 34.866,
         "lng": 134.354709
@@ -2693,46 +2693,7 @@
         "lng": 134.3562274
       }
     ],
-    "notes": null,
-    "variants": [
-      "standard"
-    ]
-  },
-  {
-    "id": "28-481-A002",
-    "series": 9,
-    "issueDate": "2018-12-14",
-    "prefectureCode": "28",
-    "prefecture": "兵庫県",
-    "municipality": "上郡町",
-    "title": null,
-    "coordsDMS": null,
-    "numbering": null,
-    "pictograms": [],
-    "images": {
-      "card": "assets/cards/28-481-A002.jpg",
-      "thumbnail": "assets/thumbnails/28-481-A002.png",
-      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/28-481-A-02.jpg",
-      "sourceThumbnail": null
-    },
-    "cover": {
-      "lat": null,
-      "lng": null
-    },
-    "currentlyDistributed": true,
-    "distribution": [
-      {
-        "name": "上郡町観光案内所",
-        "address": "① 上郡町観光案内所 兵庫県赤穂郡上郡町駅前222",
-        "phone": "0791-52-6959",
-        "hours": "①9:30〜16:30 ただし、毎週月曜日（祝日の場合は翌火曜日）及び年末年始はお休みです また、臨時休館についてはHP等をご確認ください ②上郡町観光案内所の休館日に配布します。 ※年末年始は、事前にお電話にてご連絡ください",
-        "website": "https://www.town.kamigori.hyogo.jp/soshiki/chiiki/shisetsuosagasu/1_1/2344.html",
-        "stockUrl": null,
-        "lat": null,
-        "lng": null
-      }
-    ],
-    "notes": null,
+    "notes": "採番替えによる重複を統合（GKP 28-481-A002 は同一カード。正規番号は 28-481-A001）。",
     "variants": [
       "standard"
     ]

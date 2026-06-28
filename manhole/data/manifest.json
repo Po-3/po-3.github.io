@@ -24,12 +24,12 @@
     {
       "series": 5,
       "file": "data/series-05.json",
-      "count": 59
+      "count": 58
     },
     {
       "series": 6,
       "file": "data/series-06.json",
-      "count": 68
+      "count": 67
     },
     {
       "series": 7,
@@ -44,12 +44,12 @@
     {
       "series": 9,
       "file": "data/series-09.json",
-      "count": 61
+      "count": 60
     },
     {
       "series": 10,
       "file": "data/series-10.json",
-      "count": 62
+      "count": 61
     },
     {
       "series": 11,
@@ -59,12 +59,12 @@
     {
       "series": 12,
       "file": "data/series-12.json",
-      "count": 63
+      "count": 61
     },
     {
       "series": 13,
       "file": "data/series-13.json",
-      "count": 51
+      "count": 50
     },
     {
       "series": 14,
@@ -139,7 +139,7 @@
     {
       "series": 28,
       "file": "data/series-28.json",
-      "count": 44
+      "count": 43
     }
   ]
 }

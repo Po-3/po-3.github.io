@@ -1349,7 +1349,7 @@
   {
     "id": "22-210-B001",
     "series": 13,
-    "issueDate": null,
+    "issueDate": "2020-12-17",
     "prefectureCode": "22",
     "prefecture": "静岡県",
     "municipality": "富士市",
@@ -1390,22 +1390,22 @@
     "images": {
       "card": "assets/cards/22-210-B001.jpg",
       "thumbnail": "assets/thumbnails/22-210-B001.png",
-      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/22-210-B001.jpg",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/22-210-B-02.jpg",
       "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/22-210-B001.png"
     },
     "cover": {
       "lat": 35.1571944444444,
       "lng": 138.690694444444
     },
-    "currentlyDistributed": false,
+    "currentlyDistributed": true,
     "distribution": [
       {
         "name": "【平日】岳南排水路管理組合総務課業務係",
         "address": "静岡県富士市今泉654-1",
-        "phone": null,
-        "hours": null,
-        "website": null,
-        "stockUrl": null,
+        "phone": "0545-51-2667",
+        "hours": "【平日】8：30～17：15 【休日】9：00～16：00 ただし、年末年始（12/29～1/3）はお休みです",
+        "website": "http://gakunan-haisuiro.jp/link(html)/manhole/manhole.html",
+        "stockUrl": "http://gakunan-haisuiro.jp/link(html)/manhole/manhole.html",
         "lat": 35.152902,
         "lng": 138.701909
       },
@@ -1420,46 +1420,7 @@
         "lng": 138.6763397
       }
     ],
-    "notes": null,
-    "variants": [
-      "standard"
-    ]
-  },
-  {
-    "id": "22-210-B002",
-    "series": 13,
-    "issueDate": "2020-12-17",
-    "prefectureCode": "22",
-    "prefecture": "静岡県",
-    "municipality": "富士市",
-    "title": null,
-    "coordsDMS": null,
-    "numbering": null,
-    "pictograms": [],
-    "images": {
-      "card": "assets/cards/22-210-B002.jpg",
-      "thumbnail": "assets/thumbnails/22-210-B002.png",
-      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/22-210-B-02.jpg",
-      "sourceThumbnail": null
-    },
-    "cover": {
-      "lat": null,
-      "lng": null
-    },
-    "currentlyDistributed": true,
-    "distribution": [
-      {
-        "name": "岳南排水路管理組合総務課業務係",
-        "address": "【平日】 岳南排水路管理組合総務課業務係 静岡県富士市今泉654-1",
-        "phone": "0545-51-2667",
-        "hours": "【平日】8：30～17：15 【休日】9：00～16：00 ただし、年末年始（12/29～1/3）はお休みです",
-        "website": "http://gakunan-haisuiro.jp/link(html)/manhole/manhole.html",
-        "stockUrl": "http://gakunan-haisuiro.jp/link(html)/manhole/manhole.html",
-        "lat": null,
-        "lng": null
-      }
-    ],
-    "notes": null,
+    "notes": "採番替えによる重複を統合（GKP 22-210-B002 は同一カード。正規番号は 22-210-B001）。",
     "variants": [
       "standard"
     ]

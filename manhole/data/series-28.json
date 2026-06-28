@@ -950,7 +950,7 @@
   {
     "id": "15-206-D001",
     "series": 28,
-    "issueDate": null,
+    "issueDate": "2026-04-24",
     "prefectureCode": "15",
     "prefecture": "新潟県",
     "municipality": "新発田市",
@@ -966,40 +966,12 @@
     "images": {
       "card": "assets/cards/15-206-D001.jpg",
       "thumbnail": "assets/thumbnails/15-206-D001.png",
-      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/15-206-D001.jpg",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/15-208-D-01.jpg",
       "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/15-206-D001.png"
     },
     "cover": {
       "lat": 37.944,
       "lng": 139.332
-    },
-    "currentlyDistributed": false,
-    "distribution": [],
-    "notes": null,
-    "variants": [
-      "standard"
-    ]
-  },
-  {
-    "id": "15-208-D001",
-    "series": 28,
-    "issueDate": "2026-04-24",
-    "prefectureCode": "15",
-    "prefecture": "新潟県",
-    "municipality": "新発田市",
-    "title": null,
-    "coordsDMS": null,
-    "numbering": null,
-    "pictograms": [],
-    "images": {
-      "card": "assets/cards/15-208-D001.jpg",
-      "thumbnail": "assets/thumbnails/15-208-D001.png",
-      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/15-208-D-01.jpg",
-      "sourceThumbnail": null
-    },
-    "cover": {
-      "lat": null,
-      "lng": null
     },
     "currentlyDistributed": true,
     "distribution": [
@@ -1014,7 +986,7 @@
         "lng": null
       }
     ],
-    "notes": null,
+    "notes": "採番替えによる重複を統合（GKP 15-208-D001 は同一カード。正規番号は 15-206-D001）。",
     "variants": [
       "standard"
     ]

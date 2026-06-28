@@ -2378,8 +2378,8 @@
     "issueDate": "2017-08-07",
     "prefectureCode": "28",
     "prefecture": "兵庫県",
-    "municipality": "篠山市",
-    "title": "兵庫県 篠山市 A0",
+    "municipality": "丹波篠山市",
+    "title": "兵庫県 丹波篠山市 A0",
     "coordsDMS": "35°04'33.5\"N 135°13'01.4\"E",
     "numbering": {
       "overall": 209,
@@ -2404,14 +2404,14 @@
     "images": {
       "card": "assets/cards/28-221-A001.jpg",
       "thumbnail": "assets/thumbnails/28-221-A001.png",
-      "sourceCard": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=card/28-221-A001.jpg",
+      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/28-221-A-02.jpg",
       "sourceThumbnail": "https://ekikaramanhole.whitebeach.org/ext/manholecard/image/getimage.cgi?date=20251218&file=thumbnail/28-221-A001.png"
     },
     "cover": {
       "lat": 35.0759722222222,
       "lng": 135.217055555556
     },
-    "currentlyDistributed": false,
+    "currentlyDistributed": true,
     "distribution": [
       {
         "name": "篠山市役所 上下水道部 下水道課",
@@ -2422,36 +2422,7 @@
         "stockUrl": null,
         "lat": 35.0756354,
         "lng": 135.2184647
-      }
-    ],
-    "notes": null,
-    "variants": [
-      "standard"
-    ]
-  },
-  {
-    "id": "28-221-A002",
-    "series": 5,
-    "issueDate": "2017-08-01",
-    "prefectureCode": "28",
-    "prefecture": "兵庫県",
-    "municipality": "丹波篠山市",
-    "title": null,
-    "coordsDMS": null,
-    "numbering": null,
-    "pictograms": [],
-    "images": {
-      "card": "assets/cards/28-221-A002.jpg",
-      "thumbnail": "assets/thumbnails/28-221-A002.png",
-      "sourceCard": "https://www.gk-p.jp/wp-content/uploads/mhc/28-221-A-02.jpg",
-      "sourceThumbnail": null
-    },
-    "cover": {
-      "lat": null,
-      "lng": null
-    },
-    "currentlyDistributed": true,
-    "distribution": [
+      },
       {
         "name": "丹波篠山市役所 上下水道部 経営企画課",
         "address": "【平日】 丹波篠山市役所 上下水道部 経営企画課 兵庫県丹波篠山市北新町41（本庁舎）",
@@ -2463,7 +2434,7 @@
         "lng": null
       }
     ],
-    "notes": null,
+    "notes": "採番替えによる重複を統合（GKP 28-221-A002 は同一カード。正規番号は 28-221-A001）。",
     "variants": [
       "standard"
     ]
