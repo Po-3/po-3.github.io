@@ -113,12 +113,21 @@
   }
   .corner{position:absolute;top:0;left:0;width:0;height:0;border-style:solid;border-width:24px 24px 0 0;border-color:#ccc transparent transparent transparent;z-index:0;}
   .m-card .m-head{position:relative;z-index:1;}
-  .badge-max{display:inline-block;margin-left:8px;background:#16a34a;color:#fff;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;vertical-align:middle;letter-spacing:.3px;box-shadow:0 1px 3px rgba(22,163,74,.35);}
+  .badge-max{display:inline-block;margin-left:8px;background:#16a34a;color:#fff;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;vertical-align:middle;letter-spacing:.3px;box-shadow:0 1px 3px rgba(22,163,74,.35);white-space:nowrap;flex:none;}
+  .m-card.collapsed .badge-max{display:none;}
   .m-card.maxed{background:#eefaf2;}
   .m-card.maxed .m-earn .v{color:#16a34a;}
   .m-card.maxed .bar > i{background:linear-gradient(90deg,#3ddc84,#16a34a);}
-  .m-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px;}
-  .m-name{display:flex;align-items:center;gap:11px;font-size:18px;font-weight:800;}
+  .m-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px;cursor:pointer;}
+  .m-right{display:flex;align-items:center;gap:10px;}
+  .m-chev{width:20px;height:20px;color:var(--muted);flex:none;transition:transform .2s ease;}
+  .m-card:not(.collapsed) .m-chev{transform:rotate(180deg);}
+  .rec-count{display:none;font-size:11px;font-weight:700;color:var(--muted);background:var(--line);padding:2px 8px;border-radius:999px;white-space:nowrap;}
+  .m-card.collapsed .rec-count{display:inline-block;}
+  .m-card.collapsed .bar-wrap,.m-card.collapsed .togo,.m-card.collapsed .rec-list{display:none;}
+  .m-card.collapsed .m-head{padding-bottom:16px;}
+  .m-name{display:flex;align-items:center;gap:11px;font-size:18px;font-weight:800;min-width:0;}
+  .m-head > .m-name{flex:1;min-width:0;}
   .m-name .ico{width:30px;height:30px;flex:none;}
   .ico{background:#fff;border:1px solid #e9edf3;border-radius:24%;box-shadow:0 1px 3px rgba(20,40,80,.13);overflow:hidden;}
   .ico .payimg,.ico .paysvg{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;}
@@ -636,6 +645,16 @@ function summary(){
   return { byM, totalCb, totalSpent, pendingCb };
 }
 
+/* ===== payカードの折りたたみ（満額は既定で閉じる／状態を保存） ===== */
+let cardCollapse = {};
+try { cardCollapse = JSON.parse(localStorage.getItem("kanatoku_collapse") || "{}") || {}; } catch(e){ cardCollapse = {}; }
+function isCardCollapsed(mid, maxed){ return (mid in cardCollapse) ? cardCollapse[mid] : maxed; }
+function toggleCardCollapse(mid, maxed){
+  cardCollapse[mid] = !isCardCollapsed(mid, maxed);
+  localStorage.setItem("kanatoku_collapse", JSON.stringify(cardCollapse));
+  render();
+}
+
 /* ===== 描画：還元状況 ===== */
 function render(){
   const s = summary();
@@ -676,12 +695,17 @@ function render(){
         ${r.memo ? `<span class="rec-memo">📝 ${escHtml(r.memo)}</span>` : ""}
       </div>`).join("");
     const maxed = b.remaining <= 0 && b.capped > 0;
+    const collapsed = isCardCollapsed(m.id, maxed);
     return `
-      <div class="m-card${maxed ? " maxed" : ""}">
+      <div class="m-card${maxed ? " maxed" : ""}${collapsed ? " collapsed" : ""}">
         <span class="corner" style="border-top-color:${m.color}"></span>
-        <div class="m-head">
+        <div class="m-head" data-collapse="${m.id}" data-maxed="${maxed ? 1 : 0}">
           <div class="m-name"><span class="ico">${payIcon(m)}</span>${m.name}${maxed ? `<span class="badge-max">満額達成</span>` : ""}</div>
-          <div class="m-earn"><div class="v">${yen(b.capped)}</div><div class="s">${maxed ? "満額 🎉" : "獲得見込み"}</div></div>
+          <div class="m-right">
+            <div class="m-earn"><div class="v">${yen(b.capped)}</div><div class="s">${maxed ? "満額 🎉" : "獲得見込み"}</div></div>
+            ${b.list.length ? `<span class="rec-count">${b.list.length}件</span>` : ""}
+            <svg class="m-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
         </div>
         <div class="bar-wrap">
           <div class="bar"><i style="width:${pct}%"></i></div>
@@ -1171,6 +1195,8 @@ function init(){
 
   // クリック委任（削除・全削除・履歴モード切替・カレンダー操作）
   document.body.addEventListener("click", e=>{
+    const cardHead = e.target.closest("[data-collapse]");
+    if(cardHead){ toggleCardCollapse(cardHead.dataset.collapse, cardHead.dataset.maxed === "1"); return; }
     const del = e.target.closest("[data-del]");
     if(del){ deleteRecord(del.dataset.del); return; }
     if(e.target.id === "resetBtn"){ if(confirm("すべての記録を削除します。よろしいですか？")){ records=[]; save(); render(); } return; }
