@@ -575,12 +575,13 @@ function todayISO(){ const d=new Date(),z=x=>String(x).padStart(2,"0"); return `
 function cashbackOf(amount, rate){ return Math.min(Math.floor(amount*rate), CAP_TX); }
 
 // 各記録が「実際に反映される還元額」を算出（期間上限¥2,500を古い順に充当）。
+// 未反映（保留）も“枠の消費”対象に含める＝先に使った分を正しくカウントし、後の記録が上限で削られる。
 // 枠を跨いだ記録は満額もらえず、超過した記録は¥0になる。reflectedById を更新する。
 function computeReflected(){
   const map = {};
   METHODS.forEach(m => {
     const chrono = records
-      .filter(r => r.method === m.id && !isPending(r))
+      .filter(r => r.method === m.id)
       .sort((a, c) => a.date < c.date ? -1 : a.date > c.date ? 1 : a.ts - c.ts);
     let credited = 0;                                  // このサービスで充当済みの還元額
     chrono.forEach(r => {
@@ -589,7 +590,7 @@ function computeReflected(){
       credited += eff;
     });
   });
-  // 未反映（保留）は上限充当の対象外＝見込み額をそのまま表示
+  // 万一マップ未登録の記録があれば見込み額をそのまま入れる（保険）
   records.forEach(r => { if(!(r.id in map)) map[r.id] = r.cashback; });
   reflectedById = map;
 }
