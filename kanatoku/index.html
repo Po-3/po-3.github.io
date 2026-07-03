@@ -326,6 +326,10 @@
   /* ===== 未反映（保留）まわり ===== */
   .cbsub2{font-size:10.5px;color:#ffd9a6;font-weight:800;margin-top:3px;line-height:1.3;}
   .pend-badge{display:inline-block;background:#fde68a;color:#92400e;font-size:10px;font-weight:800;padding:1px 7px;border-radius:7px;flex:none;}
+  /* 期間上限で満額もらえなかった記録（取り消し線＋実反映額） */
+  .arr.capped{color:#16a34a;}
+  .arr .cut{color:var(--muted-2);font-weight:600;text-decoration:line-through;margin:0 3px 0 1px;font-size:.86em;}
+  .cap-badge{display:inline-block;background:#dcf5e6;color:#16843c;font-size:10px;font-weight:800;padding:1px 7px;border-radius:7px;flex:none;}
   .memo-hint{font-size:11px;color:#9aa6b5;line-height:1.5;margin:6px 2px 0;}
   .pending-panel{background:#fff7e6;border:1px solid #f3d9a4;border-radius:14px;padding:10px 12px 8px;margin:0 2px 14px;}
   .pending-head{font-size:13px;font-weight:800;color:#9a6a00;margin-bottom:4px;}
@@ -388,6 +392,7 @@
     .pill.r20{background:#3a2e15;color:#f0b659;} .pill.r10{background:#1e2c44;color:#7aa8f0;}
     .cbsub2{color:#ffd9a6;}
     .pend-badge{background:#5a4420;color:#ffd9a6;}
+    .arr.capped{color:#4ade80;} .cap-badge{background:#1c3a28;color:#7ee0a2;}
     .memo-hint{color:#93a0b2;}
     .pending-panel{background:#2a2114;border-color:#5a4420;}
     .pending-head{color:#e6c79a;} .pending-head b{color:#ffce85;}
@@ -557,6 +562,7 @@ let histMode = "list";    // 履歴の表示：list / calendar
 let histFilter = "all";   // 決済フィルタ：all / 各method
 let calView = null;       // カレンダー表示中の {y, m(0-11)}
 let selDay = null;        // カレンダーで選択中の日付 "YYYY/MM/DD"
+let reflectedById = {};   // 記録ID → 実際に反映される還元額（期間上限¥2,500で削られた分を反映）
 
 /* ===== ユーティリティ ===== */
 function load(){ try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }catch(e){ return []; } }
@@ -567,6 +573,36 @@ function todayStr(){ const d=new Date(),z=x=>String(x).padStart(2,"0"); return `
 function todayISO(){ const d=new Date(),z=x=>String(x).padStart(2,"0"); return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`; }
 // 1件分の還元額（1回上限を適用）
 function cashbackOf(amount, rate){ return Math.min(Math.floor(amount*rate), CAP_TX); }
+
+// 各記録が「実際に反映される還元額」を算出（期間上限¥2,500を古い順に充当）。
+// 枠を跨いだ記録は満額もらえず、超過した記録は¥0になる。reflectedById を更新する。
+function computeReflected(){
+  const map = {};
+  METHODS.forEach(m => {
+    const chrono = records
+      .filter(r => r.method === m.id && !isPending(r))
+      .sort((a, c) => a.date < c.date ? -1 : a.date > c.date ? 1 : a.ts - c.ts);
+    let credited = 0;                                  // このサービスで充当済みの還元額
+    chrono.forEach(r => {
+      const eff = Math.min(r.cashback, Math.max(0, CAP_METHOD - credited));
+      map[r.id] = eff;
+      credited += eff;
+    });
+  });
+  // 未反映（保留）は上限充当の対象外＝見込み額をそのまま表示
+  records.forEach(r => { if(!(r.id in map)) map[r.id] = r.cashback; });
+  reflectedById = map;
+}
+
+// 履歴・カード共通：還元額の矢印表示。上限で削られた記録は「取り消し線＋実反映額」で出す。
+function arrowHtml(r){
+  const eff = reflectedById[r.id];
+  const capped = !isPending(r) && eff != null && eff < r.cashback;
+  if(!capped) return `<span class="arr">→${yen(r.cashback)}</span>`;
+  const badge = eff === 0 ? "対象外" : "上限調整";
+  return `<span class="arr capped">→<s class="cut">${yen(r.cashback)}</s> ${yen(eff)}</span>`
+       + `<span class="cap-badge">${badge}</span>`;
+}
 
 /* ===== 集計 ===== */
 // メモに「未反映」を含み、未解決の記録＝保留（獲得見込みから除外し別集計）
@@ -599,6 +635,7 @@ function summary(){
 /* ===== 描画：還元状況 ===== */
 function render(){
   const s = summary();
+  computeReflected();
   const spentStr = num(s.totalSpent);
   document.getElementById("heroSpent").textContent = spentStr;
   // 桁数に応じて累計額のフォントを自動縮小（右の還元額を圧迫しない）
@@ -629,7 +666,7 @@ function render(){
       <div class="rec" data-id="${r.id}">
         <span class="pill ${r.rate>=0.2?"r20":"r10"}">${Math.round(r.rate*100)}%</span>
         <span class="amt">${yen(r.amount)}</span>
-        <span class="arr">→${yen(r.cashback)}</span>
+        ${arrowHtml(r)}
         ${isPending(r) ? `<span class="pend-badge">未反映</span>` : ""}
         <span class="date">${r.date}</span>
         ${r.memo ? `<span class="rec-memo">📝 ${escHtml(r.memo)}</span>` : ""}
@@ -670,12 +707,13 @@ function histRowHtml(r){
         <div class="money">
           <span class="pill ${r.rate>=0.2?"r20":"r10"}">${Math.round(r.rate*100)}%</span>
           <span class="amt">${yen(r.amount)}</span>
-          <span class="arr">→${yen(r.cashback)}</span>
+          ${arrowHtml(r)}
         </div>
         ${r.memo ? `<div class="hist-memo">📝 ${escHtml(r.memo)}</div>` : ""}
       </div>`;
 }
 function renderHistory(){
+  computeReflected();
   // ツールバーの状態を反映
   document.querySelectorAll("#histSeg .seg-btn").forEach(b=>b.classList.toggle("active", b.dataset.mode===histMode));
   const fsel = document.getElementById("histFilter");
@@ -725,8 +763,9 @@ function calendarHtml(data){
   const { y, m } = calView;
   const days = new Date(y, m+1, 0).getDate();
   const startWd = new Date(y, m, 1).getDay();
+  const refl = r => reflectedById[r.id] != null ? reflectedById[r.id] : r.cashback;
   const byDay = {};
-  data.forEach(r => { const o = (byDay[r.date] = byDay[r.date] || {cb:0,cnt:0}); o.cb += r.cashback; o.cnt++; });
+  data.forEach(r => { const o = (byDay[r.date] = byDay[r.date] || {cb:0,cnt:0}); o.cb += refl(r); o.cnt++; });
   const wd = ["日","月","火","水","木","金","土"];
   let cells = wd.map((w,i)=>`<div class="cal-wd ${i===0?"sun":""} ${i===6?"sat":""}">${w}</div>`).join("");
   for(let i=0;i<startWd;i++) cells += `<div class="cal-cell empty"></div>`;
@@ -738,11 +777,11 @@ function calendarHtml(data){
     cells += `<button class="cal-cell ${info?"has":""} ${selDay===ds?"sel":""} ${tint}" data-day="${ds}"><span class="cal-d">${d}</span>${info?`<span class="cal-cb">¥${info.cb.toLocaleString("ja-JP")}</span>`:""}</button>`;
   }
   const monthPrefix = `${y}/${z(m+1)}/`;
-  const monthTotal = data.filter(r=>r.date.startsWith(monthPrefix)).reduce((s,r)=>s+r.cashback,0);
+  const monthTotal = data.filter(r=>r.date.startsWith(monthPrefix)).reduce((s,r)=>s+refl(r),0);
   let detail = "";
   if(selDay){
     const dr = data.filter(r=>r.date===selDay).sort((a,b)=>b.ts-a.ts);
-    detail = `<div class="cal-detail"><div class="cal-detail-h">${selDay} の記録（還元 ${yen(dr.reduce((s,r)=>s+r.cashback,0))}）</div>`
+    detail = `<div class="cal-detail"><div class="cal-detail-h">${selDay} の記録（還元 ${yen(dr.reduce((s,r)=>s+refl(r),0))}）</div>`
       + (dr.length ? `<div class="hist-card">${dr.map(histRowHtml).join("")}</div>` : `<div class="empty">この日の記録はありません</div>`)
       + `</div>`;
   }
