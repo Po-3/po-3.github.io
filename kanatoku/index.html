@@ -574,23 +574,26 @@ function todayISO(){ const d=new Date(),z=x=>String(x).padStart(2,"0"); return `
 // 1件分の還元額（1回上限を適用）
 function cashbackOf(amount, rate){ return Math.min(Math.floor(amount*rate), CAP_TX); }
 
-// 各記録が「実際に反映される還元額」を算出（期間上限¥2,500を古い順に充当）。
-// 未反映（保留）も“枠の消費”対象に含める＝先に使った分を正しくカウントし、後の記録が上限で削られる。
-// 枠を跨いだ記録は満額もらえず、超過した記録は¥0になる。reflectedById を更新する。
+// 各記録が「実際に反映される還元額」を算出（期間上限¥2,500を充当）。
+// ・未反映（保留）は枠消費の対象外（＝その分の枠は空けておく）。
+// ・もともと反映済みの記録を取引日の古い順に先に充当する。
+// ・未反映から後で反映した記録（reflectedAt あり）は「残り枠」に反映した順で最後に充当する。
+//   → 上限到達後に反映すると枠が無く、全額が超過（¥0＝取り消し線／対象外）になる。
 function computeReflected(){
   const map = {};
   METHODS.forEach(m => {
-    const chrono = records
-      .filter(r => r.method === m.id)
-      .sort((a, c) => a.date < c.date ? -1 : a.date > c.date ? 1 : a.ts - c.ts);
+    const mine = records.filter(r => r.method === m.id && !isPending(r));
+    const byDate = (a, c) => a.date < c.date ? -1 : a.date > c.date ? 1 : a.ts - c.ts;
+    const primary  = mine.filter(r => !r.reflectedAt).sort(byDate);                       // 元から反映済み
+    const resolved = mine.filter(r => r.reflectedAt).sort((a, c) => a.reflectedAt - c.reflectedAt); // 後から反映
     let credited = 0;                                  // このサービスで充当済みの還元額
-    chrono.forEach(r => {
+    primary.concat(resolved).forEach(r => {
       const eff = Math.min(r.cashback, Math.max(0, CAP_METHOD - credited));
       map[r.id] = eff;
       credited += eff;
     });
   });
-  // 万一マップ未登録の記録があれば見込み額をそのまま入れる（保険）
+  // 未反映（保留）は充当対象外＝見込み額をそのまま表示（保険も兼ねる）
   records.forEach(r => { if(!(r.id in map)) map[r.id] = r.cashback; });
   reflectedById = map;
 }
@@ -915,6 +918,8 @@ function setPending(id, val){
   const r = records.find(x => x.id === id);
   if(!r) return;
   r.pending = val;
+  if(val) delete r.reflectedAt;      // 未反映に戻す＝枠消費の対象外
+  else r.reflectedAt = Date.now();   // 反映した順を記録（残り枠へ後から充当するため）
   save(); render();
   showToast(val ? "「未反映」に戻しました" : "「獲得見込み」に反映しました");
 }
