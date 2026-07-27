@@ -1,38 +1,38 @@
 [
   {
-    "drawNumber": 2122,
-    "drawDate": "2026-07-23",
+    "drawNumber": 2123,
+    "drawDate": "2026-07-27",
     "numbers": [
-      12,
-      15,
-      18,
-      21,
-      26,
-      32
+      1,
+      2,
+      4,
+      25,
+      37,
+      40
     ],
-    "bonusNumber": 41,
+    "bonusNumber": 43,
     "prizes": {
       "1": {
-        "winners": 0,
-        "amount": 0
+        "winners": 2,
+        "amount": 293335100
       },
       "2": {
         "winners": 8,
-        "amount": 8735200
+        "amount": 10323100
       },
       "3": {
-        "winners": 224,
-        "amount": 336900
+        "winners": 194,
+        "amount": 459700
       },
       "4": {
-        "winners": 10717,
-        "amount": 7400
+        "winners": 10917,
+        "amount": 8600
       },
       "5": {
-        "winners": 174785,
+        "winners": 194406,
         "amount": 1000
       }
     },
-    "carryOver": 311395743
+    "carryOver": 0
   }
 ]
