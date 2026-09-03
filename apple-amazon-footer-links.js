@@ -170,6 +170,40 @@
       '  #' + WIDGET_ID + ' .tnr-fal-wrap{padding:18px;}',
       '  #' + WIDGET_ID + ' .tnr-fal-grid{grid-template-columns:1fr;}',
       '  #' + WIDGET_ID + ' .tnr-fal-card{min-height:auto;}',
+      '}',
+
+      /* ダークモード。となりずむ本体のトークンと同じ階調に合わせる
+         （面 #1c1c1e / カード #2c2c2e / 見出し #f2f2f4 / 本文 #c7c7cc / 補助 #a8a8ad）。
+         Amazonボタンだけは両モード共通のゴールドのまま触らない。 */
+      '@media (prefers-color-scheme: dark){',
+
+      '  #' + WIDGET_ID + ' .tnr-fal-wrap{',
+      '  background:#1c1c1e;',
+      '  border-color:rgba(255,255,255,.10);',
+      '  }',
+
+      '  #' + WIDGET_ID + ' .tnr-fal-title{color:#f2f2f4;}',
+
+      '  #' + WIDGET_ID + ' .tnr-fal-sub{color:#a8a8ad;}',
+
+      '  #' + WIDGET_ID + ' .tnr-fal-card{',
+      '  background:#2c2c2e;',
+      '  border-color:rgba(255,255,255,.10);',
+      '  }',
+
+      '  #' + WIDGET_ID + ' .tnr-fal-card:hover{background:#3a3a3c;}',
+
+      '  #' + WIDGET_ID + ' .tnr-fal-thumb{background:#3a3a3c;}',
+
+      '  #' + WIDGET_ID + ' .tnr-fal-badge{',
+      '  background:rgba(10,132,255,.15);',
+      '  color:#64b5ff;',
+      '  }',
+
+      '  #' + WIDGET_ID + ' .tnr-fal-name{color:#f2f2f4;}',
+
+      '  #' + WIDGET_ID + ' .tnr-fal-desc{color:#c7c7cc;}',
+
       '}'
     ].join('');
 
