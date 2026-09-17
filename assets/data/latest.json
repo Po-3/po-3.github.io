@@ -1,38 +1,38 @@
 [
   {
-    "drawNumber": 2137,
-    "drawDate": "2026-09-14",
+    "drawNumber": 2138,
+    "drawDate": "2026-09-17",
     "numbers": [
-      4,
-      8,
-      10,
-      25,
-      28,
-      33
+      9,
+      16,
+      21,
+      26,
+      38,
+      40
     ],
-    "bonusNumber": 9,
+    "bonusNumber": 12,
     "prizes": {
       "1": {
-        "winners": 2,
-        "amount": 370144100
+        "winners": 0,
+        "amount": 0
       },
       "2": {
-        "winners": 12,
-        "amount": 6387600
+        "winners": 6,
+        "amount": 10887100
       },
       "3": {
-        "winners": 364,
-        "amount": 227400
+        "winners": 163,
+        "amount": 432800
       },
       "4": {
-        "winners": 16250,
-        "amount": 5300
+        "winners": 8597,
+        "amount": 8600
       },
       "5": {
-        "winners": 242126,
+        "winners": 143098,
         "amount": 1000
       }
     },
-    "carryOver": 0
+    "carryOver": 217736552
   }
 ]
