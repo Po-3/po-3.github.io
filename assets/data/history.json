@@ -1,5 +1,41 @@
 [
   {
+    "drawNumber": 2145,
+    "drawDate": "2026-10-12",
+    "numbers": [
+      4,
+      6,
+      8,
+      11,
+      24,
+      27
+    ],
+    "bonusNumber": 36,
+    "prizes": {
+      "1": {
+        "winners": 10,
+        "amount": 17661500
+      },
+      "2": {
+        "winners": 9,
+        "amount": 5874400
+      },
+      "3": {
+        "winners": 621,
+        "amount": 91900
+      },
+      "4": {
+        "winners": 20410,
+        "amount": 2900
+      },
+      "5": {
+        "winners": 249138,
+        "amount": 1000
+      }
+    },
+    "carryOver": 0
+  },
+  {
     "drawNumber": 2144,
     "drawDate": "2026-10-08",
     "numbers": [
