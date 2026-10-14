@@ -7,9 +7,13 @@
       "sort": "2026-10-27",
       "kind": "発表",
       "title": "Mac・iPadの新製品",
-      "expected": ["タッチ操作に対応したMacBook Pro（M6）", "M6のiMac", "有機ELのiPad mini"],
+      "expected": [
+        "タッチ操作に対応したMacBook Pro（M6）",
+        "M6のiMac",
+        "有機ELのiPad mini"
+      ],
       "note": "報道ベースの見込みです。Appleの告知はまだありません",
-      "src": "https://www.macworld.com/article/3252331/techology-business/apples-event-calendar-when-is-the-next-apple-event.html"
+      "src": "https://www.apple-hacks.com/entry/apple-october-27-macbook-pro-ipad-mini-japan-time"
     },
     {
       "status": "expected",
@@ -17,9 +21,13 @@
       "sort": "2027-03-15",
       "kind": "発表",
       "title": "春のiPhone",
-      "expected": ["iPhone 18", "iPhone 18e", "iPhone Air 2"],
+      "expected": [
+        "iPhone 18",
+        "iPhone 18e",
+        "iPhone Air 2"
+      ],
       "note": "日付は未定。報道ベースの見込みです",
-      "src": "https://www.macworld.com/article/3252331/techology-business/apples-event-calendar-when-is-the-next-apple-event.html"
+      "src": "https://www.apple-hacks.com/entry/iphone-air-2-when-release-2027-spring"
     },
     {
       "status": "expected",
@@ -27,9 +35,11 @@
       "sort": "2027-06-08",
       "kind": "WWDC",
       "title": "WWDC27",
-      "expected": ["iOS 28などの次世代OS"],
+      "expected": [
+        "iOS 28などの次世代OS"
+      ],
       "note": "例年の時期からの見込みです。Appleの告知は例年3月頃です",
-      "src": "https://www.macworld.com/article/3252331/techology-business/apples-event-calendar-when-is-the-next-apple-event.html"
+      "src": "https://www.apple-hacks.com/entry/apple-glasses-wwdc2027-privacy-camera"
     },
     {
       "status": "done",
@@ -37,8 +47,13 @@
       "sort": "2026-10-13",
       "kind": "プレスリリース",
       "title": "スマートホームの新製品",
-      "confirmed": ["Apple HomeView", "Apple TV 4K", "HomePod mini（次世代）", "Apple Home Collection"],
-      "src": "https://www.apple.com/newsroom/2026/10/apple-unveils-the-new-apple-tv-4k/"
+      "confirmed": [
+        "Apple HomeView",
+        "Apple TV 4K",
+        "HomePod mini（次世代）",
+        "Apple Home Collection"
+      ],
+      "src": "https://www.apple.com/jp/newsroom/2026/10/apple-unveils-the-new-apple-tv-4k/"
     },
     {
       "status": "done",
@@ -46,8 +61,13 @@
       "sort": "2026-09-10",
       "kind": "イベント",
       "title": "iPhone 18 Proの発表イベント",
-      "confirmed": ["iPhone 18 Pro／Pro Max", "iPhone Duo", "Apple Watch Series 12／Ultra 4", "AirPods 5"],
-      "src": "https://www.apple.com/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/"
+      "confirmed": [
+        "iPhone 18 Pro／Pro Max",
+        "iPhone Duo",
+        "Apple Watch Series 12／Ultra 4",
+        "AirPods 5"
+      ],
+      "src": "https://www.apple.com/jp/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/"
     },
     {
       "status": "done",
@@ -55,8 +75,11 @@
       "sort": "2026-06-09",
       "kind": "WWDC",
       "title": "WWDC26",
-      "confirmed": ["iOS 27などの「27」世代のOS", "Siri AI"],
-      "src": "https://www.apple.com/newsroom/2026/03/apples-worldwide-developers-conference-returns-the-week-of-june-8/"
+      "confirmed": [
+        "iOS 27などの「27」世代のOS",
+        "Siri AI"
+      ],
+      "src": "https://www.apple.com/jp/newsroom/2026/03/apples-worldwide-developers-conference-returns-the-week-of-june-8/"
     },
     {
       "status": "done",
@@ -64,8 +87,14 @@
       "sort": "2026-03-02",
       "kind": "プレスリリース",
       "title": "春の新製品（連日発表）",
-      "confirmed": ["iPhone 17e", "iPad Air（M4）", "MacBook Air（M5）", "MacBook Pro（M5 Pro／M5 Max）", "MacBook Neo"],
-      "src": "https://www.apple.com/newsroom/2026/03/macbook-neo-iphone-17e-ipad-air-with-m4-and-more-are-now-available/"
+      "confirmed": [
+        "iPhone 17e",
+        "iPad Air（M4）",
+        "MacBook Air（M5）",
+        "MacBook Pro（M5 Pro／M5 Max）",
+        "MacBook Neo"
+      ],
+      "src": "https://www.apple.com/jp/newsroom/2026/03/macbook-neo-iphone-17e-ipad-air-with-m4-and-more-are-now-available/"
     },
     {
       "status": "done",
@@ -73,8 +102,12 @@
       "sort": "2025-09-10",
       "kind": "イベント",
       "title": "iPhone 17の発表イベント",
-      "confirmed": ["iPhone 17 Pro／Pro Max", "iPhone Air", "Apple Watch Series 11"],
-      "src": "https://www.apple.com/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max/"
+      "confirmed": [
+        "iPhone 17 Pro／Pro Max",
+        "iPhone Air",
+        "Apple Watch Series 11"
+      ],
+      "src": "https://www.apple.com/jp/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max/"
     }
   ]
 }
