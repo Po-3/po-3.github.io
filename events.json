@@ -1,19 +1,20 @@
 {
-  "updated": "2026-10-14",
+  "updated": "2026-10-16",
   "events": [
     {
       "status": "expected",
-      "when": "2026年10月下旬",
+      "when": "2026年10月下旬（日本時間27日夜〜29日未明の見込み）",
       "sort": "2026-10-27",
       "kind": "発表",
       "title": "Mac・iPadの新製品",
       "expected": [
-        "タッチ操作に対応したMacBook Pro（M6）",
+        "タッチ操作・有機ELのMacBook Pro（M5 Pro／M5 Max）",
+        "M6の14インチMacBook Pro",
         "M6のiMac",
         "有機ELのiPad mini"
       ],
-      "note": "報道ベースの見込みです。Appleの告知はまだありません",
-      "src": "https://www.apple-hacks.com/entry/apple-october-27-macbook-pro-ipad-mini-japan-time"
+      "note": "報道ベースの見込みです。米国10月28日に報道陣向けの体験会があり、発売は11月6日の可能性。Appleの告知はまだありません",
+      "src": "https://www.apple-hacks.com/entry/apple-october-28-launch-experience-november-6"
     },
     {
       "status": "expected",
