@@ -1,38 +1,38 @@
 [
   {
-    "drawNumber": 2147,
-    "drawDate": "2026-10-19",
+    "drawNumber": 2148,
+    "drawDate": "2026-10-22",
     "numbers": [
-      9,
+      6,
+      11,
+      14,
       16,
-      22,
-      23,
-      27,
-      29
+      40,
+      42
     ],
-    "bonusNumber": 39,
+    "bonusNumber": 15,
     "prizes": {
       "1": {
-        "winners": 3,
-        "amount": 158402400
+        "winners": 0,
+        "amount": 0
       },
       "2": {
-        "winners": 3,
-        "amount": 24857000
+        "winners": 5,
+        "amount": 12945700
       },
       "3": {
-        "winners": 234,
-        "amount": 344100
+        "winners": 145,
+        "amount": 482100
       },
       "4": {
-        "winners": 13807,
-        "amount": 6100
+        "winners": 7917,
+        "amount": 9300
       },
       "5": {
-        "winners": 213936,
+        "winners": 143962,
         "amount": 1000
       }
     },
-    "carryOver": 0
+    "carryOver": 215755968
   }
 ]
