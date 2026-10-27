@@ -49,11 +49,11 @@
       "confirmed": [
         {
           "t": "MacBook Pro 14インチ（M6）",
-          "u": "https://www.apple.com/jp/newsroom/2026/10/apple-introduces-the-new-14-inch-macbook-pro-with-m6/"
+          "u": "https://www.apple-hacks.com/entry/macbook-pro-14-m6-japan-price-vs-m5"
         },
         {
           "t": "iMac（M6）",
-          "u": "https://www.apple.com/jp/newsroom/2026/10/apple-unveils-new-imac-with-m6/"
+          "u": "https://www.apple-hacks.com/entry/imac-m6-japan-price-10-core"
         }
       ]
     },
@@ -66,7 +66,7 @@
       "confirmed": [
         "iPad mini（A20 Pro・有機EL）"
       ],
-      "src": "https://www.apple.com/jp/newsroom/2026/10/apple-gives-ipad-mini-its-biggest-update-ever/"
+      "src": "https://www.apple-hacks.com/entry/ipad-mini-8-a20-pro-japan-price"
     },
     {
       "status": "done",
@@ -77,19 +77,19 @@
       "confirmed": [
         {
           "t": "Apple HomeView",
-          "u": "https://www.apple.com/jp/newsroom/2026/10/meet-apple-homeview-a-new-way-to-enjoy-entertainment-and-manage-the-home/"
+          "u": "https://www.apple-hacks.com/entry/homeview-announced-299-japan"
         },
         {
           "t": "Apple TV 4K",
-          "u": "https://www.apple.com/jp/newsroom/2026/10/apple-unveils-the-new-apple-tv-4k/"
+          "u": "https://www.apple-hacks.com/entry/apple-tv-4k-4th-gen-49800-japan"
         },
         {
           "t": "HomePod mini（次世代）",
-          "u": "https://www.apple.com/jp/newsroom/2026/10/apple-announces-the-next-generation-of-homepod-mini/"
+          "u": "https://www.apple-hacks.com/entry/homepod-mini-2-japan-price-siri-ai"
         },
         {
           "t": "Apple Home Collection",
-          "u": "https://www.apple.com/jp/newsroom/2026/10/introducing-apple-home-collection-a-new-lineup-of-smart-home-accessories/"
+          "u": "https://www.apple-hacks.com/entry/apple-home-collection-lg-japan-release"
         }
       ]
     },
@@ -100,12 +100,22 @@
       "kind": "イベント",
       "title": "iPhone 18 Proの発表イベント",
       "confirmed": [
-        "iPhone 18 Pro／Pro Max",
-        "iPhone Duo",
-        "Apple Watch Series 12／Ultra 4",
-        "AirPods 5"
-      ],
-      "src": "https://www.apple.com/jp/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/"
+        {
+          "t": "iPhone 18 Pro／Pro Max",
+          "u": "https://www.apple-hacks.com/entry/iphone-18-pro-announced-a20-pro-variable-aperture"
+        },
+        {
+          "t": "iPhone Duo",
+          "u": "https://www.apple-hacks.com/entry/iphone-duo-announced-japan-price-release"
+        },
+        {
+          "t": "Apple Watch Series 12／Ultra 4"
+        },
+        {
+          "t": "AirPods 5",
+          "u": "https://www.apple-hacks.com/entry/airpods-5-japan-price-release-siri-october"
+        }
+      ]
     },
     {
       "status": "done",
