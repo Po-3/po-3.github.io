@@ -47,10 +47,15 @@
       "kind": "プレスリリース",
       "title": "M6のMacBook ProとiMac",
       "confirmed": [
-        "MacBook Pro 14インチ（M6）",
-        "iMac（M6）"
-      ],
-      "src": "https://www.apple.com/jp/newsroom/2026/10/apple-introduces-the-new-14-inch-macbook-pro-with-m6/"
+        {
+          "t": "MacBook Pro 14インチ（M6）",
+          "u": "https://www.apple.com/jp/newsroom/2026/10/apple-introduces-the-new-14-inch-macbook-pro-with-m6/"
+        },
+        {
+          "t": "iMac（M6）",
+          "u": "https://www.apple.com/jp/newsroom/2026/10/apple-unveils-new-imac-with-m6/"
+        }
+      ]
     },
     {
       "status": "done",
@@ -70,12 +75,23 @@
       "kind": "プレスリリース",
       "title": "スマートホームの新製品",
       "confirmed": [
-        "Apple HomeView",
-        "Apple TV 4K",
-        "HomePod mini（次世代）",
-        "Apple Home Collection"
-      ],
-      "src": "https://www.apple.com/jp/newsroom/2026/10/apple-unveils-the-new-apple-tv-4k/"
+        {
+          "t": "Apple HomeView",
+          "u": "https://www.apple.com/jp/newsroom/2026/10/meet-apple-homeview-a-new-way-to-enjoy-entertainment-and-manage-the-home/"
+        },
+        {
+          "t": "Apple TV 4K",
+          "u": "https://www.apple.com/jp/newsroom/2026/10/apple-unveils-the-new-apple-tv-4k/"
+        },
+        {
+          "t": "HomePod mini（次世代）",
+          "u": "https://www.apple.com/jp/newsroom/2026/10/apple-announces-the-next-generation-of-homepod-mini/"
+        },
+        {
+          "t": "Apple Home Collection",
+          "u": "https://www.apple.com/jp/newsroom/2026/10/introducing-apple-home-collection-a-new-lineup-of-smart-home-accessories/"
+        }
+      ]
     },
     {
       "status": "done",
