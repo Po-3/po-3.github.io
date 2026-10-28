@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-28",
+  "updated": "2026-10-29",
   "events": [
     {
       "status": "confirmed",
@@ -156,6 +156,18 @@
         "Apple Watch Series 11"
       ],
       "src": "https://www.apple.com/jp/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max/"
+    },
+    {
+      "status": "done",
+      "when": "2026年10月29日",
+      "sort": "2026-10-29",
+      "kind": "プレスリリース",
+      "auto": true,
+      "title": "PROLED XDRディスプレイを搭載した画期的なMacBook Pro",
+      "confirmed": [
+        "PROLED XDRディスプレイを搭載した画期的なMacBook Pro"
+      ],
+      "src": "https://www.apple.com/jp/newsroom/2026/10/apple-unveils-groundbreaking-macbook-pro-with-proled-xdr-display/"
     }
   ]
 }
