@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29",
+  "updated": "2026-11-02",
   "events": [
     {
       "status": "confirmed",
@@ -32,7 +32,7 @@
       "status": "expected",
       "when": "2027年6月",
       "sort": "2027-06-08",
-      "kind": "WWDC",
+      "kind": "開発者会議",
       "title": "WWDC27",
       "expected": [
         "iOS 28などの次世代OS"
@@ -98,7 +98,7 @@
       "when": "2026年9月10日",
       "sort": "2026-09-10",
       "kind": "イベント",
-      "title": "iPhone 18 Proの発表イベント",
+      "title": "iPhone 18 Proの発表",
       "confirmed": [
         {
           "t": "iPhone 18 Pro／Pro Max",
@@ -121,7 +121,7 @@
       "status": "done",
       "when": "2026年6月9日〜",
       "sort": "2026-06-09",
-      "kind": "WWDC",
+      "kind": "開発者会議",
       "title": "WWDC26",
       "confirmed": [
         "iOS 27などの「27」世代のOS",
@@ -149,7 +149,7 @@
       "when": "2025年9月10日",
       "sort": "2025-09-10",
       "kind": "イベント",
-      "title": "iPhone 17の発表イベント",
+      "title": "iPhone 17の発表",
       "confirmed": [
         "iPhone 17 Pro／Pro Max",
         "iPhone Air",
@@ -169,5 +169,12 @@
       ],
       "src": "https://www.apple.com/jp/newsroom/2026/10/apple-unveils-groundbreaking-macbook-pro-with-proled-xdr-display/"
     }
-  ]
+  ],
+  "archive": {
+    "src": "https://po-3.github.io/events-archive.json",
+    "n": 114,
+    "v": "2026-11-02",
+    "note": "日にちまで公式の記録で確かめられなかった回は、月までにしています"
+  },
+  "sub": "日時は日本時間（2025年6月以前は現地）。Apple公式の発表と報道より"
 }

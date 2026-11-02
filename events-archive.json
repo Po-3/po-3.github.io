@@ -1,0 +1,1361 @@
+{
+ "updated": "2026-11-02",
+ "about": "1984年〜2025年6月の基調講演・WWDC。日付は現地。日にちまで公式の記録で確かめられなかった回は月まで。2000年以降の日付はApple NewsroomのアーカイブでApple自身のリリース日と照合済み",
+ "events": [
+  {
+   "status": "done",
+   "when": "2025年6月9日",
+   "sort": "2025-06-09",
+   "kind": "開発者会議",
+   "title": "WWDC25",
+   "confirmed": [
+    "Liquid Glass",
+    "iOS 26",
+    "macOS Tahoe 26"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2025/06/apple-introduces-a-delightful-and-elegant-new-software-design/"
+  },
+  {
+   "status": "done",
+   "when": "2024年9月9日",
+   "sort": "2024-09-09",
+   "kind": "イベント",
+   "title": "iPhone 16の発表（It's Glowtime）",
+   "confirmed": [
+    "iPhone 16",
+    "iPhone 16 Pro",
+    "Apple Watch Series 10",
+    "AirPods 4"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/"
+  },
+  {
+   "status": "done",
+   "when": "2024年6月10日",
+   "sort": "2024-06-10",
+   "kind": "開発者会議",
+   "title": "WWDC24",
+   "confirmed": [
+    "Apple Intelligence",
+    "iOS 18",
+    "macOS Sequoia"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2024/06/introducing-apple-intelligence-for-iphone-ipad-and-mac/"
+  },
+  {
+   "status": "done",
+   "when": "2024年5月7日",
+   "sort": "2024-05-07",
+   "kind": "イベント",
+   "title": "iPadの発表（Let loose）",
+   "confirmed": [
+    "iPad Pro（M4）",
+    "iPad Air（M2）",
+    "Apple Pencil Pro"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2024/05/apple-unveils-stunning-new-ipad-pro-with-m4-chip-and-apple-pencil-pro/"
+  },
+  {
+   "status": "done",
+   "when": "2023年10月30日",
+   "sort": "2023-10-30",
+   "kind": "イベント",
+   "title": "M3のMacの発表（Scary fast）",
+   "confirmed": [
+    "MacBook Pro（M3）",
+    "iMac（M3）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2023/10/apple-unveils-new-macbook-pro-featuring-m3-chips/"
+  },
+  {
+   "status": "done",
+   "when": "2023年9月12日",
+   "sort": "2023-09-12",
+   "kind": "イベント",
+   "title": "iPhone 15の発表（Wonderlust）",
+   "confirmed": [
+    "iPhone 15",
+    "iPhone 15 Pro",
+    "Apple Watch Series 9",
+    "Apple Watch Ultra 2"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/"
+  },
+  {
+   "status": "done",
+   "when": "2023年6月5日",
+   "sort": "2023-06-05",
+   "kind": "開発者会議",
+   "title": "WWDC23",
+   "confirmed": [
+    "Apple Vision Pro",
+    "MacBook Air（15インチ）",
+    "iOS 17"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2023/06/introducing-apple-vision-pro/"
+  },
+  {
+   "status": "done",
+   "when": "2022年9月7日",
+   "sort": "2022-09-07",
+   "kind": "イベント",
+   "title": "iPhone 14の発表（Far out）",
+   "confirmed": [
+    "iPhone 14",
+    "iPhone 14 Pro",
+    "Apple Watch Ultra",
+    "AirPods Pro（第2世代）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2022/09/apple-introduces-iphone-14-and-iphone-14-plus/"
+  },
+  {
+   "status": "done",
+   "when": "2022年6月6日",
+   "sort": "2022-06-06",
+   "kind": "開発者会議",
+   "title": "WWDC22",
+   "confirmed": [
+    "MacBook Air（M2）",
+    "iOS 16",
+    "macOS Ventura"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2022/06/apple-unveils-all-new-macbook-air-supercharged-by-the-new-m2-chip/"
+  },
+  {
+   "status": "done",
+   "when": "2022年3月8日",
+   "sort": "2022-03-08",
+   "kind": "イベント",
+   "title": "春の発表（Peek performance）",
+   "confirmed": [
+    "iPhone SE（第3世代）",
+    "iPad Air（第5世代）",
+    "Mac Studio",
+    "Studio Display"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2022/03/apple-announces-the-new-iphone-se-a-powerful-smartphone-in-an-iconic-design/"
+  },
+  {
+   "status": "done",
+   "when": "2021年10月18日",
+   "sort": "2021-10-18",
+   "kind": "イベント",
+   "title": "M1 Pro・M1 MaxのMacBook Proの発表（Unleashed）",
+   "confirmed": [
+    "MacBook Pro（M1 Pro・M1 Max）",
+    "AirPods（第3世代）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2021/10/apple-unveils-game-changing-macbook-pro/"
+  },
+  {
+   "status": "done",
+   "when": "2021年9月14日",
+   "sort": "2021-09-14",
+   "kind": "イベント",
+   "title": "iPhone 13の発表（California streaming）",
+   "confirmed": [
+    "iPhone 13",
+    "iPad mini（第6世代）",
+    "Apple Watch Series 7"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2021/09/apple-unveils-iphone-13-pro-and-iphone-13-pro-max-more-pro-than-ever-before/"
+  },
+  {
+   "status": "done",
+   "when": "2021年6月7日",
+   "sort": "2021-06-07",
+   "kind": "開発者会議",
+   "title": "WWDC21",
+   "confirmed": [
+    "iOS 15",
+    "macOS Monterey"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2021/06/ios-15-brings-powerful-new-features-to-stay-connected-focus-explore-and-more/"
+  },
+  {
+   "status": "done",
+   "when": "2021年4月20日",
+   "sort": "2021-04-20",
+   "kind": "イベント",
+   "title": "春の発表（Spring Loaded）",
+   "confirmed": [
+    "iPad Pro（M1）",
+    "iMac（24インチ・M1）",
+    "AirTag",
+    "Apple TV 4K（第2世代）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2021/04/apple-unveils-new-ipad-pro-with-m1-chip-and-stunning-liquid-retina-xdr-display/"
+  },
+  {
+   "status": "done",
+   "when": "2020年11月10日",
+   "sort": "2020-11-10",
+   "kind": "イベント",
+   "title": "M1のMacの発表（One more thing）",
+   "confirmed": [
+    "MacBook Air（M1）",
+    "MacBook Pro 13インチ（M1）",
+    "Mac mini（M1）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2020/11/introducing-the-next-generation-of-mac/"
+  },
+  {
+   "status": "done",
+   "when": "2020年10月13日",
+   "sort": "2020-10-13",
+   "kind": "イベント",
+   "title": "iPhone 12の発表（Hi, Speed）",
+   "confirmed": [
+    "iPhone 12",
+    "iPhone 12 Pro",
+    "HomePod mini",
+    "MagSafe"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2020/10/apple-introduces-iphone-12-pro-and-iphone-12-pro-max-with-5g/"
+  },
+  {
+   "status": "done",
+   "when": "2020年9月15日",
+   "sort": "2020-09-15",
+   "kind": "イベント",
+   "title": "Apple Watch Series 6の発表（Time flies）",
+   "confirmed": [
+    "Apple Watch Series 6",
+    "Apple Watch SE",
+    "iPad Air（第4世代）",
+    "Apple One"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2020/09/new-apple-watch-and-ipad-features-enable-wellness-fitness-and-creativity/"
+  },
+  {
+   "status": "done",
+   "when": "2020年6月22日",
+   "sort": "2020-06-22",
+   "kind": "開発者会議",
+   "title": "WWDC20",
+   "confirmed": [
+    "MacのAppleシリコンへの移行",
+    "iOS 14",
+    "macOS Big Sur"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2020/06/apple-reveals-new-developer-technologies-to-foster-the-next-generation-of-apps/"
+  },
+  {
+   "status": "done",
+   "when": "2019年9月10日",
+   "sort": "2019-09-10",
+   "kind": "イベント",
+   "title": "iPhone 11の発表",
+   "confirmed": [
+    "iPhone 11",
+    "iPhone 11 Pro",
+    "Apple Watch Series 5",
+    "iPad（第7世代）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2019/09/apple-introduces-dual-camera-iphone-11/"
+  },
+  {
+   "status": "done",
+   "when": "2019年6月3日",
+   "sort": "2019-06-03",
+   "kind": "開発者会議",
+   "title": "WWDC19",
+   "confirmed": [
+    "Mac Pro",
+    "Pro Display XDR",
+    "iPadOS",
+    "SwiftUI"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2019/06/apple-unveils-powerful-all-new-mac-pro-and-groundbreaking-pro-display-xdr/"
+  },
+  {
+   "status": "done",
+   "when": "2019年3月25日",
+   "sort": "2019-03-25",
+   "kind": "イベント",
+   "title": "サービスの発表（It's show time）",
+   "confirmed": [
+    "Apple TV+",
+    "Apple Arcade",
+    "Apple Card",
+    "Apple News+"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2019/03/highlights-from-apples-keynote-event/"
+  },
+  {
+   "status": "done",
+   "when": "2018年10月30日",
+   "sort": "2018-10-30",
+   "kind": "イベント",
+   "title": "新しいiPad ProとMacの発表（ニューヨーク）",
+   "confirmed": [
+    "iPad Pro（Face ID）",
+    "MacBook Air（Retina）",
+    "Mac mini"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2018/10/new-ipad-pro-with-all-screen-design-is-most-advanced-powerful-ipad-ever/"
+  },
+  {
+   "status": "done",
+   "when": "2018年9月12日",
+   "sort": "2018-09-12",
+   "kind": "イベント",
+   "title": "iPhone XSの発表（Gather round）",
+   "confirmed": [
+    "iPhone XS",
+    "iPhone XR",
+    "Apple Watch Series 4"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2018/09/iphone-xs-and-iphone-xs-max-bring-the-best-and-biggest-displays-to-iphone/"
+  },
+  {
+   "status": "done",
+   "when": "2018年6月4日",
+   "sort": "2018-06-04",
+   "kind": "開発者会議",
+   "title": "WWDC 2018",
+   "confirmed": [
+    "iOS 12",
+    "macOS Mojave"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2018/06/apple-previews-ios-12/"
+  },
+  {
+   "status": "done",
+   "when": "2018年3月27日",
+   "sort": "2018-03-27",
+   "kind": "イベント",
+   "title": "教育向けの発表（シカゴ）",
+   "confirmed": [
+    "iPad（第6世代）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2018/03/apple-introduces-new-9-7-inch-ipad-with-apple-pencil-support/"
+  },
+  {
+   "status": "done",
+   "when": "2017年9月12日",
+   "sort": "2017-09-12",
+   "kind": "イベント",
+   "title": "iPhone Xの発表",
+   "confirmed": [
+    "iPhone X",
+    "iPhone 8",
+    "Apple Watch Series 3",
+    "Apple TV 4K"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2017/09/the-future-is-here-iphone-x/"
+  },
+  {
+   "status": "done",
+   "when": "2017年6月5日",
+   "sort": "2017-06-05",
+   "kind": "開発者会議",
+   "title": "WWDC 2017",
+   "confirmed": [
+    "iMac Proの予告",
+    "HomePodの予告",
+    "iPad Pro（10.5インチ）",
+    "iOS 11"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2017/06/imac-pro-most-powerful-mac-arrives-december/"
+  },
+  {
+   "status": "done",
+   "when": "2016年10月27日",
+   "sort": "2016-10-27",
+   "kind": "イベント",
+   "title": "Touch BarのMacBook Proの発表（hello again）",
+   "confirmed": [
+    "MacBook Pro（Touch Bar）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2016/10/apple-unveils-groundbreaking-new-macbook-pro/"
+  },
+  {
+   "status": "done",
+   "when": "2016年9月7日",
+   "sort": "2016-09-07",
+   "kind": "イベント",
+   "title": "iPhone 7の発表",
+   "confirmed": [
+    "iPhone 7",
+    "AirPods",
+    "Apple Watch Series 2"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2016/09/07Apple-Introduces-iPhone-7-iPhone-7-Plus-The-Best-Most-Advanced-iPhone-Ever/"
+  },
+  {
+   "status": "done",
+   "when": "2016年6月13日",
+   "sort": "2016-06-13",
+   "kind": "開発者会議",
+   "title": "WWDC 2016",
+   "confirmed": [
+    "iOS 10",
+    "macOS Sierra",
+    "watchOS 3"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2016/06/apple-previews-major-update-with-macos-sierra/"
+  },
+  {
+   "status": "done",
+   "when": "2016年3月21日",
+   "sort": "2016-03-21",
+   "kind": "イベント",
+   "title": "iPhone SEの発表",
+   "confirmed": [
+    "iPhone SE",
+    "iPad Pro（9.7インチ）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2016/03/21Apple-Introduces-iPhone-SE-The-Most-Powerful-Phone-with-a-Four-inch-Display/"
+  },
+  {
+   "status": "done",
+   "when": "2015年9月9日",
+   "sort": "2015-09-09",
+   "kind": "イベント",
+   "title": "iPhone 6sの発表",
+   "confirmed": [
+    "iPhone 6s",
+    "iPad Pro",
+    "Apple Pencil",
+    "Apple TV（第4世代）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2015/09/09Apple-Introduces-iPhone-6s-iPhone-6s-Plus/"
+  },
+  {
+   "status": "done",
+   "when": "2015年6月8日",
+   "sort": "2015-06-08",
+   "kind": "開発者会議",
+   "title": "WWDC 2015",
+   "confirmed": [
+    "iOS 9",
+    "OS X El Capitan",
+    "Apple Music"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2015/06/08Apple-Previews-iOS-9/"
+  },
+  {
+   "status": "done",
+   "when": "2015年3月9日",
+   "sort": "2015-03-09",
+   "kind": "イベント",
+   "title": "Apple Watchの発表（Spring Forward）",
+   "confirmed": [
+    "Apple Watchの価格と発売日",
+    "MacBook（12インチ）",
+    "ResearchKit"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2015/03/09Apple-Watch-Available-in-Nine-Countries-on-April-24/"
+  },
+  {
+   "status": "done",
+   "when": "2014年10月16日",
+   "sort": "2014-10-16",
+   "kind": "イベント",
+   "title": "iPad Air 2の発表",
+   "confirmed": [
+    "iPad Air 2",
+    "iPad mini 3",
+    "iMac（Retina 5K）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2014/10/16Apple-Introduces-iPad-Air-2-The-Thinnest-Most-Powerful-iPad-Ever/"
+  },
+  {
+   "status": "done",
+   "when": "2014年9月9日",
+   "sort": "2014-09-09",
+   "kind": "イベント",
+   "title": "iPhone 6の発表",
+   "confirmed": [
+    "iPhone 6",
+    "iPhone 6 Plus",
+    "Apple Watchの予告",
+    "Apple Pay"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2014/09/09Apple-Announces-iPhone-6-iPhone-6-Plus-The-Biggest-Advancements-in-iPhone-History/"
+  },
+  {
+   "status": "done",
+   "when": "2014年6月2日",
+   "sort": "2014-06-02",
+   "kind": "開発者会議",
+   "title": "WWDC 2014",
+   "confirmed": [
+    "iOS 8",
+    "OS X Yosemite",
+    "Swift"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2014/06/02Apple-Unveils-iOS-8-the-Biggest-Release-Since-the-Launch-of-the-App-Store/"
+  },
+  {
+   "status": "done",
+   "when": "2013年10月22日",
+   "sort": "2013-10-22",
+   "kind": "イベント",
+   "title": "iPad Airの発表",
+   "confirmed": [
+    "iPad Air",
+    "iPad mini（Retina）",
+    "Mac Pro"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2013/10/23Apple-Announces-iPad-Air-Dramatically-Thinner-Lighter-More-Powerful-iPad/"
+  },
+  {
+   "status": "done",
+   "when": "2013年9月10日",
+   "sort": "2013-09-10",
+   "kind": "イベント",
+   "title": "iPhone 5sの発表",
+   "confirmed": [
+    "iPhone 5s",
+    "iPhone 5c"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2013/09/10Apple-Announces-iPhone-5s-The-Most-Forward-Thinking-Smartphone-in-the-World/"
+  },
+  {
+   "status": "done",
+   "when": "2013年6月10日",
+   "sort": "2013-06-10",
+   "kind": "開発者会議",
+   "title": "WWDC 2013",
+   "confirmed": [
+    "iOS 7",
+    "OS X Mavericks",
+    "Mac Proの予告"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2013/06/10Apple-Unveils-iOS-7/"
+  },
+  {
+   "status": "done",
+   "when": "2012年10月23日",
+   "sort": "2012-10-23",
+   "kind": "イベント",
+   "title": "iPad miniの発表",
+   "confirmed": [
+    "iPad mini",
+    "iPad（第4世代）",
+    "iMac（薄型）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2012/10/23Apple-Introduces-iPad-mini/"
+  },
+  {
+   "status": "done",
+   "when": "2012年9月12日",
+   "sort": "2012-09-12",
+   "kind": "イベント",
+   "title": "iPhone 5の発表",
+   "confirmed": [
+    "iPhone 5",
+    "iPod touch（第5世代）",
+    "iPod nano（第7世代）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2012/09/12Apple-Introduces-iPhone-5/"
+  },
+  {
+   "status": "done",
+   "when": "2012年6月11日",
+   "sort": "2012-06-11",
+   "kind": "開発者会議",
+   "title": "WWDC 2012",
+   "confirmed": [
+    "MacBook Pro（Retina）",
+    "iOS 6",
+    "OS X Mountain Lion"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2012/06/11Apple-Introduces-All-New-MacBook-Pro-with-Retina-Display/"
+  },
+  {
+   "status": "done",
+   "when": "2012年3月7日",
+   "sort": "2012-03-07",
+   "kind": "イベント",
+   "title": "新しいiPadの発表",
+   "confirmed": [
+    "iPad（第3世代）",
+    "Apple TV（第3世代）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2012/03/07Apple-Launches-New-iPad/"
+  },
+  {
+   "status": "done",
+   "when": "2012年1月19日",
+   "sort": "2012-01-19",
+   "kind": "イベント",
+   "title": "教育向けの発表（ニューヨーク）",
+   "confirmed": [
+    "iBooks 2",
+    "iBooks Author"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2012/01/19Apple-Reinvents-Textbooks-with-iBooks-2-for-iPad/"
+  },
+  {
+   "status": "done",
+   "when": "2011年10月4日",
+   "sort": "2011-10-04",
+   "kind": "イベント",
+   "title": "iPhone 4Sの発表",
+   "confirmed": [
+    "iPhone 4S",
+    "Siri"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2011/10/04Apple-Launches-iPhone-4S-iOS-5-iCloud/"
+  },
+  {
+   "status": "done",
+   "when": "2011年6月6日",
+   "sort": "2011-06-06",
+   "kind": "開発者会議",
+   "title": "WWDC 2011",
+   "confirmed": [
+    "iCloud",
+    "iOS 5",
+    "Mac OS X Lion"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2011/06/06Apple-Introduces-iCloud/"
+  },
+  {
+   "status": "done",
+   "when": "2011年3月2日",
+   "sort": "2011-03-02",
+   "kind": "イベント",
+   "title": "iPad 2の発表",
+   "confirmed": [
+    "iPad 2"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2011/03/02Apple-Launches-iPad-2/"
+  },
+  {
+   "status": "done",
+   "when": "2010年10月20日",
+   "sort": "2010-10-20",
+   "kind": "イベント",
+   "title": "Back to the Mac",
+   "confirmed": [
+    "MacBook Air（11インチ）",
+    "Mac OS X Lionの予告",
+    "iLife '11"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2010/10/20Apple-Reinvents-Notebooks-With-New-MacBook-Air/"
+  },
+  {
+   "status": "done",
+   "when": "2010年9月1日",
+   "sort": "2010-09-01",
+   "kind": "イベント",
+   "title": "iPodの発表",
+   "confirmed": [
+    "iPod touch（第4世代）",
+    "iPod nano（第6世代）",
+    "Apple TV（第2世代）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2010/09/01Apple-Introduces-New-iPod-touch/"
+  },
+  {
+   "status": "done",
+   "when": "2010年6月7日",
+   "sort": "2010-06-07",
+   "kind": "開発者会議",
+   "title": "WWDC 2010",
+   "confirmed": [
+    "iPhone 4",
+    "FaceTime"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2010/06/07Apple-Presents-iPhone-4/"
+  },
+  {
+   "status": "done",
+   "when": "2010年4月8日",
+   "sort": "2010-04-08",
+   "kind": "イベント",
+   "title": "iPhone OS 4の発表",
+   "confirmed": [
+    "iPhone OS 4の予告"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2010/04/08Apple-Previews-iPhone-OS-4/"
+  },
+  {
+   "status": "done",
+   "when": "2010年1月27日",
+   "sort": "2010-01-27",
+   "kind": "イベント",
+   "title": "初代iPadの発表",
+   "confirmed": [
+    "iPad"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2010/01/27Apple-Launches-iPad/"
+  },
+  {
+   "status": "done",
+   "when": "2009年9月9日",
+   "sort": "2009-09-09",
+   "kind": "イベント",
+   "title": "iPodの発表（It's Only Rock and Roll）",
+   "confirmed": [
+    "iPod nano（第5世代・カメラ）",
+    "iTunes 9"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2009/09/09Apple-Introduces-New-iPod-nano-With-Built-in-Video-Camera/"
+  },
+  {
+   "status": "done",
+   "when": "2009年6月8日",
+   "sort": "2009-06-08",
+   "kind": "開発者会議",
+   "title": "WWDC 2009",
+   "confirmed": [
+    "iPhone 3GS",
+    "MacBook Pro（13インチ）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2009/06/08Apple-Announces-the-New-iPhone-3GS-The-Fastest-Most-Powerful-iPhone-Yet/"
+  },
+  {
+   "status": "done",
+   "when": "2009年3月17日",
+   "sort": "2009-03-17",
+   "kind": "イベント",
+   "title": "iPhone OS 3.0の発表",
+   "confirmed": [
+    "iPhone OS 3.0の予告"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2009/03/17Apple-Previews-Developer-Beta-of-iPhone-OS-3-0/"
+  },
+  {
+   "status": "done",
+   "when": "2009年1月6日",
+   "sort": "2009-01-06",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "MacBook Pro（17インチ・ユニボディ）",
+    "iLife '09",
+    "iWork '09"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2009/01/06Apple-Introduces-17-inch-MacBook-Pro-With-Revolutionary-New-Built-in-Battery-That-Delivers-Eight-Hours-of-Use-1-000-Recharges/"
+  },
+  {
+   "status": "done",
+   "when": "2008年10月14日",
+   "sort": "2008-10-14",
+   "kind": "イベント",
+   "title": "ユニボディMacBookの発表",
+   "confirmed": [
+    "MacBook（アルミニウム）",
+    "MacBook Pro（ユニボディ）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2008/10/14New-MacBook-Family-Redefines-Notebook-Design/"
+  },
+  {
+   "status": "done",
+   "when": "2008年9月9日",
+   "sort": "2008-09-09",
+   "kind": "イベント",
+   "title": "iPodの発表（Let's Rock）",
+   "confirmed": [
+    "iPod nano（第4世代）",
+    "iPod touch（第2世代）",
+    "iTunes 8"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2008/09/09Apple-Introduces-New-iPod-nano/"
+  },
+  {
+   "status": "done",
+   "when": "2008年6月9日",
+   "sort": "2008-06-09",
+   "kind": "開発者会議",
+   "title": "WWDC 2008",
+   "confirmed": [
+    "iPhone 3G",
+    "App Store",
+    "MobileMe"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2008/06/09Apple-Introduces-the-New-iPhone-3G/"
+  },
+  {
+   "status": "done",
+   "when": "2008年3月6日",
+   "sort": "2008-03-06",
+   "kind": "イベント",
+   "title": "iPhone SDKの発表",
+   "confirmed": [
+    "iPhone SDK"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2008/03/06Apple-Announces-iPhone-2-0-Software-Beta/"
+  },
+  {
+   "status": "done",
+   "when": "2008年1月15日",
+   "sort": "2008-01-15",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "MacBook Air",
+    "Time Capsule",
+    "iTunesの映画レンタル"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2008/01/15Apple-Introduces-MacBook-Air-The-Worlds-Thinnest-Notebook/"
+  },
+  {
+   "status": "done",
+   "when": "2007年9月5日",
+   "sort": "2007-09-05",
+   "kind": "イベント",
+   "title": "iPod touchの発表（The Beat Goes On）",
+   "confirmed": [
+    "iPod touch",
+    "iPod nano（第3世代）",
+    "iPod classic"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2007/09/05Apple-Introduces-All-New-iPod-nano/"
+  },
+  {
+   "status": "done",
+   "when": "2007年8月7日",
+   "sort": "2007-08-07",
+   "kind": "イベント",
+   "title": "アルミニウムのiMacの発表",
+   "confirmed": [
+    "iMac（アルミニウム）",
+    "iLife '08",
+    "iWork '08"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2007/08/07Apple-Unveils-New-iMac/"
+  },
+  {
+   "status": "done",
+   "when": "2007年6月11日",
+   "sort": "2007-06-11",
+   "kind": "開発者会議",
+   "title": "WWDC 2007",
+   "confirmed": [
+    "Mac OS X 10.5 Leopard",
+    "Safari（Windows版）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2007/06/11Apple-Unveils-Near-Final-Mac-OS-X-Leopard/"
+  },
+  {
+   "status": "done",
+   "when": "2007年1月9日",
+   "sort": "2007-01-09",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "iPhone",
+    "Apple TV"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2007/01/09Apple-Reinvents-the-Phone-with-iPhone/"
+  },
+  {
+   "status": "done",
+   "when": "2006年9月12日",
+   "sort": "2006-09-12",
+   "kind": "イベント",
+   "title": "Apple TVの予告（It's Showtime）",
+   "confirmed": [
+    "iPod（新モデル）",
+    "Apple TVの予告"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2006/09/12Apple-Introduces-the-New-iPod-nano/"
+  },
+  {
+   "status": "done",
+   "when": "2006年8月7日",
+   "sort": "2006-08-07",
+   "kind": "開発者会議",
+   "title": "WWDC 2006",
+   "confirmed": [
+    "Mac Pro",
+    "Mac OS X 10.5 Leopardの予告"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2006/08/07Apple-Unveils-New-Mac-Pro-Featuring-Quad-64-bit-Xeon-Processors/"
+  },
+  {
+   "status": "done",
+   "when": "2006年2月28日",
+   "sort": "2006-02-28",
+   "kind": "イベント",
+   "title": "iPod Hi-Fiの発表",
+   "confirmed": [
+    "iPod Hi-Fi",
+    "Mac mini（Intel）"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "2006年1月10日",
+   "sort": "2006-01-10",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "iMac（Intel）",
+    "MacBook Pro"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2006/01/10Apple-Unveils-New-iMac-with-Intel-Core-Duo-Processor/"
+  },
+  {
+   "status": "done",
+   "when": "2005年10月12日",
+   "sort": "2005-10-12",
+   "kind": "イベント",
+   "title": "ビデオ再生対応iPodの発表",
+   "confirmed": [
+    "iPod（第5世代・ビデオ）",
+    "iMac G5（iSight内蔵）",
+    "iTunes 6"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2005/10/12Apple-Unveils-the-New-iPod/"
+  },
+  {
+   "status": "done",
+   "when": "2005年9月7日",
+   "sort": "2005-09-07",
+   "kind": "イベント",
+   "title": "iPod nanoの発表",
+   "confirmed": [
+    "iPod nano",
+    "iTunes 5"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2005/09/07Apple-Introduces-iPod-nano/"
+  },
+  {
+   "status": "done",
+   "when": "2005年8月4日",
+   "sort": "2005-08-04",
+   "kind": "イベント",
+   "title": "iTunes Music Storeの日本開始（東京）",
+   "confirmed": [
+    "iTunes Music Store（日本）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2005/08/04Apple-Launches-iTunes-Music-Store-in-Japan/"
+  },
+  {
+   "status": "done",
+   "when": "2005年6月6日",
+   "sort": "2005-06-06",
+   "kind": "開発者会議",
+   "title": "WWDC 2005",
+   "confirmed": [
+    "MacのIntelプロセッサへの移行"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2005/06/06Apple-to-Use-Intel-Microprocessors-Beginning-in-2006/"
+  },
+  {
+   "status": "done",
+   "when": "2005年1月11日",
+   "sort": "2005-01-11",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "Mac mini",
+    "iPod shuffle",
+    "iWork"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2005/01/11Apple-Introduces-Mac-mini/"
+  },
+  {
+   "status": "done",
+   "when": "2004年10月26日",
+   "sort": "2004-10-26",
+   "kind": "イベント",
+   "title": "iPod photoの発表",
+   "confirmed": [
+    "iPod photo",
+    "iPod U2 Special Edition"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2004/10/26Apple-Introduces-the-U2-iPod/"
+  },
+  {
+   "status": "done",
+   "when": "2004年6月28日",
+   "sort": "2004-06-28",
+   "kind": "開発者会議",
+   "title": "WWDC 2004",
+   "confirmed": [
+    "Mac OS X 10.4 Tigerの予告",
+    "Apple Cinema HD Display（30インチ）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2004/06/28Apple-Previews-Mac-OS-X-Tiger/"
+  },
+  {
+   "status": "done",
+   "when": "2004年6月15日",
+   "sort": "2004-06-15",
+   "kind": "イベント",
+   "title": "iTunes Music Storeのヨーロッパ開始（ロンドン）",
+   "confirmed": [
+    "iTunes Music Store（英国・フランス・ドイツ）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2004/06/15Apple-Launches-iTunes-Music-Store-in-the-UK-France-Germany/"
+  },
+  {
+   "status": "done",
+   "when": "2004年1月6日",
+   "sort": "2004-01-06",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "iPod mini",
+    "GarageBand",
+    "Xserve G5"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2004/01/06Apple-Introduces-iPod-mini/"
+  },
+  {
+   "status": "done",
+   "when": "2003年10月16日",
+   "sort": "2003-10-16",
+   "kind": "イベント",
+   "title": "iTunesのWindows版の発表",
+   "confirmed": [
+    "iTunes（Windows版）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2003/10/16Apple-Launches-iTunes-for-Windows/"
+  },
+  {
+   "status": "done",
+   "when": "2003年9月16日",
+   "sort": "2003-09-16",
+   "kind": "展示会",
+   "title": "Apple Expo（パリ）",
+   "confirmed": [
+    "PowerBook G4（アルミニウム・15インチ）",
+    "ワイヤレスキーボード・マウス"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2003/09/16Apple-Introduces-New-15-inch-PowerBook/"
+  },
+  {
+   "status": "done",
+   "when": "2003年6月23日",
+   "sort": "2003-06-23",
+   "kind": "開発者会議",
+   "title": "WWDC 2003",
+   "confirmed": [
+    "Power Mac G5",
+    "Mac OS X 10.3 Panther"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2003/06/23Apple-Unleashes-the-Worlds-Fastest-Personal-Computer-the-Power-Mac-G5/"
+  },
+  {
+   "status": "done",
+   "when": "2003年4月28日",
+   "sort": "2003-04-28",
+   "kind": "イベント",
+   "title": "iTunes Music Storeの発表",
+   "confirmed": [
+    "iTunes Music Store（米国）",
+    "iPod（第3世代）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2003/04/28Apple-Launches-the-iTunes-Music-Store/"
+  },
+  {
+   "status": "done",
+   "when": "2003年1月7日",
+   "sort": "2003-01-07",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "PowerBook G4（17インチ・12インチ）",
+    "Safari",
+    "Keynote"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2003/01/07Apple-Unveils-World-s-First-17-inch-Notebook/"
+  },
+  {
+   "status": "done",
+   "when": "2002年9月10日",
+   "sort": "2002-09-10",
+   "kind": "展示会",
+   "title": "Apple Expo（パリ）",
+   "confirmed": [
+    "iCal",
+    "iSync"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2002/09/10Apple-Ships-iCal/"
+  },
+  {
+   "status": "done",
+   "when": "2002年7月17日",
+   "sort": "2002-07-17",
+   "kind": "展示会",
+   "title": "Macworld Expo（ニューヨーク）",
+   "confirmed": [
+    "Mac OS X 10.2 Jaguar",
+    "iPod（20GB・Windows対応）",
+    "iMac G4（17インチ）"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2002/07/17Apple-Unveils-17-inch-Flat-Screen-iMac/"
+  },
+  {
+   "status": "done",
+   "when": "2002年5月",
+   "sort": "2002-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 2002",
+   "confirmed": [
+    "Mac OS X 10.2 Jaguarの予告"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "2002年1月7日",
+   "sort": "2002-01-07",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "iMac G4",
+    "iBook（14インチ）",
+    "iPhoto"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2002/01/07Apple-Unveils-the-New-iMac/"
+  },
+  {
+   "status": "done",
+   "when": "2001年10月23日",
+   "sort": "2001-10-23",
+   "kind": "イベント",
+   "title": "初代iPodの発表",
+   "confirmed": [
+    "iPod"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2001/10/23Apple-Presents-iPod/"
+  },
+  {
+   "status": "done",
+   "when": "2001年7月18日",
+   "sort": "2001-07-18",
+   "kind": "展示会",
+   "title": "Macworld Expo（ニューヨーク）",
+   "confirmed": [
+    "Power Mac G4（新モデル）",
+    "iMac（新モデル）",
+    "Mac OS X 10.1の予告"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2001/07/18Apple-Updates-iMac-Family/"
+  },
+  {
+   "status": "done",
+   "when": "2001年5月",
+   "sort": "2001-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 2001"
+  },
+  {
+   "status": "done",
+   "when": "2001年1月9日",
+   "sort": "2001-01-09",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "PowerBook G4（チタニウム）",
+    "iTunes"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2001/01/09Apple-Unveils-One-Inch-Thick-Titanium-PowerBook-G4/"
+  },
+  {
+   "status": "done",
+   "when": "2000年7月19日",
+   "sort": "2000-07-19",
+   "kind": "展示会",
+   "title": "Macworld Expo（ニューヨーク）",
+   "confirmed": [
+    "Power Mac G4 Cube",
+    "Apple Pro Mouse",
+    "Apple Pro Keyboard"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2000/07/19Apple-Unveils-Entirely-New-Desktop-Line-Including-the-Revolutionary-Power-Mac-G4-Cube/"
+  },
+  {
+   "status": "done",
+   "when": "2000年5月15日",
+   "sort": "2000-05-15",
+   "kind": "開発者会議",
+   "title": "WWDC 2000"
+  },
+  {
+   "status": "done",
+   "when": "2000年1月5日",
+   "sort": "2000-01-05",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "Mac OS X（Aqua）の初公開"
+   ],
+   "src": "https://www.apple.com/jp/newsroom/2000/01/05Apple-Unveils-Mac-OS-X-and-Internet-Strategy-at-Macworld-Expo/"
+  },
+  {
+   "status": "done",
+   "when": "1999年10月5日",
+   "sort": "1999-10-05",
+   "kind": "イベント",
+   "title": "iMac DVの発表",
+   "confirmed": [
+    "iMac DV",
+    "iMovie",
+    "Mac OS 9"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1999年8月31日",
+   "sort": "1999-08-31",
+   "kind": "展示会",
+   "title": "Seybold Seminars（サンフランシスコ）",
+   "confirmed": [
+    "Power Mac G4",
+    "Apple Cinema Display（22インチ）"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1999年7月",
+   "sort": "1999-07-01",
+   "kind": "展示会",
+   "title": "Macworld Expo（ニューヨーク）",
+   "confirmed": [
+    "iBook",
+    "AirMac"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1999年5月",
+   "sort": "1999-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 1999"
+  },
+  {
+   "status": "done",
+   "when": "1999年1月5日",
+   "sort": "1999-01-05",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "Power Macintosh G3（ブルー＆ホワイト）",
+    "iMac（5色）",
+    "Mac OS X Server"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1998年5月11日",
+   "sort": "1998-05-11",
+   "kind": "開発者会議",
+   "title": "WWDC 1998",
+   "confirmed": [
+    "Mac OS Xへの移行方針"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1998年5月",
+   "sort": "1998-05-01",
+   "kind": "イベント",
+   "title": "初代iMacの発表",
+   "confirmed": [
+    "iMac"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1997年8月",
+   "sort": "1997-08-01",
+   "kind": "展示会",
+   "title": "Macworld Expo（ボストン）",
+   "confirmed": [
+    "Microsoftとの提携"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1997年5月",
+   "sort": "1997-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 1997"
+  },
+  {
+   "status": "done",
+   "when": "1997年1月",
+   "sort": "1997-01-01",
+   "kind": "展示会",
+   "title": "Macworld Expo（サンフランシスコ）",
+   "confirmed": [
+    "NeXTの技術を次のMac OSへ使う方針"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1996年5月",
+   "sort": "1996-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 1996"
+  },
+  {
+   "status": "done",
+   "when": "1995年5月",
+   "sort": "1995-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 1995",
+   "confirmed": [
+    "Copland（次世代Mac OSの計画）"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1994年5月",
+   "sort": "1994-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 1994"
+  },
+  {
+   "status": "done",
+   "when": "1993年5月",
+   "sort": "1993-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 1993"
+  },
+  {
+   "status": "done",
+   "when": "1992年5月",
+   "sort": "1992-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 1992"
+  },
+  {
+   "status": "done",
+   "when": "1991年5月",
+   "sort": "1991-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 1991",
+   "confirmed": [
+    "QuickTimeの初公開"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1990年5月",
+   "sort": "1990-05-01",
+   "kind": "開発者会議",
+   "title": "WWDC 1990"
+  },
+  {
+   "status": "done",
+   "when": "1984年4月",
+   "sort": "1984-04-01",
+   "kind": "イベント",
+   "title": "Apple II Forever",
+   "confirmed": [
+    "Apple IIc"
+   ]
+  },
+  {
+   "status": "done",
+   "when": "1984年1月",
+   "sort": "1984-01-01",
+   "kind": "イベント",
+   "title": "Macintoshの発表（株主総会）",
+   "confirmed": [
+    "Macintosh"
+   ]
+  }
+ ]
+}
