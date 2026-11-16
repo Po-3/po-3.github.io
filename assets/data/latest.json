@@ -1,38 +1,38 @@
 [
   {
-    "drawNumber": 2154,
-    "drawDate": "2026-11-12",
+    "drawNumber": 2155,
+    "drawDate": "2026-11-16",
     "numbers": [
-      5,
-      8,
-      10,
+      4,
+      9,
       15,
-      34,
-      35
+      29,
+      35,
+      40
     ],
     "bonusNumber": 7,
     "prizes": {
       "1": {
-        "winners": 0,
-        "amount": 0
+        "winners": 2,
+        "amount": 216087500
       },
       "2": {
-        "winners": 5,
-        "amount": 10906600
+        "winners": 4,
+        "amount": 18780800
       },
       "3": {
-        "winners": 194,
-        "amount": 303500
+        "winners": 218,
+        "amount": 372100
       },
       "4": {
-        "winners": 9580,
-        "amount": 6400
+        "winners": 10904,
+        "amount": 7800
       },
       "5": {
-        "winners": 154039,
+        "winners": 175952,
         "amount": 1000
       }
     },
-    "carryOver": 181772313
+    "carryOver": 0
   }
 ]
