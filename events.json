@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-02",
+  "updated": "2026-11-23",
   "events": [
     {
       "status": "confirmed",
@@ -16,16 +16,32 @@
     },
     {
       "status": "expected",
-      "when": "2027年春",
-      "sort": "2027-03-15",
+      "when": "2027年2〜3月頃",
+      "sort": "2027-03-01",
       "kind": "発表",
-      "title": "春のiPhone",
+      "title": "春の新製品（第1弾）",
       "expected": [
         "iPhone 18",
         "iPhone 18e",
-        "iPhone Air 2"
+        "iPad",
+        "MacBook Neo 2",
+        "MacBook Air（M6）"
       ],
       "note": "日付は未定。報道ベースの見込みです",
+      "src": "https://www.apple-hacks.com/entry/apple-spring-2027-two-waves-macbook-neo-2-march"
+    },
+    {
+      "status": "expected",
+      "when": "2027年春（第1弾の少し後）",
+      "sort": "2027-04-01",
+      "kind": "発表",
+      "title": "春の新製品（第2弾）",
+      "expected": [
+        "iPhone Air 2",
+        "iPad Air",
+        "iPad Pro"
+      ],
+      "note": "何月かは未定。報道ベースの見込みです",
       "src": "https://www.apple-hacks.com/entry/iphone-air-2-when-release-2027-spring"
     },
     {
